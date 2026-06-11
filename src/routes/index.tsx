@@ -16,15 +16,55 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Watch a Florida build rise — slab to shell to delivered. DunRite is the trusted concrete and shell partner for builders, developers, and homeowners across 10 counties.",
+          "Watch a Florida build rise — slab to shell to delivered. DunRite is the trusted concrete and shell partner across 10 Central Florida counties.",
       },
       { property: "og:title", content: "The Build — DunRite Construction Group" },
       {
         property: "og:description",
         content: "From the ground to grand — a cinematic look at how DunRite pours, lays, and delivers Florida's strongest shells.",
       },
+      { property: "og:url", content: "https://dun-rite.lovable.app/" },
     ],
-    links: [{ rel: "stylesheet", href: "/experience.css" }],
+    links: [
+      { rel: "stylesheet", href: "/experience.css" },
+      { rel: "canonical", href: "https://dun-rite.lovable.app/" },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          name: "DunRite Construction Group",
+          telephone: "+1-352-588-4050",
+          url: "https://dun-rite.lovable.app/",
+          logo: "https://dun-rite.lovable.app/uploads/Dunrite-Logo_invert-e1758651959544.png",
+          image: "https://dun-rite.lovable.app/uploads/Dunrite-Logo_invert-e1758651959544.png",
+          areaServed: [
+            "Citrus County, FL",
+            "Hernando County, FL",
+            "Hillsborough County, FL",
+            "Lake County, FL",
+            "Manatee County, FL",
+            "Marion County, FL",
+            "Pasco County, FL",
+            "Pinellas County, FL",
+            "Polk County, FL",
+            "Sumter County, FL",
+          ],
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "DunRite Construction Group",
+          url: "https://dun-rite.lovable.app/",
+          logo: "https://dun-rite.lovable.app/uploads/Dunrite-Logo_invert-e1758651959544.png",
+        }),
+      },
+    ],
   }),
   component: TheBuild,
 });
