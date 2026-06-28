@@ -302,7 +302,7 @@
         scrollTrigger: {
           trigger: "#cap", start: "top top",
           end: function () { return "+=" + (track.scrollWidth - window.innerWidth + window.innerHeight); },
-          scrub: 1, pin: ".cap-pin", pinType: isTouch ? "transform" : "fixed",
+          scrub: 1, pin: ".cap-pin",
           anticipatePin: 1, invalidateOnRefresh: true
         }
       });
