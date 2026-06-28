@@ -62,13 +62,21 @@ h1,h2,h3{font-family:var(--display);font-weight:800;line-height:.96;letter-spaci
 
 /* ---------------- top bar ---------------- */
 .bar{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;
-  justify-content:space-between;padding:22px var(--gutter);mix-blend-mode:difference;}
+  justify-content:space-between;padding:22px var(--gutter);mix-blend-mode:difference;
+  transition:background .25s ease,backdrop-filter .25s ease;}
 .bar .b-logo{height:30px;}
 .bar .b-right{display:flex;align-items:center;gap:22px;font-family:var(--mono);font-size:12px;
   letter-spacing:.14em;text-transform:uppercase;}
 .bar .b-right a{color:#fff;opacity:.85;transition:opacity .2s;}
 .bar .b-right a:hover{opacity:1;}
-@media(max-width:640px){.bar .b-right .b-hide{display:none;}}
+/* once user scrolls past the hero crest, drop mix-blend so the solid
+   backdrop the JS layers in actually reads correctly */
+body[data-scrolled] .bar{mix-blend-mode:normal;border-bottom:1px solid var(--line-2);}
+@media(max-width:640px){
+  /* keep the phone link reachable on small screens — show a compact pill */
+  .bar .b-right .b-hide{padding:8px 12px;border:1px solid rgba(234,168,59,.55);color:var(--gold);}
+}
+
 
 /* scroll progress line (top) */
 .scrollbar{position:fixed;top:0;left:0;height:3px;width:100%;z-index:300;background:transparent;}
@@ -85,15 +93,20 @@ h1,h2,h3{font-family:var(--display);font-weight:800;line-height:.96;letter-spaci
 .hero .kick{font-family:var(--mono);font-size:13px;letter-spacing:.28em;text-transform:uppercase;
   color:var(--gold);display:flex;align-items:center;gap:14px;margin-bottom:26px;}
 .hero .kick::before{content:"";width:46px;height:1px;background:var(--gold);}
-.hero h1{font-size:clamp(48px,9.2vw,168px);line-height:.9;}
+.hero h1{font-size:clamp(56px,9.2vw,168px);line-height:.9;}
 .hero h1 .ln{display:block;overflow:hidden;}
 .hero h1 .ln span{display:block;}
 .hero h1 .thin{font-family:var(--cond);font-weight:600;-webkit-text-stroke:1px var(--white);
   color:transparent;}
 .hero h1 em{font-style:normal;color:var(--gold);}
-.hero .sub{display:flex;flex-wrap:wrap;gap:24px 40px;align-items:flex-end;margin-top:40px;
-  border-top:1px solid var(--line);padding-top:26px;max-width:900px;}
+.hero .sub{display:flex;flex-wrap:wrap;gap:28px 48px;align-items:flex-end;margin-top:44px;
+  border-top:1px solid var(--line);padding-top:32px;max-width:900px;}
 .hero .sub p{margin:0;color:var(--dim);font-size:clamp(15px,1.4vw,19px);line-height:1.5;max-width:46ch;}
+.hero .hcta{display:inline-flex;align-items:center;gap:10px;margin-top:28px;
+  font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--white);padding:14px 22px;border:1px solid var(--gold);
+  transition:background .25s,color .25s,gap .25s;}
+.hero .hcta:hover{background:var(--gold);color:var(--on-gold);gap:14px;}
 .hero .scrollcue{position:absolute;bottom:30px;right:var(--gutter);z-index:3;font-family:var(--mono);
   font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);display:flex;
   flex-direction:column;align-items:center;gap:12px;}
@@ -101,6 +114,9 @@ h1,h2,h3{font-family:var(--display);font-weight:800;line-height:.96;letter-spaci
   position:relative;overflow:hidden;}
 .hero .scrollcue .ln::after{content:"";position:absolute;top:-30%;left:0;width:100%;height:40%;
   background:var(--gold);animation:cue 1.8s infinite;}
+@media(max-height:640px){.hero .scrollcue{display:none;}}
+@media(max-width:600px){.hero .kick::before{width:28px;}}
+
 @keyframes cue{0%{top:-40%;}100%{top:120%;}}
 
 /* generic section intro line */

@@ -19,11 +19,18 @@
      section scrolls away. */
   function manageVideos() {
     if (!("IntersectionObserver" in window)) return;
+    // Skip autoplay on save-data / slow-2g / 2g connections — leave the
+    // poster in place so we don't burn cellular data.
+    var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    var skipPlay = !!(conn && (conn.saveData ||
+      conn.effectiveType === "2g" || conn.effectiveType === "slow-2g"));
+
     var solo = document.querySelectorAll("video:not([data-fv])");
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
         var v = e.target;
         if (e.isIntersecting) {
+          if (skipPlay) return;
           try { v.playbackRate = window.__vrate || 0.6; } catch (_) {}
           var p = v.play(); if (p && p.catch) p.catch(function () {});
         } else { try { v.pause(); } catch (_) {} }
@@ -45,6 +52,7 @@
       bio.observe(build);
     }
   }
+
 
   /* ---------- reel data: each clip is a DISTINCT kind of work, not one project ---------- */
   var STAGES = [
