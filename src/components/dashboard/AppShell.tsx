@@ -66,7 +66,7 @@ export function AppShell({ title, eyebrow, actions, children }: {
             return (
               <Link
                 key={item.to}
-                to={item.to}
+                to={item.to as string}
                 className="nav-link focus-ring"
                 data-status={active ? "active" : undefined}
                 onClick={() => setOpen(false)}
