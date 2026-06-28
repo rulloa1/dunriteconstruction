@@ -23,6 +23,7 @@ export const Route = createFileRoute("/_authenticated/app/")({
 function OverviewPage() {
   const { data: jobs } = useSuspenseQuery(jobsQO());
   const k = portfolioKPIs(jobs);
+  const [heroOk, setHeroOk] = useState(true);
   const topJobs = [...jobs]
     .map((j) => ({ job: j, t: jobTotals(j) }))
     .sort((a, b) => b.t.grossProfit - a.t.grossProfit)
@@ -38,7 +39,41 @@ function OverviewPage() {
         </Link>
       }
     >
+      <section
+        className="relative mb-6 overflow-hidden rounded-2xl border"
+        style={{
+          height: 200,
+          borderColor: "var(--border-soft)",
+          background:
+            "linear-gradient(120deg, color-mix(in oklch, var(--brand-blue-deep) 60%, transparent), var(--bg-elev))",
+        }}
+      >
+        {heroOk && (
+          <img
+            src={HERO_IMAGE_PATH}
+            alt=""
+            onError={() => setHeroOk(false)}
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{ opacity: 0.55 }}
+          />
+        )}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(180deg, transparent 30%, color-mix(in oklch, var(--bg) 85%, transparent))",
+          }}
+        />
+        <div className="relative h-full flex flex-col justify-end p-5 sm:p-6">
+          <div className="kbd-label" style={{ color: "var(--brand-gold)" }}>Dun Rite Construction Group</div>
+          <h2 className="font-display text-2xl sm:text-3xl font-semibold tracking-tight">
+            Operations at a glance
+          </h2>
+        </div>
+      </section>
+
       <section className="grid grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
+
         <KpiCard label="Revenue (all)" value={fmtUSD(k.revenue)} tone="blue" />
         <KpiCard label="Total cost" value={fmtUSD(k.totalCost)} />
         <KpiCard label="Gross profit" value={fmtUSD(k.grossProfit)} tone="gold" />
