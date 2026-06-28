@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
-import type { LogStatus, MilestoneStatus, ProcStatus } from "@/lib/controls/projectData";
 import { currency } from "@/lib/controls/projectData";
 
 /* ---------------- StatusBadge ---------------- */
