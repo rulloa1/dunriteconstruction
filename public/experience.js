@@ -296,14 +296,15 @@
 
     /* ============ HORIZONTAL capabilities ============ */
     var track = document.getElementById("capTrack");
-    if (track && !reduced) {
+    if (track && !reduced && !isMobile) {
       var getX = function () { return -(track.scrollWidth - window.innerWidth); };
       gsap.to(track, {
         x: getX, ease: "none",
         scrollTrigger: {
           trigger: "#cap", start: "top top",
           end: function () { return "+=" + (track.scrollWidth - window.innerWidth + window.innerHeight); },
-          scrub: 1, pin: ".cap-pin", anticipatePin: 1, invalidateOnRefresh: true
+          scrub: 1, pin: ".cap-pin", pinType: isTouch ? "transform" : "fixed",
+          anticipatePin: 1, invalidateOnRefresh: true
         }
       });
     }
