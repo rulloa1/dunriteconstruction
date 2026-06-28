@@ -1,6 +1,8 @@
-import { Link, Outlet, useRouterState } from "@tanstack/react-router";
+import { Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useState, type ReactNode } from "react";
-import { LayoutDashboard, Hammer, LineChart, Menu, X } from "lucide-react";
+import { LayoutDashboard, Hammer, LineChart, LogOut, Menu, X } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 const LOGO = "/uploads/Dunrite-Logo_invert-e1758651959544.png";
 
@@ -18,6 +20,15 @@ export function AppShell({ title, eyebrow, actions, children }: {
 }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+  const qc = useQueryClient();
+
+  async function signOut() {
+    await qc.cancelQueries();
+    qc.clear();
+    await supabase.auth.signOut();
+    navigate({ to: "/auth", replace: true });
+  }
 
   const isActive = (to: string, exact: boolean) =>
     exact ? pathname === to : pathname === to || pathname.startsWith(to + "/");
@@ -60,8 +71,11 @@ export function AppShell({ title, eyebrow, actions, children }: {
           </Link>
           <div className="divider mx-3" />
           <div className="pt-4">{NavItems}</div>
-          <div className="mt-auto px-5 py-4 text-dim" style={{ fontSize: 11 }}>
-            <div className="font-ui">v0.1 · Internal build</div>
+          <div className="mt-auto px-3 pb-4">
+            <button onClick={signOut} className="nav-link focus-ring w-full" type="button">
+              <LogOut size={16} strokeWidth={1.75} /> <span>Sign out</span>
+            </button>
+            <div className="px-2 pt-3 text-dim font-ui" style={{ fontSize: 11 }}>v0.1 · Internal build</div>
           </div>
         </aside>
 
