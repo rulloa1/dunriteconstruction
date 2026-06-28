@@ -13,8 +13,9 @@ import {
   type Job,
 } from "@/lib/dashboard/data";
 import { getJobById } from "@/lib/dashboard/queries.functions";
-import { ArrowLeft, Pencil, Trash2 } from "lucide-react";
+import { ArrowLeft, Pencil, Trash2, FileText, FileDown } from "lucide-react";
 import { LoadingBlock, ErrorBlock } from "./app.index";
+import { toast } from "sonner";
 
 const jobQO = (id: string) =>
   queryOptions({
@@ -67,6 +68,36 @@ function JobDetail() {
       actions={
         <>
           <span className={`pill ${job.status === "active" ? "pill-active" : "pill-closed"}`}>{job.status}</span>
+          <button
+            onClick={async () => {
+              try {
+                const { exportJobCSV } = await import("@/lib/dashboard/export");
+                exportJobCSV(job);
+              } catch (e) {
+                toast.error("CSV export failed");
+                console.error(e);
+              }
+            }}
+            className="btn focus-ring"
+            title="Export CSV"
+          >
+            <FileDown size={14} /> <span className="hidden sm:inline">CSV</span>
+          </button>
+          <button
+            onClick={async () => {
+              try {
+                const { exportJobPDF } = await import("@/lib/dashboard/export");
+                await exportJobPDF(job);
+              } catch (e) {
+                toast.error("PDF export failed");
+                console.error(e);
+              }
+            }}
+            className="btn focus-ring"
+            title="Export PDF"
+          >
+            <FileText size={14} /> <span className="hidden sm:inline">PDF</span>
+          </button>
           <button onClick={() => setEditOpen(true)} className="btn focus-ring" title="Edit job">
             <Pencil size={14} /> <span className="hidden sm:inline">Edit</span>
           </button>
