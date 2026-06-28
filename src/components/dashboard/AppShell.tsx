@@ -1,6 +1,6 @@
 import { Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useState, type ReactNode } from "react";
-import { LayoutDashboard, Hammer, LineChart, ClipboardList, LogOut, Menu, X } from "lucide-react";
+import { LayoutDashboard, Hammer, LineChart, ClipboardList, BookOpen, LogOut, Menu, X } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -11,6 +11,7 @@ const NAV = [
   { to: "/app/jobs" as const, label: "Jobs", icon: Hammer, exact: false },
   { to: "/app/financials" as const, label: "Financials", icon: LineChart, exact: false },
   { to: "/app/controls" as const, label: "Project Controls", icon: ClipboardList, exact: false },
+  { to: "/app/documents" as const, label: "Documents", icon: BookOpen, exact: false },
 ];
 
 export function AppShell({ title, eyebrow, actions, children }: {

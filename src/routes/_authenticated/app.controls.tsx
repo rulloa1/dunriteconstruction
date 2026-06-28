@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, type ReactNode } from "react";
+import { Download } from "lucide-react";
 import { AppShell } from "@/components/dashboard/AppShell";
 import { KpiCard } from "@/components/dashboard/KpiCard";
 import { PageHeader } from "@/components/controls/PageHeader";
@@ -62,7 +63,21 @@ function ControlsPage() {
     <AppShell
       eyebrow="Project Controls"
       title={PROJECT.name}
-      actions={<SectionActions />}
+      actions={
+        <>
+          {tab === "bids" && (
+            <a
+              href="/docs/bid-packet-bp-2026-014.pdf"
+              target="_blank"
+              rel="noreferrer"
+              className="btn btn-primary focus-ring"
+            >
+              <Download size={14} /> <span className="hidden sm:inline">Download Bid Packet</span>
+            </a>
+          )}
+          <SectionActions />
+        </>
+      }
     >
       <PageHeader
         eyebrow="Flagship project"
