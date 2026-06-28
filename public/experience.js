@@ -61,7 +61,13 @@
   ];
   var N = STAGES.length;
 
-  /* ---------- preloader ---------- */
+  /* ---------- preloader ----------
+     Rules:
+     - skip entirely on prefers-reduced-motion
+     - skip if already seen this session (sessionStorage)
+     - hard cap total runtime ≤ 1.2s, racing window.load against the cap
+     - dismissible: click / key / wheel / touch short-circuits the exit */
+  var PRE_KEY = "dr_pre_seen";
   function runPreloader(done) {
     var pre = document.getElementById("pre");
     var num = document.getElementById("preNum");
@@ -73,41 +79,69 @@
     function finish() {
       if (finished) return;
       finished = true;
+      try { sessionStorage.setItem(PRE_KEY, "1"); } catch (_) {}
       pre.style.display = "none";
       done();
     }
 
-    if (reduced || !hasGSAP) {
-      pre.style.display = "none";
-      done();
-      return;
+    // already seen this session, or reduced motion — skip instantly
+    var seen = false;
+    try { seen = sessionStorage.getItem(PRE_KEY) === "1"; } catch (_) {}
+    if (reduced || !hasGSAP || seen) { finish(); return; }
+
+    // hard backstop — never trap the user behind a stalled preloader
+    var backstop = setTimeout(exit, 1300);
+
+    var exited = false;
+    function exit() {
+      if (exited) return;
+      exited = true;
+      clearTimeout(backstop);
+      gsap.to(pre, {
+        yPercent: -100, duration: 0.3, ease: "power3.inOut",
+        onStart: function () { pre.classList.add("hide"); },
+        onComplete: finish
+      });
     }
 
-    // backstop: timers run even if rAF is throttled (e.g. unfocused preview),
-    // so the page is NEVER left locked behind a stalled preloader.
-    var backstop = setTimeout(function () {
-      if (logo) { logo.style.opacity = 1; logo.style.transform = "none"; }
-      finish();
-    }, 3200);
+    // dismiss controls
+    function onKey(e) {
+      if (e.key === "Escape" || e.key === "Enter" || e.key === " ") exit();
+    }
+    pre.addEventListener("click", exit, { once: true });
+    pre.addEventListener("wheel", exit, { once: true, passive: true });
+    pre.addEventListener("touchstart", exit, { once: true, passive: true });
+    document.addEventListener("keydown", onKey, { once: true });
 
-    gsap.to(logo, { opacity: 1, y: 0, duration: .7, ease: "power3.out" });
+    gsap.to(logo, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" });
+
+    // race the counter against actual page readiness — whichever wins, exit
+    var capDuration = 0.8;
     var obj = { v: 0 };
-    gsap.to(obj, {
-      v: 100, duration: 1.9, ease: "power2.inOut",
+    var counterTween = gsap.to(obj, {
+      v: 100, duration: capDuration, ease: "power2.out",
       onUpdate: function () {
         var v = Math.round(obj.v);
-        num.textContent = v;
-        bar.style.width = v + "%";
+        if (num) num.textContent = v;
+        if (bar) bar.style.width = v + "%";
       },
-      onComplete: function () {
-        gsap.to(pre, {
-          yPercent: -100, duration: 1.0, ease: "power4.inOut", delay: .15,
-          onStart: function () { pre.classList.add("hide"); },
-          onComplete: function () { clearTimeout(backstop); finish(); }
-        });
-      }
+      onComplete: exit
     });
+    function onReady() {
+      // jump counter to 100 visually, then exit
+      counterTween.kill();
+      if (num) num.textContent = "100";
+      if (bar) bar.style.width = "100%";
+      exit();
+    }
+    if (document.readyState === "complete") {
+      // give the counter a beat so it doesn't feel instant on cached loads
+      setTimeout(onReady, 280);
+    } else {
+      window.addEventListener("load", onReady, { once: true });
+    }
   }
+
 
   /* ---------- hero intro ---------- */
   function heroIntro() {
@@ -419,7 +453,8 @@
         scrollTrigger: { trigger: ".close .actions", start: "top 85%", toggleActions: "play none none reverse" }
       });
 
-      /* top bar — fade logo intensity based on scroll */
+      /* top bar — fade logo intensity based on scroll, and flip off mix-blend
+         once we have a real backdrop so contrast stays predictable */
       var topBar = document.querySelector(".bar");
       if (topBar) {
         ScrollTrigger.create({
@@ -427,9 +462,12 @@
           onUpdate: function (self) {
             topBar.style.backdropFilter = "blur(" + (6 + self.progress * 8) + "px)";
             topBar.style.background = "rgba(11,11,12," + (0.2 + self.progress * 0.55) + ")";
+            if (self.progress > 0.18) document.body.setAttribute("data-scrolled", "1");
+            else document.body.removeAttribute("data-scrolled");
           }
         });
       }
+
 
       /* capabilities cards — soft float-in as the horizontal track scrolls past */
       gsap.utils.toArray(".cap-card").forEach(function (el, i) {
