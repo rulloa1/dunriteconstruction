@@ -157,15 +157,34 @@ h1,h2,h3{font-family:var(--display);font-weight:800;line-height:.96;letter-spaci
 .rail .tk.on{opacity:1;}
 .rail .tk.on .dot{background:var(--gold);border-color:var(--gold);box-shadow:0 0 14px var(--gold);transform:scale(1.25);}
 .rail .tk.on .lb{color:var(--white);}
-@media(max-width:900px){.rail{display:none;}.bnum{opacity:.5;font-size:clamp(140px,42vw,260px);right:-2vw;}
-  .build-ui .wrap{justify-content:flex-end;padding-bottom:clamp(120px,22vh,180px);}
-  .btitle{font-size:clamp(36px,9vw,64px);max-width:12ch;}
-  .bcap{font-size:15px;line-height:1.5;max-width:38ch;}
-  .readout{bottom:18px;}
-  .readout .day b{font-size:32px;}
-  .readout .pct .pn{font-size:34px;}
+@media(max-width:900px){
+  .rail{display:none;}
+  /* Background number sits behind the headline, off-axis, dimmed. */
+  .bnum{opacity:.35;font-size:clamp(160px,46vw,280px);top:38%;right:-6vw;}
+  /* Stack the overlay text in the upper portion of the pin so the readout
+     band at the bottom has its own clear strip and never collides. */
+  .build-ui .wrap{justify-content:flex-start;padding-top:clamp(96px,16vh,140px);padding-right:var(--gutter);}
+  .bkick{font-size:11px;letter-spacing:.22em;margin-bottom:14px;}
+  .bkick::before{width:28px;}
+  .btitle{font-size:clamp(40px,11vw,68px);line-height:.94;max-width:11ch;}
+  .bcap{font-size:14.5px;line-height:1.5;max-width:34ch;margin-top:18px;}
+  .readout{bottom:22px;left:var(--gutter);right:var(--gutter);}
+  .readout .day b{font-size:28px;}
+  .readout .pct .pn{font-size:30px;}
+  .readout .pct .pl,.readout .day{font-size:10.5px;letter-spacing:.16em;}
 }
-@media(max-width:560px){.readout{flex-direction:column;align-items:flex-start;gap:10px;}.readout .pct{text-align:left;}.readout .pct .pn{font-size:28px;}}
+@media(max-width:560px){
+  .build-ui .wrap{padding-top:clamp(84px,14vh,120px);}
+  .btitle{font-size:clamp(36px,10.5vw,56px);max-width:10ch;}
+  .bcap{font-size:14px;max-width:30ch;-webkit-line-clamp:4;display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden;}
+  .readout{flex-direction:row;align-items:flex-end;justify-content:space-between;gap:14px;bottom:18px;}
+  .readout .pct{text-align:right;}
+  .readout .pct .pn{font-size:26px;}
+}
+@media(max-width:380px){
+  .btitle{font-size:clamp(32px,10vw,48px);}
+  .bcap{font-size:13.5px;max-width:28ch;}
+}
 
 /* ---------------- stats ---------------- */
 .stats{padding:clamp(80px,14vh,170px) 0;background:var(--near);border-top:1px solid var(--line-2);}
