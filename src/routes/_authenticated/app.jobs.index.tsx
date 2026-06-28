@@ -164,6 +164,11 @@ function JobsIndex() {
           )}
         </div>
       )}
+      <JobFormDialog
+        open={newOpen}
+        onOpenChange={setNewOpen}
+        onCreated={(id) => navigate({ to: "/app/jobs/$jobId", params: { jobId: id } })}
+      />
     </AppShell>
   );
 }
