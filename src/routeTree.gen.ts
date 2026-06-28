@@ -16,6 +16,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/app'
 import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
 import { Route as AuthenticatedAppFinancialsRouteImport } from './routes/_authenticated/app.financials'
+import { Route as AuthenticatedAppControlsRouteImport } from './routes/_authenticated/app.controls'
 import { Route as AuthenticatedAppJobsIndexRouteImport } from './routes/_authenticated/app.jobs.index'
 import { Route as AuthenticatedAppJobsJobIdRouteImport } from './routes/_authenticated/app.jobs.$jobId'
 
@@ -54,6 +55,12 @@ const AuthenticatedAppFinancialsRoute =
     path: '/financials',
     getParentRoute: () => AuthenticatedAppRoute,
   } as any)
+const AuthenticatedAppControlsRoute =
+  AuthenticatedAppControlsRouteImport.update({
+    id: '/controls',
+    path: '/controls',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
 const AuthenticatedAppJobsIndexRoute =
   AuthenticatedAppJobsIndexRouteImport.update({
     id: '/jobs/',
@@ -72,6 +79,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/app': typeof AuthenticatedAppRouteWithChildren
+  '/app/controls': typeof AuthenticatedAppControlsRoute
   '/app/financials': typeof AuthenticatedAppFinancialsRoute
   '/app/': typeof AuthenticatedAppIndexRoute
   '/app/jobs/$jobId': typeof AuthenticatedAppJobsJobIdRoute
@@ -81,6 +89,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/app/controls': typeof AuthenticatedAppControlsRoute
   '/app/financials': typeof AuthenticatedAppFinancialsRoute
   '/app': typeof AuthenticatedAppIndexRoute
   '/app/jobs/$jobId': typeof AuthenticatedAppJobsJobIdRoute
@@ -93,6 +102,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/_authenticated/app': typeof AuthenticatedAppRouteWithChildren
+  '/_authenticated/app/controls': typeof AuthenticatedAppControlsRoute
   '/_authenticated/app/financials': typeof AuthenticatedAppFinancialsRoute
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
   '/_authenticated/app/jobs/$jobId': typeof AuthenticatedAppJobsJobIdRoute
@@ -105,6 +115,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/sitemap.xml'
     | '/app'
+    | '/app/controls'
     | '/app/financials'
     | '/app/'
     | '/app/jobs/$jobId'
@@ -114,6 +125,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/sitemap.xml'
+    | '/app/controls'
     | '/app/financials'
     | '/app'
     | '/app/jobs/$jobId'
@@ -125,6 +137,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/sitemap.xml'
     | '/_authenticated/app'
+    | '/_authenticated/app/controls'
     | '/_authenticated/app/financials'
     | '/_authenticated/app/'
     | '/_authenticated/app/jobs/$jobId'
@@ -189,6 +202,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppFinancialsRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
+    '/_authenticated/app/controls': {
+      id: '/_authenticated/app/controls'
+      path: '/controls'
+      fullPath: '/app/controls'
+      preLoaderRoute: typeof AuthenticatedAppControlsRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
     '/_authenticated/app/jobs/': {
       id: '/_authenticated/app/jobs/'
       path: '/jobs'
@@ -207,6 +227,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedAppRouteChildren {
+  AuthenticatedAppControlsRoute: typeof AuthenticatedAppControlsRoute
   AuthenticatedAppFinancialsRoute: typeof AuthenticatedAppFinancialsRoute
   AuthenticatedAppIndexRoute: typeof AuthenticatedAppIndexRoute
   AuthenticatedAppJobsJobIdRoute: typeof AuthenticatedAppJobsJobIdRoute
@@ -214,6 +235,7 @@ interface AuthenticatedAppRouteChildren {
 }
 
 const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
+  AuthenticatedAppControlsRoute: AuthenticatedAppControlsRoute,
   AuthenticatedAppFinancialsRoute: AuthenticatedAppFinancialsRoute,
   AuthenticatedAppIndexRoute: AuthenticatedAppIndexRoute,
   AuthenticatedAppJobsJobIdRoute: AuthenticatedAppJobsJobIdRoute,
