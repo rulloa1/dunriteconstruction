@@ -112,7 +112,7 @@ h1,h2,h3{font-family:var(--display);font-weight:800;line-height:.96;letter-spaci
 
 /* ---------------- THE BUILD (pinned timelapse) ---------------- */
 .build{position:relative;background:var(--black);}
-.build-pin{position:relative;height:100vh;overflow:hidden;}
+.build-pin{position:relative;height:100vh;height:100svh;overflow:hidden;}
 .frames{position:absolute;inset:0;}
 .frame{position:absolute;inset:0;opacity:0;}
 .frame:first-child{opacity:1;}
@@ -157,8 +157,15 @@ h1,h2,h3{font-family:var(--display);font-weight:800;line-height:.96;letter-spaci
 .rail .tk.on{opacity:1;}
 .rail .tk.on .dot{background:var(--gold);border-color:var(--gold);box-shadow:0 0 14px var(--gold);transform:scale(1.25);}
 .rail .tk.on .lb{color:var(--white);}
-@media(max-width:900px){.rail{display:none;}.bnum{opacity:.5;}}
-@media(max-width:560px){.readout{flex-direction:column;align-items:flex-start;gap:14px;}.readout .pct{text-align:left;}}
+@media(max-width:900px){.rail{display:none;}.bnum{opacity:.5;font-size:clamp(140px,42vw,260px);right:-2vw;}
+  .build-ui .wrap{justify-content:flex-end;padding-bottom:clamp(120px,22vh,180px);}
+  .btitle{font-size:clamp(36px,9vw,64px);max-width:12ch;}
+  .bcap{font-size:15px;line-height:1.5;max-width:38ch;}
+  .readout{bottom:18px;}
+  .readout .day b{font-size:32px;}
+  .readout .pct .pn{font-size:34px;}
+}
+@media(max-width:560px){.readout{flex-direction:column;align-items:flex-start;gap:10px;}.readout .pct{text-align:left;}.readout .pct .pn{font-size:28px;}}
 
 /* ---------------- stats ---------------- */
 .stats{padding:clamp(80px,14vh,170px) 0;background:var(--near);border-top:1px solid var(--line-2);}
@@ -174,7 +181,7 @@ h1,h2,h3{font-family:var(--display);font-weight:800;line-height:.96;letter-spaci
 
 /* ---------------- horizontal capabilities ---------------- */
 .cap{position:relative;background:var(--black);}
-.cap-pin{height:100vh;overflow:hidden;display:flex;align-items:center;}
+.cap-pin{height:100vh;height:100svh;overflow:hidden;display:flex;align-items:center;}
 .cap-track{display:flex;gap:0;will-change:transform;padding-left:var(--gutter);}
 .cap-intro{flex:none;width:min(80vw,560px);padding-right:80px;display:flex;flex-direction:column;justify-content:center;}
 .cap-intro .sh{font-family:var(--mono);font-size:13px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin-bottom:22px;}
@@ -191,7 +198,15 @@ h1,h2,h3{font-family:var(--display);font-weight:800;line-height:.96;letter-spaci
 .cap-card .cc h3{font-size:clamp(26px,3vw,40px);margin:14px 0 12px;}
 .cap-card .cc p{color:var(--dim);font-size:15px;line-height:1.5;margin:0;max-width:34ch;}
 .cap-end{flex:none;width:60vw;}
-@media(max-width:760px){.cap-card{width:80vw;height:58vh;}}
+@media(max-width:900px){
+  /* On mobile, abandon horizontal pinned scroll — stack vertically so the page
+     keeps flowing naturally instead of trapping the user in a long pin. */
+  .cap-pin{height:auto;min-height:0;overflow:visible;display:block;padding:clamp(60px,10vh,100px) 0;}
+  .cap-track{flex-direction:column;gap:22px;padding:0 var(--gutter);transform:none !important;}
+  .cap-intro{width:100%;padding:0 0 18px;}
+  .cap-card{width:100%;height:clamp(360px,62vh,480px);margin:0;}
+  .cap-end{display:none;}
+}
 
 /* ---------------- closing CTA ---------------- */
 .close{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;background:var(--black);}
