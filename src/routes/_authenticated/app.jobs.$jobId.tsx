@@ -1,16 +1,19 @@
-import { createFileRoute, Link, notFound, useParams } from "@tanstack/react-router";
-import { useMemo } from "react";
+import { createFileRoute, Link, notFound, useNavigate, useParams } from "@tanstack/react-router";
+import { useMemo, useState } from "react";
 import { useSuspenseQuery, queryOptions } from "@tanstack/react-query";
 import { AppShell } from "@/components/dashboard/AppShell";
 import { KpiCard } from "@/components/dashboard/KpiCard";
 import { CostSection, LineRow } from "@/components/dashboard/CostSection";
+import {
+  JobFormDialog, DeleteJobDialog, LineFormDialog, DeleteLineDialog, useLineDialogs,
+} from "@/components/dashboard/JobDialogs";
 import {
   jobTotals, fmtUSD, fmtPct, marginTone,
   laborTotal, materialsTotal, subsTotal, equipmentTotal, sum,
   type Job,
 } from "@/lib/dashboard/data";
 import { getJobById } from "@/lib/dashboard/queries.functions";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Pencil, Trash2 } from "lucide-react";
 import { LoadingBlock, ErrorBlock } from "./app.index";
 
 const jobQO = (id: string) =>
