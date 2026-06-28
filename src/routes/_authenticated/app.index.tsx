@@ -1,7 +1,8 @@
-import { createFileRoute, Link, useRouter } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery, queryOptions } from "@tanstack/react-query";
 import { AppShell } from "@/components/dashboard/AppShell";
 import { KpiCard } from "@/components/dashboard/KpiCard";
+import { LoadingBlock, EmptyJobs, ErrorBlock } from "@/components/dashboard/States";
 import { portfolioKPIs, jobTotals, fmtUSD, fmtPct, marginTone } from "@/lib/dashboard/data";
 import { getAllJobs } from "@/lib/dashboard/queries.functions";
 import { ArrowUpRight } from "lucide-react";
