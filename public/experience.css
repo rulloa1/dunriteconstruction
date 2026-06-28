@@ -112,7 +112,7 @@ h1,h2,h3{font-family:var(--display);font-weight:800;line-height:.96;letter-spaci
 
 /* ---------------- THE BUILD (pinned timelapse) ---------------- */
 .build{position:relative;background:var(--black);}
-.build-pin{position:relative;height:100vh;overflow:hidden;}
+.build-pin{position:relative;height:100vh;height:100svh;overflow:hidden;}
 .frames{position:absolute;inset:0;}
 .frame{position:absolute;inset:0;opacity:0;}
 .frame:first-child{opacity:1;}
