@@ -1,11 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect } from "react";
 
-const BUILD_0 = "/__l5e/assets-v1/90b8ea44-de98-4f9c-a8b8-4c8438e67c70/build-0.mp4";
-const BUILD_1 = "/__l5e/assets-v1/ac6110d4-2614-47b0-8446-408921111559/build-1.mp4";
+const BUILD_0 = "/__l5e/assets-v1/80ca7c19-9218-438d-b058-288f8bc9eae0/developments.mp4";
+const BUILD_1 = "/__l5e/assets-v1/642956b0-a026-4583-a83a-9e6b225515d2/full-shell.mp4";
 const BUILD_3 = "/__l5e/assets-v1/4ff91b38-2864-4378-997c-6dc3b7507cc4/foundations-slab.mp4";
 const BUILD_2 = "/__l5e/assets-v1/d26cd938-61cb-4692-80a0-2664b0fe5958/walls-that-stand.mp4";
-const CONCRETE = "/assets/concrete-hero.mp4";
+const CONCRETE = "/__l5e/assets-v1/f66f7b1e-b259-4942-ab8e-df7526fd8a81/concrete-at-scale.mp4";
 const STONE = "/assets/stone-frame-shell.jpg";
 const LOGO = "/uploads/Dunrite-Logo_invert-e1758651959544.png";
 
@@ -196,16 +196,16 @@ function TheBuild() {
               <video data-fv src={BUILD_3} muted loop playsInline preload="metadata" poster="/assets/foundations-slab.jpg" width={1920} height={1080} />
             </div>
             <div className="frame">
-              <video data-fv src={CONCRETE} muted loop playsInline preload="metadata" poster={STONE} width={1920} height={1080} />
+              <video data-fv src={CONCRETE} muted loop playsInline preload="metadata" poster="/assets/concrete-at-scale.jpg" width={1920} height={1080} />
             </div>
             <div className="frame">
               <video data-fv src={BUILD_2} muted loop playsInline preload="metadata" poster="/assets/walls-that-stand.jpg" width={1920} height={1080} />
             </div>
             <div className="frame">
-              <video data-fv src={BUILD_1} muted loop playsInline preload="metadata" poster={STONE} width={1920} height={1080} />
+              <video data-fv src={BUILD_1} muted loop playsInline preload="metadata" poster="/assets/full-shell.jpg" width={1920} height={1080} />
             </div>
             <div className="frame">
-              <video data-fv src={BUILD_0} muted loop playsInline preload="metadata" poster={STONE} width={1920} height={1080} />
+              <video data-fv src={BUILD_0} muted loop playsInline preload="metadata" poster="/assets/developments.jpg" width={1920} height={1080} />
             </div>
           </div>
 
