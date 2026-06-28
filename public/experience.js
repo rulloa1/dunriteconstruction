@@ -258,7 +258,6 @@
           invalidateOnRefresh: true,
           scrub: isTouch ? 0.6 : 1.1,
           pin: "#buildPin",
-          pinType: isTouch ? "transform" : "fixed",
           anticipatePin: 1,
           onUpdate: function (self) {
             var p = self.progress;
