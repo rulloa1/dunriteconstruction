@@ -245,6 +245,15 @@ function EmptyLine({ label, onAdd }: { label: string; onAdd: () => void }) {
   );
 }
 
+function marginLabel(m: number) {
+  if (m >= 0.2) return "Healthy (≥20%)";
+  if (m >= 0.08) return "On track (8–20%)";
+  if (m >= 0) return "Thin (<8%)";
+  return "Underwater";
+}
+
+
+
 function ReconCell({ label, value, tone, big }: { label: string; value: string; tone?: "blue" | "gold" | "negative"; big?: boolean }) {
   const toneClass = tone === "gold" ? "text-gold" : tone === "blue" ? "text-blue" : tone === "negative" ? "text-negative" : "";
   return (
