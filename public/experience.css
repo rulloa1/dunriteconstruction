@@ -181,7 +181,7 @@ h1,h2,h3{font-family:var(--display);font-weight:800;line-height:.96;letter-spaci
 
 /* ---------------- horizontal capabilities ---------------- */
 .cap{position:relative;background:var(--black);}
-.cap-pin{height:100vh;overflow:hidden;display:flex;align-items:center;}
+.cap-pin{height:100vh;height:100svh;overflow:hidden;display:flex;align-items:center;}
 .cap-track{display:flex;gap:0;will-change:transform;padding-left:var(--gutter);}
 .cap-intro{flex:none;width:min(80vw,560px);padding-right:80px;display:flex;flex-direction:column;justify-content:center;}
 .cap-intro .sh{font-family:var(--mono);font-size:13px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin-bottom:22px;}
@@ -198,7 +198,15 @@ h1,h2,h3{font-family:var(--display);font-weight:800;line-height:.96;letter-spaci
 .cap-card .cc h3{font-size:clamp(26px,3vw,40px);margin:14px 0 12px;}
 .cap-card .cc p{color:var(--dim);font-size:15px;line-height:1.5;margin:0;max-width:34ch;}
 .cap-end{flex:none;width:60vw;}
-@media(max-width:760px){.cap-card{width:80vw;height:58vh;}}
+@media(max-width:900px){
+  /* On mobile, abandon horizontal pinned scroll — stack vertically so the page
+     keeps flowing naturally instead of trapping the user in a long pin. */
+  .cap-pin{height:auto;min-height:0;overflow:visible;display:block;padding:clamp(60px,10vh,100px) 0;}
+  .cap-track{flex-direction:column;gap:22px;padding:0 var(--gutter);transform:none !important;}
+  .cap-intro{width:100%;padding:0 0 18px;}
+  .cap-card{width:100%;height:clamp(360px,62vh,480px);margin:0;}
+  .cap-end{display:none;}
+}
 
 /* ---------------- closing CTA ---------------- */
 .close{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;background:var(--black);}
