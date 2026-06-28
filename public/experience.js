@@ -332,9 +332,127 @@
       }
     }
 
+    /* ============ EXTRA SCROLL ANIMATIONS ============ */
+    if (!reduced) {
+      /* section headers (.sh) — wipe-in underline + slide */
+      gsap.utils.toArray(".sh").forEach(function (el) {
+        gsap.fromTo(el,
+          { opacity: 0, x: -28, letterSpacing: "0.02em" },
+          { opacity: 1, x: 0, letterSpacing: "0.18em", duration: 1, ease: "power3.out",
+            scrollTrigger: { trigger: el, start: "top 88%", toggleActions: "play none none reverse" } });
+      });
+
+      /* statement section — subtle scale + drift as it scrubs */
+      var stmtSection = document.querySelector(".statement");
+      if (stmtSection) {
+        gsap.fromTo(stmtSection, { backgroundPositionY: "0%" },
+          { backgroundPositionY: "20%", ease: "none",
+            scrollTrigger: { trigger: stmtSection, start: "top bottom", end: "bottom top", scrub: true } });
+      }
+
+      /* stats — counter group lifts and labels stagger in */
+      gsap.utils.toArray("#stats .stat").forEach(function (el, i) {
+        gsap.from(el, {
+          opacity: 0, y: 60, duration: .9, ease: "power3.out", delay: i * 0.08,
+          scrollTrigger: { trigger: "#stats", start: "top 78%", toggleActions: "play none none reverse" }
+        });
+      });
+      gsap.to("#stats .wrap", {
+        yPercent: -8, ease: "none",
+        scrollTrigger: { trigger: "#stats", start: "top bottom", end: "bottom top", scrub: true }
+      });
+
+      /* creed — heading character-style mask reveal via clip-path */
+      gsap.utils.toArray(".creed h2").forEach(function (el) {
+        gsap.fromTo(el,
+          { clipPath: "inset(0 100% 0 0)" },
+          { clipPath: "inset(0 0% 0 0)", duration: 1.4, ease: "power4.out",
+            scrollTrigger: { trigger: el, start: "top 82%", toggleActions: "play none none reverse" } });
+      });
+      gsap.utils.toArray(".creed .mv").forEach(function (el, i) {
+        gsap.from(el, {
+          opacity: 0, y: 40, duration: .8, ease: "power3.out", delay: i * 0.12,
+          scrollTrigger: { trigger: ".creed-grid", start: "top 70%", toggleActions: "play none none reverse" }
+        });
+      });
+
+      /* voices — giant quote mark scroll-driven scale + rotation */
+      var qmark = document.querySelector(".voices .qmark");
+      if (qmark) {
+        gsap.fromTo(qmark,
+          { scale: .6, rotation: -12, opacity: 0 },
+          { scale: 1, rotation: 0, opacity: 1, ease: "none",
+            scrollTrigger: { trigger: "#voices", start: "top bottom", end: "center center", scrub: 1 } });
+      }
+      gsap.utils.toArray("#voices .more-q .q").forEach(function (el, i) {
+        gsap.from(el, {
+          opacity: 0, y: 50, duration: .9, ease: "power3.out", delay: i * 0.15,
+          scrollTrigger: { trigger: "#voices .more-q", start: "top 80%", toggleActions: "play none none reverse" }
+        });
+      });
+
+      /* area / counties — staggered tile drop with directional bias */
+      gsap.utils.toArray("#area .ct").forEach(function (el, i) {
+        gsap.from(el, {
+          opacity: 0, y: 28, x: (i % 2 ? 16 : -16), duration: .7, ease: "power3.out", delay: (i % 5) * 0.06,
+          scrollTrigger: { trigger: "#area .counties", start: "top 82%", toggleActions: "play none none reverse" }
+        });
+      });
+      gsap.from("#area .area-head h2", {
+        yPercent: 30, opacity: 0, duration: 1.1, ease: "power4.out",
+        scrollTrigger: { trigger: "#area", start: "top 75%", toggleActions: "play none none reverse" }
+      });
+
+      /* close section — background video zoom + headline rise */
+      var closeBg = document.querySelector(".close .close-bg");
+      if (closeBg) {
+        gsap.fromTo(closeBg, { scale: 1.25 },
+          { scale: 1.0, ease: "none",
+            scrollTrigger: { trigger: ".close", start: "top bottom", end: "bottom top", scrub: true } });
+      }
+      gsap.from(".close h2", {
+        yPercent: 50, opacity: 0, duration: 1.1, ease: "power4.out",
+        scrollTrigger: { trigger: ".close", start: "top 75%", toggleActions: "play none none reverse" }
+      });
+      gsap.from(".close .actions .btn", {
+        opacity: 0, y: 24, duration: .8, ease: "power3.out", stagger: 0.12,
+        scrollTrigger: { trigger: ".close .actions", start: "top 85%", toggleActions: "play none none reverse" }
+      });
+
+      /* top bar — fade logo intensity based on scroll */
+      var topBar = document.querySelector(".bar");
+      if (topBar) {
+        ScrollTrigger.create({
+          start: 0, end: 200,
+          onUpdate: function (self) {
+            topBar.style.backdropFilter = "blur(" + (6 + self.progress * 8) + "px)";
+            topBar.style.background = "rgba(11,11,12," + (0.2 + self.progress * 0.55) + ")";
+          }
+        });
+      }
+
+      /* capabilities cards — soft float-in as the horizontal track scrolls past */
+      gsap.utils.toArray(".cap-card").forEach(function (el, i) {
+        gsap.from(el, {
+          opacity: 0, y: 40, duration: .9, ease: "power3.out", delay: i * 0.1,
+          scrollTrigger: { trigger: "#cap", start: "top 70%", toggleActions: "play none none reverse" }
+        });
+      });
+
+      /* hero scroll cue — fade out as user leaves hero */
+      var cue = document.querySelector(".scrollcue");
+      if (cue) {
+        gsap.to(cue, {
+          opacity: 0, y: 20, ease: "none",
+          scrollTrigger: { trigger: "#hero", start: "20% top", end: "bottom top", scrub: true }
+        });
+      }
+    }
+
     /* generic reveals (cards already inside pinned track animate via hover) */
     window.addEventListener("load", function () { ScrollTrigger.refresh(); });
     setTimeout(function () { ScrollTrigger.refresh(); }, 400);
+
   }
 
   /* ---------- video playback speed (slowed for cinematic feel; tweakable) ---------- */
