@@ -136,9 +136,10 @@
     // (the address bar collapsing changes vh and otherwise causes scroll jumps).
     ScrollTrigger.config({ ignoreMobileResize: true });
 
-    /* Lenis smooth scroll */
+    /* Lenis smooth scroll — desktop only. On touch devices it fights native
+       momentum scrolling and makes the page feel laggy/janky. */
     var lenis = null;
-    if (window.Lenis && !reduced) {
+    if (window.Lenis && !reduced && !isTouch && !isMobile) {
       lenis = new Lenis({ duration: 1.1, smoothWheel: true, lerp: .09 });
       lenis.on("scroll", ScrollTrigger.update);
       gsap.ticker.add(function (time) { lenis.raf(time * 1000); });
