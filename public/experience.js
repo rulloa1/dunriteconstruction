@@ -243,10 +243,10 @@
       // pace (per-stage scroll length, %) is live-tweakable via window.__pace
       if (window.__pace == null) window.__pace = 300;
       // Cap per-stage scroll length on phones so the pinned reel isn't an
-      // endless 15-screen drag; desktop keeps the full cinematic pace.
+      // endless drag; desktop keeps the full cinematic pace.
       var effPace = function () {
         var p = window.__pace || 300;
-        return isMobile ? Math.min(p, 190) : p;
+        return isMobile ? Math.min(p, 130) : p;
       };
       var buildEnd = function () { return "+=" + (N * effPace()) + "%"; };
       var segs = N - 1; // transitions
@@ -256,8 +256,9 @@
           start: "top top",
           end: buildEnd,
           invalidateOnRefresh: true,
-          scrub: 1.1,
+          scrub: isTouch ? 0.6 : 1.1,
           pin: "#buildPin",
+          pinType: isTouch ? "transform" : "fixed",
           anticipatePin: 1,
           onUpdate: function (self) {
             var p = self.progress;
