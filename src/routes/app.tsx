@@ -1,4 +1,4 @@
-import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { AppLayoutOutlet } from "@/components/dashboard/AppShell";
 
 export const Route = createFileRoute("/app")({
