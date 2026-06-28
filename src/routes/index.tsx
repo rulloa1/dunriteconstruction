@@ -305,7 +305,7 @@ function TheBuild() {
               <div className="cc">
                 <div className="cn">01 · Builders · Developers · GCs</div>
                 <h3>Full Shell Packages</h3>
-                <p>Slabs, block walls, trusses, and framing for residential and commercial builds — quality you can trust.</p>
+                <p>Slabs, block, trusses, and framing delivered as one turnkey package.</p>
                 <a className="cap-link" href="https://www.dunriteconstructiongroup.com/full-shell-packages/" target="_blank" rel="noreferrer">
                   View Album <span className="arr">→</span>
                 </a>
@@ -316,7 +316,7 @@ function TheBuild() {
               <div className="cc">
                 <div className="cn">02 · Homeowners · Architects</div>
                 <h3>Custom Home Shells</h3>
-                <p>Direct-to-consumer shells, from beach homes to one-off builds, with fast timelines and premium quality.</p>
+                <p>One-off shells for homeowners and architects — beach houses to estates.</p>
                 <a className="cap-link" href="https://www.dunriteconstructiongroup.com/custom-home-shells/" target="_blank" rel="noreferrer">
                   View Album <span className="arr">→</span>
                 </a>
@@ -330,7 +330,7 @@ function TheBuild() {
               <div className="cc">
                 <div className="cn">03 · Developers · Production Builders</div>
                 <h3>Developer Projects</h3>
-                <p>Large-scale concrete packages for neighborhoods, clubhouses, and community developments.</p>
+                <p>Neighborhood-scale concrete for production builds, clubhouses, and amenities.</p>
                 <a className="cap-link" href="https://www.dunriteconstructiongroup.com/developer-projects/" target="_blank" rel="noreferrer">
                   View Album <span className="arr">→</span>
                 </a>
@@ -341,7 +341,7 @@ function TheBuild() {
               <div className="cc">
                 <div className="cn">04 · Communities · Single Homes</div>
                 <h3>Concrete &amp; Flatwork</h3>
-                <p>Driveways, sidewalks, and patios poured with speed and precision — neighborhood scale or a single home.</p>
+                <p>Driveways, sidewalks, and patios — single home or whole community.</p>
                 <a className="cap-link" href="https://www.dunriteconstructiongroup.com/concrete-flatwork/" target="_blank" rel="noreferrer">
                   View Album <span className="arr">→</span>
                 </a>
@@ -352,6 +352,7 @@ function TheBuild() {
           </div>
         </div>
       </section>
+
 
       <section className="voices" id="voices">
         <div className="qmark">&rdquo;</div>
