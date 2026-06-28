@@ -216,6 +216,14 @@ h1,h2,h3{font-family:var(--display);font-weight:800;line-height:.96;letter-spaci
 .cap-card .cc .cn{font-family:var(--mono);font-size:12px;letter-spacing:.14em;color:var(--gold);}
 .cap-card .cc h3{font-size:clamp(26px,3vw,40px);margin:14px 0 12px;}
 .cap-card .cc p{color:var(--dim);font-size:15px;line-height:1.5;margin:0;max-width:34ch;}
+.cap-card .cc .cap-link{display:inline-flex;align-items:center;gap:10px;margin-top:18px;
+  font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--white);padding:10px 0;border-bottom:1px solid rgba(234,168,59,.45);
+  transition:color .25s ease,border-color .25s ease,gap .25s ease;}
+.cap-card .cc .cap-link .arr{transition:transform .3s ease;}
+.cap-card .cc .cap-link:hover{color:var(--gold);border-color:var(--gold);gap:16px;}
+.cap-card .cc .cap-link:hover .arr{transform:translateX(4px);}
+
 .cap-end{flex:none;width:60vw;}
 @media(max-width:900px){
   /* On mobile, abandon horizontal pinned scroll — stack vertically so the page
