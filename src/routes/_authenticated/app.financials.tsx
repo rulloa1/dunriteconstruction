@@ -161,32 +161,113 @@ function FinancialsPage() {
       </section>
 
       <section className="mt-8 grid lg:grid-cols-2 gap-4">
-        <div className="card p-5">
-          <div className="kbd-label mb-3">Overhead detail</div>
-          <ul className="divide-y" style={{ borderColor: "var(--border-soft)" }}>
-            {data.overhead.filter((o) => o.period >= range.from.slice(0, 7) && o.period <= range.to.slice(0, 7)).map((o) => (
-              <li key={o.id} className="flex justify-between py-2.5 text-sm">
-                <span>{o.category} <span className="text-dim text-xs">· {o.period}</span></span>
-                <span className="num">{fmtUSD(o.amount)}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="card p-5">
-          <div className="kbd-label mb-3">Owner draws</div>
-          <ul className="divide-y" style={{ borderColor: "var(--border-soft)" }}>
-            {data.draws.filter((d) => d.period >= range.from.slice(0, 7) && d.period <= range.to.slice(0, 7)).map((d) => (
-              <li key={d.id} className="flex justify-between py-2.5 text-sm">
-                <span>{d.owner} <span className="text-dim text-xs">· {d.period}</span></span>
-                <span className="num">{fmtUSD(d.amount)}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <PeriodCard
+          title="Overhead detail"
+          kind="overhead"
+          rows={overheadRows.map((o) => ({ id: o.id, primary: o.category, period: o.period, amount: o.amount, raw: o }))}
+          onAdd={() => dialogs.openCreate("overhead")}
+          onEdit={(row) => dialogs.openEdit("overhead", row.raw)}
+          onDelete={(row) => dialogs.openDelete("overhead", row.id, row.primary)}
+        />
+        <PeriodCard
+          title="Owner draws"
+          kind="draws"
+          rows={drawRows.map((d) => ({ id: d.id, primary: d.owner, period: d.period, amount: d.amount, raw: d }))}
+          onAdd={() => dialogs.openCreate("draws")}
+          onEdit={(row) => dialogs.openEdit("draws", row.raw)}
+          onDelete={(row) => dialogs.openDelete("draws", row.id, row.primary)}
+        />
       </section>
+
+      {(dialogs.state.mode === "create" || dialogs.state.mode === "edit") && (
+        <PeriodLineFormDialog
+          open
+          onOpenChange={(v) => { if (!v) dialogs.close(); }}
+          kind={dialogs.state.kind}
+          row={dialogs.state.mode === "edit" ? dialogs.state.row : undefined}
+          defaultPeriod={defaultPeriod}
+        />
+      )}
+      {dialogs.state.mode === "delete" && (
+        <DeletePeriodLineDialog
+          open
+          onOpenChange={(v) => { if (!v) dialogs.close(); }}
+          kind={dialogs.state.kind}
+          id={dialogs.state.id}
+          label={dialogs.state.label}
+        />
+      )}
     </AppShell>
   );
 }
+
+type PeriodCardRow = {
+  id: string;
+  primary: string;
+  period: string;
+  amount: number;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  raw: any;
+};
+
+function PeriodCard({
+  title, kind, rows, onAdd, onEdit, onDelete,
+}: {
+  title: string;
+  kind: PeriodKind;
+  rows: PeriodCardRow[];
+  onAdd: () => void;
+  onEdit: (row: PeriodCardRow) => void;
+  onDelete: (row: PeriodCardRow) => void;
+}) {
+  void kind;
+  return (
+    <div className="card p-5">
+      <div className="flex items-center justify-between mb-3">
+        <div className="kbd-label">{title}</div>
+        <button
+          onClick={onAdd}
+          className="btn focus-ring inline-flex items-center gap-1 text-xs"
+        >
+          <Plus size={14} /> Add
+        </button>
+      </div>
+      {rows.length === 0 ? (
+        <div className="text-dim text-sm py-4 text-center">No entries in this window.</div>
+      ) : (
+        <ul className="divide-y" style={{ borderColor: "var(--border-soft)" }}>
+          {rows.map((r) => (
+            <li key={r.id} className="flex items-center justify-between gap-3 py-2.5 text-sm">
+              <span className="min-w-0 truncate">
+                {r.primary} <span className="text-dim text-xs">· {r.period}</span>
+              </span>
+              <div className="flex items-center gap-2 shrink-0">
+                <span className="num">{fmtUSD(r.amount)}</span>
+                <button
+                  onClick={() => onEdit(r)}
+                  className="p-1.5 rounded-md focus-ring text-dim hover:text-fg"
+                  aria-label="Edit"
+                  style={{ border: "1px solid var(--border-soft)" }}
+                >
+                  <Pencil size={13} />
+                </button>
+                <button
+                  onClick={() => onDelete(r)}
+                  className="p-1.5 rounded-md focus-ring text-dim hover:text-fg"
+                  aria-label="Delete"
+                  style={{ border: "1px solid var(--border-soft)" }}
+                >
+                  <Trash2 size={13} />
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
 
 function Step({ label, value, tone, big }: { label: string; value: string; tone?: "gold" | "positive" | "negative"; big?: boolean }) {
   const toneClass = tone === "gold" ? "text-gold" : tone === "positive" ? "text-positive" : tone === "negative" ? "text-negative" : "";
