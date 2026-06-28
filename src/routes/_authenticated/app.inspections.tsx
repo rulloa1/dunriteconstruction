@@ -57,8 +57,8 @@ function InspectionsPage() {
             {sorted.map((insp) => {
               const open = openId === insp.id;
               return (
-                <>
-                  <tr key={insp.id} onClick={() => setOpenId(open ? null : insp.id)}>
+                <Fragment key={insp.id}>
+                  <tr onClick={() => setOpenId(open ? null : insp.id)}>
                     <td className="num text-muted">{insp.number}</td>
                     <td><div className="font-display font-semibold">{insp.title}</div></td>
                     <td className="text-muted">{insp.type}</td>
@@ -69,7 +69,7 @@ function InspectionsPage() {
                     <td className="text-muted">{open ? <ChevronDown size={16} /> : <ChevronRight size={16} />}</td>
                   </tr>
                   {open && (
-                    <tr key={insp.id + "-d"}>
+                    <tr>
                       <td colSpan={8} style={{ background: "var(--bg-elev)" }}>
                         <div className="p-4">
                           <div className="kbd-label mb-2">Checklist</div>
@@ -88,7 +88,7 @@ function InspectionsPage() {
                       </td>
                     </tr>
                   )}
-                </>
+                </Fragment>
               );
             })}
           </tbody>
