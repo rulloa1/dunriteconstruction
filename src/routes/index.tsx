@@ -392,7 +392,7 @@ function TheBuild() {
             <h2 className="rv">
               Serving Central Florida &mdash; <em>10 counties strong.</em>
             </h2>
-            <div className="note rv">From the Gulf coast to the heart of the state, our crews show up ready to pour.</div>
+            <div className="note rv">Home base is Sumter County. Crews dispatch daily from Lake Panasoffkee out through The Villages and across the I-75 corridor.</div>
           </div>
           <div className="counties rv">
             {[
@@ -418,16 +418,16 @@ function TheBuild() {
 
       <section className="close">
         <div className="close-bg">
-          <video src={CONCRETE} muted loop playsInline preload="none" />
+          <video src={CONCRETE} muted loop playsInline preload="none" poster={STONE} width={1920} height={1080} />
         </div>
         <div className="wrap">
-          <div className="kick">Free Quotes · 10 Counties</div>
+          <div className="kick">Free quotes · serving 10 Central Florida counties</div>
           <h2>
             Let's Build<br />It <em>Rite.</em>
           </h2>
           <div className="actions">
             <a className="btn btn-gold" href="tel:3525884050">
-              Start Your Project <span className="arr">→</span>
+              Request a Quote <span className="arr">→</span>
             </a>
             <a className="btn btn-ghost" href="tel:3525884050">
               Call (352) 588-4050 <span className="arr">→</span>
@@ -439,11 +439,15 @@ function TheBuild() {
       <footer className="foot">
         <div className="wrap">
           <span>DunRite Construction Group, LLC © 2026</span>
+          <span className="fcontact">
+            <a href="tel:3525884050">(352) 588-4050</a> · Free quotes · 10 Central Florida counties
+          </span>
           <span>
             <a href="#hero">Back to top →</a>
           </span>
         </div>
       </footer>
+
     </>
   );
 }
