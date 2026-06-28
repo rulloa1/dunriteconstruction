@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect } from "react";
 
 const BUILD_0 = "/__l5e/assets-v1/90b8ea44-de98-4f9c-a8b8-4c8438e67c70/build-0.mp4";

@@ -126,7 +126,7 @@ function AlbumPage() {
           gap: 18,
         }}
       >
-        {album.images.map((img, i) => (
+        {album.images.map((img: { src: string; alt: string }, i: number) => (
           <figure key={i} style={{ margin: 0, overflow: "hidden", borderRadius: 4, background: "#151517" }}>
             <img
               src={img.src}
