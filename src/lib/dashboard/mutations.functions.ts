@@ -76,7 +76,7 @@ function makeUpsert<Schema extends z.ZodTypeAny>(
     .inputValidator((d) => schema.parse(d))
     .handler(async ({ data, context }) => {
       const row = toRow(data);
-      const { error } = await context.supabase.from(table).upsert(row);
+      const { error } = await (context.supabase.from(table) as any).upsert(row);
       if (error) throw new Error(error.message);
       return { id: row.id as string };
     });
@@ -87,7 +87,7 @@ function makeDelete(table: string) {
     .middleware([requireSupabaseAuth])
     .inputValidator((d) => z.object({ id: z.string().min(1) }).parse(d))
     .handler(async ({ data, context }) => {
-      const { error } = await context.supabase.from(table).delete().eq("id", data.id);
+      const { error } = await (context.supabase.from(table) as any).delete().eq("id", data.id);
       if (error) throw new Error(error.message);
       return { ok: true };
     });
