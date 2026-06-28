@@ -258,7 +258,6 @@
           invalidateOnRefresh: true,
           scrub: isTouch ? 0.6 : 1.1,
           pin: "#buildPin",
-          pinType: isTouch ? "transform" : "fixed",
           anticipatePin: 1,
           onUpdate: function (self) {
             var p = self.progress;
@@ -303,7 +302,7 @@
         scrollTrigger: {
           trigger: "#cap", start: "top top",
           end: function () { return "+=" + (track.scrollWidth - window.innerWidth + window.innerHeight); },
-          scrub: 1, pin: ".cap-pin", pinType: isTouch ? "transform" : "fixed",
+          scrub: 1, pin: ".cap-pin",
           anticipatePin: 1, invalidateOnRefresh: true
         }
       });
