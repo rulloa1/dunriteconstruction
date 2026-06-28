@@ -9,9 +9,5 @@ export const Route = createFileRoute("/app")({
       { name: "robots", content: "noindex" },
     ],
   }),
-  component: () => (
-    <AppLayoutOutlet>
-      <Outlet />
-    </AppLayoutOutlet>
-  ),
+  component: () => <AppLayoutOutlet />,
 });
