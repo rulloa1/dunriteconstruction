@@ -25,6 +25,7 @@ function JobsIndex() {
   const { data: jobs } = useSuspenseQuery(jobsQO());
   const [filter, setFilter] = useState<"all" | JobStatus>("all");
   const [q, setQ] = useState("");
+  const [newOpen, setNewOpen] = useState(false);
 
   const filtered = useMemo(() => {
     return jobs
@@ -39,7 +40,15 @@ function JobsIndex() {
   const k = portfolioKPIs(jobs);
 
   return (
-    <AppShell eyebrow="Financial core" title="Jobs">
+    <AppShell
+      eyebrow="Financial core"
+      title="Jobs"
+      actions={
+        <button onClick={() => setNewOpen(true)} className="btn btn-primary focus-ring">
+          <Plus size={14} /> New job
+        </button>
+      }
+    >
       <section className="grid grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4 mb-6">
         <KpiCard label="Revenue" value={fmtUSD(k.revenue)} tone="blue" />
         <KpiCard label="Total cost" value={fmtUSD(k.totalCost)} />
