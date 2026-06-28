@@ -199,7 +199,7 @@ function TheBuild() {
               <video data-fv src={CONCRETE} muted loop playsInline preload="metadata" poster={STONE} width={1920} height={1080} />
             </div>
             <div className="frame">
-              <video data-fv src={BUILD_2} muted loop playsInline preload="metadata" poster={STONE} width={1920} height={1080} />
+              <video data-fv src={BUILD_2} muted loop playsInline preload="metadata" poster="/assets/walls-that-stand.jpg" width={1920} height={1080} />
             </div>
             <div className="frame">
               <video data-fv src={BUILD_1} muted loop playsInline preload="metadata" poster={STONE} width={1920} height={1080} />
