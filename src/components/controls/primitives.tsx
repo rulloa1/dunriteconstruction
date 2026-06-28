@@ -4,18 +4,38 @@ import type { LogStatus, MilestoneStatus, ProcStatus } from "@/lib/controls/proj
 import { currency } from "@/lib/controls/projectData";
 
 /* ---------------- StatusBadge ---------------- */
-export function StatusBadge({ status }: { status: MilestoneStatus | LogStatus | ProcStatus }) {
-  const map: Record<string, { label: string; cls: string }> = {
-    complete: { label: "Complete", cls: "bg-[color-mix(in_oklch,var(--positive)_18%,transparent)] text-positive border-[color-mix(in_oklch,var(--positive)_45%,transparent)]" },
-    "in-progress": { label: "In Progress", cls: "bg-[color-mix(in_oklch,var(--brand-blue)_14%,transparent)] text-blue border-[color-mix(in_oklch,var(--brand-blue)_45%,transparent)]" },
-    upcoming: { label: "Upcoming", cls: "text-muted border-[color:var(--border-strong)]" },
-    "not-started": { label: "Not Started", cls: "text-muted border-[color:var(--border-strong)]" },
-    open: { label: "Open", cls: "bg-[color-mix(in_oklch,var(--brand-gold)_14%,transparent)] text-gold border-[color-mix(in_oklch,var(--brand-gold)_45%,transparent)]" },
-    closed: { label: "Closed", cls: "text-muted border-[color:var(--border-strong)]" },
-  };
-  const v = map[status] ?? map.upcoming;
+const GREEN_CLS = "bg-[color-mix(in_oklch,var(--positive)_18%,transparent)] text-positive border-[color-mix(in_oklch,var(--positive)_45%,transparent)]";
+const BLUE_CLS = "bg-[color-mix(in_oklch,var(--brand-blue)_14%,transparent)] text-blue border-[color-mix(in_oklch,var(--brand-blue)_45%,transparent)]";
+const GOLD_CLS = "bg-[color-mix(in_oklch,var(--brand-gold)_14%,transparent)] text-gold border-[color-mix(in_oklch,var(--brand-gold)_45%,transparent)]";
+const RED_CLS = "bg-[color-mix(in_oklch,var(--negative)_12%,transparent)] text-negative border-[color-mix(in_oklch,var(--negative)_50%,transparent)]";
+const MUTED_CLS = "text-muted border-[color:var(--border-strong)]";
+
+const STATUS_MAP: Record<string, { label: string; cls: string }> = {
+  complete: { label: "Complete", cls: GREEN_CLS },
+  "in-progress": { label: "In Progress", cls: BLUE_CLS },
+  upcoming: { label: "Upcoming", cls: MUTED_CLS },
+  "not-started": { label: "Not Started", cls: MUTED_CLS },
+  open: { label: "Open", cls: GOLD_CLS },
+  closed: { label: "Closed", cls: MUTED_CLS },
+  "ready-for-review": { label: "Ready for Review", cls: BLUE_CLS },
+  passed: { label: "Passed", cls: GREEN_CLS },
+  failed: { label: "Failed", cls: RED_CLS },
+  scheduled: { label: "Scheduled", cls: BLUE_CLS },
+  pending: { label: "Pending", cls: GOLD_CLS },
+  low: { label: "Low", cls: MUTED_CLS },
+  medium: { label: "Medium", cls: GOLD_CLS },
+  high: { label: "High", cls: RED_CLS },
+  subcontractor: { label: "Subcontractor", cls: BLUE_CLS },
+  vendor: { label: "Vendor", cls: GOLD_CLS },
+  owner: { label: "Owner", cls: GREEN_CLS },
+  architect: { label: "Architect", cls: MUTED_CLS },
+  gc: { label: "GC", cls: GREEN_CLS },
+};
+
+export function StatusBadge({ status, label }: { status: string; label?: string }) {
+  const v = STATUS_MAP[status] ?? { label: label ?? status, cls: MUTED_CLS };
   return (
-    <span className={`pill ${v.cls}`} style={{ borderWidth: 1, borderStyle: "solid" }}>{v.label}</span>
+    <span className={`pill ${v.cls}`} style={{ borderWidth: 1, borderStyle: "solid" }}>{label ?? v.label}</span>
   );
 }
 
