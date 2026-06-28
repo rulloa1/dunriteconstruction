@@ -93,7 +93,7 @@ export function JobFormDialog({
       initial={initial}
       submitting={m.isPending}
       submitLabel={editing ? "Save changes" : "Create job"}
-      onSubmit={(v) => m.mutateAsync(v)}
+      onSubmit={async (v) => { await m.mutateAsync(v); }}
     />
   );
 }
@@ -120,7 +120,7 @@ export function DeleteJobDialog({ open, onOpenChange, job, onDeleted }: {
       description="This removes the job and all of its labor, materials, subcontractor, equipment, and change-order lines. This cannot be undone."
       confirmLabel="Delete job"
       busy={m.isPending}
-      onConfirm={() => m.mutateAsync()}
+      onConfirm={async () => { await m.mutateAsync(); }}
     />
   );
 }
@@ -176,7 +176,7 @@ function initialFor(kind: LineKind, line?: AnyLine): Record<string, string> {
       case "co": return { description: "", amount: "0", date: new Date().toISOString().slice(0, 10) };
     }
   }
-  const l = line as Record<string, unknown>;
+  const l = line as unknown as Record<string, unknown>;
   const out: Record<string, string> = {};
   for (const k of Object.keys(l)) out[k] = l[k] == null ? "" : String(l[k]);
   return out;
@@ -241,7 +241,7 @@ export function LineFormDialog({
       initial={initialFor(kind, line)}
       submitting={m.isPending}
       submitLabel={editing ? "Save changes" : "Add line"}
-      onSubmit={(v) => m.mutateAsync(v)}
+      onSubmit={async (v) => { await m.mutateAsync(v); }}
     />
   );
 }
@@ -270,7 +270,7 @@ export function DeleteLineDialog({
       title="Delete line?"
       description={<>Remove <span className="text-fg">{label}</span>. Totals will recompute automatically.</>}
       busy={m.isPending}
-      onConfirm={() => m.mutateAsync()}
+      onConfirm={async () => { await m.mutateAsync(); }}
     />
   );
 }
