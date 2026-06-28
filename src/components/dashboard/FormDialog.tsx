@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { Loader2 } from "lucide-react";
 
-export type FieldKind = "text" | "number" | "date" | "select";
+export type FieldKind = "text" | "number" | "date" | "month" | "select";
 export interface Field {
   name: string;
   label: string;
@@ -52,6 +52,9 @@ export function FormDialog({
       }
       if (f.kind === "date" && raw !== "" && Number.isNaN(Date.parse(raw))) {
         errs[f.name] = "Invalid date";
+      }
+      if (f.kind === "month" && raw !== "" && !/^\d{4}-(0[1-9]|1[0-2])$/.test(raw)) {
+        errs[f.name] = "Use YYYY-MM";
       }
     }
     return errs;
@@ -118,7 +121,7 @@ function FieldRow({ field, value, error, onChange }: {
         <input
           className={base}
           style={style}
-          type={field.kind === "number" ? "number" : field.kind === "date" ? "date" : "text"}
+          type={field.kind === "number" ? "number" : field.kind === "date" ? "date" : field.kind === "month" ? "month" : "text"}
           step={field.kind === "number" ? (field.step ?? "0.01") : undefined}
           min={field.kind === "number" ? field.min ?? 0 : undefined}
           placeholder={field.placeholder}
