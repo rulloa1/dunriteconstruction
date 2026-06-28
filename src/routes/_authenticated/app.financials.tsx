@@ -49,7 +49,7 @@ function FinancialsPage() {
   const overheadRows = data.overhead.filter((o) => o.period >= range.from.slice(0, 7) && o.period <= range.to.slice(0, 7));
   const drawRows = data.draws.filter((d) => d.period >= range.from.slice(0, 7) && d.period <= range.to.slice(0, 7));
 
-  const periodJobs = useMemo(() => jobsInPeriod(data.jobs, range.from, range.to), [data.jobs, range.from, range.to]);
+
 
   return (
     <AppShell
