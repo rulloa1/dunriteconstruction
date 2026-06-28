@@ -134,11 +134,21 @@ function TheBuild() {
 
       <header className="hero" id="hero">
         <div className="hero-bg" id="heroBg">
-          <video src={BUILD_0} autoPlay muted loop playsInline preload="auto" />
+          <video
+            src={BUILD_0}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            width={1920}
+            height={1080}
+            poster={STONE}
+          />
         </div>
         <div className="wrap">
           <div className="kick" data-hero-rv>
-            Building Florida's Strongest Foundations
+            Central Florida concrete &amp; shell contractor
           </div>
           <h1>
             <span className="ln">
@@ -157,15 +167,19 @@ function TheBuild() {
           </h1>
           <div className="sub" data-hero-rv>
             <p>
-              From slabs and block walls to full shell packages and large-scale concrete, DunRite is the trusted partner Florida's
-              builders, developers, and homeowners rely on. Scroll to watch a project rise — slab to shell to delivered.
+              Slabs, block, full shell packages, and large-scale concrete for builders, developers, and homeowners across
+              the I-75 corridor — from Lake Panasoffkee and The Villages out to the Gulf. Scroll to see the work.
             </p>
           </div>
+          <a className="hcta" href="tel:3525884050" data-hero-rv>
+            Call (352) 588-4050 <span aria-hidden>→</span>
+          </a>
         </div>
         <div className="scrollcue" data-hero-rv>
           Scroll<span className="ln" />
         </div>
       </header>
+
 
       <section className="statement">
         <div className="wrap">
@@ -179,21 +193,22 @@ function TheBuild() {
         <div className="build-pin" id="buildPin">
           <div className="frames" id="frames">
             <div className="frame">
-              <video data-fv src={BUILD_3} muted loop playsInline preload="auto" />
+              <video data-fv src={BUILD_3} muted loop playsInline preload="metadata" poster={STONE} width={1920} height={1080} />
             </div>
             <div className="frame">
-              <video data-fv src={CONCRETE} muted loop playsInline preload="metadata" />
+              <video data-fv src={CONCRETE} muted loop playsInline preload="metadata" poster={STONE} width={1920} height={1080} />
             </div>
             <div className="frame">
-              <video data-fv src={BUILD_2} muted loop playsInline preload="metadata" />
+              <video data-fv src={BUILD_2} muted loop playsInline preload="metadata" poster={STONE} width={1920} height={1080} />
             </div>
             <div className="frame">
-              <video data-fv src={BUILD_1} muted loop playsInline preload="metadata" />
+              <video data-fv src={BUILD_1} muted loop playsInline preload="metadata" poster={STONE} width={1920} height={1080} />
             </div>
             <div className="frame">
-              <video data-fv src={BUILD_0} muted loop playsInline preload="metadata" />
+              <video data-fv src={BUILD_0} muted loop playsInline preload="metadata" poster={STONE} width={1920} height={1080} />
             </div>
           </div>
+
 
           <div className="bnum" id="bnum">01</div>
 
@@ -291,7 +306,7 @@ function TheBuild() {
               <div className="cc">
                 <div className="cn">01 · Builders · Developers · GCs</div>
                 <h3>Full Shell Packages</h3>
-                <p>Slabs, block walls, trusses, and framing for residential and commercial builds — quality you can trust.</p>
+                <p>Slabs, block, trusses, and framing delivered as one turnkey package.</p>
                 <a className="cap-link" href="https://www.dunriteconstructiongroup.com/full-shell-packages/" target="_blank" rel="noreferrer">
                   View Album <span className="arr">→</span>
                 </a>
@@ -302,7 +317,7 @@ function TheBuild() {
               <div className="cc">
                 <div className="cn">02 · Homeowners · Architects</div>
                 <h3>Custom Home Shells</h3>
-                <p>Direct-to-consumer shells, from beach homes to one-off builds, with fast timelines and premium quality.</p>
+                <p>One-off shells for homeowners and architects — beach houses to estates.</p>
                 <a className="cap-link" href="https://www.dunriteconstructiongroup.com/custom-home-shells/" target="_blank" rel="noreferrer">
                   View Album <span className="arr">→</span>
                 </a>
@@ -316,7 +331,7 @@ function TheBuild() {
               <div className="cc">
                 <div className="cn">03 · Developers · Production Builders</div>
                 <h3>Developer Projects</h3>
-                <p>Large-scale concrete packages for neighborhoods, clubhouses, and community developments.</p>
+                <p>Neighborhood-scale concrete for production builds, clubhouses, and amenities.</p>
                 <a className="cap-link" href="https://www.dunriteconstructiongroup.com/developer-projects/" target="_blank" rel="noreferrer">
                   View Album <span className="arr">→</span>
                 </a>
@@ -327,7 +342,7 @@ function TheBuild() {
               <div className="cc">
                 <div className="cn">04 · Communities · Single Homes</div>
                 <h3>Concrete &amp; Flatwork</h3>
-                <p>Driveways, sidewalks, and patios poured with speed and precision — neighborhood scale or a single home.</p>
+                <p>Driveways, sidewalks, and patios — single home or whole community.</p>
                 <a className="cap-link" href="https://www.dunriteconstructiongroup.com/concrete-flatwork/" target="_blank" rel="noreferrer">
                   View Album <span className="arr">→</span>
                 </a>
@@ -338,6 +353,7 @@ function TheBuild() {
           </div>
         </div>
       </section>
+
 
       <section className="voices" id="voices">
         <div className="qmark">&rdquo;</div>
@@ -377,7 +393,7 @@ function TheBuild() {
             <h2 className="rv">
               Serving Central Florida &mdash; <em>10 counties strong.</em>
             </h2>
-            <div className="note rv">From the Gulf coast to the heart of the state, our crews show up ready to pour.</div>
+            <div className="note rv">Home base is Sumter County. Crews dispatch daily from Lake Panasoffkee out through The Villages and across the I-75 corridor.</div>
           </div>
           <div className="counties rv">
             {[
@@ -403,16 +419,16 @@ function TheBuild() {
 
       <section className="close">
         <div className="close-bg">
-          <video src={CONCRETE} muted loop playsInline preload="none" />
+          <video src={CONCRETE} muted loop playsInline preload="none" poster={STONE} width={1920} height={1080} />
         </div>
         <div className="wrap">
-          <div className="kick">Free Quotes · 10 Counties</div>
+          <div className="kick">Free quotes · serving 10 Central Florida counties</div>
           <h2>
             Let's Build<br />It <em>Rite.</em>
           </h2>
           <div className="actions">
             <a className="btn btn-gold" href="tel:3525884050">
-              Start Your Project <span className="arr">→</span>
+              Request a Quote <span className="arr">→</span>
             </a>
             <a className="btn btn-ghost" href="tel:3525884050">
               Call (352) 588-4050 <span className="arr">→</span>
@@ -424,11 +440,15 @@ function TheBuild() {
       <footer className="foot">
         <div className="wrap">
           <span>DunRite Construction Group, LLC © 2026</span>
+          <span className="fcontact">
+            <a href="tel:3525884050">(352) 588-4050</a> · Free quotes · 10 Central Florida counties
+          </span>
           <span>
             <a href="#hero">Back to top →</a>
           </span>
         </div>
       </footer>
+
     </>
   );
 }
