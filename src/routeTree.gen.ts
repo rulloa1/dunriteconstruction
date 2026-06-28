@@ -13,6 +13,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AlbumsSlugRouteImport } from './routes/albums.$slug'
 import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/app'
 import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
 import { Route as AuthenticatedAppPunchListRouteImport } from './routes/_authenticated/app.punch-list'
@@ -43,6 +44,11 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AlbumsSlugRoute = AlbumsSlugRouteImport.update({
+  id: '/albums/$slug',
+  path: '/albums/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedAppRoute = AuthenticatedAppRouteImport.update({
@@ -121,6 +127,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/app': typeof AuthenticatedAppRouteWithChildren
+  '/albums/$slug': typeof AlbumsSlugRoute
   '/app/controls': typeof AuthenticatedAppControlsRoute
   '/app/daily-logs': typeof AuthenticatedAppDailyLogsRoute
   '/app/directory': typeof AuthenticatedAppDirectoryRoute
@@ -137,6 +144,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/albums/$slug': typeof AlbumsSlugRoute
   '/app/controls': typeof AuthenticatedAppControlsRoute
   '/app/daily-logs': typeof AuthenticatedAppDailyLogsRoute
   '/app/directory': typeof AuthenticatedAppDirectoryRoute
@@ -156,6 +164,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/_authenticated/app': typeof AuthenticatedAppRouteWithChildren
+  '/albums/$slug': typeof AlbumsSlugRoute
   '/_authenticated/app/controls': typeof AuthenticatedAppControlsRoute
   '/_authenticated/app/daily-logs': typeof AuthenticatedAppDailyLogsRoute
   '/_authenticated/app/directory': typeof AuthenticatedAppDirectoryRoute
@@ -175,6 +184,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/sitemap.xml'
     | '/app'
+    | '/albums/$slug'
     | '/app/controls'
     | '/app/daily-logs'
     | '/app/directory'
@@ -191,6 +201,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/sitemap.xml'
+    | '/albums/$slug'
     | '/app/controls'
     | '/app/daily-logs'
     | '/app/directory'
@@ -209,6 +220,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/sitemap.xml'
     | '/_authenticated/app'
+    | '/albums/$slug'
     | '/_authenticated/app/controls'
     | '/_authenticated/app/daily-logs'
     | '/_authenticated/app/directory'
@@ -227,6 +239,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  AlbumsSlugRoute: typeof AlbumsSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -257,6 +270,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/albums/$slug': {
+      id: '/albums/$slug'
+      path: '/albums/$slug'
+      fullPath: '/albums/$slug'
+      preLoaderRoute: typeof AlbumsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/app': {
@@ -393,6 +413,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  AlbumsSlugRoute: AlbumsSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
