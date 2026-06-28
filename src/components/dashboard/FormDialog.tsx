@@ -53,6 +53,9 @@ export function FormDialog({
       if (f.kind === "date" && raw !== "" && Number.isNaN(Date.parse(raw))) {
         errs[f.name] = "Invalid date";
       }
+      if (f.kind === "month" && raw !== "" && !/^\d{4}-(0[1-9]|1[0-2])$/.test(raw)) {
+        errs[f.name] = "Use YYYY-MM";
+      }
     }
     return errs;
   }
