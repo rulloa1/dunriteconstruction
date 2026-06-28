@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { Loader2 } from "lucide-react";
 
-export type FieldKind = "text" | "number" | "date" | "select";
+export type FieldKind = "text" | "number" | "date" | "month" | "select";
 export interface Field {
   name: string;
   label: string;
