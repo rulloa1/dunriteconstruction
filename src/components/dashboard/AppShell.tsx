@@ -1,17 +1,37 @@
 import { Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useState, type ReactNode } from "react";
-import { LayoutDashboard, Hammer, LineChart, ClipboardList, BookOpen, LogOut, Menu, X } from "lucide-react";
+import { LayoutDashboard, Hammer, LineChart, ClipboardList, BookOpen, NotebookPen, ListChecks, ShieldCheck, Contact, LogOut, Menu, X } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
 const LOGO = "/uploads/Dunrite-Logo_invert-e1758651959544.png";
 
-const NAV = [
-  { to: "/app" as const, label: "Overview", icon: LayoutDashboard, exact: true },
-  { to: "/app/jobs" as const, label: "Jobs", icon: Hammer, exact: false },
-  { to: "/app/financials" as const, label: "Financials", icon: LineChart, exact: false },
-  { to: "/app/controls" as const, label: "Project Controls", icon: ClipboardList, exact: false },
-  { to: "/app/documents" as const, label: "Documents", icon: BookOpen, exact: false },
+type NavItem = { to: string; label: string; icon: typeof LayoutDashboard; exact: boolean };
+const NAV_GROUPS: { label: string; items: NavItem[] }[] = [
+  {
+    label: "Operations",
+    items: [
+      { to: "/app", label: "Overview", icon: LayoutDashboard, exact: true },
+      { to: "/app/jobs", label: "Jobs", icon: Hammer, exact: false },
+      { to: "/app/financials", label: "Financials", icon: LineChart, exact: false },
+    ],
+  },
+  {
+    label: "Project",
+    items: [
+      { to: "/app/controls", label: "Project Controls", icon: ClipboardList, exact: false },
+      { to: "/app/documents", label: "Documents", icon: BookOpen, exact: false },
+    ],
+  },
+  {
+    label: "Field",
+    items: [
+      { to: "/app/daily-logs", label: "Daily Logs", icon: NotebookPen, exact: false },
+      { to: "/app/punch-list", label: "Punch List", icon: ListChecks, exact: false },
+      { to: "/app/inspections", label: "Inspections", icon: ShieldCheck, exact: false },
+      { to: "/app/directory", label: "Directory", icon: Contact, exact: false },
+    ],
+  },
 ];
 
 export function AppShell({ title, eyebrow, actions, children }: {
@@ -36,23 +56,28 @@ export function AppShell({ title, eyebrow, actions, children }: {
     exact ? pathname === to : pathname === to || pathname.startsWith(to + "/");
 
   const NavItems = (
-    <nav className="flex flex-col gap-1 px-3">
-      {NAV.map((item) => {
-        const Icon = item.icon;
-        const active = isActive(item.to, item.exact);
-        return (
-          <Link
-            key={item.to}
-            to={item.to}
-            className="nav-link focus-ring"
-            data-status={active ? "active" : undefined}
-            onClick={() => setOpen(false)}
-          >
-            <Icon size={16} strokeWidth={1.75} />
-            <span>{item.label}</span>
-          </Link>
-        );
-      })}
+    <nav className="flex flex-col gap-5 px-3">
+      {NAV_GROUPS.map((group) => (
+        <div key={group.label} className="flex flex-col gap-1">
+          <div className="kbd-label px-3" style={{ fontSize: 10 }}>{group.label}</div>
+          {group.items.map((item) => {
+            const Icon = item.icon;
+            const active = isActive(item.to, item.exact);
+            return (
+              <Link
+                key={item.to}
+                to={item.to as string}
+                className="nav-link focus-ring"
+                data-status={active ? "active" : undefined}
+                onClick={() => setOpen(false)}
+              >
+                <Icon size={16} strokeWidth={1.75} />
+                <span>{item.label}</span>
+              </Link>
+            );
+          })}
+        </div>
+      ))}
     </nav>
   );
 
