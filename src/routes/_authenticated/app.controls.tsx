@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, type ReactNode } from "react";
+import { Download } from "lucide-react";
 import { AppShell } from "@/components/dashboard/AppShell";
 import { KpiCard } from "@/components/dashboard/KpiCard";
 import { PageHeader } from "@/components/controls/PageHeader";
