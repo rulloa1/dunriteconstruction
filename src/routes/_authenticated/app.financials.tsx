@@ -1,10 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { useSuspenseQuery, queryOptions } from "@tanstack/react-query";
+import { Pencil, Trash2, Plus } from "lucide-react";
 import { AppShell } from "@/components/dashboard/AppShell";
 import { KpiCard } from "@/components/dashboard/KpiCard";
 import { periodSummary, jobsInPeriod, jobTotals, fmtUSD, fmtPct, marginTone } from "@/lib/dashboard/data";
 import { getFinancialsBundle } from "@/lib/dashboard/queries.functions";
+import {
+  PeriodLineFormDialog,
+  DeletePeriodLineDialog,
+  usePeriodDialogs,
+  type PeriodKind,
+} from "@/components/dashboard/PeriodDialogs";
 import { LoadingBlock, ErrorBlock } from "./app.index";
 
 const finQO = () =>
