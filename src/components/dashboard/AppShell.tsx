@@ -56,23 +56,28 @@ export function AppShell({ title, eyebrow, actions, children }: {
     exact ? pathname === to : pathname === to || pathname.startsWith(to + "/");
 
   const NavItems = (
-    <nav className="flex flex-col gap-1 px-3">
-      {NAV.map((item) => {
-        const Icon = item.icon;
-        const active = isActive(item.to, item.exact);
-        return (
-          <Link
-            key={item.to}
-            to={item.to}
-            className="nav-link focus-ring"
-            data-status={active ? "active" : undefined}
-            onClick={() => setOpen(false)}
-          >
-            <Icon size={16} strokeWidth={1.75} />
-            <span>{item.label}</span>
-          </Link>
-        );
-      })}
+    <nav className="flex flex-col gap-5 px-3">
+      {NAV_GROUPS.map((group) => (
+        <div key={group.label} className="flex flex-col gap-1">
+          <div className="kbd-label px-3" style={{ fontSize: 10 }}>{group.label}</div>
+          {group.items.map((item) => {
+            const Icon = item.icon;
+            const active = isActive(item.to, item.exact);
+            return (
+              <Link
+                key={item.to}
+                to={item.to}
+                className="nav-link focus-ring"
+                data-status={active ? "active" : undefined}
+                onClick={() => setOpen(false)}
+              >
+                <Icon size={16} strokeWidth={1.75} />
+                <span>{item.label}</span>
+              </Link>
+            );
+          })}
+        </div>
+      ))}
     </nav>
   );
 
