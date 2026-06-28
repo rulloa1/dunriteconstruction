@@ -134,11 +134,21 @@ function TheBuild() {
 
       <header className="hero" id="hero">
         <div className="hero-bg" id="heroBg">
-          <video src={BUILD_0} autoPlay muted loop playsInline preload="auto" />
+          <video
+            src={BUILD_0}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            width={1920}
+            height={1080}
+            poster={STONE}
+          />
         </div>
         <div className="wrap">
           <div className="kick" data-hero-rv>
-            Building Florida's Strongest Foundations
+            Central Florida concrete &amp; shell contractor
           </div>
           <h1>
             <span className="ln">
@@ -157,15 +167,19 @@ function TheBuild() {
           </h1>
           <div className="sub" data-hero-rv>
             <p>
-              From slabs and block walls to full shell packages and large-scale concrete, DunRite is the trusted partner Florida's
-              builders, developers, and homeowners rely on. Scroll to watch a project rise — slab to shell to delivered.
+              Slabs, block, full shell packages, and large-scale concrete for builders, developers, and homeowners across
+              the I-75 corridor — from Lake Panasoffkee and The Villages out to the Gulf. Scroll to see the work.
             </p>
           </div>
+          <a className="hcta" href="tel:3525884050" data-hero-rv>
+            Call (352) 588-4050 <span aria-hidden>→</span>
+          </a>
         </div>
         <div className="scrollcue" data-hero-rv>
           Scroll<span className="ln" />
         </div>
       </header>
+
 
       <section className="statement">
         <div className="wrap">
