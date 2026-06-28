@@ -160,3 +160,28 @@ export const upsertEquipment = makeUpsert("equipment_lines", equipSchema, (d) =>
   id: d.id, job_id: d.jobId, machine: d.machine, category: d.category, days: d.days, day_rate: d.dayRate,
 }));
 export const deleteEquipment = makeDelete("equipment_lines");
+
+// ---------- Overhead ----------
+const Period = z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/, "Use YYYY-MM");
+const overheadSchema = z.object({
+  id: z.string().min(1),
+  category: z.string().trim().min(1).max(160),
+  amount: NonNeg,
+  period: Period,
+});
+export const upsertOverhead = makeUpsert("overhead", overheadSchema, (d) => ({
+  id: d.id, category: d.category, amount: d.amount, period: d.period,
+}));
+export const deleteOverhead = makeDelete("overhead");
+
+// ---------- Owner draws ----------
+const drawSchema = z.object({
+  id: z.string().min(1),
+  owner: z.string().trim().min(1).max(160),
+  amount: NonNeg,
+  period: Period,
+});
+export const upsertOwnerDraw = makeUpsert("owner_draws", drawSchema, (d) => ({
+  id: d.id, owner: d.owner, amount: d.amount, period: d.period,
+}));
+export const deleteOwnerDraw = makeDelete("owner_draws");
