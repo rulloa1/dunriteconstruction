@@ -4,7 +4,7 @@ import { useEffect } from "react";
 const BUILD_0 = "/__l5e/assets-v1/90b8ea44-de98-4f9c-a8b8-4c8438e67c70/build-0.mp4";
 const BUILD_1 = "/__l5e/assets-v1/ac6110d4-2614-47b0-8446-408921111559/build-1.mp4";
 const BUILD_3 = "/__l5e/assets-v1/4ff91b38-2864-4378-997c-6dc3b7507cc4/foundations-slab.mp4";
-const BUILD_2 = "/assets/build-2.mp4";
+const BUILD_2 = "/__l5e/assets-v1/d26cd938-61cb-4692-80a0-2664b0fe5958/walls-that-stand.mp4";
 const CONCRETE = "/assets/concrete-hero.mp4";
 const STONE = "/assets/stone-frame-shell.jpg";
 const LOGO = "/uploads/Dunrite-Logo_invert-e1758651959544.png";
