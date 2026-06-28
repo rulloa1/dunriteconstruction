@@ -193,7 +193,7 @@ function TheBuild() {
         <div className="build-pin" id="buildPin">
           <div className="frames" id="frames">
             <div className="frame">
-              <video data-fv src={BUILD_3} muted loop playsInline preload="metadata" poster={STONE} width={1920} height={1080} />
+              <video data-fv src={BUILD_3} muted loop playsInline preload="metadata" poster="/assets/foundations-slab.jpg" width={1920} height={1080} />
             </div>
             <div className="frame">
               <video data-fv src={CONCRETE} muted loop playsInline preload="metadata" poster={STONE} width={1920} height={1080} />
