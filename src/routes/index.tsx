@@ -307,9 +307,9 @@ function TheBuild() {
                 <div className="cn">01 · Builders · Developers · GCs</div>
                 <h3>Full Shell Packages</h3>
                 <p>Slabs, block, trusses, and framing delivered as one turnkey package.</p>
-                <a className="cap-link" href="https://www.dunriteconstructiongroup.com/full-shell-packages/" target="_blank" rel="noreferrer">
+                <Link className="cap-link" to="/albums/$slug" params={{ slug: "full-shell-packages" }}>
                   View Album <span className="arr">→</span>
-                </a>
+                </Link>
               </div>
             </div>
             <div className="cap-card">
@@ -318,9 +318,9 @@ function TheBuild() {
                 <div className="cn">02 · Homeowners · Architects</div>
                 <h3>Custom Home Shells</h3>
                 <p>One-off shells for homeowners and architects — beach houses to estates.</p>
-                <a className="cap-link" href="https://www.dunriteconstructiongroup.com/custom-home-shells/" target="_blank" rel="noreferrer">
+                <Link className="cap-link" to="/albums/$slug" params={{ slug: "custom-home-shells" }}>
                   View Album <span className="arr">→</span>
-                </a>
+                </Link>
               </div>
             </div>
             <div className="cap-card">
@@ -332,9 +332,9 @@ function TheBuild() {
                 <div className="cn">03 · Developers · Production Builders</div>
                 <h3>Developer Projects</h3>
                 <p>Neighborhood-scale concrete for production builds, clubhouses, and amenities.</p>
-                <a className="cap-link" href="https://www.dunriteconstructiongroup.com/developer-projects/" target="_blank" rel="noreferrer">
+                <Link className="cap-link" to="/albums/$slug" params={{ slug: "developer-projects" }}>
                   View Album <span className="arr">→</span>
-                </a>
+                </Link>
               </div>
             </div>
             <div className="cap-card">
@@ -343,9 +343,9 @@ function TheBuild() {
                 <div className="cn">04 · Communities · Single Homes</div>
                 <h3>Concrete &amp; Flatwork</h3>
                 <p>Driveways, sidewalks, and patios — single home or whole community.</p>
-                <a className="cap-link" href="https://www.dunriteconstructiongroup.com/concrete-flatwork/" target="_blank" rel="noreferrer">
+                <Link className="cap-link" to="/albums/$slug" params={{ slug: "concrete-flatwork" }}>
                   View Album <span className="arr">→</span>
-                </a>
+                </Link>
               </div>
             </div>
             <div className="cap-end" />
