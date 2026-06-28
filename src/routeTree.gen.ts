@@ -15,7 +15,11 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/app'
 import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
+import { Route as AuthenticatedAppPunchListRouteImport } from './routes/_authenticated/app.punch-list'
+import { Route as AuthenticatedAppInspectionsRouteImport } from './routes/_authenticated/app.inspections'
 import { Route as AuthenticatedAppFinancialsRouteImport } from './routes/_authenticated/app.financials'
+import { Route as AuthenticatedAppDirectoryRouteImport } from './routes/_authenticated/app.directory'
+import { Route as AuthenticatedAppDailyLogsRouteImport } from './routes/_authenticated/app.daily-logs'
 import { Route as AuthenticatedAppControlsRouteImport } from './routes/_authenticated/app.controls'
 import { Route as AuthenticatedAppJobsIndexRouteImport } from './routes/_authenticated/app.jobs.index'
 import { Route as AuthenticatedAppDocumentsIndexRouteImport } from './routes/_authenticated/app.documents.index'
@@ -51,10 +55,34 @@ const AuthenticatedAppIndexRoute = AuthenticatedAppIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedAppRoute,
 } as any)
+const AuthenticatedAppPunchListRoute =
+  AuthenticatedAppPunchListRouteImport.update({
+    id: '/punch-list',
+    path: '/punch-list',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
+const AuthenticatedAppInspectionsRoute =
+  AuthenticatedAppInspectionsRouteImport.update({
+    id: '/inspections',
+    path: '/inspections',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
 const AuthenticatedAppFinancialsRoute =
   AuthenticatedAppFinancialsRouteImport.update({
     id: '/financials',
     path: '/financials',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
+const AuthenticatedAppDirectoryRoute =
+  AuthenticatedAppDirectoryRouteImport.update({
+    id: '/directory',
+    path: '/directory',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
+const AuthenticatedAppDailyLogsRoute =
+  AuthenticatedAppDailyLogsRouteImport.update({
+    id: '/daily-logs',
+    path: '/daily-logs',
     getParentRoute: () => AuthenticatedAppRoute,
   } as any)
 const AuthenticatedAppControlsRoute =
@@ -94,7 +122,11 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/app': typeof AuthenticatedAppRouteWithChildren
   '/app/controls': typeof AuthenticatedAppControlsRoute
+  '/app/daily-logs': typeof AuthenticatedAppDailyLogsRoute
+  '/app/directory': typeof AuthenticatedAppDirectoryRoute
   '/app/financials': typeof AuthenticatedAppFinancialsRoute
+  '/app/inspections': typeof AuthenticatedAppInspectionsRoute
+  '/app/punch-list': typeof AuthenticatedAppPunchListRoute
   '/app/': typeof AuthenticatedAppIndexRoute
   '/app/documents/$docId': typeof AuthenticatedAppDocumentsDocIdRoute
   '/app/jobs/$jobId': typeof AuthenticatedAppJobsJobIdRoute
@@ -106,7 +138,11 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/app/controls': typeof AuthenticatedAppControlsRoute
+  '/app/daily-logs': typeof AuthenticatedAppDailyLogsRoute
+  '/app/directory': typeof AuthenticatedAppDirectoryRoute
   '/app/financials': typeof AuthenticatedAppFinancialsRoute
+  '/app/inspections': typeof AuthenticatedAppInspectionsRoute
+  '/app/punch-list': typeof AuthenticatedAppPunchListRoute
   '/app': typeof AuthenticatedAppIndexRoute
   '/app/documents/$docId': typeof AuthenticatedAppDocumentsDocIdRoute
   '/app/jobs/$jobId': typeof AuthenticatedAppJobsJobIdRoute
@@ -121,7 +157,11 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/_authenticated/app': typeof AuthenticatedAppRouteWithChildren
   '/_authenticated/app/controls': typeof AuthenticatedAppControlsRoute
+  '/_authenticated/app/daily-logs': typeof AuthenticatedAppDailyLogsRoute
+  '/_authenticated/app/directory': typeof AuthenticatedAppDirectoryRoute
   '/_authenticated/app/financials': typeof AuthenticatedAppFinancialsRoute
+  '/_authenticated/app/inspections': typeof AuthenticatedAppInspectionsRoute
+  '/_authenticated/app/punch-list': typeof AuthenticatedAppPunchListRoute
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
   '/_authenticated/app/documents/$docId': typeof AuthenticatedAppDocumentsDocIdRoute
   '/_authenticated/app/jobs/$jobId': typeof AuthenticatedAppJobsJobIdRoute
@@ -136,7 +176,11 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/app'
     | '/app/controls'
+    | '/app/daily-logs'
+    | '/app/directory'
     | '/app/financials'
+    | '/app/inspections'
+    | '/app/punch-list'
     | '/app/'
     | '/app/documents/$docId'
     | '/app/jobs/$jobId'
@@ -148,7 +192,11 @@ export interface FileRouteTypes {
     | '/auth'
     | '/sitemap.xml'
     | '/app/controls'
+    | '/app/daily-logs'
+    | '/app/directory'
     | '/app/financials'
+    | '/app/inspections'
+    | '/app/punch-list'
     | '/app'
     | '/app/documents/$docId'
     | '/app/jobs/$jobId'
@@ -162,7 +210,11 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/_authenticated/app'
     | '/_authenticated/app/controls'
+    | '/_authenticated/app/daily-logs'
+    | '/_authenticated/app/directory'
     | '/_authenticated/app/financials'
+    | '/_authenticated/app/inspections'
+    | '/_authenticated/app/punch-list'
     | '/_authenticated/app/'
     | '/_authenticated/app/documents/$docId'
     | '/_authenticated/app/jobs/$jobId'
@@ -221,11 +273,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppIndexRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
+    '/_authenticated/app/punch-list': {
+      id: '/_authenticated/app/punch-list'
+      path: '/punch-list'
+      fullPath: '/app/punch-list'
+      preLoaderRoute: typeof AuthenticatedAppPunchListRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/inspections': {
+      id: '/_authenticated/app/inspections'
+      path: '/inspections'
+      fullPath: '/app/inspections'
+      preLoaderRoute: typeof AuthenticatedAppInspectionsRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
     '/_authenticated/app/financials': {
       id: '/_authenticated/app/financials'
       path: '/financials'
       fullPath: '/app/financials'
       preLoaderRoute: typeof AuthenticatedAppFinancialsRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/directory': {
+      id: '/_authenticated/app/directory'
+      path: '/directory'
+      fullPath: '/app/directory'
+      preLoaderRoute: typeof AuthenticatedAppDirectoryRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/daily-logs': {
+      id: '/_authenticated/app/daily-logs'
+      path: '/daily-logs'
+      fullPath: '/app/daily-logs'
+      preLoaderRoute: typeof AuthenticatedAppDailyLogsRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
     '/_authenticated/app/controls': {
@@ -268,7 +348,11 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedAppRouteChildren {
   AuthenticatedAppControlsRoute: typeof AuthenticatedAppControlsRoute
+  AuthenticatedAppDailyLogsRoute: typeof AuthenticatedAppDailyLogsRoute
+  AuthenticatedAppDirectoryRoute: typeof AuthenticatedAppDirectoryRoute
   AuthenticatedAppFinancialsRoute: typeof AuthenticatedAppFinancialsRoute
+  AuthenticatedAppInspectionsRoute: typeof AuthenticatedAppInspectionsRoute
+  AuthenticatedAppPunchListRoute: typeof AuthenticatedAppPunchListRoute
   AuthenticatedAppIndexRoute: typeof AuthenticatedAppIndexRoute
   AuthenticatedAppDocumentsDocIdRoute: typeof AuthenticatedAppDocumentsDocIdRoute
   AuthenticatedAppJobsJobIdRoute: typeof AuthenticatedAppJobsJobIdRoute
@@ -278,7 +362,11 @@ interface AuthenticatedAppRouteChildren {
 
 const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
   AuthenticatedAppControlsRoute: AuthenticatedAppControlsRoute,
+  AuthenticatedAppDailyLogsRoute: AuthenticatedAppDailyLogsRoute,
+  AuthenticatedAppDirectoryRoute: AuthenticatedAppDirectoryRoute,
   AuthenticatedAppFinancialsRoute: AuthenticatedAppFinancialsRoute,
+  AuthenticatedAppInspectionsRoute: AuthenticatedAppInspectionsRoute,
+  AuthenticatedAppPunchListRoute: AuthenticatedAppPunchListRoute,
   AuthenticatedAppIndexRoute: AuthenticatedAppIndexRoute,
   AuthenticatedAppDocumentsDocIdRoute: AuthenticatedAppDocumentsDocIdRoute,
   AuthenticatedAppJobsJobIdRoute: AuthenticatedAppJobsJobIdRoute,
