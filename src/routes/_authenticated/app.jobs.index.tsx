@@ -3,9 +3,10 @@ import { useMemo, useState } from "react";
 import { useSuspenseQuery, queryOptions } from "@tanstack/react-query";
 import { AppShell } from "@/components/dashboard/AppShell";
 import { KpiCard } from "@/components/dashboard/KpiCard";
+import { JobFormDialog } from "@/components/dashboard/JobDialogs";
 import { portfolioKPIs, jobTotals, fmtUSD, fmtPct, marginTone, type JobStatus } from "@/lib/dashboard/data";
 import { getAllJobs } from "@/lib/dashboard/queries.functions";
-import { Search } from "lucide-react";
+import { Search, Plus } from "lucide-react";
 import { LoadingBlock, EmptyJobs, ErrorBlock } from "./app.index";
 
 const jobsQO = () => queryOptions({ queryKey: ["jobs"], queryFn: () => getAllJobs() });
