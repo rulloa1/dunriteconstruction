@@ -121,7 +121,7 @@ function FieldRow({ field, value, error, onChange }: {
         <input
           className={base}
           style={style}
-          type={field.kind === "number" ? "number" : field.kind === "date" ? "date" : "text"}
+          type={field.kind === "number" ? "number" : field.kind === "date" ? "date" : field.kind === "month" ? "month" : "text"}
           step={field.kind === "number" ? (field.step ?? "0.01") : undefined}
           min={field.kind === "number" ? field.min ?? 0 : undefined}
           placeholder={field.placeholder}
