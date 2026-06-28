@@ -142,3 +142,100 @@
     color: var(--color-foreground);
   }
 }
+
+/* ============================================================
+   Dun Rite OS — dashboard brand scope
+   Activated by wrapping app shell in <div class="app-shell">.
+   Keeps the marketing landing untouched.
+============================================================ */
+.app-shell {
+  --bg: oklch(0.18 0.02 240);
+  --bg-elev: oklch(0.22 0.025 240);
+  --bg-card: oklch(0.245 0.028 240);
+  --bg-card-hover: oklch(0.275 0.03 240);
+  --border-soft: oklch(0.34 0.025 240);
+  --border-strong: oklch(0.42 0.03 240);
+  --fg: oklch(0.96 0.005 240);
+  --fg-muted: oklch(0.72 0.015 240);
+  --fg-dim: oklch(0.55 0.015 240);
+  --brand-blue: oklch(0.68 0.09 235);       /* #5B9FCC */
+  --brand-blue-deep: oklch(0.55 0.085 235); /* #4A82A7 */
+  --brand-gold: oklch(0.78 0.13 80);        /* warm amber */
+  --brand-gold-dim: oklch(0.65 0.11 80);
+  --positive: oklch(0.78 0.14 145);
+  --negative: oklch(0.65 0.18 25);
+
+  background: var(--bg);
+  color: var(--fg);
+  font-family: "Source Serif 4", ui-serif, Georgia, serif;
+  min-height: 100vh;
+}
+.app-shell h1, .app-shell h2, .app-shell h3,
+.app-shell .font-display { font-family: "Libre Franklin", ui-sans-serif, system-ui, sans-serif; }
+.app-shell .font-ui { font-family: "Libre Franklin", ui-sans-serif, system-ui, sans-serif; }
+
+.app-shell .card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-soft);
+  border-radius: 14px;
+}
+.app-shell .card-hover:hover { background: var(--bg-card-hover); border-color: var(--border-strong); }
+.app-shell .kbd-label {
+  font-family: "Libre Franklin", sans-serif;
+  font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--fg-dim);
+}
+.app-shell .num { font-variant-numeric: tabular-nums; }
+.app-shell .pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 3px 9px; border-radius: 999px;
+  font-family: "Libre Franklin", sans-serif;
+  font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+  border: 1px solid var(--border-strong);
+}
+.app-shell .pill-active { color: var(--brand-blue); border-color: color-mix(in oklch, var(--brand-blue) 50%, transparent); background: color-mix(in oklch, var(--brand-blue) 10%, transparent); }
+.app-shell .pill-closed { color: var(--fg-muted); }
+.app-shell .text-gold { color: var(--brand-gold); }
+.app-shell .text-blue { color: var(--brand-blue); }
+.app-shell .text-positive { color: var(--positive); }
+.app-shell .text-negative { color: var(--negative); }
+.app-shell .text-muted { color: var(--fg-muted); }
+.app-shell .text-dim { color: var(--fg-dim); }
+.app-shell .divider { border-top: 1px solid var(--border-soft); }
+.app-shell .focus-ring:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 2px; }
+
+.app-shell .nav-link {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 12px; border-radius: 10px;
+  font-family: "Libre Franklin", sans-serif;
+  font-size: 13px; letter-spacing: 0.02em;
+  color: var(--fg-muted);
+  transition: background 120ms, color 120ms;
+}
+.app-shell .nav-link:hover { color: var(--fg); background: color-mix(in oklch, var(--brand-blue) 8%, transparent); }
+.app-shell .nav-link[data-status="active"] {
+  color: var(--fg);
+  background: color-mix(in oklch, var(--brand-blue) 14%, transparent);
+  box-shadow: inset 2px 0 0 var(--brand-gold);
+}
+
+.app-shell table { width: 100%; border-collapse: collapse; }
+.app-shell thead th {
+  text-align: left; font-family: "Libre Franklin", sans-serif;
+  font-weight: 500; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--fg-dim); padding: 10px 14px; border-bottom: 1px solid var(--border-soft);
+}
+.app-shell tbody td { padding: 14px; border-bottom: 1px solid var(--border-soft); font-size: 14px; }
+.app-shell tbody tr:hover { background: color-mix(in oklch, var(--brand-blue) 6%, transparent); cursor: pointer; }
+.app-shell tbody tr:last-child td { border-bottom: none; }
+
+.app-shell .btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 14px; border-radius: 10px;
+  font-family: "Libre Franklin", sans-serif; font-size: 13px;
+  border: 1px solid var(--border-strong); color: var(--fg);
+  background: var(--bg-elev); transition: all 120ms;
+}
+.app-shell .btn:hover { background: var(--bg-card-hover); }
+.app-shell .btn-primary { background: var(--brand-blue-deep); border-color: var(--brand-blue); color: white; }
+.app-shell .btn-primary:hover { background: var(--brand-blue); }
