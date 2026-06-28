@@ -14,7 +14,7 @@ import {
 } from "@/lib/dashboard/data";
 import { getJobById } from "@/lib/dashboard/queries.functions";
 import { ArrowLeft, Pencil, Trash2, FileText, FileDown } from "lucide-react";
-import { LoadingBlock, ErrorBlock } from "./app.index";
+import { LoadingBlock, ErrorBlock } from "@/components/dashboard/States";
 import { toast } from "sonner";
 
 const jobQO = (id: string) =>

@@ -12,7 +12,7 @@ import {
   usePeriodDialogs,
   type PeriodKind,
 } from "@/components/dashboard/PeriodDialogs";
-import { LoadingBlock, ErrorBlock } from "./app.index";
+import { LoadingBlock, ErrorBlock } from "@/components/dashboard/States";
 
 const finQO = () =>
   queryOptions({ queryKey: ["financials"], queryFn: () => getFinancialsBundle() });
