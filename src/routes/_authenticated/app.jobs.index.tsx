@@ -7,7 +7,7 @@ import { JobFormDialog } from "@/components/dashboard/JobDialogs";
 import { portfolioKPIs, jobTotals, fmtUSD, fmtPct, marginTone, type JobStatus } from "@/lib/dashboard/data";
 import { getAllJobs } from "@/lib/dashboard/queries.functions";
 import { Search, Plus } from "lucide-react";
-import { LoadingBlock, EmptyJobs, ErrorBlock } from "./app.index";
+import { LoadingBlock, EmptyJobs, ErrorBlock } from "@/components/dashboard/States";
 
 const jobsQO = () => queryOptions({ queryKey: ["jobs"], queryFn: () => getAllJobs() });
 
