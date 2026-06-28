@@ -10,21 +10,27 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as AppRouteImport } from './routes/app'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AppIndexRouteImport } from './routes/app.index'
-import { Route as AppFinancialsRouteImport } from './routes/app.financials'
-import { Route as AppJobsIndexRouteImport } from './routes/app.jobs.index'
-import { Route as AppJobsJobIdRouteImport } from './routes/app.jobs.$jobId'
+import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/app'
+import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
+import { Route as AuthenticatedAppFinancialsRouteImport } from './routes/_authenticated/app.financials'
+import { Route as AuthenticatedAppJobsIndexRouteImport } from './routes/_authenticated/app.jobs.index'
+import { Route as AuthenticatedAppJobsJobIdRouteImport } from './routes/_authenticated/app.jobs.$jobId'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AppRoute = AppRouteImport.update({
-  id: '/app',
-  path: '/app',
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -32,60 +38,73 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AppIndexRoute = AppIndexRouteImport.update({
+const AuthenticatedAppRoute = AuthenticatedAppRouteImport.update({
+  id: '/app',
+  path: '/app',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAppIndexRoute = AuthenticatedAppIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => AppRoute,
+  getParentRoute: () => AuthenticatedAppRoute,
 } as any)
-const AppFinancialsRoute = AppFinancialsRouteImport.update({
-  id: '/financials',
-  path: '/financials',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppJobsIndexRoute = AppJobsIndexRouteImport.update({
-  id: '/jobs/',
-  path: '/jobs/',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppJobsJobIdRoute = AppJobsJobIdRouteImport.update({
-  id: '/jobs/$jobId',
-  path: '/jobs/$jobId',
-  getParentRoute: () => AppRoute,
-} as any)
+const AuthenticatedAppFinancialsRoute =
+  AuthenticatedAppFinancialsRouteImport.update({
+    id: '/financials',
+    path: '/financials',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
+const AuthenticatedAppJobsIndexRoute =
+  AuthenticatedAppJobsIndexRouteImport.update({
+    id: '/jobs/',
+    path: '/jobs/',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
+const AuthenticatedAppJobsJobIdRoute =
+  AuthenticatedAppJobsJobIdRouteImport.update({
+    id: '/jobs/$jobId',
+    path: '/jobs/$jobId',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/app': typeof AppRouteWithChildren
+  '/auth': typeof AuthRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/app/financials': typeof AppFinancialsRoute
-  '/app/': typeof AppIndexRoute
-  '/app/jobs/$jobId': typeof AppJobsJobIdRoute
-  '/app/jobs/': typeof AppJobsIndexRoute
+  '/app': typeof AuthenticatedAppRouteWithChildren
+  '/app/financials': typeof AuthenticatedAppFinancialsRoute
+  '/app/': typeof AuthenticatedAppIndexRoute
+  '/app/jobs/$jobId': typeof AuthenticatedAppJobsJobIdRoute
+  '/app/jobs/': typeof AuthenticatedAppJobsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/app/financials': typeof AppFinancialsRoute
-  '/app': typeof AppIndexRoute
-  '/app/jobs/$jobId': typeof AppJobsJobIdRoute
-  '/app/jobs': typeof AppJobsIndexRoute
+  '/app/financials': typeof AuthenticatedAppFinancialsRoute
+  '/app': typeof AuthenticatedAppIndexRoute
+  '/app/jobs/$jobId': typeof AuthenticatedAppJobsJobIdRoute
+  '/app/jobs': typeof AuthenticatedAppJobsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/app': typeof AppRouteWithChildren
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/app/financials': typeof AppFinancialsRoute
-  '/app/': typeof AppIndexRoute
-  '/app/jobs/$jobId': typeof AppJobsJobIdRoute
-  '/app/jobs/': typeof AppJobsIndexRoute
+  '/_authenticated/app': typeof AuthenticatedAppRouteWithChildren
+  '/_authenticated/app/financials': typeof AuthenticatedAppFinancialsRoute
+  '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
+  '/_authenticated/app/jobs/$jobId': typeof AuthenticatedAppJobsJobIdRoute
+  '/_authenticated/app/jobs/': typeof AuthenticatedAppJobsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/app'
+    | '/auth'
     | '/sitemap.xml'
+    | '/app'
     | '/app/financials'
     | '/app/'
     | '/app/jobs/$jobId'
@@ -93,6 +112,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/auth'
     | '/sitemap.xml'
     | '/app/financials'
     | '/app'
@@ -101,17 +121,20 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
-    | '/app'
+    | '/_authenticated'
+    | '/auth'
     | '/sitemap.xml'
-    | '/app/financials'
-    | '/app/'
-    | '/app/jobs/$jobId'
-    | '/app/jobs/'
+    | '/_authenticated/app'
+    | '/_authenticated/app/financials'
+    | '/_authenticated/app/'
+    | '/_authenticated/app/jobs/$jobId'
+    | '/_authenticated/app/jobs/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AppRoute: typeof AppRouteWithChildren
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
 }
 
@@ -124,11 +147,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/app': {
-      id: '/app'
-      path: '/app'
-      fullPath: '/app'
-      preLoaderRoute: typeof AppRouteImport
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -138,56 +168,76 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/app/': {
-      id: '/app/'
+    '/_authenticated/app': {
+      id: '/_authenticated/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AuthenticatedAppRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/app/': {
+      id: '/_authenticated/app/'
       path: '/'
       fullPath: '/app/'
-      preLoaderRoute: typeof AppIndexRouteImport
-      parentRoute: typeof AppRoute
+      preLoaderRoute: typeof AuthenticatedAppIndexRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
     }
-    '/app/financials': {
-      id: '/app/financials'
+    '/_authenticated/app/financials': {
+      id: '/_authenticated/app/financials'
       path: '/financials'
       fullPath: '/app/financials'
-      preLoaderRoute: typeof AppFinancialsRouteImport
-      parentRoute: typeof AppRoute
+      preLoaderRoute: typeof AuthenticatedAppFinancialsRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
     }
-    '/app/jobs/': {
-      id: '/app/jobs/'
+    '/_authenticated/app/jobs/': {
+      id: '/_authenticated/app/jobs/'
       path: '/jobs'
       fullPath: '/app/jobs/'
-      preLoaderRoute: typeof AppJobsIndexRouteImport
-      parentRoute: typeof AppRoute
+      preLoaderRoute: typeof AuthenticatedAppJobsIndexRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
     }
-    '/app/jobs/$jobId': {
-      id: '/app/jobs/$jobId'
+    '/_authenticated/app/jobs/$jobId': {
+      id: '/_authenticated/app/jobs/$jobId'
       path: '/jobs/$jobId'
       fullPath: '/app/jobs/$jobId'
-      preLoaderRoute: typeof AppJobsJobIdRouteImport
-      parentRoute: typeof AppRoute
+      preLoaderRoute: typeof AuthenticatedAppJobsJobIdRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
     }
   }
 }
 
-interface AppRouteChildren {
-  AppFinancialsRoute: typeof AppFinancialsRoute
-  AppIndexRoute: typeof AppIndexRoute
-  AppJobsJobIdRoute: typeof AppJobsJobIdRoute
-  AppJobsIndexRoute: typeof AppJobsIndexRoute
+interface AuthenticatedAppRouteChildren {
+  AuthenticatedAppFinancialsRoute: typeof AuthenticatedAppFinancialsRoute
+  AuthenticatedAppIndexRoute: typeof AuthenticatedAppIndexRoute
+  AuthenticatedAppJobsJobIdRoute: typeof AuthenticatedAppJobsJobIdRoute
+  AuthenticatedAppJobsIndexRoute: typeof AuthenticatedAppJobsIndexRoute
 }
 
-const AppRouteChildren: AppRouteChildren = {
-  AppFinancialsRoute: AppFinancialsRoute,
-  AppIndexRoute: AppIndexRoute,
-  AppJobsJobIdRoute: AppJobsJobIdRoute,
-  AppJobsIndexRoute: AppJobsIndexRoute,
+const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
+  AuthenticatedAppFinancialsRoute: AuthenticatedAppFinancialsRoute,
+  AuthenticatedAppIndexRoute: AuthenticatedAppIndexRoute,
+  AuthenticatedAppJobsJobIdRoute: AuthenticatedAppJobsJobIdRoute,
+  AuthenticatedAppJobsIndexRoute: AuthenticatedAppJobsIndexRoute,
 }
 
-const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+const AuthenticatedAppRouteWithChildren =
+  AuthenticatedAppRoute._addFileChildren(AuthenticatedAppRouteChildren)
+
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAppRoute: typeof AuthenticatedAppRouteWithChildren
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAppRoute: AuthenticatedAppRouteWithChildren,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AppRoute: AppRouteWithChildren,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
 }
 export const routeTree = rootRouteImport

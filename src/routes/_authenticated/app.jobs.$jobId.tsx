@@ -1,16 +1,35 @@
-import { createFileRoute, Link, useParams } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound, useParams } from "@tanstack/react-router";
 import { useMemo } from "react";
+import { useSuspenseQuery, queryOptions } from "@tanstack/react-query";
 import { AppShell } from "@/components/dashboard/AppShell";
 import { KpiCard } from "@/components/dashboard/KpiCard";
 import { CostSection, LineRow } from "@/components/dashboard/CostSection";
 import {
-  getJob, jobTotals, fmtUSD, fmtPct, marginTone,
+  jobTotals, fmtUSD, fmtPct, marginTone,
   laborTotal, materialsTotal, subsTotal, equipmentTotal, sum,
+  type Job,
 } from "@/lib/dashboard/data";
+import { getJobById } from "@/lib/dashboard/queries.functions";
 import { ArrowLeft } from "lucide-react";
+import { LoadingBlock, ErrorBlock } from "./app.index";
 
-export const Route = createFileRoute("/app/jobs/$jobId")({
+const jobQO = (id: string) =>
+  queryOptions({
+    queryKey: ["job", id],
+    queryFn: async () => {
+      const j = await getJobById({ data: { id } });
+      if (!j) throw notFound();
+      return j as Job;
+    },
+  });
+
+export const Route = createFileRoute("/_authenticated/app/jobs/$jobId")({
+  loader: ({ context, params }) => {
+    context.queryClient.ensureQueryData(jobQO(params.jobId));
+  },
   component: JobDetail,
+  pendingComponent: () => <AppShell title="Loading job…"><LoadingBlock /></AppShell>,
+  errorComponent: ErrorBlock,
   notFoundComponent: () => (
     <AppShell title="Job not found">
       <p className="text-muted">That job ID doesn't exist. <Link to="/app/jobs" className="text-blue underline">Back to jobs</Link>.</p>
@@ -27,15 +46,8 @@ function groupBy<T, K extends string>(items: T[], key: (t: T) => K): Record<K, T
 }
 
 function JobDetail() {
-  const { jobId } = useParams({ from: "/app/jobs/$jobId" });
-  const job = getJob(jobId);
-  if (!job) {
-    return (
-      <AppShell title="Job not found">
-        <p className="text-muted">That job ID doesn't exist. <Link to="/app/jobs" className="text-blue underline">Back to jobs</Link>.</p>
-      </AppShell>
-    );
-  }
+  const { jobId } = useParams({ from: "/_authenticated/app/jobs/$jobId" });
+  const { data: job } = useSuspenseQuery(jobQO(jobId));
   const t = jobTotals(job);
   const subsByTrade = useMemo(() => groupBy(job.subs, (s) => s.trade), [job.subs]);
   const equipByCat = useMemo(() => groupBy(job.equipment, (e) => e.category), [job.equipment]);
@@ -51,7 +63,6 @@ function JobDetail() {
         </>
       }
     >
-      {/* KPI strip */}
       <section className="grid grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
         <KpiCard label="Revenue" value={fmtUSD(t.revenue)} tone="blue"
           sub={`${fmtUSD(t.contract)} contract${t.changeOrders ? ` + ${fmtUSD(t.changeOrders)} COs` : ""}`} />
@@ -62,7 +73,6 @@ function JobDetail() {
           sub={job.closedDate ? `Closed ${new Date(job.closedDate).toLocaleDateString("en-US")}` : "In progress"} />
       </section>
 
-      {/* Revenue */}
       <section className="mt-8">
         <div className="kbd-label mb-3">Revenue</div>
         <div className="card overflow-hidden">
@@ -77,7 +87,6 @@ function JobDetail() {
         </div>
       </section>
 
-      {/* Costs */}
       <section className="mt-8">
         <div className="kbd-label mb-3">Cost breakdown</div>
         <div className="grid gap-3 sm:gap-4">
@@ -139,7 +148,6 @@ function JobDetail() {
         </div>
       </section>
 
-      {/* Reconciliation */}
       <section className="mt-8">
         <div className="kbd-label mb-3">Reconciliation</div>
         <div className="card p-5 sm:p-6">

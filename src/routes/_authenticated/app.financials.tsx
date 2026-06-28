@@ -1,33 +1,41 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
+import { useSuspenseQuery, queryOptions } from "@tanstack/react-query";
 import { AppShell } from "@/components/dashboard/AppShell";
 import { KpiCard } from "@/components/dashboard/KpiCard";
-import {
-  JOBS, OVERHEAD, OWNER_DRAWS, periodSummary, jobsInPeriod, jobTotals,
-  fmtUSD, fmtPct, marginTone,
-} from "@/lib/dashboard/data";
+import { periodSummary, jobsInPeriod, jobTotals, fmtUSD, fmtPct, marginTone } from "@/lib/dashboard/data";
+import { getFinancialsBundle } from "@/lib/dashboard/queries.functions";
+import { LoadingBlock, ErrorBlock } from "./app.index";
 
-export const Route = createFileRoute("/app/financials")({
+const finQO = () =>
+  queryOptions({ queryKey: ["financials"], queryFn: () => getFinancialsBundle() });
+
+export const Route = createFileRoute("/_authenticated/app/financials")({
+  loader: ({ context }) => {
+    context.queryClient.ensureQueryData(finQO());
+  },
   component: FinancialsPage,
+  pendingComponent: () => <AppShell title="Financials"><LoadingBlock /></AppShell>,
+  errorComponent: ErrorBlock,
 });
 
 type Preset = "month" | "quarter" | "ytd";
 
 function rangeFor(preset: Preset): { from: string; to: string; label: string } {
-  // Anchored to mock data window (early–mid 2026)
   if (preset === "month") return { from: "2026-05-01", to: "2026-05-31", label: "May 2026" };
   if (preset === "quarter") return { from: "2026-04-01", to: "2026-06-30", label: "Q2 2026" };
   return { from: "2026-01-01", to: "2026-12-31", label: "YTD 2026" };
 }
 
 function FinancialsPage() {
+  const { data } = useSuspenseQuery(finQO());
   const [preset, setPreset] = useState<Preset>("quarter");
   const range = rangeFor(preset);
   const s = useMemo(
-    () => periodSummary({ jobs: JOBS, overhead: OVERHEAD, draws: OWNER_DRAWS, from: range.from, to: range.to }),
-    [range.from, range.to]
+    () => periodSummary({ jobs: data.jobs, overhead: data.overhead, draws: data.draws, from: range.from, to: range.to }),
+    [data, range.from, range.to]
   );
-  const periodJobs = useMemo(() => jobsInPeriod(JOBS, range.from, range.to), [range.from, range.to]);
+  const periodJobs = useMemo(() => jobsInPeriod(data.jobs, range.from, range.to), [data.jobs, range.from, range.to]);
 
   return (
     <AppShell
@@ -62,7 +70,6 @@ function FinancialsPage() {
           tone={s.netToCompany >= 0 ? "positive" : "negative"} />
       </section>
 
-      {/* Waterfall recon */}
       <section className="mt-8 card p-5 sm:p-7">
         <div className="kbd-label mb-4">Reconciliation</div>
         <div className="grid sm:grid-cols-[1fr_auto_1fr_auto_1fr_auto_1fr] gap-3 sm:gap-4 items-center">
@@ -76,7 +83,6 @@ function FinancialsPage() {
         </div>
       </section>
 
-      {/* Jobs in period */}
       <section className="mt-8">
         <div className="flex items-end justify-between mb-3">
           <div>
@@ -121,7 +127,6 @@ function FinancialsPage() {
               </table>
             </div>
           )}
-          {/* mobile */}
           <div className="md:hidden divide-y" style={{ borderColor: "var(--border-soft)" }}>
             {periodJobs.map((j) => {
               const t = jobTotals(j);
@@ -141,12 +146,11 @@ function FinancialsPage() {
         </div>
       </section>
 
-      {/* Overhead / draws detail */}
       <section className="mt-8 grid lg:grid-cols-2 gap-4">
         <div className="card p-5">
           <div className="kbd-label mb-3">Overhead detail</div>
           <ul className="divide-y" style={{ borderColor: "var(--border-soft)" }}>
-            {OVERHEAD.filter((o) => o.period >= range.from.slice(0, 7) && o.period <= range.to.slice(0, 7)).map((o) => (
+            {data.overhead.filter((o) => o.period >= range.from.slice(0, 7) && o.period <= range.to.slice(0, 7)).map((o) => (
               <li key={o.id} className="flex justify-between py-2.5 text-sm">
                 <span>{o.category} <span className="text-dim text-xs">· {o.period}</span></span>
                 <span className="num">{fmtUSD(o.amount)}</span>
@@ -157,7 +161,7 @@ function FinancialsPage() {
         <div className="card p-5">
           <div className="kbd-label mb-3">Owner draws</div>
           <ul className="divide-y" style={{ borderColor: "var(--border-soft)" }}>
-            {OWNER_DRAWS.filter((d) => d.period >= range.from.slice(0, 7) && d.period <= range.to.slice(0, 7)).map((d) => (
+            {data.draws.filter((d) => d.period >= range.from.slice(0, 7) && d.period <= range.to.slice(0, 7)).map((d) => (
               <li key={d.id} className="flex justify-between py-2.5 text-sm">
                 <span>{d.owner} <span className="text-dim text-xs">· {d.period}</span></span>
                 <span className="num">{fmtUSD(d.amount)}</span>
