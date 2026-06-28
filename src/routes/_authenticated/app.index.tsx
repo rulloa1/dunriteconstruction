@@ -5,7 +5,9 @@ import { KpiCard } from "@/components/dashboard/KpiCard";
 import { LoadingBlock, EmptyJobs, ErrorBlock } from "@/components/dashboard/States";
 import { portfolioKPIs, jobTotals, fmtUSD, fmtPct, marginTone } from "@/lib/dashboard/data";
 import { getAllJobs } from "@/lib/dashboard/queries.functions";
+import { HERO_IMAGE_PATH } from "@/lib/docs/documents";
 import { ArrowUpRight } from "lucide-react";
+import { useState } from "react";
 
 const jobsQO = () => queryOptions({ queryKey: ["jobs"], queryFn: () => getAllJobs() });
 

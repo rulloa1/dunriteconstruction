@@ -20,6 +20,7 @@ import { Route as AuthenticatedAppControlsRouteImport } from './routes/_authenti
 import { Route as AuthenticatedAppJobsIndexRouteImport } from './routes/_authenticated/app.jobs.index'
 import { Route as AuthenticatedAppDocumentsIndexRouteImport } from './routes/_authenticated/app.documents.index'
 import { Route as AuthenticatedAppJobsJobIdRouteImport } from './routes/_authenticated/app.jobs.$jobId'
+import { Route as AuthenticatedAppDocumentsDocIdRouteImport } from './routes/_authenticated/app.documents.$docId'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -80,6 +81,12 @@ const AuthenticatedAppJobsJobIdRoute =
     path: '/jobs/$jobId',
     getParentRoute: () => AuthenticatedAppRoute,
   } as any)
+const AuthenticatedAppDocumentsDocIdRoute =
+  AuthenticatedAppDocumentsDocIdRouteImport.update({
+    id: '/documents/$docId',
+    path: '/documents/$docId',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -89,6 +96,7 @@ export interface FileRoutesByFullPath {
   '/app/controls': typeof AuthenticatedAppControlsRoute
   '/app/financials': typeof AuthenticatedAppFinancialsRoute
   '/app/': typeof AuthenticatedAppIndexRoute
+  '/app/documents/$docId': typeof AuthenticatedAppDocumentsDocIdRoute
   '/app/jobs/$jobId': typeof AuthenticatedAppJobsJobIdRoute
   '/app/documents/': typeof AuthenticatedAppDocumentsIndexRoute
   '/app/jobs/': typeof AuthenticatedAppJobsIndexRoute
@@ -100,6 +108,7 @@ export interface FileRoutesByTo {
   '/app/controls': typeof AuthenticatedAppControlsRoute
   '/app/financials': typeof AuthenticatedAppFinancialsRoute
   '/app': typeof AuthenticatedAppIndexRoute
+  '/app/documents/$docId': typeof AuthenticatedAppDocumentsDocIdRoute
   '/app/jobs/$jobId': typeof AuthenticatedAppJobsJobIdRoute
   '/app/documents': typeof AuthenticatedAppDocumentsIndexRoute
   '/app/jobs': typeof AuthenticatedAppJobsIndexRoute
@@ -114,6 +123,7 @@ export interface FileRoutesById {
   '/_authenticated/app/controls': typeof AuthenticatedAppControlsRoute
   '/_authenticated/app/financials': typeof AuthenticatedAppFinancialsRoute
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
+  '/_authenticated/app/documents/$docId': typeof AuthenticatedAppDocumentsDocIdRoute
   '/_authenticated/app/jobs/$jobId': typeof AuthenticatedAppJobsJobIdRoute
   '/_authenticated/app/documents/': typeof AuthenticatedAppDocumentsIndexRoute
   '/_authenticated/app/jobs/': typeof AuthenticatedAppJobsIndexRoute
@@ -128,6 +138,7 @@ export interface FileRouteTypes {
     | '/app/controls'
     | '/app/financials'
     | '/app/'
+    | '/app/documents/$docId'
     | '/app/jobs/$jobId'
     | '/app/documents/'
     | '/app/jobs/'
@@ -139,6 +150,7 @@ export interface FileRouteTypes {
     | '/app/controls'
     | '/app/financials'
     | '/app'
+    | '/app/documents/$docId'
     | '/app/jobs/$jobId'
     | '/app/documents'
     | '/app/jobs'
@@ -152,6 +164,7 @@ export interface FileRouteTypes {
     | '/_authenticated/app/controls'
     | '/_authenticated/app/financials'
     | '/_authenticated/app/'
+    | '/_authenticated/app/documents/$docId'
     | '/_authenticated/app/jobs/$jobId'
     | '/_authenticated/app/documents/'
     | '/_authenticated/app/jobs/'
@@ -243,6 +256,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppJobsJobIdRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
+    '/_authenticated/app/documents/$docId': {
+      id: '/_authenticated/app/documents/$docId'
+      path: '/documents/$docId'
+      fullPath: '/app/documents/$docId'
+      preLoaderRoute: typeof AuthenticatedAppDocumentsDocIdRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
   }
 }
 
@@ -250,6 +270,7 @@ interface AuthenticatedAppRouteChildren {
   AuthenticatedAppControlsRoute: typeof AuthenticatedAppControlsRoute
   AuthenticatedAppFinancialsRoute: typeof AuthenticatedAppFinancialsRoute
   AuthenticatedAppIndexRoute: typeof AuthenticatedAppIndexRoute
+  AuthenticatedAppDocumentsDocIdRoute: typeof AuthenticatedAppDocumentsDocIdRoute
   AuthenticatedAppJobsJobIdRoute: typeof AuthenticatedAppJobsJobIdRoute
   AuthenticatedAppDocumentsIndexRoute: typeof AuthenticatedAppDocumentsIndexRoute
   AuthenticatedAppJobsIndexRoute: typeof AuthenticatedAppJobsIndexRoute
@@ -259,6 +280,7 @@ const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
   AuthenticatedAppControlsRoute: AuthenticatedAppControlsRoute,
   AuthenticatedAppFinancialsRoute: AuthenticatedAppFinancialsRoute,
   AuthenticatedAppIndexRoute: AuthenticatedAppIndexRoute,
+  AuthenticatedAppDocumentsDocIdRoute: AuthenticatedAppDocumentsDocIdRoute,
   AuthenticatedAppJobsJobIdRoute: AuthenticatedAppJobsJobIdRoute,
   AuthenticatedAppDocumentsIndexRoute: AuthenticatedAppDocumentsIndexRoute,
   AuthenticatedAppJobsIndexRoute: AuthenticatedAppJobsIndexRoute,
