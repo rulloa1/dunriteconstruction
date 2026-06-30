@@ -97,8 +97,20 @@ function TheBuild() {
       if (cancelled) return;
       await loadScript("/experience.js");
     })();
+    const onScrollClick = (e: MouseEvent) => {
+      const t = (e.target as HTMLElement)?.closest("[data-scroll-to]");
+      if (!t) return;
+      const id = t.getAttribute("data-scroll-to");
+      const el = id ? document.getElementById(id) : null;
+      if (el) {
+        e.preventDefault();
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    };
+    document.addEventListener("click", onScrollClick);
     return () => {
       cancelled = true;
+      document.removeEventListener("click", onScrollClick);
     };
   }, []);
 
