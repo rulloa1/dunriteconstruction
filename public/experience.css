@@ -182,7 +182,7 @@ body[data-scrolled] .bar{mix-blend-mode:normal;border-bottom:1px solid var(--lin
   /* Stack the overlay text in the upper portion of the pin so the readout
      band at the bottom has its own clear strip and never collides. */
   .build-ui .wrap{justify-content:flex-start;padding-top:clamp(96px,16vh,140px);padding-right:var(--gutter);}
-  .bkick{font-size:11px;letter-spacing:.22em;margin-bottom:14px;}
+  .bkick{font-size:14px;letter-spacing:.22em;margin-bottom:14px;}
   .bkick::before{width:28px;}
   .btitle{font-size:clamp(40px,11vw,68px);line-height:.94;max-width:11ch;}
   .bcap{font-size:14.5px;line-height:1.5;max-width:34ch;margin-top:18px;}
