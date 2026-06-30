@@ -146,7 +146,7 @@ body[data-scrolled] .bar{mix-blend-mode:normal;border-bottom:1px solid var(--lin
 .bnum{font-family:var(--cond);font-weight:800;font-size:clamp(110px,26vw,420px);line-height:.78;
   color:transparent;-webkit-text-stroke:1.5px rgba(245,242,234,.28);letter-spacing:-.02em;
   position:absolute;top:50%;right:var(--gutter);transform:translateY(-50%);z-index:-1;}
-.bkick{font-family:var(--mono);font-size:13px;letter-spacing:.26em;text-transform:uppercase;
+.bkick{font-family:var(--mono);font-size:16px;letter-spacing:.26em;text-transform:uppercase;
   color:var(--gold);margin-bottom:18px;display:flex;align-items:center;gap:14px;}
 .bkick::before{content:"";width:40px;height:1px;background:var(--gold);}
 .btitle{font-size:clamp(40px,7vw,118px);line-height:.92;max-width:14ch;}
