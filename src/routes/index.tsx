@@ -281,7 +281,11 @@ function TheBuild() {
                 Crafting shells, concrete &amp; <em>communities that last.</em>
               </h2>
               <figure className="creed-fig rv">
-                <img src={STONE} alt="DunRite shell and concrete framing in progress" loading="lazy" />
+                <img
+                  src="/assets/full-shell.jpg"
+                  alt="DunRite full shell package — framed, roofed, and ready for finish"
+                  loading="lazy"
+                />
               </figure>
             </div>
             <div className="body rv">
