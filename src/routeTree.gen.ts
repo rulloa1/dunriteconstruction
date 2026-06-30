@@ -25,6 +25,7 @@ import { Route as AuthenticatedAppDailyLogsRouteImport } from './routes/_authent
 import { Route as AuthenticatedAppControlsRouteImport } from './routes/_authenticated/app.controls'
 import { Route as AuthenticatedAppJobsIndexRouteImport } from './routes/_authenticated/app.jobs.index'
 import { Route as AuthenticatedAppDocumentsIndexRouteImport } from './routes/_authenticated/app.documents.index'
+import { Route as LovableEmailQueueProcessRouteImport } from './routes/lovable/email/queue/process'
 import { Route as AuthenticatedAppJobsJobIdRouteImport } from './routes/_authenticated/app.jobs.$jobId'
 import { Route as AuthenticatedAppDocumentsDocIdRouteImport } from './routes/_authenticated/app.documents.$docId'
 
@@ -115,6 +116,12 @@ const AuthenticatedAppDocumentsIndexRoute =
     path: '/documents/',
     getParentRoute: () => AuthenticatedAppRoute,
   } as any)
+const LovableEmailQueueProcessRoute =
+  LovableEmailQueueProcessRouteImport.update({
+    id: '/lovable/email/queue/process',
+    path: '/lovable/email/queue/process',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AuthenticatedAppJobsJobIdRoute =
   AuthenticatedAppJobsJobIdRouteImport.update({
     id: '/jobs/$jobId',
@@ -144,6 +151,7 @@ export interface FileRoutesByFullPath {
   '/app/': typeof AuthenticatedAppIndexRoute
   '/app/documents/$docId': typeof AuthenticatedAppDocumentsDocIdRoute
   '/app/jobs/$jobId': typeof AuthenticatedAppJobsJobIdRoute
+  '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
   '/app/documents/': typeof AuthenticatedAppDocumentsIndexRoute
   '/app/jobs/': typeof AuthenticatedAppJobsIndexRoute
 }
@@ -162,6 +170,7 @@ export interface FileRoutesByTo {
   '/app': typeof AuthenticatedAppIndexRoute
   '/app/documents/$docId': typeof AuthenticatedAppDocumentsDocIdRoute
   '/app/jobs/$jobId': typeof AuthenticatedAppJobsJobIdRoute
+  '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
   '/app/documents': typeof AuthenticatedAppDocumentsIndexRoute
   '/app/jobs': typeof AuthenticatedAppJobsIndexRoute
 }
@@ -183,6 +192,7 @@ export interface FileRoutesById {
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
   '/_authenticated/app/documents/$docId': typeof AuthenticatedAppDocumentsDocIdRoute
   '/_authenticated/app/jobs/$jobId': typeof AuthenticatedAppJobsJobIdRoute
+  '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
   '/_authenticated/app/documents/': typeof AuthenticatedAppDocumentsIndexRoute
   '/_authenticated/app/jobs/': typeof AuthenticatedAppJobsIndexRoute
 }
@@ -204,6 +214,7 @@ export interface FileRouteTypes {
     | '/app/'
     | '/app/documents/$docId'
     | '/app/jobs/$jobId'
+    | '/lovable/email/queue/process'
     | '/app/documents/'
     | '/app/jobs/'
   fileRoutesByTo: FileRoutesByTo
@@ -222,6 +233,7 @@ export interface FileRouteTypes {
     | '/app'
     | '/app/documents/$docId'
     | '/app/jobs/$jobId'
+    | '/lovable/email/queue/process'
     | '/app/documents'
     | '/app/jobs'
   id:
@@ -242,6 +254,7 @@ export interface FileRouteTypes {
     | '/_authenticated/app/'
     | '/_authenticated/app/documents/$docId'
     | '/_authenticated/app/jobs/$jobId'
+    | '/lovable/email/queue/process'
     | '/_authenticated/app/documents/'
     | '/_authenticated/app/jobs/'
   fileRoutesById: FileRoutesById
@@ -253,6 +266,7 @@ export interface RootRouteChildren {
   DashboardRoute: typeof DashboardRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   AlbumsSlugRoute: typeof AlbumsSlugRoute
+  LovableEmailQueueProcessRoute: typeof LovableEmailQueueProcessRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -369,6 +383,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppDocumentsIndexRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
+    '/lovable/email/queue/process': {
+      id: '/lovable/email/queue/process'
+      path: '/lovable/email/queue/process'
+      fullPath: '/lovable/email/queue/process'
+      preLoaderRoute: typeof LovableEmailQueueProcessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/app/jobs/$jobId': {
       id: '/_authenticated/app/jobs/$jobId'
       path: '/jobs/$jobId'
@@ -435,17 +456,8 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardRoute: DashboardRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   AlbumsSlugRoute: AlbumsSlugRoute,
+  LovableEmailQueueProcessRoute: LovableEmailQueueProcessRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
