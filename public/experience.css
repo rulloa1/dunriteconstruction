@@ -74,7 +74,7 @@ h1,h2,h3{font-family:var(--display);font-weight:800;line-height:.96;letter-spaci
 body[data-scrolled] .bar{mix-blend-mode:normal;border-bottom:1px solid var(--line-2);}
 @media(max-width:640px){
   /* keep the phone link reachable on small screens — show a compact pill */
-  .bar .b-right .b-hide{padding:8px 12px;border:1px solid rgba(234,168,59,.55);color:var(--gold);}
+  .bar .b-right .b-hide{padding:8px 12px;border:1px solid rgba(91,159,204,.55);color:var(--gold);}
 }
 
 
@@ -239,7 +239,7 @@ body[data-scrolled] .bar{mix-blend-mode:normal;border-bottom:1px solid var(--lin
 .cap-card .cc p{color:var(--dim);font-size:15px;line-height:1.5;margin:0;max-width:34ch;}
 .cap-card .cc .cap-link{display:inline-flex;align-items:center;gap:10px;margin-top:18px;
   font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;
-  color:var(--white);padding:14px 0;border-bottom:1px solid rgba(234,168,59,.45);
+  color:var(--white);padding:14px 0;border-bottom:1px solid rgba(91,159,204,.45);
   transition:color .25s ease,border-color .25s ease,gap .25s ease;min-height:44px;}
 .cap-card .cc .cap-link .arr{transition:transform .3s ease;}
 .cap-card .cc .cap-link:hover{color:var(--gold);border-color:var(--gold);gap:16px;}
