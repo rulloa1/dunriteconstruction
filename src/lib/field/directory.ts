@@ -1,4 +1,4 @@
-// Directory — Longleaf Amenity Center
+// Directory — Granite Amenity Center
 export type CompanyType = "subcontractor" | "vendor" | "owner" | "architect" | "gc";
 
 export interface Contact {
@@ -29,11 +29,11 @@ export const COMPANIES: Company[] = [
     ],
   },
   {
-    id: "c-owner", name: "Longleaf Hospitality Holdings", type: "owner", trades: ["Owner / Developer"],
-    phone: "(305) 555-0322", email: "projects@longleafhh.com",
+    id: "c-owner", name: "Granite Hospitality Holdings", type: "owner", trades: ["Owner / Developer"],
+    phone: "(305) 555-0322", email: "projects@granitehh.com",
     address: "1450 Bayshore Dr, Miami, FL 33131",
     contacts: [
-      { name: "Priya Shankar", title: "VP Development", phone: "(305) 555-0323", email: "priya@longleafhh.com" },
+      { name: "Priya Shankar", title: "VP Development", phone: "(305) 555-0323", email: "priya@granitehh.com" },
     ],
   },
   {

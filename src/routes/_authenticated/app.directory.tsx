@@ -45,7 +45,7 @@ function DirectoryPage() {
     <AppShell title="Directory" eyebrow="Field">
       <PageHeader
         title="Project Directory"
-        subtitle="Companies and contacts on Longleaf Amenity Center"
+        subtitle="Companies and contacts on Granite Amenity Center"
         breadcrumb={[{ label: "App", to: "/app" }, { label: "Directory" }]}
       />
 

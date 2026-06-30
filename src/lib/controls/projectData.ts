@@ -1,5 +1,5 @@
 // =============================================================================
-// SINGLE SOURCE OF TRUTH — Longleaf Amenity Center — Project Management Workbook
+// SINGLE SOURCE OF TRUTH — Granite Amenity Center — Project Management Workbook
 // Every total/KPI is COMPUTED from the row data via the selectors at the bottom.
 // =============================================================================
 export type MilestoneStatus = "complete" | "in-progress" | "upcoming";
@@ -20,7 +20,7 @@ export interface Milestone { name: string; scheduled: string; actual: string | n
 
 export const TODAY = new Date(2026, 5, 13);
 
-export const PROJECT = { name: "Longleaf Amenity Center", lot: "Austin, TX 78701", location: "Austin, TX 78701", scheduleMonths: 18, startDate: "2025-03-03", targetCompletion: "2026-10-02" };
+export const PROJECT = { name: "Granite Amenity Center", lot: "Austin, TX 78701", location: "Austin, TX 78701", scheduleMonths: 18, startDate: "2025-03-03", targetCompletion: "2026-10-02" };
 export const CONTRACTOR = { name: "Dunrite Construction Group", address: "Austin, TX" };
 export const COMPANY = { name: "Dunrite Construction Group LLC", tagline: "Project Management Workbook" };
 

@@ -1,4 +1,4 @@
-// Daily Logs — Longleaf Amenity Center (finishes phase, mid-2026)
+// Daily Logs — Granite Amenity Center (finishes phase, mid-2026)
 export interface WeatherInfo {
   condition: string;
   tempHigh: number;

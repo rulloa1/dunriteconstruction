@@ -1,4 +1,4 @@
-// Inspections — Longleaf Amenity Center
+// Inspections — Granite Amenity Center
 export type InspectionStatus = "scheduled" | "passed" | "failed" | "pending";
 export type ChecklistResult = "pass" | "fail" | "na";
 

@@ -37,7 +37,7 @@ function InspectionsPage() {
     <AppShell title="Inspections" eyebrow="Field">
       <PageHeader
         title="Inspections"
-        subtitle="Longleaf Amenity Center"
+        subtitle="Granite Amenity Center"
         breadcrumb={[{ label: "App", to: "/app" }, { label: "Inspections" }]}
       />
 
