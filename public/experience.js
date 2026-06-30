@@ -105,11 +105,15 @@
       if (exited) return;
       exited = true;
       clearTimeout(backstop);
+      pre.classList.add("hide");
       gsap.to(pre, {
         yPercent: -100, duration: 0.3, ease: "power3.inOut",
-        onStart: function () { pre.classList.add("hide"); },
         onComplete: finish
       });
+      // Hard fallback: if the GSAP ticker is throttled (offscreen/background
+      // iframe, rAF paused), onComplete never fires and the overlay traps the
+      // page. Always finish after the tween's max duration.
+      setTimeout(finish, 400);
     }
 
     // dismiss controls
