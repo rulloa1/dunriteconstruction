@@ -133,7 +133,7 @@ function AlbumPage() {
       `}</style>
       <main style={{ background: "#0b0b0c", color: "#eee", minHeight: "100vh" }}>
         <header
-          style={primary
+          style={{
             padding: "clamp(80px, 12vh, 140px) clamp(20px, 6vw, 80px) 40px",
             borderBottom: "1px solid rgba(255,255,255,.08)",
           }}
