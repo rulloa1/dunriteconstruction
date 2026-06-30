@@ -25,7 +25,7 @@ export const Route = createFileRoute("/albums/$slug")({
     <div style={{ minHeight: "70vh", display: "grid", placeItems: "center", color: "#eee", background: "#0b0b0c" }}>
       <div style={{ textAlign: "center" }}>
         <h1 style={{ fontFamily: "'Libre Franklin', sans-serif", letterSpacing: ".12em" }}>ALBUM NOT FOUND</h1>
-        <Link to="/" style={{ color: "#C8A24B" }}>← Back to home</Link>
+        <Link to="/" style={{ color: "#1CB3E8" }}>← Back to home</Link>
       </div>
     </div>
   ),
@@ -65,7 +65,7 @@ function AlbumPage() {
         <div
           style={{
             marginTop: 24,
-            color: "#C8A24B",
+            color: "#1CB3E8",
             fontFamily: "'Libre Franklin', sans-serif",
             fontSize: 12,
             letterSpacing: ".22em",
@@ -105,8 +105,8 @@ function AlbumPage() {
             display: "inline-block",
             marginTop: 28,
             padding: "12px 22px",
-            border: "1px solid #C8A24B",
-            color: "#C8A24B",
+            border: "1px solid #1CB3E8",
+            color: "#1CB3E8",
             textDecoration: "none",
             fontFamily: "'Libre Franklin', sans-serif",
             fontSize: 12,
@@ -171,7 +171,7 @@ function AlbumPage() {
               fontFamily: "'Libre Franklin', sans-serif",
               fontSize: 14,
               letterSpacing: ".08em",
-              borderBottom: "1px solid rgba(200,162,75,.6)",
+              borderBottom: "1px solid rgba(28,179,232,.6)",
               paddingBottom: 2,
             }}
           >
