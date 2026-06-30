@@ -276,9 +276,14 @@ function TheBuild() {
         <div className="wrap">
           <div className="sh rv">Built to Last</div>
           <div className="creed-grid">
-            <h2 className="rv">
-              Crafting shells, concrete &amp; <em>communities that last.</em>
-            </h2>
+            <div className="creed-left">
+              <h2 className="rv">
+                Crafting shells, concrete &amp; <em>communities that last.</em>
+              </h2>
+              <figure className="creed-fig rv">
+                <img src={STONE} alt="DunRite shell and concrete framing in progress" loading="lazy" />
+              </figure>
+            </div>
             <div className="body rv">
               <p>
                 From foundations to framing, every phase of our work is handled with precision, efficiency, and pride. We've grown
