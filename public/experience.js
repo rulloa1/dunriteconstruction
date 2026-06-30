@@ -287,12 +287,11 @@
     } else {
       // crossfade timeline scrubbed across the pin
       // pace (per-stage scroll length, %) is live-tweakable via window.__pace
-      if (window.__pace == null) window.__pace = 300;
-      // Cap per-stage scroll length on phones so the pinned reel isn't an
-      // endless drag; desktop keeps the full cinematic pace.
+      // Reduced — substantially tightened so the reel doesn't hijack the wheel.
+      if (window.__pace == null) window.__pace = 130;
       var effPace = function () {
-        var p = window.__pace || 300;
-        return isMobile ? Math.min(p, 130) : p;
+        var p = window.__pace || 130;
+        return isMobile ? Math.min(p, 95) : p;
       };
       var buildEnd = function () { return "+=" + (N * effPace()) + "%"; };
       var segs = N - 1; // transitions
@@ -302,7 +301,7 @@
           start: "top top",
           end: buildEnd,
           invalidateOnRefresh: true,
-          scrub: isTouch ? 0.6 : 1.1,
+          scrub: isTouch ? 0.4 : 0.8,
           pin: "#buildPin",
           anticipatePin: 1,
           onUpdate: function (self) {
@@ -323,6 +322,7 @@
       }
       playOnly(0); // start the first clip immediately
     }
+
 
     /* ============ STATS count-up ============ */
     var counters = gsap.utils.toArray("#stats [data-to]");
