@@ -1,4 +1,4 @@
-// Punch List — Longleaf Amenity Center
+// Punch List — Granite Amenity Center
 export type PunchStatus = "open" | "ready-for-review" | "closed";
 export type PunchPriority = "low" | "medium" | "high";
 

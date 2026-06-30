@@ -34,7 +34,7 @@ function DailyLogsPage() {
     <AppShell title="Daily Logs" eyebrow="Field">
       <PageHeader
         title="Daily Logs"
-        subtitle="Longleaf Amenity Center — finishes phase"
+        subtitle="Granite Amenity Center — finishes phase"
         breadcrumb={[{ label: "App", to: "/app" }, { label: "Daily Logs" }]}
       />
 
