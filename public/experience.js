@@ -18,6 +18,13 @@
      separately by playOnly(); here we just make sure it stops when the whole
      section scrolls away. */
   function manageVideos() {
+    // Reduced motion: pause every video and show its poster. Done.
+    if (reduced) {
+      document.querySelectorAll("video").forEach(function (v) {
+        try { v.pause(); v.removeAttribute("autoplay"); } catch (_) {}
+      });
+      return;
+    }
     if (!("IntersectionObserver" in window)) return;
     // Skip autoplay on save-data / slow-2g / 2g connections — leave the
     // poster in place so we don't burn cellular data.
@@ -31,11 +38,13 @@
         var v = e.target;
         if (e.isIntersecting) {
           if (skipPlay) return;
+          // lazy: only load when near the viewport
+          if (v.preload === "none") { try { v.load(); } catch (_) {} }
           try { v.playbackRate = window.__vrate || 0.6; } catch (_) {}
           var p = v.play(); if (p && p.catch) p.catch(function () {});
         } else { try { v.pause(); } catch (_) {} }
       });
-    }, { threshold: 0.12 });
+    }, { threshold: 0.12, rootMargin: "200px 0px" });
     solo.forEach(function (v) { io.observe(v); });
 
     var build = document.getElementById("build");
@@ -52,6 +61,7 @@
       bio.observe(build);
     }
   }
+
 
 
   /* ---------- reel data: each clip is a DISTINCT kind of work, not one project ---------- */
