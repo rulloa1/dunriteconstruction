@@ -168,8 +168,8 @@
   --fg-dim: oklch(0.55 0.015 240);
   --brand-blue: oklch(0.68 0.09 235);       /* #5B9FCC */
   --brand-blue-deep: oklch(0.55 0.085 235); /* #4A82A7 */
-  --brand-gold: oklch(0.78 0.13 80);        /* warm amber */
-  --brand-gold-dim: oklch(0.65 0.11 80);
+  --brand-gold: oklch(0.68 0.09 235);       /* logo blue */
+  --brand-gold-dim: oklch(0.55 0.085 235);
   --positive: oklch(0.78 0.14 145);
   --negative: oklch(0.65 0.18 25);
 
