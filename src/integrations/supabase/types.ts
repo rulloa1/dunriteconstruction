@@ -229,6 +229,39 @@ export type Database = {
         }
         Relationships: []
       }
+      quote_requests: {
+        Row: {
+          county: string
+          created_at: string
+          email: string
+          id: string
+          message: string | null
+          name: string
+          phone: string
+          project_type: string
+        }
+        Insert: {
+          county: string
+          created_at?: string
+          email: string
+          id?: string
+          message?: string | null
+          name: string
+          phone: string
+          project_type: string
+        }
+        Update: {
+          county?: string
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string | null
+          name?: string
+          phone?: string
+          project_type?: string
+        }
+        Relationships: []
+      }
       sub_lines: {
         Row: {
           amount: number
