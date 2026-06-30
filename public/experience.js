@@ -71,7 +71,7 @@
     { num: "02", kick: "Concrete / At Scale", title: "The Pour",
       cap: "Thousands of yards placed, screeded, and finished at golden hour. The kind of flatwork that holds for decades." },
     { num: "03", kick: "Masonry / Block & Walls", title: "Walls That Stand",
-      cap: "Engineered block laid and topped to spec — square, plumb, weather-tight, and built to last." },
+      cap: "Engineered block laid and topped to spec — square, plumb, and built to last." },
     { num: "04", kick: "Shells / Turnkey Packages", title: "Full Shell, One Crew",
       cap: "Complete shell packages handled end-to-end: framed, decked, and delivered standing strong." },
     { num: "05", kick: "Developments / Community Scale", title: "Built for Builders",
