@@ -423,25 +423,39 @@ function TheBuild() {
         </div>
       </section>
 
-      <section className="close">
-        <div className="close-bg">
+      <section className="quote" id="quote">
+        <div className="quote-bg" aria-hidden>
           <video src={CONCRETE} muted loop playsInline preload="none" poster={STONE} width={1920} height={1080} />
         </div>
         <div className="wrap">
-          <div className="kick">Free quotes · serving 10 Central Florida counties</div>
-          <h2>
-            Let's Build<br />It <em>Rite.</em>
-          </h2>
-          <div className="actions">
-            <a className="btn btn-gold" href="tel:3525884050">
-              Request a Quote <span className="arr">→</span>
-            </a>
-            <a className="btn btn-ghost" href="tel:3525884050">
-              Call (352) 588-4050 <span className="arr">→</span>
-            </a>
+          <div className="quote-grid">
+            <div className="quote-intro">
+              <div className="kick">Free quotes · 10 Central Florida counties</div>
+              <h2>
+                Let's Build<br />It <em>Rite.</em>
+              </h2>
+              <p className="quote-lead">
+                Tell us a little about the job and we'll get back within one business day with next steps. Most quotes
+                take under a week once we've walked the site.
+              </p>
+              <div className="quote-meta">
+                <div>
+                  <div className="qm-lb">Phone</div>
+                  <a className="qm-val" href="tel:3525884050">(352) 588-4050</a>
+                </div>
+                <div>
+                  <div className="qm-lb">Service Area</div>
+                  <div className="qm-val">I-75 Corridor · Sumter County HQ</div>
+                </div>
+              </div>
+            </div>
+            <div className="quote-card">
+              <QuoteForm />
+            </div>
           </div>
         </div>
       </section>
+
 
       <footer className="foot">
         <div className="wrap">
