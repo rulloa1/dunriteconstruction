@@ -67,8 +67,9 @@ h1,h2,h3{font-family:var(--display);font-weight:800;line-height:.96;letter-spaci
 .bar .b-logo{height:30px;}
 .bar .b-right{display:flex;align-items:center;gap:22px;font-family:var(--mono);font-size:12px;
   letter-spacing:.14em;text-transform:uppercase;}
-.bar .b-right a{color:#fff;opacity:.85;transition:opacity .2s;}
+.bar .b-right a{color:#fff;opacity:.85;transition:opacity .2s;min-height:44px;display:inline-flex;align-items:center;padding:6px 0;}
 .bar .b-right a:hover{opacity:1;}
+
 /* once user scrolls past the hero crest, drop mix-blend so the solid
    backdrop the JS layers in actually reads correctly */
 body[data-scrolled] .bar{mix-blend-mode:normal;border-bottom:1px solid var(--line-2);}
