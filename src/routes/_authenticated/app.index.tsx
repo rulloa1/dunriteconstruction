@@ -8,6 +8,16 @@ import { getAllJobs } from "@/lib/dashboard/queries.functions";
 import { HERO_IMAGE_PATH } from "@/lib/docs/documents";
 import { ArrowUpRight } from "lucide-react";
 import { useState } from "react";
+import {
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Cell,
+  Tooltip as RTooltip,
+} from "recharts";
+
 
 const jobsQO = () => queryOptions({ queryKey: ["jobs"], queryFn: () => getAllJobs() });
 
@@ -72,14 +82,21 @@ function OverviewPage() {
         </div>
       </section>
 
-      <section className="grid grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
-
+      <section className="mt-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
+        <KpiCard
+          label="Gross profit"
+          value={fmtUSD(k.grossProfit)}
+          tone="accent"
+          primary
+          sub="portfolio to date"
+          className="col-span-2 sm:col-span-1"
+        />
         <KpiCard label="Revenue (all)" value={fmtUSD(k.revenue)} tone="blue" />
         <KpiCard label="Total cost" value={fmtUSD(k.totalCost)} />
-        <KpiCard label="Gross profit" value={fmtUSD(k.grossProfit)} tone="gold" />
         <KpiCard label="Blended margin" value={fmtPct(k.margin)} sub={`${k.activeJobs} active · ${k.closedJobs} closed`} />
         <KpiCard label="Active jobs" value={k.activeJobs} sub="open work-in-place" />
       </section>
+
 
       <section className="mt-8">
         <div className="flex items-end justify-between mb-3">
@@ -127,7 +144,69 @@ function OverviewPage() {
             ))}
           </div>
         )}
+
+        {topJobs.length > 0 && (
+          <div className="card p-4 sm:p-5 mt-4">
+            <div className="kbd-label mb-3">Gross profit · top {topJobs.length}</div>
+            <div style={{ width: "100%", height: Math.max(140, topJobs.length * 44) }}>
+              <ResponsiveContainer>
+                <BarChart
+                  data={topJobs.map(({ job, t }) => ({ name: job.name, gp: t.grossProfit }))}
+                  layout="vertical"
+                  margin={{ top: 4, right: 24, bottom: 4, left: 8 }}
+                  barCategoryGap={10}
+                >
+                  <XAxis
+                    type="number"
+                    hide
+                    domain={[0, "dataMax"]}
+                  />
+                  <YAxis
+                    type="category"
+                    dataKey="name"
+                    width={160}
+                    tickLine={false}
+                    axisLine={false}
+                    tick={{
+                      fill: "var(--fg-muted)",
+                      fontSize: 12,
+                      fontFamily: "Libre Franklin, sans-serif",
+                    }}
+                  />
+                  <RTooltip
+                    cursor={{ fill: "color-mix(in oklch, var(--brand-blue) 10%, transparent)" }}
+                    contentStyle={{
+                      background: "var(--bg-elev)",
+                      border: "1px solid var(--border-strong)",
+                      borderRadius: 10,
+                      fontFamily: "Libre Franklin, sans-serif",
+                      fontSize: 12,
+                      color: "var(--fg)",
+                    }}
+                    labelStyle={{ color: "var(--fg-dim)", marginBottom: 2 }}
+                    formatter={(v: number) => [fmtUSD(v), "Gross profit"]}
+                  />
+                  <Bar dataKey="gp" radius={[6, 6, 6, 6]}>
+                    {topJobs.map((_, i) => (
+                      <Cell
+                        key={i}
+                        fill={
+                          i === 0
+                            ? "var(--brand-blue-bright)"
+                            : i === 1
+                            ? "var(--brand-blue)"
+                            : "var(--brand-blue-deep)"
+                        }
+                      />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        )}
       </section>
     </AppShell>
+
   );
 }
