@@ -468,6 +468,10 @@ a.qm-val:hover{color:var(--gold);}
   .hero-tag--tl{ top:calc(var(--gutter) + 46px); }
   .hero-tag--bl{ bottom:16px; font-size:9px; }
 }
+@media(max-width:560px){
+  .hero-tag--bl,.hero-tag--br{ display:none; }
+}
+
 
 /* Corner brackets */
 .hero-corner{
