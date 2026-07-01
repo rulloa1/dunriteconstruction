@@ -223,6 +223,7 @@ function AlbumPage() {
                 src={img.src}
                 alt={img.alt}
                 loading="lazy"
+                referrerPolicy="no-referrer"
                 style={{ width: "100%", height: "100%", display: "block", objectFit: "cover", aspectRatio: "4/3" }}
               />
             </figure>
