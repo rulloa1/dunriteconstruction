@@ -123,17 +123,8 @@ function TheBuild() {
         <i id="scrollbar" />
       </div>
 
-      <div className="pre" id="pre">
-        <img src={LOGO} alt="DunRite" id="preLogo" />
-        <div className="pre-count">
-          <span id="preNum">0</span>
-          <span className="pct">%</span>
-        </div>
-        <div className="pre-bar">
-          <i id="preBar" />
-        </div>
-        <div className="pre-label">Pouring the foundation…</div>
-      </div>
+{/* Preloader is injected by experience.js only when needed (first visit, motion allowed) */}
+
 
       <div className="bar">
         <img className="b-logo" src={LOGO} alt="DunRite" />
@@ -149,7 +140,6 @@ function TheBuild() {
         <div className="hero-bg" id="heroBg">
           <video
             src={BUILD_0}
-            autoPlay
             muted
             loop
             playsInline
@@ -158,6 +148,7 @@ function TheBuild() {
             height={1080}
             poster={STONE}
           />
+
         </div>
         {/* Blueprint grid + technical overlays */}
         <div className="hero-blueprint" aria-hidden />
@@ -281,11 +272,12 @@ function TheBuild() {
         <div className="wrap">
           <div className="sh">By the Numbers</div>
           <div className="stat-grid">
-            <div className="stat"><div className="n"><span data-to="650">0</span><span className="u">+</span></div><div className="l">Projects Completed</div></div>
-            <div className="stat"><div className="n"><span className="u">$</span><span data-to="15">0</span><span className="u">M+</span></div><div className="l">In Annual Projects</div></div>
-            <div className="stat"><div className="n"><span data-to="99">0</span><span className="u">%</span></div><div className="l">Referral-Based Work</div></div>
-            <div className="stat"><div className="n"><span data-to="25">0</span><span className="u">+</span></div><div className="l">Years of Experience</div></div>
+            <div className="stat" role="group" aria-label="650+ Projects Completed"><div className="n"><span data-to="650">0</span><span className="u">+</span></div><div className="l">Projects Completed</div></div>
+            <div className="stat" role="group" aria-label="$15M+ In Annual Projects"><div className="n"><span className="u">$</span><span data-to="15">0</span><span className="u">M+</span></div><div className="l">In Annual Projects</div></div>
+            <div className="stat" role="group" aria-label="99% Referral-Based Work"><div className="n"><span data-to="99">0</span><span className="u">%</span></div><div className="l">Referral-Based Work</div></div>
+            <div className="stat" role="group" aria-label="25+ Years of Experience"><div className="n"><span data-to="25">0</span><span className="u">+</span></div><div className="l">Years of Experience</div></div>
           </div>
+
         </div>
       </section>
 
@@ -367,7 +359,7 @@ function TheBuild() {
                 </Link>
               </div>
             </div>
-            <div className="cap-card" style={{ width: "min(84vw, 500px)" }}>
+            <div className="cap-card cap-card--wide">
               <img
                 src="https://www.dunriteconstructiongroup.com/wp-content/uploads/elementor/thumbs/EPPERSON_LAGOON-rcc4gj0v57y78urryzkabukyz5wlclupmdyj1u07t4.webp"
                 alt="Developer concrete"
