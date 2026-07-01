@@ -123,17 +123,8 @@ function TheBuild() {
         <i id="scrollbar" />
       </div>
 
-      <div className="pre" id="pre">
-        <img src={LOGO} alt="DunRite" id="preLogo" />
-        <div className="pre-count">
-          <span id="preNum">0</span>
-          <span className="pct">%</span>
-        </div>
-        <div className="pre-bar">
-          <i id="preBar" />
-        </div>
-        <div className="pre-label">Pouring the foundation…</div>
-      </div>
+{/* Preloader is injected by experience.js only when needed (first visit, motion allowed) */}
+
 
       <div className="bar">
         <img className="b-logo" src={LOGO} alt="DunRite" />
