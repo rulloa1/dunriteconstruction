@@ -359,7 +359,7 @@ function TheBuild() {
                 </Link>
               </div>
             </div>
-            <div className="cap-card" style={{ width: "min(84vw, 500px)" }}>
+            <div className="cap-card cap-card--wide">
               <img
                 src="https://www.dunriteconstructiongroup.com/wp-content/uploads/elementor/thumbs/EPPERSON_LAGOON-rcc4gj0v57y78urryzkabukyz5wlclupmdyj1u07t4.webp"
                 alt="Developer concrete"
