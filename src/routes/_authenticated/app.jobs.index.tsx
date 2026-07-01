@@ -49,13 +49,14 @@ function JobsIndex() {
         </button>
       }
     >
-      <section className="grid grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4 mb-6">
+      <section className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 mb-6">
+        <KpiCard label="Gross profit" value={fmtUSD(k.grossProfit)} tone="accent" primary className="col-span-2 sm:col-span-1" />
         <KpiCard label="Revenue" value={fmtUSD(k.revenue)} tone="blue" />
         <KpiCard label="Total cost" value={fmtUSD(k.totalCost)} />
-        <KpiCard label="Gross profit" value={fmtUSD(k.grossProfit)} tone="gold" />
         <KpiCard label="Blended margin" value={fmtPct(k.margin)} />
         <KpiCard label="Active jobs" value={k.activeJobs} sub={`${k.closedJobs} closed`} />
       </section>
+
 
       <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-4">
         <div className="relative flex-1 max-w-md">
