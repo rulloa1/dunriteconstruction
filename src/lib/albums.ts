@@ -1,3 +1,13 @@
+import frameAsset from "@/assets/albums/frame.webp.asset.json";
+import concreteAsset from "@/assets/albums/concrete.webp.asset.json";
+import eppersonAsset from "@/assets/albums/epperson.webp.asset.json";
+import flatworkAsset from "@/assets/albums/flatwork.webp.asset.json";
+
+const FRAME = frameAsset.url;
+const STONE = concreteAsset.url;
+const EPPERSON = eppersonAsset.url;
+const FLATWORK = flatworkAsset.url;
+
 export type Album = {
   slug: string;
   title: string;
@@ -8,9 +18,6 @@ export type Album = {
   externalUrl: string;
 };
 
-const STONE =
-  "https://www.dunriteconstructiongroup.com/wp-content/uploads/elementor/thumbs/concrete-pour-by-dunrite-florida-re9vd1lndzj9oazwh18gdh0p1g93cwhog9krpgcl9c.webp";
-
 export const ALBUMS: Album[] = [
   {
     slug: "full-shell-packages",
@@ -18,19 +25,12 @@ export const ALBUMS: Album[] = [
     kicker: "01 · Builders · Developers · GCs",
     description:
       "Turnkey shell packages — slabs, block, trusses, and framing delivered as one coordinated scope of work across central Florida.",
-    cover:
-      "https://www.dunriteconstructiongroup.com/wp-content/uploads/elementor/thumbs/building-frame-by-dunrite-florida-re9vcqpw742qr71cxipdfot8pq6tbwoc2b1ghskia0.webp",
+    cover: FRAME,
     externalUrl: "https://www.dunriteconstructiongroup.com/full-shell-packages/",
     images: [
-      {
-        src: "https://www.dunriteconstructiongroup.com/wp-content/uploads/elementor/thumbs/building-frame-by-dunrite-florida-re9vcqpw742qr71cxipdfot8pq6tbwoc2b1ghskia0.webp",
-        alt: "Framed shell on a Dun Rite jobsite",
-      },
+      { src: FRAME, alt: "Framed shell on a Dun Rite jobsite" },
       { src: STONE, alt: "Concrete pour in progress" },
-      {
-        src: "https://www.dunriteconstructiongroup.com/wp-content/uploads/elementor/thumbs/EPPERSON_LAGOON-rcc4gj0v57y78urryzkabukyz5wlclupmdyj1u07t4.webp",
-        alt: "Large-scale shell package",
-      },
+      { src: EPPERSON, alt: "Large-scale shell package" },
     ],
   },
   {
@@ -43,10 +43,7 @@ export const ALBUMS: Album[] = [
     externalUrl: "https://www.dunriteconstructiongroup.com/custom-home-shells/",
     images: [
       { src: STONE, alt: "Custom home shell" },
-      {
-        src: "https://www.dunriteconstructiongroup.com/wp-content/uploads/elementor/thumbs/building-frame-by-dunrite-florida-re9vcqpw742qr71cxipdfot8pq6tbwoc2b1ghskia0.webp",
-        alt: "Framed custom home",
-      },
+      { src: FRAME, alt: "Framed custom home" },
     ],
   },
   {
@@ -55,18 +52,11 @@ export const ALBUMS: Album[] = [
     kicker: "03 · Developers · Production Builders",
     description:
       "Neighborhood-scale concrete for production builders, clubhouses, and amenity centers across ten central Florida counties.",
-    cover:
-      "https://www.dunriteconstructiongroup.com/wp-content/uploads/elementor/thumbs/EPPERSON_LAGOON-rcc4gj0v57y78urryzkabukyz5wlclupmdyj1u07t4.webp",
+    cover: EPPERSON,
     externalUrl: "https://www.dunriteconstructiongroup.com/developer-projects/",
     images: [
-      {
-        src: "https://www.dunriteconstructiongroup.com/wp-content/uploads/elementor/thumbs/EPPERSON_LAGOON-rcc4gj0v57y78urryzkabukyz5wlclupmdyj1u07t4.webp",
-        alt: "Epperson Lagoon project",
-      },
-      {
-        src: "https://www.drchomesfl.com/wp-content/uploads/2025/12/cd-5.webp",
-        alt: "Community flatwork",
-      },
+      { src: EPPERSON, alt: "Epperson Lagoon project" },
+      { src: FLATWORK, alt: "Community flatwork" },
     ],
   },
   {
@@ -75,13 +65,10 @@ export const ALBUMS: Album[] = [
     kicker: "04 · Communities · Single Homes",
     description:
       "Driveways, sidewalks, and patios — single home or whole community, screeded and finished by hand.",
-    cover: "https://www.drchomesfl.com/wp-content/uploads/2025/12/cd-5.webp",
+    cover: FLATWORK,
     externalUrl: "https://www.dunriteconstructiongroup.com/concrete-flatwork/",
     images: [
-      {
-        src: "https://www.drchomesfl.com/wp-content/uploads/2025/12/cd-5.webp",
-        alt: "Finished flatwork",
-      },
+      { src: FLATWORK, alt: "Finished flatwork" },
       { src: STONE, alt: "Slab pour" },
     ],
   },
