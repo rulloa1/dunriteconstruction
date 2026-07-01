@@ -209,7 +209,7 @@
   box-shadow: var(--shadow-card-hover);
 }
 
-/* Primary KPI treatment: bright blue top accent bar */
+/* Primary KPI treatment: bright blue top accent bar + brutalist corner brackets */
 .app-shell .kpi-primary {
   position: relative;
   border-color: color-mix(in oklch, var(--brand-blue-bright) 35%, var(--border-soft));
@@ -226,6 +226,71 @@
     color-mix(in oklch, var(--brand-blue-bright) 55%, transparent) 70%,
     transparent);
 }
+/* Corner brackets — technical / brutalist accent */
+.app-shell .kpi-primary::after {
+  content: "";
+  position: absolute; top: 8px; right: 8px;
+  width: 14px; height: 14px;
+  border-top: 1.5px solid var(--brand-blue-bright);
+  border-right: 1.5px solid var(--brand-blue-bright);
+  pointer-events: none;
+}
+
+/* Blueprint grid on main content area (subtle) */
+.app-shell main {
+  position: relative;
+}
+.app-shell main::before {
+  content: "";
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(color-mix(in oklch, var(--brand-blue) 8%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklch, var(--brand-blue) 8%, transparent) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 20%, transparent 90%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 20%, transparent 90%);
+  pointer-events: none;
+  z-index: 0;
+  opacity: .5;
+}
+.app-shell main > * { position: relative; z-index: 1; }
+
+/* Manifest tag — small mono label in the sticky header */
+.app-shell .manifest-tag {
+  display: none;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: color-mix(in oklch, var(--brand-blue-bright) 70%, transparent);
+  padding: 4px 8px;
+  border: 1px solid color-mix(in oklch, var(--brand-blue-bright) 30%, transparent);
+  background: color-mix(in oklch, var(--brand-blue-bright) 8%, transparent);
+}
+@media (min-width: 768px) {
+  .app-shell .manifest-tag { display: inline-flex; align-items: center; gap: 8px; }
+}
+.app-shell .manifest-tag::before {
+  content: ""; width: 6px; height: 6px;
+  background: var(--brand-blue-bright);
+  animation: dr-pulse 1.6s ease-in-out infinite;
+}
+@keyframes dr-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .app-shell .manifest-tag::before { animation: none; }
+}
+
+/* Active pill gets a pulsing dot */
+.app-shell .pill-active::before {
+  content: ""; width: 6px; height: 6px;
+  background: var(--brand-blue-bright);
+  animation: dr-pulse 1.6s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
 
 .app-shell .kbd-label {
   font-family: "Libre Franklin", sans-serif;
