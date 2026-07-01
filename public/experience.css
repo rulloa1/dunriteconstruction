@@ -99,8 +99,9 @@ body[data-scrolled] .bar{mix-blend-mode:normal;border-bottom:1px solid var(--lin
 .hero h1 .thin{font-family:var(--cond);font-weight:600;-webkit-text-stroke:1px var(--white);
   color:transparent;}
 .hero h1 em{font-style:normal;color:var(--gold);}
-.hero .sub{display:flex;flex-wrap:wrap;gap:28px 48px;align-items:flex-end;margin-top:44px;
+.hero .sub{display:flex;flex-wrap:wrap;gap:28px 48px;align-items:flex-end;margin-top:clamp(20px,4vh,44px);
   border-top:1px solid var(--line);padding-top:32px;max-width:900px;}
+
 .hero .sub p{margin:0;color:var(--dim);font-size:clamp(15px,1.4vw,19px);line-height:1.5;max-width:46ch;}
 .hero .hcta{display:inline-flex;align-items:center;gap:10px;margin-top:28px;
   font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;
