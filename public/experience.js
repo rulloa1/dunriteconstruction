@@ -285,7 +285,7 @@
       if (!reduced) {
         gsap.to(words, {
           opacity: 1, ease: "none", stagger: .5,
-          scrollTrigger: { trigger: stmt, start: "top 78%", end: "bottom 55%", scrub: true }
+          scrollTrigger: { trigger: stmt, start: "top 78%", end: "bottom 70%", scrub: true }
         });
       } else { words.forEach(function (w) { w.style.opacity = 1; }); }
     }
