@@ -1,107 +1,108 @@
-# Landing polish plan (public landing only)
 
-Scope: `src/routes/index.tsx`, `public/experience.js`, `public/experience.css`. The `/app` dashboard, Supabase, and field tools stay untouched.
+# Landing Polish — Prioritized Plan
+
+Scope: `src/routes/index.tsx`, `public/experience.js`, `public/experience.css`. No dashboard changes.
 
 ---
 
-## 1) Preloader
+## 1. PRELOADER
 
 ### How it works today
-- Markup: `src/routes/index.tsx` 115–125 — fixed `.pre` overlay (`#pre`, `z-index:10000`) with logo, `0` counter, gold `#preBar`, and "Pouring the foundation…" label.
-- Styling: `public/experience.css` 52–61 — full-bleed black panel, 2px gold progress bar, 11px uppercase mono label.
-- Logic: `public/experience.js` 65–110 — `runPreloader()` tweens a dummy `{v:0}` to 100 over **1.9s** (`power2.inOut`) updating `#preNum`/`#preBar`. On complete it waits **0.15s** then slides the panel up over **1.0s**. Total best case ≈ **3.05s** of forced wait. A `setTimeout` backstop fires at **3.2s**. The counter is decoupled from real asset readiness — pure vanity tween. `prefers-reduced-motion` is honored (instant skip). No session memory (fires every navigation). No skip control.
+- **Markup (SSR'd, first paint)** — `src/routes/index.tsx:126–136`: renders `<div class="pre" id="pre">` containing the logo, a big `<span id="preNum">0</span>%`, a `.pre-bar` fill, and the label `"Pouring the foundation…"`. This is in the server HTML, so before JS runs a visitor sees a black screen with "0%".
+- **Logic** — `public/experience.js:88–165` `runPreloader()`:
+  - Skips instantly (`finish()`) when `prefers-reduced-motion`, GSAP is missing, or `sessionStorage.dr_pre_seen === "1"` (108).
+  - Otherwise starts a GSAP counter tween from 0→100 with `duration: 0.8s` (141–151).
+  - Races the counter against `window.load`: whichever fires first calls `exit()` (152–164).
+  - Hard backstop `setTimeout(exit, 1300)` (111) and a second `setTimeout(finish, 400)` (126) inside the exit tween in case rAF is throttled.
+  - Dismiss on click / wheel / touchstart / Escape / Enter / Space (130–136).
+  - On finish sets `sessionStorage.dr_pre_seen = "1"` and `display:none` on the overlay.
 
-### Changes (priority order)
-1. **Session-gate.** Top of `runPreloader` (`experience.js` ~66): if `sessionStorage.getItem('dr_pre_seen')`, hide `#pre` immediately and `done()`. Set the flag inside `finish()`.
-2. **Hard cap ≤ 1.2s.** Drop counter tween 1.9s → 0.8s, exit slide 1.0s → 0.3s, remove the 0.15s delay, lower backstop 3.2s → 1.3s (`experience.js` 88, 96, 103–104).
-3. **Tie progress to real readiness, not a fake clock.** Race `window.load` (or `document.readyState === 'complete'`) against the 0.8s cap; whichever wins triggers the exit. Counter still ticks to whatever percentage of elapsed-vs-cap so it never claims more progress than has actually happened.
-4. **Skippable.** Add a small `.pre-skip` mono "Skip →" button in `index.tsx` (inside `.pre`); in `experience.js` listen for `click`, `keydown` (Esc/Enter/Space), `wheel`, and `touchstart` on `#pre` to short-circuit to the exit tween.
-5. **Reduced motion already skips** — keep, and also set `sessionStorage` flag so behavior is consistent.
-6. Copy stays "POURING THE FOUNDATION…" (on-brand).
+Reality: most of what the brief asks for is **already implemented** (session-gated, reduced-motion aware, ~1.3s cap, dismissible). The remaining problems are about first paint / SEO, not the runtime behavior.
 
----
+### What to change
+1. **Stop shipping the preloader in SSR HTML.** Move `<div class="pre">` out of the returned JSX and inject it from `experience.js` (or a tiny inline `<script>` in `head`) only when the session-seen check passes. This removes the "0%" from the first paint, keeps LCP element = hero, and prevents crawlers from indexing "Pouring the foundation…" as visible text.
+2. **Tighten the cap to ≤1.2s explicitly.** Change counter `capDuration` from `0.8` → `0.6` and backstop `1300` → `1100` so the worst case matches the spec. The `onReady` 280ms "beat" (161) should drop to ~150ms.
+3. **Make the counter follow real progress, not a linear tween.** Drive `preNum`/`preBar` from an actual signal: number of hero-critical assets loaded (`BUILD_0` video `loadedmetadata` + `LOGO` decode + `document.fonts.ready`). Fall back to time-based only if the signal stalls. Prevents "100% → still waiting" and "0% → snap to done" jumps on fast/cached loads.
+4. **Skippable affordance visible.** Add a small `"Skip →"` button (bottom-right of `.pre`) wired to the existing `exit()`; today it's dismissible but undiscoverable.
+5. **Reduced-motion**: already correct — verify by keeping the early-return at 108 and confirming no CSS animation on `.pre` runs in that mode.
 
-## 2) Visual design & polish (no redesign)
-
-Brand tokens (`experience.css` 8–28) are correct — `--gold #eaa83b`, `--white #f5f2ea`, `--black #0b0b0c`, Archivo / Saira / Spline Mono. Note: the dashboard blue (#4A82A7) is intentionally absent from the landing's warm-grayscale palette — leave it that way; mixing it in would clash. Issues:
-
-1. **Top bar legibility** (`experience.css` 64–71). `mix-blend-mode:difference` makes the logo + phone link unpredictable over video. After ~40px scroll, add a `body[data-scrolled]` hook (already used elsewhere) and switch the bar to `mix-blend-mode:normal`, `backdrop-filter:blur(10px)`, `background:rgba(11,11,12,.6)`. Solid contrast, no shimmer.
-2. **Hero sub rhythm** (`experience.css` 94–96). `padding-top:26px` + `gap:24px 40px` feels cramped under the giant H1. Bump to `padding-top:32px`, `gap:28px 48px`. Paragraph already caps at 46ch — fine.
-3. **Statement floor opacity** (`experience.css` 110). Pre-scroll `opacity:.16` reads as a broken render on first paint. Raise to `.28`.
-4. **Stats cell padding** (`experience.css` 194). `padding:40px 8px 38px 0` lets the gold `+`/`%`/`M+` collide with the next column's divider on 4-col layouts. Use symmetric `40px 24px`. Also add a 1px gold underline to `.stats .sh` to match `.creed .sh`.
-5. **Section transitions.** `.stats`, `.creed`, `.voices`, `.area` all sit on near-identical dark backgrounds with a 1px hairline border that disappears. Add a 6px top fade (`linear-gradient(180deg, rgba(255,255,255,.045), transparent)`) so the horizon between dark panels reads.
-6. **Capability cards** (`experience.css` 209–225). `height:64vh` overflows on 13" laptops once the new "View Album →" link wraps. Switch to `min-height:clamp(360px,60vh,520px)`, drop `.cc` padding to `28px 28px 32px`.
-7. **Gold discipline.** Gold currently appears on: hero eyebrow + em + scrollcue + scrollbar, stats unit suffix, creed eyebrow + em, voices stars, area em, close eyebrow + em + button, preloader bar, cap-link underline, meter `box-shadow`. Pull gold off `.voices .stars` (use `--white` @ 85%) and drop the `box-shadow:0 0 18px var(--gold)` on `.meter i` (`experience.css` 149) so gold reads as deliberate emphasis on numbers + CTAs, not decoration.
-8. **Section vertical rhythm.** Currently varies — `clamp(80px,14vh,170px)`, `clamp(90px,16vh,200px)`, `clamp(80px,15vh,180px)`. Normalize to one token: `clamp(88px,14vh,176px)` for `.statement`, `.stats`, `.creed`, `.voices`, `.area`.
-9. **Footer** (`experience.css` 258–261). Currently just copyright + back-to-top. Add a mono line with phone + "Free quotes · 10 Central Florida counties" so the page ends on contact, not legalese.
+Files: `src/routes/index.tsx` (remove `.pre` block), `public/experience.js:88–165` (inject markup, retune timings, wire real load signals, add skip button), `public/experience.css:53–75` (skip-button styling).
 
 ---
 
-## 3) Copy & messaging
+## 2. "BY THE NUMBERS"
 
-Hard constraints: no fabricated stats / years / license #s / counts / testimonials. Several items already in the code must be **confirmed by you, not invented by me** — flagged below. "Dirt, refined into gold" is not present and stays out.
+### What's actually in the code
+`src/routes/index.tsx:283–288` — targets ARE set via `data-to` attributes. They are real, not zeros. The `0` in the DOM is just the initial value the count-up tween interpolates from.
 
-Locale framing: I-75 corridor / Lake Panasoffkee / The Villages / Sumter–Marion–Lake–Citrus–Hernando. Existing 10-county list covers this; just anchor it.
+```
+Projects Completed     data-to="650"   → 650+
+In Annual Projects     data-to="15"    → $15M+
+Referral-Based Work    data-to="99"    → 99%
+Years of Experience    data-to="25"    → 25+
+```
 
-### Hero (`index.tsx` 170–203)
-- **Eyebrow:** `Building Florida's Strongest Foundations` → **`Central Florida concrete & shell contractor`** — answers "what is this" in 5 words.
-- **H1 "From the Ground to Grand."** — keep verbatim.
-- **Sub paragraph:**
-  > "Slabs, block, full shell packages, and large-scale concrete for builders, developers, and homeowners across the I-75 corridor — from Lake Panasoffkee and The Villages out to the Gulf. Scroll to see the work."
-- **Add an in-hero CTA.** Today the only above-the-fold contact is the top-bar phone, which is hidden under 640px (`experience.css` 71). Add a mono `Call (352) 588-4050 →` button beneath the sub paragraph.
+Animation: `public/experience.js:338–350`. `ScrollTrigger` fires once at `top 72%`; a GSAP tween counts `0 → data-to` over 1.8s and writes `Math.round` into `textContent`. Reduced-motion snaps directly to `to`.
 
-### Statement (`index.tsx` 218)
-Leave verbatim — it's the mission and earns the scrub reveal.
+### What to change
+- **Nothing on the numbers themselves** until you supply real values — code is wired correctly. If any of `650 / 15 / 99 / 25` are wrong, just edit those four `data-to` attributes on lines 284–287.
+- Minor: `15` renders as `$15M+`. If you want a decimal (`$15.2M+`), the counter needs to switch from `Math.round` to `toFixed(1)` — flag only, no change until you confirm.
+- Minor a11y: the `.n` numeric block has no `aria-label`; screen readers read "6 5 0 plus Projects Completed". Wrap each stat in `role="group"` with `aria-label="650+ Projects Completed"`.
 
-### Capabilities (`index.tsx` 285–325)
-Keep titles + audience tags. Tighten descriptions to one sentence each:
-- Full Shell Packages → "Slabs, block, trusses, and framing delivered as one turnkey package."
-- Custom Home Shells → "One-off shells for homeowners and architects — beach houses to estates."
-- Developer Projects → "Neighborhood-scale concrete for production builds, clubhouses, and amenities."
-- Concrete & Flatwork → "Driveways, sidewalks, and patios — single home or whole community."
-
-### Area note (`index.tsx` 365–366)
-Replace "From the Gulf coast to the heart of the state, our crews show up ready to pour." with: **"Home base is Sumter County. Crews dispatch daily from Lake Panasoffkee out through The Villages and across the I-75 corridor."** — anchors local-first.
-
-### Closing CTA (`index.tsx` 388–404)
-Both buttons currently `tel:` — secondary just repeats the number. Change primary label to **"Request a Quote →"**, keep secondary as **"Call (352) 588-4050"**. **If you give me an inbound email**, primary becomes `mailto:`; otherwise both stay `tel:` for now. Eyebrow `Free Quotes · 10 Counties` → **`Free quotes · serving 10 Central Florida counties`**.
-
-### JSON-LD (`index.tsx` 42–79)
-Add `address` (PostalAddress / FL / postalCode) and `sameAs` (FB/IG URLs) **[NEEDS CONFIRMATION]** once you supply them.
-
-### `[NEEDS CONFIRMATION]` — do NOT ship without your sign-off
-- **Stats (`index.tsx` 244–249):** 650+ projects, $15M+ annual, 99% referral, 25+ years. Confirm each. Any number you can't defend gets swapped for a non-numeric proof point ("Family-owned · Florida-based · Referral-driven").
-- **Testimonials (`index.tsx` 322–352):** three named quotes (Wendy Johnson, Sissi Antonini, Forest Lawrence). Confirm sources (Google / Houzz reviews?) or replace.
-- **Mission / Vision block (`index.tsx` 282–303):** confirm this is the company's actual mission/vision language, not paraphrased.
+Files: `src/routes/index.tsx:284–287` (values, if any), `public/experience.js:338–350` (only if decimals needed).
 
 ---
 
-## 4) Mobile responsiveness
+## 3. MOBILE
 
-### Layout / type / tap-target issues
-1. **Hero H1 floor** (`experience.css` 88). `clamp(48px,9.2vw,168px)` ≈ 36px at 390px — too small for the section. Raise floor to 56px; verify "Ground" still fits inside `.ln` overflow:hidden — drop to 52px if it wraps.
-2. **Hero kick rule** (`experience.css` 85–87). The 46px gold rule + 14px gap eats half a 360px viewport. Under 600px, shorten the rule to 28px.
-3. **Top bar phone hidden under 640px** (`experience.css` 71). Replace `.b-hide` with a compact gold-stroke phone-icon button so contact stays one tap away.
-4. **Build pin overlay** (`experience.css` 160–187). On 360×640 the 4-line `.bcap` can still kiss the readout band. Bump `.build-ui .wrap` `padding-bottom` to `clamp(120px,22vh,180px)`.
-5. **Cap-link tap target** (`experience.css` 219–222). 12px text + `padding:10px 0` ≈ 36px tall; below the 44px minimum. Raise to `padding:14px 0`.
-6. **Close-section buttons** (`experience.css` 248–256). `flex-wrap` can orphan one button. Under 520px: `flex-direction:column` and `width:min(360px,100%)` per button.
-7. **Counties grid** (`index.tsx` 367–377). Confirm `.counties` collapses to 2 cols under 520px — add `grid-template-columns:repeat(2,1fr)` if missing.
-8. **Scrollcue** (`experience.css` 97–104). Overlaps the hero sub on short Android viewports (~640h). Hide under 600px height via `@media (max-height:600px)`.
+### Autoplay & posters
+- **6 `<video>` tags total**: hero (`BUILD_0`, line 150) + 5 build reel (`BUILD_3, CONCRETE, BUILD_2, BUILD_1, BUILD_0`, lines 231–243). All have `playsInline muted loop preload="metadata"` and a `poster`. Good.
+- **How many autoplay at once on mobile?** Only the hero and the currently-visible build frame play. `experience.js:35–48` (IntersectionObserver on non-`[data-fv]` videos) and `playOnly(i)` (257–263) pause the rest. `manageVideos()` also pauses the entire build reel when `#build` leaves viewport (50–62). This part is correct.
+- **Cellular guard**: already present via `navigator.connection.saveData / effectiveType` (31–33) — skips play, poster stays. Keep.
+- **Gap**: hero video (`autoPlay` attribute in JSX) is NOT gated by that guard because the browser starts playback before `manageVideos()` runs. Fix: remove `autoPlay` from the hero `<video>` and let `manageVideos()` start it (so save-data users get the poster instead of a downloading video).
 
-### Hero / build video graceful degradation
-Today (`index.tsx` 184, 224–238, 380–382): all `<video>` use `autoPlay muted loop playsInline`, mixed `preload`. `manageVideos()` (`experience.js` 20–47) pauses off-screen. Gaps:
+### Layout shift / CLS
+- Videos have `width={1920} height={1080}` — good, reserves aspect ratio.
+- `.hero-bg` uses `inset:-8% 0 0 0; height:116%` (css:88). Fine on desktop, but on iOS Safari it can cause a jump when the URL bar collapses. `ignoreMobileResize: true` (js:193) protects ScrollTrigger, not this element.
+- Hero corner tags `.hero-tag--tl/tr/bl/br` (index.tsx:164–167) are positioned in all four corners and can crash into the h1 on ≤360px screens. Hide `--bl/--br` under 560px.
+- `.hero-ctas` wraps at narrow widths (good) but `.hero-live` chip + `.kick` + h1 stack takes near-full viewport height on iPhone SE, hiding the scroll cue. Already handled by `@media(max-height:640px){ .scrollcue{display:none} }` (css:117) — verify still true after any hero copy changes.
+- Stats grid drops to 1 column at ≤460px (css:219). Numbers stay `clamp(46px,8vw,72px)` — fine.
 
-1. **No `poster=""`.** Pre-play frame is black. Add a poster JPG (~120KB, first-frame still) to every `<video>` — hero especially. **[NEEDS CONFIRMATION]** OK to generate posters from the existing MP4s via ffmpeg, or will you provide images?
-2. **No cellular guard.** Extend `manageVideos`: if `navigator.connection?.saveData` or `effectiveType` ∈ {`2g`,`slow-2g`}, skip `.play()` and leave the poster up.
-3. **Hero `preload="auto"` is heavy on phones** (`index.tsx` 184). Switch to `preload="metadata"` when `matchMedia('(pointer:coarse)')` matches, and let IO trigger play on visibility.
-4. **CLS.** Add explicit `width`/`height` attributes (e.g. `1920`×`1080`) on every `<video>` so the box is reserved before metadata arrives.
-5. **Build reel videos (`data-fv`)** — already managed by `playOnly()`; just add posters so the crossfade has something to fade from.
+### Tap targets
+- `.hero .hero-btn { min-height:54px }` (css:367) — good.
+- `.bar` phone link (`.b-hide`) has no explicit tap size; fine because full-header height, but the "Full Site →" link is small text-only. Bump to 44px min-height.
+- Rail dots `.rail .tk` on mobile: check they're not interactive (`experience.js` never binds click). If purely visual, add `aria-hidden="true"` to reduce SR noise.
+
+Files: `src/routes/index.tsx:150` (drop `autoPlay`), `public/experience.js:20–48` (start hero video from manager), `public/experience.css` (hide bottom corner tags under 560px, bump `.bar` link min-height).
 
 ---
 
-## Open items needing your input before/at implementation
-1. Confirm or replace the four `#stats` numbers.
-2. Confirm the three named testimonials (or supply real review sources).
-3. Confirm inbound email (or confirm `tel:` is the only contact channel).
-4. Confirm postal address + social URLs for JSON-LD.
-5. Poster images for the videos — I generate via ffmpeg, or you provide?
+## 4. DESIGN POLISH + COPY
+
+### Spacing / hierarchy
+- **Stats section header** (`.stats .sh`, css:209) has `margin-bottom:50px` fixed; feels distant from the grid on tall desktops. Change to `clamp(28px, 4vh, 56px)`.
+- **Statement section** (`#statement`) — the word-reveal scrub (`js:246–249`) ends at `bottom 55%`, so on short viewports the section scrolls past before all words appear. Change end to `bottom 70%`.
+- **Hero h1 → sub gap**: `margin-top:44px` (css:102) is heavy on mobile; use `clamp(20px, 4vh, 44px)`.
+- **Creed grid**: at 820px it collapses to single column (css:312) but the `<figure>` still sits below the heading; on tablets it reads awkwardly. Consider two-column at ≥720px so the image anchors the eye earlier.
+- **Cap track cards**: card #3 has `style={{ width: "min(84vw, 500px)" }}` inline (index.tsx:370). Move that to a `.cap-card--wide` class in CSS for consistency.
+
+### Contrast
+- `.hero-tag` mono labels use `var(--dim-2)` on a video background — sometimes reads as noise. Add a 6px `text-shadow: 0 0 12px rgba(0,0,0,.6)` for legibility without changing color.
+- `.scrollcue` "Scroll" label same issue; same fix.
+- Rail inactive `.tk` labels (`.dot` off state) — verify contrast ≥4.5:1 against `#0a0a0a`; if not, bump to `var(--dim)`.
+
+### Copy (light tightening only, per instructions)
+- Hero sub (line 199–201): reads well. Optional trim: "Slabs, block, full shell packages, and large-scale concrete — for builders, developers, and homeowners across Florida's I-75 corridor. Scroll to see the work." (drops the Lake Panasoffkee/Villages/Gulf specificity, which is already covered by the "10 counties" mention elsewhere).
+- `.hero-live` chip "NOW BUILDING · 6 ACTIVE JOBS" (line 177): if `6` is hardcoded, note it — flag only, don't change.
+- `.bkick` line 252 "Foundations / Slabs & Flatwork" — matches STAGES[0] in js:69, good.
+- Do NOT add "dirt, refined into gold" anywhere.
+
+Files: `public/experience.css` (spacing tweaks, text-shadow on tags/scrollcue), `src/routes/index.tsx` (optional hero-sub tighten, wide-card class), `public/experience.js:249` (statement scrub end).
+
+---
+
+## Priority order
+1. Preloader — pull from SSR, tighten cap, wire real progress, add Skip.
+2. Mobile — hero autoplay through manager, hide bottom corner tags on small screens, tap-target bumps.
+3. Design polish — text-shadow on hero tags, spacing tokens on stats/hero-sub, statement scrub end.
+4. Stats numbers — waiting on your real values; code path already correct.
