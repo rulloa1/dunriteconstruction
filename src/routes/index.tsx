@@ -140,7 +140,6 @@ function TheBuild() {
         <div className="hero-bg" id="heroBg">
           <video
             src={BUILD_0}
-            autoPlay
             muted
             loop
             playsInline
@@ -149,6 +148,7 @@ function TheBuild() {
             height={1080}
             poster={STONE}
           />
+
         </div>
         {/* Blueprint grid + technical overlays */}
         <div className="hero-blueprint" aria-hidden />
