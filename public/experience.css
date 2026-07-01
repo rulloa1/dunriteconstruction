@@ -207,8 +207,9 @@ body[data-scrolled] .bar{mix-blend-mode:normal;border-bottom:1px solid var(--lin
 
 /* ---------------- stats ---------------- */
 .stats{padding:clamp(80px,14vh,170px) 0;background:var(--near);border-top:1px solid var(--line-2);}
-.stats .sh{font-family:var(--mono);font-size:13px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin-bottom:50px;display:flex;align-items:center;gap:14px;}
+.stats .sh{font-family:var(--mono);font-size:13px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin-bottom:clamp(28px,4vh,56px);display:flex;align-items:center;gap:14px;}
 .stats .sh::before{content:"";width:46px;height:1px;background:var(--gold);}
+
 .stat-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line-2);border-block:1px solid var(--line-2);}
 .stat{background:var(--near);padding:40px 24px 38px;min-width:0;}
 .stat .n{font-family:var(--cond);font-weight:800;font-size:clamp(44px,5.2vw,82px);line-height:.88;color:var(--white);
