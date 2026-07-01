@@ -150,7 +150,7 @@ function AlbumPage() {
               textTransform: "uppercase",
             }}
           >
-            ← Dun Rite
+            ← DUNRITE
           </Link>
           <div
             style={{
