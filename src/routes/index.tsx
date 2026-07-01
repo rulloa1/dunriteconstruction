@@ -159,7 +159,23 @@ function TheBuild() {
             poster={STONE}
           />
         </div>
+        {/* Blueprint grid + technical overlays */}
+        <div className="hero-blueprint" aria-hidden />
+        <div className="hero-tag hero-tag--tl">DRC_OS // BUILD_MANIFEST.V3</div>
+        <div className="hero-tag hero-tag--tr">COORD: 28.7648° N, 82.0779° W</div>
+        <div className="hero-tag hero-tag--bl">— CENTRAL FLORIDA</div>
+        <div className="hero-tag hero-tag--br">EST. 1998 · I-75 CORRIDOR</div>
+        {/* Corner brackets */}
+        <span className="hero-corner hero-corner--tl" aria-hidden />
+        <span className="hero-corner hero-corner--tr" aria-hidden />
+        <span className="hero-corner hero-corner--bl" aria-hidden />
+        <span className="hero-corner hero-corner--br" aria-hidden />
+
         <div className="wrap">
+          <div className="hero-live" data-hero-rv>
+            <span className="hero-live__dot" aria-hidden />
+            <span>NOW BUILDING · 6 ACTIVE JOBS</span>
+          </div>
           <div className="kick" data-hero-rv>
             Central Florida concrete &amp; shell contractor
           </div>
@@ -197,6 +213,7 @@ function TheBuild() {
           Scroll<span className="ln" />
         </div>
       </header>
+
 
 
       <section className="statement">

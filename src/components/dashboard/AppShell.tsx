@@ -153,9 +153,11 @@ export function AppShell({ title, eyebrow, actions, children }: {
                 {eyebrow && <div className="kbd-label">{eyebrow}</div>}
                 <h1 className="font-display text-xl sm:text-2xl font-semibold truncate">{title}</h1>
               </div>
+              <span className="manifest-tag" aria-hidden>DRC_OS // LIVE</span>
               {actions && <div className="flex items-center gap-2 shrink-0">{actions}</div>}
             </div>
           </header>
+
           <div className="px-4 sm:px-6 py-6">{children}</div>
         </main>
       </div>
