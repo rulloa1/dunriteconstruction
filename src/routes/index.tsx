@@ -272,11 +272,12 @@ function TheBuild() {
         <div className="wrap">
           <div className="sh">By the Numbers</div>
           <div className="stat-grid">
-            <div className="stat"><div className="n"><span data-to="650">0</span><span className="u">+</span></div><div className="l">Projects Completed</div></div>
-            <div className="stat"><div className="n"><span className="u">$</span><span data-to="15">0</span><span className="u">M+</span></div><div className="l">In Annual Projects</div></div>
-            <div className="stat"><div className="n"><span data-to="99">0</span><span className="u">%</span></div><div className="l">Referral-Based Work</div></div>
-            <div className="stat"><div className="n"><span data-to="25">0</span><span className="u">+</span></div><div className="l">Years of Experience</div></div>
+            <div className="stat" role="group" aria-label="650+ Projects Completed"><div className="n"><span data-to="650">0</span><span className="u">+</span></div><div className="l">Projects Completed</div></div>
+            <div className="stat" role="group" aria-label="$15M+ In Annual Projects"><div className="n"><span className="u">$</span><span data-to="15">0</span><span className="u">M+</span></div><div className="l">In Annual Projects</div></div>
+            <div className="stat" role="group" aria-label="99% Referral-Based Work"><div className="n"><span data-to="99">0</span><span className="u">%</span></div><div className="l">Referral-Based Work</div></div>
+            <div className="stat" role="group" aria-label="25+ Years of Experience"><div className="n"><span data-to="25">0</span><span className="u">+</span></div><div className="l">Years of Experience</div></div>
           </div>
+
         </div>
       </section>
 
