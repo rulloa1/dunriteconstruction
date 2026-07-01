@@ -169,12 +169,12 @@ function TheBuild() {
             </span>
             <span className="ln">
               <span data-hero-line>
-                <span className="thin">Roof</span>
+                <span className="thin">GROUND</span>
               </span>
             </span>
             <span className="ln">
               <span data-hero-line>
-                to <em>Grand.</em>
+                to <em>ROOF.</em>
               </span>
             </span>
           </h1>
