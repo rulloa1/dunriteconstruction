@@ -166,12 +166,24 @@
   --fg: oklch(0.96 0.005 240);
   --fg-muted: oklch(0.72 0.015 240);
   --fg-dim: oklch(0.55 0.015 240);
-  --brand-blue: oklch(0.68 0.09 235);       /* #5B9FCC */
-  --brand-blue-deep: oklch(0.55 0.085 235); /* #4A82A7 */
-  --brand-gold: oklch(0.68 0.09 235);       /* logo blue */
-  --brand-gold-dim: oklch(0.55 0.085 235);
+  /* Monochromatic blue accent hierarchy */
+  --brand-blue-bright: oklch(0.78 0.13 232);  /* hero / primary KPI */
+  --brand-blue: oklch(0.68 0.09 235);         /* standard accent */
+  --brand-blue-deep: oklch(0.55 0.085 235);   /* buttons / deep */
+  --brand-blue-muted: oklch(0.45 0.06 240);   /* secondary tone */
+  /* Back-compat aliases (no gold reintroduced) */
+  --brand-gold: var(--brand-blue-bright);
+  --brand-gold-dim: var(--brand-blue-deep);
   --positive: oklch(0.78 0.14 145);
   --negative: oklch(0.65 0.18 25);
+
+  /* Elevation */
+  --shadow-card: 0 1px 0 0 color-mix(in oklch, white 5%, transparent) inset,
+                 0 1px 2px oklch(0 0 0 / 0.35),
+                 0 8px 24px -12px oklch(0 0 0 / 0.55);
+  --shadow-card-hover: 0 1px 0 0 color-mix(in oklch, white 8%, transparent) inset,
+                       0 2px 4px oklch(0 0 0 / 0.4),
+                       0 16px 36px -14px oklch(0 0 0 / 0.65);
 
   background: var(--bg);
   color: var(--fg);
@@ -186,8 +198,35 @@
   background: var(--bg-card);
   border: 1px solid var(--border-soft);
   border-radius: 14px;
+  box-shadow: var(--shadow-card);
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, background 180ms ease;
 }
-.app-shell .card-hover:hover { background: var(--bg-card-hover); border-color: var(--border-strong); }
+.app-shell .card-hover { cursor: pointer; }
+.app-shell .card-hover:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-strong);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card-hover);
+}
+
+/* Primary KPI treatment: bright blue top accent bar */
+.app-shell .kpi-primary {
+  position: relative;
+  border-color: color-mix(in oklch, var(--brand-blue-bright) 35%, var(--border-soft));
+  background: linear-gradient(180deg,
+    color-mix(in oklch, var(--brand-blue-bright) 6%, var(--bg-card)) 0%,
+    var(--bg-card) 60%);
+}
+.app-shell .kpi-primary::before {
+  content: "";
+  position: absolute; inset: 0 0 auto 0; height: 2px;
+  border-radius: 14px 14px 0 0;
+  background: linear-gradient(90deg,
+    var(--brand-blue-bright),
+    color-mix(in oklch, var(--brand-blue-bright) 55%, transparent) 70%,
+    transparent);
+}
+
 .app-shell .kbd-label {
   font-family: "Libre Franklin", sans-serif;
   font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
@@ -196,21 +235,31 @@
 .app-shell .num { font-variant-numeric: tabular-nums; }
 .app-shell .pill {
   display: inline-flex; align-items: center; gap: 6px;
-  padding: 3px 9px; border-radius: 999px;
+  padding: 3px 10px; border-radius: 999px;
   font-family: "Libre Franklin", sans-serif;
-  font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+  font-size: 10.5px; font-weight: 500; letter-spacing: 0.09em; text-transform: uppercase;
   border: 1px solid var(--border-strong);
+  background: color-mix(in oklch, var(--bg-elev) 60%, transparent);
 }
-.app-shell .pill-active { color: var(--brand-blue); border-color: color-mix(in oklch, var(--brand-blue) 50%, transparent); background: color-mix(in oklch, var(--brand-blue) 10%, transparent); }
+.app-shell .pill-active {
+  color: var(--brand-blue-bright);
+  border-color: color-mix(in oklch, var(--brand-blue-bright) 45%, transparent);
+  background: color-mix(in oklch, var(--brand-blue-bright) 12%, transparent);
+}
 .app-shell .pill-closed { color: var(--fg-muted); }
-.app-shell .text-gold { color: var(--brand-gold); }
+.app-shell .text-gold { color: var(--brand-blue-bright); }
 .app-shell .text-blue { color: var(--brand-blue); }
+.app-shell .text-accent { color: var(--brand-blue-bright); }
 .app-shell .text-positive { color: var(--positive); }
 .app-shell .text-negative { color: var(--negative); }
 .app-shell .text-muted { color: var(--fg-muted); }
 .app-shell .text-dim { color: var(--fg-dim); }
 .app-shell .divider { border-top: 1px solid var(--border-soft); }
-.app-shell .focus-ring:focus-visible { outline: 2px solid var(--brand-blue); outline-offset: 2px; }
+.app-shell .focus-ring:focus-visible {
+  outline: 2px solid var(--brand-blue-bright);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
 
 .app-shell .nav-link {
   display: flex; align-items: center; gap: 10px;
@@ -218,23 +267,36 @@
   font-family: "Libre Franklin", sans-serif;
   font-size: 13px; letter-spacing: 0.02em;
   color: var(--fg-muted);
-  transition: background 120ms, color 120ms;
+  transition: background 160ms ease, color 160ms ease, transform 160ms ease;
 }
-.app-shell .nav-link:hover { color: var(--fg); background: color-mix(in oklch, var(--brand-blue) 8%, transparent); }
+.app-shell .nav-link:hover {
+  color: var(--fg);
+  background: color-mix(in oklch, var(--brand-blue) 10%, transparent);
+}
 .app-shell .nav-link[data-status="active"] {
   color: var(--fg);
-  background: color-mix(in oklch, var(--brand-blue) 14%, transparent);
-  box-shadow: inset 2px 0 0 var(--brand-gold);
+  background: color-mix(in oklch, var(--brand-blue) 16%, transparent);
+  box-shadow: inset 2px 0 0 var(--brand-blue-bright);
 }
 
 .app-shell table { width: 100%; border-collapse: collapse; }
 .app-shell thead th {
   text-align: left; font-family: "Libre Franklin", sans-serif;
   font-weight: 500; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--fg-dim); padding: 10px 14px; border-bottom: 1px solid var(--border-soft);
+  color: var(--fg-dim);
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border-strong);
+  background: color-mix(in oklch, var(--bg-elev) 60%, transparent);
 }
 .app-shell tbody td { padding: 14px; border-bottom: 1px solid var(--border-soft); font-size: 14px; }
-.app-shell tbody tr:hover { background: color-mix(in oklch, var(--brand-blue) 6%, transparent); cursor: pointer; }
+.app-shell tbody tr {
+  transition: background 140ms ease, box-shadow 140ms ease;
+}
+.app-shell tbody tr:hover {
+  background: color-mix(in oklch, var(--brand-blue) 8%, transparent);
+  box-shadow: inset 2px 0 0 var(--brand-blue-bright);
+  cursor: pointer;
+}
 .app-shell tbody tr:last-child td { border-bottom: none; }
 
 .app-shell .btn {
@@ -242,8 +304,33 @@
   padding: 8px 14px; border-radius: 10px;
   font-family: "Libre Franklin", sans-serif; font-size: 13px;
   border: 1px solid var(--border-strong); color: var(--fg);
-  background: var(--bg-elev); transition: all 120ms;
+  background: var(--bg-elev);
+  transition: background 140ms ease, border-color 140ms ease, transform 140ms ease, box-shadow 140ms ease;
 }
-.app-shell .btn:hover { background: var(--bg-card-hover); }
-.app-shell .btn-primary { background: var(--brand-blue-deep); border-color: var(--brand-blue); color: white; }
-.app-shell .btn-primary:hover { background: var(--brand-blue); }
+.app-shell .btn:hover {
+  background: var(--bg-card-hover);
+  border-color: color-mix(in oklch, var(--brand-blue) 55%, var(--border-strong));
+  transform: translateY(-1px);
+}
+.app-shell .btn-primary {
+  background: var(--brand-blue-deep);
+  border-color: var(--brand-blue);
+  color: white;
+  box-shadow: 0 1px 0 0 color-mix(in oklch, white 15%, transparent) inset,
+              0 6px 16px -8px color-mix(in oklch, var(--brand-blue-bright) 60%, transparent);
+}
+.app-shell .btn-primary:hover {
+  background: var(--brand-blue);
+  border-color: var(--brand-blue-bright);
+}
+
+/* Sticky header refinement */
+.app-shell .dash-sticky-header,
+.app-shell header.sticky {
+  border-bottom-color: var(--border-strong) !important;
+  background: color-mix(in oklch, var(--bg) 72%, transparent) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  backdrop-filter: blur(14px) saturate(140%);
+  box-shadow: 0 1px 0 0 color-mix(in oklch, white 4%, transparent) inset;
+}
+
