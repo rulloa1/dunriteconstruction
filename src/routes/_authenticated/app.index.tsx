@@ -82,14 +82,21 @@ function OverviewPage() {
         </div>
       </section>
 
-      <section className="grid grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
-
+      <section className="mt-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
+        <KpiCard
+          label="Gross profit"
+          value={fmtUSD(k.grossProfit)}
+          tone="accent"
+          primary
+          sub="portfolio to date"
+          className="col-span-2 sm:col-span-1"
+        />
         <KpiCard label="Revenue (all)" value={fmtUSD(k.revenue)} tone="blue" />
         <KpiCard label="Total cost" value={fmtUSD(k.totalCost)} />
-        <KpiCard label="Gross profit" value={fmtUSD(k.grossProfit)} tone="gold" />
         <KpiCard label="Blended margin" value={fmtPct(k.margin)} sub={`${k.activeJobs} active · ${k.closedJobs} closed`} />
         <KpiCard label="Active jobs" value={k.activeJobs} sub="open work-in-place" />
       </section>
+
 
       <section className="mt-8">
         <div className="flex items-end justify-between mb-3">
