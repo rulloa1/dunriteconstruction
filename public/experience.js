@@ -81,34 +81,54 @@
 
   /* ---------- preloader ----------
      Rules:
-     - skip entirely on prefers-reduced-motion
-     - skip if already seen this session (sessionStorage)
-     - hard cap total runtime ≤ 1.2s, racing window.load against the cap
-     - dismissible: click / key / wheel / touch short-circuits the exit */
+     - injected from JS (not SSR) so first paint isn't blocked
+     - skipped entirely on prefers-reduced-motion or if seen this session
+     - hard cap total runtime ≤ 1.2s (0.6s counter + 1100ms backstop + 150ms exit beat)
+     - counter is driven by real load signals: BUILD_0 loadedmetadata + logo decode
+       + document.fonts.ready, with a time-based fallback that always wins
+     - visible "Skip →" button plus click / key / wheel / touch dismiss */
   var PRE_KEY = "dr_pre_seen";
+  var LOGO_SRC = "/uploads/Dunrite-Logo_invert-e1758651959544.png";
+  var BUILD_0_SRC = "/__l5e/assets-v1/80ca7c19-9218-438d-b058-288f8bc9eae0/developments.mp4";
+
+  function injectPreloader() {
+    if (document.getElementById("pre")) return document.getElementById("pre");
+    var pre = document.createElement("div");
+    pre.className = "pre";
+    pre.id = "pre";
+    pre.innerHTML =
+      '<img src="' + LOGO_SRC + '" alt="DunRite" id="preLogo" />' +
+      '<div class="pre-count"><span id="preNum">0</span><span class="pct">%</span></div>' +
+      '<div class="pre-bar"><i id="preBar"></i></div>' +
+      '<div class="pre-label">Pouring the foundation…</div>' +
+      '<button type="button" id="preSkip" class="pre-skip" aria-label="Skip intro">Skip →</button>';
+    document.body.appendChild(pre);
+    return pre;
+  }
+
   function runPreloader(done) {
-    var pre = document.getElementById("pre");
+    // sessionStorage / reduced motion → skip entirely, don't inject
+    var seen = false;
+    try { seen = sessionStorage.getItem(PRE_KEY) === "1"; } catch (_) {}
+    if (reduced || !hasGSAP || seen) { done(); return; }
+
+    var pre = injectPreloader();
     var num = document.getElementById("preNum");
     var bar = document.getElementById("preBar");
     var logo = document.getElementById("preLogo");
-    if (!pre) { done(); return; }
+    var skip = document.getElementById("preSkip");
 
     var finished = false;
     function finish() {
       if (finished) return;
       finished = true;
       try { sessionStorage.setItem(PRE_KEY, "1"); } catch (_) {}
-      pre.style.display = "none";
+      if (pre && pre.parentNode) pre.parentNode.removeChild(pre);
       done();
     }
 
-    // already seen this session, or reduced motion — skip instantly
-    var seen = false;
-    try { seen = sessionStorage.getItem(PRE_KEY) === "1"; } catch (_) {}
-    if (reduced || !hasGSAP || seen) { finish(); return; }
-
-    // hard backstop — never trap the user behind a stalled preloader
-    var backstop = setTimeout(exit, 1300);
+    // hard backstop — cap total runtime to 1.1s from boot
+    var backstop = setTimeout(exit, 1100);
 
     var exited = false;
     function exit() {
@@ -117,16 +137,13 @@
       clearTimeout(backstop);
       pre.classList.add("hide");
       gsap.to(pre, {
-        yPercent: -100, duration: 0.3, ease: "power3.inOut",
+        yPercent: -100, duration: 0.25, ease: "power3.inOut",
         onComplete: finish
       });
-      // Hard fallback: if the GSAP ticker is throttled (offscreen/background
-      // iframe, rAF paused), onComplete never fires and the overlay traps the
-      // page. Always finish after the tween's max duration.
-      setTimeout(finish, 400);
+      // GSAP-ticker safety net
+      setTimeout(finish, 300);
     }
 
-    // dismiss controls
     function onKey(e) {
       if (e.key === "Escape" || e.key === "Enter" || e.key === " ") exit();
     }
@@ -134,14 +151,14 @@
     pre.addEventListener("wheel", exit, { once: true, passive: true });
     pre.addEventListener("touchstart", exit, { once: true, passive: true });
     document.addEventListener("keydown", onKey, { once: true });
+    if (skip) skip.addEventListener("click", function (e) { e.stopPropagation(); exit(); });
 
-    gsap.to(logo, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" });
+    gsap.to(logo, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" });
 
-    // race the counter against actual page readiness — whichever wins, exit
-    var capDuration = 0.8;
+    // race counter (0.6s cap) vs real load signals
     var obj = { v: 0 };
     var counterTween = gsap.to(obj, {
-      v: 100, duration: capDuration, ease: "power2.out",
+      v: 100, duration: 0.6, ease: "power2.out",
       onUpdate: function () {
         var v = Math.round(obj.v);
         if (num) num.textContent = v;
@@ -149,20 +166,43 @@
       },
       onComplete: exit
     });
+
     function onReady() {
-      // jump counter to 100 visually, then exit
       counterTween.kill();
       if (num) num.textContent = "100";
       if (bar) bar.style.width = "100%";
-      exit();
+      setTimeout(exit, 150); // small beat so 100% is visible
     }
-    if (document.readyState === "complete") {
-      // give the counter a beat so it doesn't feel instant on cached loads
-      setTimeout(onReady, 280);
-    } else {
-      window.addEventListener("load", onReady, { once: true });
+
+    // Real load signals — resolve when all settle (or ignore failures)
+    var signals = [];
+    // 1) hero video metadata
+    signals.push(new Promise(function (res) {
+      try {
+        var probe = document.createElement("video");
+        probe.preload = "metadata";
+        probe.muted = true;
+        probe.src = BUILD_0_SRC;
+        probe.addEventListener("loadedmetadata", function () { res(); }, { once: true });
+        probe.addEventListener("error", function () { res(); }, { once: true });
+      } catch (_) { res(); }
+    }));
+    // 2) logo decode
+    signals.push(new Promise(function (res) {
+      try {
+        var img = new Image();
+        img.src = LOGO_SRC;
+        (img.decode ? img.decode() : Promise.resolve()).then(res, res);
+      } catch (_) { res(); }
+    }));
+    // 3) fonts
+    if (document.fonts && document.fonts.ready) {
+      signals.push(document.fonts.ready.catch(function () {}));
     }
+    Promise.all(signals).then(onReady);
   }
+
+
 
 
   /* ---------- hero intro ---------- */
