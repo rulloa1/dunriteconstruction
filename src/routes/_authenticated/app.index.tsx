@@ -8,6 +8,16 @@ import { getAllJobs } from "@/lib/dashboard/queries.functions";
 import { HERO_IMAGE_PATH } from "@/lib/docs/documents";
 import { ArrowUpRight } from "lucide-react";
 import { useState } from "react";
+import {
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Cell,
+  Tooltip as RTooltip,
+} from "recharts";
+
 
 const jobsQO = () => queryOptions({ queryKey: ["jobs"], queryFn: () => getAllJobs() });
 
