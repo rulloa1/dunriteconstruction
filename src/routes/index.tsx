@@ -32,6 +32,13 @@ export const Route = createFileRoute("/")({
     ],
     scripts: [
       {
+        // Runs before <body> paints. Removes the SSR preloader instantly for
+        // repeat visits / reduced motion so it never flashes over content,
+        // and locks scroll on first visits so page doesn't jump.
+        children:
+          "(function(){try{var r=matchMedia('(prefers-reduced-motion: reduce)').matches;var s=sessionStorage.getItem('dr_pre_seen')==='1';if(r||s){document.documentElement.setAttribute('data-pre','off');}else{document.documentElement.setAttribute('data-pre','on');}}catch(e){}})();",
+      },
+      {
         type: "application/ld+json",
         children: JSON.stringify({
           "@context": "https://schema.org",
@@ -55,6 +62,7 @@ export const Route = createFileRoute("/")({
           ],
         }),
       },
+
       {
         type: "application/ld+json",
         children: JSON.stringify({
