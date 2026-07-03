@@ -124,8 +124,10 @@
       finished = true;
       try { sessionStorage.setItem(PRE_KEY, "1"); } catch (_) {}
       if (pre && pre.parentNode) pre.parentNode.removeChild(pre);
+      document.documentElement.setAttribute("data-pre", "off");
       done();
     }
+
 
     // hard backstop — cap total runtime to 1.1s from boot
     var backstop = setTimeout(exit, 1100);
