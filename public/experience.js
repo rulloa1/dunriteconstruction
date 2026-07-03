@@ -92,27 +92,27 @@
   var BUILD_0_SRC = "/__l5e/assets-v1/80ca7c19-9218-438d-b058-288f8bc9eae0/developments.mp4";
 
   function injectPreloader() {
-    if (document.getElementById("pre")) return document.getElementById("pre");
-    var pre = document.createElement("div");
-    pre.className = "pre";
-    pre.id = "pre";
-    pre.innerHTML =
-      '<img src="' + LOGO_SRC + '" alt="DunRite" id="preLogo" />' +
-      '<div class="pre-count"><span id="preNum">0</span><span class="pct">%</span></div>' +
-      '<div class="pre-bar"><i id="preBar"></i></div>' +
-      '<div class="pre-label">Pouring the foundation…</div>' +
-      '<button type="button" id="preSkip" class="pre-skip" aria-label="Skip intro">Skip →</button>';
-    document.body.appendChild(pre);
-    return pre;
+    // Preloader is SSR-rendered in the route so it covers first paint.
+    // If it's not in the DOM (e.g. removed by the inline head script for
+    // repeat visits / reduced motion), we skip entirely.
+    return document.getElementById("pre");
   }
 
   function runPreloader(done) {
-    // sessionStorage / reduced motion → skip entirely, don't inject
+    // sessionStorage / reduced motion → skip entirely
     var seen = false;
     try { seen = sessionStorage.getItem(PRE_KEY) === "1"; } catch (_) {}
-    if (reduced || !hasGSAP || seen) { done(); return; }
+    var existing = document.getElementById("pre");
+    if (reduced || !hasGSAP || seen) {
+      if (existing && existing.parentNode) existing.parentNode.removeChild(existing);
+      document.body.classList.remove("lock");
+      done();
+      return;
+    }
+    if (!existing) { done(); return; }
 
-    var pre = injectPreloader();
+    var pre = existing;
+
     var num = document.getElementById("preNum");
     var bar = document.getElementById("preBar");
     var logo = document.getElementById("preLogo");
