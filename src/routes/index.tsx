@@ -34,9 +34,12 @@ export const Route = createFileRoute("/")({
       {
         // Runs before <body> paints. Removes the SSR preloader instantly for
         // repeat visits / reduced motion so it never flashes over content,
-        // and locks scroll on first visits so page doesn't jump.
+        // and locks scroll on first visits so page doesn't jump. Also wires
+        // an independent dismissal (skip button + click + key + hard 2.5s
+        // timeout) so if experience.js / CDN scripts fail to load, visitors
+        // are NEVER trapped on the splash.
         children:
-          "(function(){try{var r=matchMedia('(prefers-reduced-motion: reduce)').matches;var s=sessionStorage.getItem('dr_pre_seen')==='1';if(r||s){document.documentElement.setAttribute('data-pre','off');}else{document.documentElement.setAttribute('data-pre','on');}}catch(e){}})();",
+          "(function(){try{var H=document.documentElement;var r=matchMedia('(prefers-reduced-motion: reduce)').matches;var s=false;try{s=sessionStorage.getItem('dr_pre_seen')==='1';}catch(e){}if(r||s){H.setAttribute('data-pre','off');return;}H.setAttribute('data-pre','on');var done=false;function kill(){if(done)return;done=true;H.setAttribute('data-pre','off');try{sessionStorage.setItem('dr_pre_seen','1');}catch(e){}var p=document.getElementById('pre');if(p&&p.parentNode)p.parentNode.removeChild(p);try{document.body.classList.remove('lock');}catch(e){}}window.__drPreKill=kill;function wire(){var p=document.getElementById('pre');if(!p)return;var sk=document.getElementById('preSkip');if(sk)sk.addEventListener('click',function(e){e.stopPropagation();kill();});p.addEventListener('click',kill,{once:true});}if(document.readyState!=='loading')wire();else document.addEventListener('DOMContentLoaded',wire,{once:true});document.addEventListener('keydown',function(e){if(e.key==='Escape'||e.key==='Enter'||e.key===' ')kill();},{once:true});setTimeout(kill,2500);}catch(e){try{document.documentElement.setAttribute('data-pre','off');}catch(_){}}})();",
       },
       {
         type: "application/ld+json",
