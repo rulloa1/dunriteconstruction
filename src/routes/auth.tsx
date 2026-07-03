@@ -232,8 +232,7 @@ function AuthPage() {
 
       <style>{`
         @media (min-width: 900px) {
-          .auth-grid { grid-template-columns: 1.05fr 1fr !important; }
-          .auth-brand { display: flex !important; }
+          .auth-form-panel { justify-items: end !important; padding-right: 8vw !important; }
         }
         .auth-input {
           width: 100%;
@@ -252,8 +251,11 @@ function AuthPage() {
           box-shadow: 0 0 0 3px color-mix(in oklch, var(--blue, #5B9FCC) 25%, transparent);
         }
         .auth-card {
-          backdrop-filter: blur(8px);
-          box-shadow: 0 24px 72px rgba(0,0,0,.35);
+          background: color-mix(in oklch, var(--bg-elev) 82%, transparent);
+          backdrop-filter: blur(14px);
+          -webkit-backdrop-filter: blur(14px);
+          border: 1px solid color-mix(in oklch, var(--border-soft) 80%, transparent);
+          box-shadow: 0 24px 72px rgba(0,0,0,.45);
         }
       `}</style>
     </div>
