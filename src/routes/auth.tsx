@@ -86,58 +86,9 @@ function AuthPage() {
         }}
         className="auth-grid"
       >
-        {/* Brand panel */}
-        <aside
-          className="auth-brand"
-          style={{
-            position: "relative",
-            overflow: "hidden",
-            display: "none",
-            padding: "48px",
-            borderRight: "1px solid var(--border-soft)",
-            background:
-              "linear-gradient(160deg, rgba(74,130,167,0.22) 0%, rgba(15,22,32,0.6) 60%, var(--bg) 100%)",
-          }}
-        >
-          <div
-            aria-hidden
-            style={{
-              position: "absolute",
-              inset: 0,
-              backgroundImage: "url(/assets/full-shell.jpg)",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              opacity: 0.18,
-              filter: "grayscale(0.4) contrast(1.05)",
-            }}
-          />
-          <div style={{ position: "relative", zIndex: 1, display: "flex", flexDirection: "column", height: "100%" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-              <img src={LOGO} alt="Dun Rite" style={{ height: 44, width: "auto" }} />
-              <div>
-                <div className="kbd-label" style={{ letterSpacing: ".18em" }}>Dun Rite OS</div>
-                <div className="font-display font-semibold" style={{ fontSize: 18 }}>Operations Console</div>
-              </div>
-            </div>
-
-            <div style={{ marginTop: "auto" }}>
-              <h2 className="font-display" style={{ fontSize: 32, fontWeight: 600, lineHeight: 1.15, maxWidth: 420 }}>
-                Pour, lay, frame — tracked end&#8209;to&#8209;end.
-              </h2>
-              <p className="text-muted font-ui" style={{ marginTop: 14, maxWidth: 440, fontSize: 14, lineHeight: 1.55 }}>
-                Jobs, financials, daily logs, and project controls for the Dun Rite field & office teams.
-              </p>
-              <div style={{ display: "flex", gap: 18, marginTop: 24, flexWrap: "wrap" }}>
-                <Stat label="Active jobs" value="12" />
-                <Stat label="Counties served" value="10" />
-                <Stat label="Years building" value="15+" />
-              </div>
-            </div>
-          </div>
-        </aside>
-
         {/* Form panel */}
         <section
+          className="auth-form-panel"
           style={{
             display: "grid",
             placeItems: "center",
