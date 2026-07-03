@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Eye, EyeOff, Loader2, ShieldCheck, ArrowRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { LOGO } from "@/lib/dashboard/brand";
+import authBg from "@/assets/auth-bg.png.asset.json";
 
 export const Route = createFileRoute("/auth")({
   ssr: false,
@@ -68,10 +69,13 @@ function AuthPage() {
         minHeight: "100svh",
         display: "grid",
         gridTemplateColumns: "1fr",
-        background:
-          "radial-gradient(1200px 600px at 0% 0%, rgba(91,159,204,0.18), transparent 60%)," +
-          "radial-gradient(900px 500px at 100% 100%, rgba(196,163,90,0.10), transparent 60%)," +
-          "var(--bg)",
+        backgroundImage:
+          "linear-gradient(180deg, rgba(10,14,20,0.72) 0%, rgba(10,14,20,0.55) 45%, rgba(10,14,20,0.85) 100%)," +
+          `url(${authBg.url})`,
+        backgroundSize: "cover, cover",
+        backgroundPosition: "center, center",
+        backgroundRepeat: "no-repeat, no-repeat",
+        backgroundAttachment: "fixed, fixed",
       }}
     >
       <div
