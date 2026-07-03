@@ -131,7 +131,18 @@ function TheBuild() {
         <i id="scrollbar" />
       </div>
 
-{/* Preloader is injected by experience.js only when needed (first visit, motion allowed) */}
+{/* SSR preloader — covers first paint on first visit. Inline head script
+    sets html[data-pre="off"] on repeat visits / reduced motion so this
+    is hidden BEFORE paint (see CSS: html[data-pre="off"] .pre{display:none}).
+    experience.js drives the count-up and dismissal. */}
+<div className="pre" id="pre">
+  <img src={LOGO} alt="DunRite" id="preLogo" />
+  <div className="pre-count"><span id="preNum">0</span><span className="pct">%</span></div>
+  <div className="pre-bar"><i id="preBar" /></div>
+  <div className="pre-label">Pouring the foundation…</div>
+  <button type="button" id="preSkip" className="pre-skip" aria-label="Skip intro">Skip →</button>
+</div>
+
 
 
       <div className="bar">
