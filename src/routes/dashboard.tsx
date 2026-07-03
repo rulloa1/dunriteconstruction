@@ -23,13 +23,35 @@ export const Route = createFileRoute("/dashboard")({
 
 function DashboardPage() {
   return (
-    <div style={{ position: "fixed", inset: 0, background: "#0b0f14" }}>
+    <div
+      style={{
+        position: "fixed",
+        inset: 0,
+        background: "#0b0f14",
+        overflow: "hidden",
+        // Respect iOS safe-area insets so bottom UI isn't clipped under the home bar
+        paddingTop: "env(safe-area-inset-top, 0px)",
+        paddingBottom: "env(safe-area-inset-bottom, 0px)",
+        paddingLeft: "env(safe-area-inset-left, 0px)",
+        paddingRight: "env(safe-area-inset-right, 0px)",
+      }}
+    >
       <iframe
         src={DASHBOARD_URL}
         title="DunRite SOP Workbook"
-        style={{ width: "100%", height: "100%", border: 0, display: "block" }}
+        style={{
+          width: "100%",
+          // 100dvh handles mobile browser chrome; fallback to 100% for older engines
+          height: "100dvh",
+          minHeight: "100%",
+          border: 0,
+          display: "block",
+          background: "#0b0f14",
+          colorScheme: "dark",
+        }}
         allow="clipboard-read; clipboard-write; fullscreen"
         referrerPolicy="no-referrer-when-downgrade"
+        scrolling="auto"
       />
     </div>
   );
