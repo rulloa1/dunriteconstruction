@@ -59,6 +59,12 @@ h1,h2,h3{font-family:var(--display);font-weight:800;line-height:.96;letter-spaci
 .pre .pre-count .pct{color:var(--gold);font-size:.4em;vertical-align:super;}
 .pre .pre-label{font-family:var(--mono);font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--dim-2);}
 .pre.hide{pointer-events:none;}
+/* Inline head script sets html[data-pre] before paint: "off" = seen this
+   session or reduced motion (hide instantly, no flash-over-content);
+   "on" = first visit (lock scroll under the intro). */
+html[data-pre="off"] .pre{display:none !important;}
+html[data-pre="on"] body{overflow:hidden;}
+
 
 /* ---------------- top bar ---------------- */
 .bar{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;
