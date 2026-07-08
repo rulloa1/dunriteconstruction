@@ -16,6 +16,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AlbumsSlugRouteImport } from './routes/albums.$slug'
+import { Route as AuthenticatedHandbookRouteImport } from './routes/_authenticated/handbook'
 import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/app'
 import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
 import { Route as AuthenticatedAppPunchListRouteImport } from './routes/_authenticated/app.punch-list'
@@ -63,6 +64,11 @@ const AlbumsSlugRoute = AlbumsSlugRouteImport.update({
   id: '/albums/$slug',
   path: '/albums/$slug',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedHandbookRoute = AuthenticatedHandbookRouteImport.update({
+  id: '/handbook',
+  path: '/handbook',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedAppRoute = AuthenticatedAppRouteImport.update({
   id: '/app',
@@ -148,6 +154,7 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/app': typeof AuthenticatedAppRouteWithChildren
+  '/handbook': typeof AuthenticatedHandbookRoute
   '/albums/$slug': typeof AlbumsSlugRoute
   '/app/controls': typeof AuthenticatedAppControlsRoute
   '/app/daily-logs': typeof AuthenticatedAppDailyLogsRoute
@@ -168,6 +175,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof DashboardRoute
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/handbook': typeof AuthenticatedHandbookRoute
   '/albums/$slug': typeof AlbumsSlugRoute
   '/app/controls': typeof AuthenticatedAppControlsRoute
   '/app/daily-logs': typeof AuthenticatedAppDailyLogsRoute
@@ -191,6 +199,7 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/_authenticated/app': typeof AuthenticatedAppRouteWithChildren
+  '/_authenticated/handbook': typeof AuthenticatedHandbookRoute
   '/albums/$slug': typeof AlbumsSlugRoute
   '/_authenticated/app/controls': typeof AuthenticatedAppControlsRoute
   '/_authenticated/app/daily-logs': typeof AuthenticatedAppDailyLogsRoute
@@ -214,6 +223,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sitemap.xml'
     | '/app'
+    | '/handbook'
     | '/albums/$slug'
     | '/app/controls'
     | '/app/daily-logs'
@@ -234,6 +244,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/reset-password'
     | '/sitemap.xml'
+    | '/handbook'
     | '/albums/$slug'
     | '/app/controls'
     | '/app/daily-logs'
@@ -256,6 +267,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sitemap.xml'
     | '/_authenticated/app'
+    | '/_authenticated/handbook'
     | '/albums/$slug'
     | '/_authenticated/app/controls'
     | '/_authenticated/app/daily-logs'
@@ -332,6 +344,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/albums/$slug'
       preLoaderRoute: typeof AlbumsSlugRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/handbook': {
+      id: '/_authenticated/handbook'
+      path: '/handbook'
+      fullPath: '/handbook'
+      preLoaderRoute: typeof AuthenticatedHandbookRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/app': {
       id: '/_authenticated/app'
@@ -460,10 +479,12 @@ const AuthenticatedAppRouteWithChildren =
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAppRoute: typeof AuthenticatedAppRouteWithChildren
+  AuthenticatedHandbookRoute: typeof AuthenticatedHandbookRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAppRoute: AuthenticatedAppRouteWithChildren,
+  AuthenticatedHandbookRoute: AuthenticatedHandbookRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
@@ -482,3 +503,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
