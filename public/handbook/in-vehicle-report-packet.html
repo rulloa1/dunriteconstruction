@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<style>
+  :root{ --paper:#f6f4ef; --ink:#1d2127; --muted:#1d2127; --soft:#33383f; --accent:#0e6ea8; --sky:#1ca0e0; --char:#272b31; --hair:#c2bdb0; --card:#fffdf8; --danger:#b3471f; }
+  body{ margin:0; background:var(--paper); color:var(--ink); font-family:"Source Serif 4",Georgia,serif; -webkit-font-smoothing:antialiased; }
+  .doc{ box-sizing:border-box; max-width:8.5in; margin:0 auto; padding:0 clamp(20px,5vw,0.75in) 96px; }
+  .doc-frame{ width:100%; border-collapse:collapse; } .doc-frame td{ padding:0; }
+  .running-hdr,.running-ftr,.hdr-space,.ftr-space{ display:none; }
+  .wm{ position:fixed; inset:0; background:url("assets/dunrite-mark.png") no-repeat center; background-size:360px auto; opacity:0.07; transform:rotate(-20deg); pointer-events:none; z-index:0; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .doc{ position:relative; z-index:1; }
+  h1,h2,h3,h4{ font-family:"Archivo",sans-serif; color:var(--ink); margin:0; }
+  p{ font-size:13.5px; line-height:1.55; margin:0 0 10px; color:#2b3036; }
+  strong{ font-weight:700; }
+  .form{ break-before:page; padding-top:14px; }
+  .formcode{ font-family:"IBM Plex Mono",monospace; font-weight:600; font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:var(--soft); margin-bottom:5px; display:flex; justify-content:space-between; }
+  .form-head h2{ font-weight:800; font-size:23px; letter-spacing:-0.015em; }
+  .rule{ height:0; border-top:1px solid var(--ink); position:relative; margin:9px 0 13px; }
+  .rule::before{ content:""; position:absolute; top:-2px; left:0; width:52px; height:3px; background:var(--accent); }
+  h4{ font-family:"Archivo",sans-serif; font-weight:700; font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:var(--accent); margin:16px 0 7px; }
+  .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:9px 20px; margin:8px 0; }
+  .grid3{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:9px 20px; margin:8px 0; }
+  .fld{ display:flex; flex-direction:column; gap:4px; }
+  .fld .lab{ font-family:"IBM Plex Mono",monospace; font-size:8.5px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); }
+  .fld .ln{ border-bottom:1px solid var(--soft); height:21px; }
+  .fld.tall .ln{ height:50px; }
+  table.t{ width:100%; border-collapse:collapse; margin:8px 0; font-size:12px; table-layout:fixed; }
+  table.t th{ background:var(--char); color:#fff; font-family:"Archivo",sans-serif; font-weight:600; font-size:9.5px; letter-spacing:0.03em; text-transform:uppercase; text-align:left; padding:7px 9px; border:1px solid var(--char); line-height:1.2; }
+  table.t td{ border:1px solid var(--hair); padding:0 9px; height:27px; }
+  table.t td.tall{ height:46px; }
+  table.t td.c{ text-align:center; width:34px; }
+  table.t.chk th.c{ text-align:center; }
+  table.t tbody tr:nth-child(even) td{ background:rgba(39,43,49,0.03); }
+  .sig{ display:grid; grid-template-columns:1fr 1fr; gap:18px 36px; margin-top:20px; }
+  .sig .ln{ border-bottom:1.5px solid var(--ink); height:28px; }
+  .sig .cap{ font-family:"IBM Plex Mono",monospace; font-size:8.5px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin-top:6px; }
+  .note{ background:var(--card); border:1px solid var(--hair); border-left:3px solid var(--accent); border-radius:3px; padding:11px 15px; margin:11px 0; }
+  .note .lbl{ font-family:"Archivo",sans-serif; font-weight:700; font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); display:block; margin-bottom:5px; }
+  .note p{ margin:0; font-size:12.5px; }
+  .note.danger{ border-left-color:var(--danger); background:#fbf2ee; } .note.danger .lbl{ color:var(--danger); }
+  .steps{ counter-reset:s; list-style:none; padding:0; margin:8px 0; }
+  .steps li{ position:relative; padding:1px 0 12px 42px; counter-increment:s; }
+  .steps li::before{ content:counter(s); position:absolute; left:0; top:-1px; width:28px; height:28px; border-radius:50%; background:var(--accent); color:#fff; font-family:"Archivo",sans-serif; font-weight:700; font-size:13px; display:flex; align-items:center; justify-content:center; }
+  .steps b{ font-family:"Archivo",sans-serif; font-size:14px; display:block; }
+  .steps span{ font-size:13px; color:#3a4048; }
+  .diaggrid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:8px 0; }
+  .diag{ border:1px solid var(--hair); border-radius:5px; background:var(--card); padding:10px 12px; }
+  .diag .t{ font-family:"Archivo",sans-serif; font-weight:700; font-size:12px; color:var(--ink); display:flex; justify-content:space-between; align-items:baseline; gap:8px; }
+  .diag .t span{ font-family:"IBM Plex Mono",monospace; font-weight:500; font-size:7.5px; letter-spacing:0.08em; color:var(--soft); }
+  .diag .unit{ font-family:"IBM Plex Mono",monospace; font-size:8px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin:6px 0 8px; border-bottom:1px solid var(--soft); padding-bottom:3px; }
+  .diag .views{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .diag .view{ border:1px dashed #bdb8ab; border-radius:4px; height:84px; display:flex; align-items:flex-end; justify-content:center; padding-bottom:5px; font-family:"IBM Plex Mono",monospace; font-size:8px; letter-spacing:0.1em; text-transform:uppercase; color:var(--soft); }
+  @page{ size:letter; margin:0; }
+  @media print{
+    html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; } html,body{ margin:0; padding:0; }
+    .doc{ max-width:none !important; margin:0 !important; padding:0 0.6in !important; }
+    #dc-root,.sc-host{ height:auto !important; }
+    .hdr-space,.ftr-space{ display:table-cell; height:0.55in !important; }
+    .running-hdr,.running-ftr{ display:flex !important; justify-content:space-between; align-items:baseline; position:fixed !important; left:0; right:0; margin:0 !important; font-family:"IBM Plex Mono",monospace; font-size:7.5px; letter-spacing:0.1em; text-transform:uppercase; color:var(--soft); }
+    .running-hdr{ top:0; padding:0.28in 0.6in 0 !important; } .running-ftr{ bottom:0; padding:0 0.6in 0.28in !important; }
+    h2,h3,h4{ break-after:avoid; } table,tr,.note,.sig,.diag,.steps li{ break-inside:avoid; }
+    .cover{ break-after:page; margin:-0.6in -0.6in 0 -0.6in !important; border-radius:0 !important; min-height:11in !important; position:relative; z-index:2; }
+  }
+
+  .ck{ display:inline-block; width:15px; height:15px; border:1.5px solid #9a958a; border-radius:3px; vertical-align:middle; }
+  .opt{ font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:0.04em; text-transform:uppercase; color:var(--ink); display:inline-flex; align-items:center; gap:7px; }
+  table.t.chk tbody tr:nth-child(even) td{ background:transparent; }
+  table.t.chk td.c{ text-align:center; }
+  /* compact DR-VIR-01 inspection to fit one page */
+  .insp{ padding-top:2px; }
+  .insp h2{ font-size:23px; }
+  .insp .rule{ margin:6px 0 8px; }
+  .insp table.t.chk td{ height:10px; font-size:10px; line-height:1.05; padding-top:1px; padding-bottom:1px; }
+  .insp table.t.chk th{ padding:3px 9px; font-size:9px; }
+  .insp table.t.chk{ margin:3px 0; }
+  .insp .fld .ln{ height:13px; }
+  .insp td.tall{ height:16px; }
+  .insp .ck{ width:11px; height:11px; }
+  .insp .sig{ margin-top:6px; }
+  .insp div[style*="f1ece1"]{ padding:7px 14px !important; margin:7px 0 !important; }
+  .insp div[style*="background:var(--char)"]{ margin-top:8px !important; }
+  /* density tweak (excludes the one-page inspection) */
+  [data-density="compact"] .form:not(.insp){ padding-top:8px; }
+  [data-density="compact"] .form:not(.insp) table.t td{ height:23px; }
+  [data-density="compact"] .form:not(.insp) .fld .ln{ height:18px; }
+  [data-density="compact"] .form:not(.insp) .grid2,[data-density="compact"] .form:not(.insp) .grid3,[data-density="compact"] .form:not(.insp) .grid4{ gap:7px 16px; }
+  [data-density="relaxed"] .form:not(.insp){ padding-top:26px; }
+  [data-density="relaxed"] .form:not(.insp) table.t td{ height:40px; }
+  [data-density="relaxed"] .form:not(.insp) .fld .ln{ height:30px; }
+  [data-density="relaxed"] .form:not(.insp) .grid2,[data-density="relaxed"] .form:not(.insp) .grid3,[data-density="relaxed"] .form:not(.insp) .grid4{ gap:16px 30px; }
+</style>
+</helmet>
+<main class="doc">
+  <div class="wm" aria-hidden="true"></div>
+  <div class="running-hdr"><span>DunRite Construction Group LLC</span><span>In-Vehicle Report Packet</span></div>
+  <div class="running-ftr"><span>Keep in vehicle at all times</span><span>2026 · Rev. 1.0</span></div>
+  <table class="doc-frame" role="presentation">
+    <thead><tr><td class="hdr-space"></td></tr></thead>
+    <tbody><tr><td>
+
+    <!-- COVER -->
+        <!-- ===================== COVER — Centered Monolith ===================== -->
+    <section class="cover" data-screen-label="Cover" style="background:#ffffff; color:#1d2127; border:1px solid #dcd7cb; border-radius:4px; margin:0 0 40px; padding:96px clamp(40px,7vw,84px); min-height:9.4in; box-sizing:border-box; position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+      <img src="assets/dunrite-logo-dark.png" alt="DunRite Construction Group LLC" style="display:block; width:248px; max-width:62%; height:auto; margin:0 auto;">
+      <div style="width:64px; height:3px; background:#1ca0e0; margin:46px auto 30px; border-radius:2px;"></div>
+      <div style="font-family:'Archivo',sans-serif; font-weight:600; font-size:13px; letter-spacing:0.34em; text-transform:uppercase; color:#1ca0e0;">Driver's In-Vehicle Field Kit</div>
+      <h1 style="font-family:'Archivo',sans-serif; font-weight:800; font-size:54px; line-height:1.0; letter-spacing:-0.028em; margin:20px 0 0; color:#1d2127; text-align:left;">In-Vehicle<br>Report Packet</h1>
+    </section>
+
+    <!-- VEHICLE & BINDER ASSIGNMENT -->
+    <section class="form" data-screen-label="Binder Assignment" style="break-before:auto;">
+      <div class="formcode"><span>Binder Assignment · Keep Current</span><span></span></div>
+      <div class="form-head"><h2>Vehicle &amp; Binder Assignment</h2></div>
+      <div class="rule"></div>
+      <p style="font-size:14px;">This packet is assigned to one unit. Fill this page out when the binder is placed in the vehicle.</p>
+      <div class="grid2">
+        <div class="fld"><span class="lab">Unit #</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">License Plate</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Year / Make / Model</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">VIN (Last 6)</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Assigned Driver</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Date Issued</span><div class="ln"></div></div>
+      </div>
+      <h4>Reassignment Log</h4>
+      <table class="t">
+        <colgroup><col style="width:20%;"><col><col style="width:26%;"></colgroup>
+        <thead><tr><th>Date</th><th>Reassigned To (Driver)</th><th>Supervisor Initials</th></tr></thead>
+        <tbody>
+          <tr><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td></tr>
+        </tbody>
+      </table>
+      <div class="note"><span class="lbl">Stays with the vehicle</span><p>This packet stays with the vehicle — not the driver. If the unit is sold, retired, or reassigned, update the log above and notify the office.</p></div>
+    </section>
+
+    <!-- BLANK SHEET -->
+    <section class="form" data-screen-label="Blank" style="min-height:9.6in;">
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:var(--soft);">Notes</div>
+    </section>
+
+    <!-- ACCIDENT STEPS -->
+    <section class="form" data-screen-label="Accident Steps" style="break-before:auto;">
+      <div class="formcode"><span>Read Now · Keep In Cab</span><span></span></div>
+      <div class="form-head"><h2>In an Accident or Incident?</h2></div>
+      <div class="rule"></div>
+      <p style="font-size:14px;">Stay calm. Stay safe. Then work down this list — in order.</p>
+      <ol class="steps">
+        <li><b>Stop &amp; secure the scene.</b><span>Pull over safely, turn on hazard flashers, and set out warning triangles if it's safe to do so.</span></li>
+        <li><b>Check for injuries — call 911.</b><span>If anyone is hurt, call 911 immediately. Do not move injured people unless they are in danger.</span></li>
+        <li><b>Do not admit fault.</b><span>Stay polite, but never say the accident was your fault or discuss who is to blame — with anyone.</span></li>
+        <li><b>Photograph everything.</b><span>Damage to both vehicles, license plates, the full scene, road conditions, and any visible injuries.</span></li>
+        <li><b>Exchange information.</b><span>Get the other driver's name, phone, insurance &amp; policy #, plate, and vehicle. Note any witnesses and the responding officer.</span></li>
+        <li><b>Notify your supervisor now.</b><span>Call your supervisor from the scene — no matter how minor. They will guide you through next steps.</span></li>
+        <li><b>Fill out the report — same day.</b><span>Complete the Vehicle Accident &amp; Incident Report (Form DR-VIR-02) in this packet within 24 hours.</span></li>
+      </ol>
+      <div class="note danger"><span class="lbl">Emergency</span><p>If anyone is injured, call <strong>911</strong> first. Everything else can wait.</p></div>
+    </section>
+
+    <!-- DR-VIR-01 INSPECTION -->
+    <section class="form insp" data-screen-label="DR-VIR-01 Inspection">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:20px;">
+        <div>
+          <div style="font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent); margin-bottom:6px;">Form DR-VIR-01 · SOP 104 / 105</div>
+          <h2 style="font-weight:800; font-size:30px; letter-spacing:-0.02em;">Vehicle Inspection Report</h2>
+        </div>
+        <img src="assets/dunrite-logo-dark.png" alt="DunRite Construction Group LLC" style="width:148px; height:auto; flex:none;">
+      </div>
+      <div style="height:2px; background:var(--ink); margin:12px 0 16px;"></div>
+      <div style="display:grid; grid-template-columns:repeat(5,1fr); gap:9px 18px;">
+        <div class="fld"><span class="lab">Date</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Driver Name</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Unit #</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Odometer</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Jobsite / Route</span><div class="ln"></div></div>
+      </div>
+      <div style="background:#f1ece1; border:1px solid var(--hair); border-radius:6px; padding:13px 17px; margin:15px 0;">
+        <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
+          <span style="font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:12px; letter-spacing:0.1em; text-transform:uppercase;">Inspection</span>
+          <span class="opt"><span class="ck"></span> Pre-Trip</span>
+          <span class="opt"><span class="ck"></span> Post-Trip</span>
+          <span style="margin-left:auto; font-size:12.5px; color:#3a4048;"><b style="color:#1f8a4c;">OK</b> = satisfactory · <b style="color:#b3471f;">DEF</b> = defect, note below</span>
+        </div>
+        <div style="border-top:1px dashed var(--soft); margin:11px 0;"></div>
+        <div style="display:flex; gap:28px; flex-wrap:wrap; align-items:flex-end;">
+          <span class="opt"><span class="ck"></span> Newly Assigned Driver Inspection</span>
+          <span class="opt"><span class="ck"></span> End Assigned Driver Inspection</span>
+          <span style="flex:1; min-width:180px; display:flex; align-items:flex-end; gap:8px;"><span class="lab" style="white-space:nowrap;">Assigned Driver</span><span style="flex:1; border-bottom:1px solid var(--soft); height:16px;"></span></span>
+        </div>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0 22px; align-items:start;">
+        <div>
+          <table class="t chk"><colgroup><col><col class="c"><col class="c"></colgroup><thead><tr><th>Exterior &amp; Lights</th><th class="c">OK</th><th class="c">DEF</th></tr></thead><tbody><tr><td>Headlights — high &amp; low beam</td><td class="c"><span class="ck"></span></td><td class="c"><span class="ck"></span></td></tr><tr><td>Brake &amp; tail lights</td><td class="c"><span class="ck"></span></td><td class="c"><span class="ck"></span></td></tr><tr><td>Turn signals &amp; 4-way flashers</td><td class="c"><span class="ck"></span></td><td class="c"><span class="ck"></span></td></tr><tr><td>Reflectors, marker &amp; running lights</td><td class="c"><span class="ck"></span></td><td class="c"><span class="ck"></span></td></tr><tr><td>Mirrors — clean &amp; adjusted</td><td class="c"><span class="ck"></span></td><td class="c"><span class="ck"></span></td></tr><tr><td>Windshield &amp; glass</td><td class="c"><span class="ck"></span></td><td class="c"><span class="ck"></span></td></tr><tr><td>Wipers &amp; washer spray</td><td class="c"><span class="ck"></span></td><td class="c"><span class="ck"></span></td></tr><tr><td>Horn</td><td class="c"><span class="ck"></span></td><td class="c"><span class="ck"></span></td></tr><tr><td>Body, doors &amp; bumpers</td><td class="c"><span class="ck"></span></td><td class="c"><span class="ck"></span></td></tr></tbody></table>
+          <table class="t chk"><colgroup><col><col class="c"><col class="c"></colgroup><thead><tr><th>Tires, Wheels &amp; Brakes</th><th class="c">OK</th><th class="c">DEF</th></tr></thead><tbody><tr><td>Tire tread &amp; condition</td><td class="c"><span class="ck"></span></td><td class="c"><span class="ck"></span></td></tr><tr><td>Tire pressure</td><td class="c"><span class="ck"></span></td><td class="c"><span class="ck"></span></td></tr><tr><td>Wheels, rims &amp; lug nuts</td><td class="c"><span class="ck"></span></td><td class="c"><span class="ck"></span></td></tr><tr><td>Spare tire &amp; jack</td><td class="c"><span class="ck"></span></td><td class="c"><span class="ck"></span></td></tr><tr><td>Service brakes</td><td class="c"><span class="ck"></span></td><td class="c"><span class="ck"></span></td></tr><tr><td>Parking brake</td><td class="c"><span class="ck"></span></td><td class="c"><span class="ck"></span></td></tr><tr><td>Steering — free play</td><td class="c"><span class="ck"></span></td><td class="c"><span class="ck"></span></td></tr></tbody></table>
+        </div>
+        <div>
+          <table class="t chk"><colgroup><col><col class="c"><col class="c"></colgroup><thead><tr><th>Engine / Under Hood</th><th class="c">OK</th><th class="c">DEF</th></tr></thead><tbody><tr><td>Engine oil level</td><td class="c"><span class="ck"></span></td><td class="c"><span class="ck"></span></td></tr><tr><td>Coolant level</td><td class="c"><span class="ck"></span></td><td class="c"><span class="ck"></span></td></tr><tr><td>Brake / power-steering fluid</td><td class="c"><span class="ck"></span></td><td class="c"><span class="ck"></span></td></tr><tr><td>Washer fluid</td><td class="c"><span class="ck"></span></td><td class="c"><span class="ck"></span></td></tr><tr><td>Belts &amp; hoses</td><td class="c"><span class="ck"></span></td><td class="c"><span class="ck"></span></td></tr><tr><td>Battery &amp; cables</td><td class="c"><span class="ck"></span></td><td class="c"><span class="ck"></span></td></tr><tr><td>Visible leaks (oil, fuel, fluid)</td><td class="c"><span class="ck"></span></td><td class="c"><span class="ck"></span></td></tr><tr><td>Exhaust system</td><td class="c"><span class="ck"></span></td><td class="c"><span class="ck"></span></td></tr></tbody></table>
+          <table class="t chk"><colgroup><col><col class="c"><col class="c"></colgroup><thead><tr><th>Cab &amp; Safety Equipment</th><th class="c">OK</th><th class="c">DEF</th></tr></thead><tbody><tr><td>Seat belts</td><td class="c"><span class="ck"></span></td><td class="c"><span class="ck"></span></td></tr><tr><td>Gauges &amp; warning lamps</td><td class="c"><span class="ck"></span></td><td class="c"><span class="ck"></span></td></tr><tr><td>Heater / defroster</td><td class="c"><span class="ck"></span></td><td class="c"><span class="ck"></span></td></tr><tr><td>Fire extinguisher (charged)</td><td class="c"><span class="ck"></span></td><td class="c"><span class="ck"></span></td></tr><tr><td>First-aid kit</td><td class="c"><span class="ck"></span></td><td class="c"><span class="ck"></span></td></tr><tr><td>Warning triangles / flares</td><td class="c"><span class="ck"></span></td><td class="c"><span class="ck"></span></td></tr><tr><td>Registration &amp; insurance</td><td class="c"><span class="ck"></span></td><td class="c"><span class="ck"></span></td></tr><tr><td>Backup alarm (if equipped)</td><td class="c"><span class="ck"></span></td><td class="c"><span class="ck"></span></td></tr></tbody></table>
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:14px; background:var(--char); color:#fff; padding:8px 12px; margin-top:18px;">
+        <span style="font-family:'Archivo',sans-serif; font-weight:700; font-size:11px; letter-spacing:0.06em; text-transform:uppercase;">Defects &amp; Remarks</span>
+        <span style="display:inline-flex; align-items:center; gap:14px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.04em; text-transform:uppercase; color:#cdd3da;">Defects found?<span class="opt" style="color:#fff;"><span class="ck" style="border-color:#fff;"></span> <span style="color:#3fae6b;">No</span></span><span class="opt" style="color:#fff;"><span class="ck" style="border-color:#fff;"></span> <span style="color:#e08a6a;">Yes — list below</span></span></span>
+      </div>
+      <table class="t" style="margin-top:0;"><tbody><tr><td class="tall"></td></tr><tr><td class="tall"></td></tr></tbody></table>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:18px 36px; margin-top:18px;">
+        <div>
+          <div style="border-bottom:1.5px solid var(--ink); height:28px;"></div>
+          <div style="display:flex; justify-content:space-between; margin-top:6px;"><span class="cap">Driver Signature</span><span class="cap">Date</span></div>
+          <p style="font-size:11.5px; color:#3a4048; margin:8px 0 0;">I certify the above inspection was performed and the vehicle is safe to operate, except as noted.</p>
+        </div>
+        <div>
+          <div style="border-bottom:1.5px solid var(--ink); height:28px;"></div>
+          <div style="display:flex; justify-content:space-between; margin-top:6px;"><span class="cap">Mechanic / Supervisor Sign-Off</span><span class="cap">Date</span></div>
+          <div style="display:flex; gap:22px; margin-top:9px;"><span class="opt"><span class="ck"></span> Defects corrected</span><span class="opt"><span class="ck"></span> No defects — OK</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DR-VIR-01 PAGE 2 — CONDITION DIAGRAMS -->
+    <section class="form" data-screen-label="DR-VIR-01 Condition">
+      <img src="assets/page-dr-vir-01-condition.png" alt="Large Vehicle & Trailer Condition Diagram — Form DR-VIR-01 Page 2" style="display:block; max-width:100%; max-height:9.5in; height:auto; margin:0 auto;">
+    </section>
+
+    <!-- DR-VIR-02 ACCIDENT REPORT -->
+    <section class="form" data-screen-label="DR-VIR-02 Accident">
+      <img src="assets/page-dr-vir-02-accident.png" alt="Vehicle Accident & Incident Report — Form DR-VIR-02" style="display:block; max-width:100%; max-height:9.5in; height:auto; margin:0 auto;">
+    </section>
+
+    <!-- DR-VIR-02 PAGE 2 — VEHICLE DAMAGE -->
+    <section class="form" data-screen-label="DR-VIR-02 Vehicle Damage">
+      <div class="formcode"><span>Form DR-VIR-02 · Page 2 — Damage Illustration</span><span></span></div>
+      <div class="form-head"><h2>Vehicle Damage Diagram</h2></div>
+      <div class="rule"></div>
+      <p>Use the diagram that matches the DunRite vehicle involved. Circle every point of impact and shade all damaged areas. Number each damaged area and describe it in the Description section on the front of this form.</p>
+      <img src="assets/diagram-vehicle-damage.png" alt="Pickup truck and heavy-duty tow vehicle — driver side, front, top, rear — circle &amp; shade damage" style="display:block; width:100%; height:auto; border-radius:5px;">
+    </section>
+
+    <!-- DR-VIR-02 PAGE 3 — TRAILER DAMAGE -->
+    <section class="form" data-screen-label="DR-VIR-02 Trailer Damage">
+      <div class="formcode"><span>Form DR-VIR-02 · Page 3 — Trailer Damage</span><span></span></div>
+      <div class="form-head"><h2>Trailer Damage Diagram</h2></div>
+      <div class="rule"></div>
+      <p>Use the diagram that matches the DunRite trailer involved. Circle every point of impact and shade all damaged areas. Note any cargo, ramp, or coupler damage in the Description section on the front of this form.</p>
+      <img src="assets/diagram-gooseneck.png" alt="Gooseneck trailer — driver side, coupler/neck, top, rear — circle &amp; shade damage" style="display:block; width:100%; height:auto; border-radius:5px;">
+      <img src="assets/diagram-flatbed.png" alt="Flatbed trailer — driver side, coupler/tongue, top, rear — circle &amp; shade damage" style="display:block; width:100%; height:auto; border-radius:5px; margin-top:12px;">
+    </section>
+
+    <!-- DR-VIR-03 MILEAGE & FUEL LOG -->
+    <section class="form" data-screen-label="DR-VIR-03 Mileage Log 1">
+      <div class="formcode"><span>Form DR-VIR-03 · One Sheet Per Month</span><span>Sheet 1 of 6</span></div>
+      <div class="form-head"><h2>Mileage &amp; Fuel Log</h2></div>
+      <div class="rule"></div>
+      <div class="grid4" style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:9px 20px;">
+        <div class="fld"><span class="lab">Month / Year</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Unit #</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Driver</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Starting Odometer</span><div class="ln"></div></div>
+      </div>
+      <table class="t">
+        <colgroup><col style="width:13%"><col style="width:31%"><col style="width:14%"><col style="width:14%"><col style="width:10%"><col style="width:9%"><col style="width:9%"></colgroup>
+        <thead><tr><th>Date</th><th>Jobsite / Destination</th><th>Odo Start</th><th>Odo End</th><th>Miles</th><th>Fuel Gal</th><th>Fuel $</th></tr></thead>
+        <tbody><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody>
+        <tfoot><tr><td colspan="4" style="text-align:right; font-family:'Archivo',sans-serif; font-weight:700; background:rgba(14,110,168,0.06);">Month Totals</td><td style="background:rgba(14,110,168,0.06);"></td><td style="background:rgba(14,110,168,0.06);"></td><td style="background:rgba(14,110,168,0.06);"></td></tr></tfoot>
+      </table>
+      <div class="note"><span class="lbl">Maintenance Reminder</span><p>Log oil changes every 5,000 mi. Flag the shop when within 500 mi of the next service interval.</p></div>
+      <div class="sig">
+        <div><div class="ln"></div><div class="cap">Submitted to Fleet (Name)</div></div>
+        <div><div class="ln"></div><div class="cap">Date</div></div>
+      </div>
+      <div style="margin-top:24px; padding-top:13px; border-top:1px solid #948e80;">
+        <p style="font-family:'IBM Plex Mono',monospace; font-size:8.5px; letter-spacing:0.12em; text-transform:uppercase; color:var(--soft); margin:0;">DunRite Construction Group LLC · In-Vehicle Report Packet · Forms DR-VIR-01/02/03 · Rev. 1.0</p>
+      </div>
+    </section>
+
+    <!-- DR-VIR-03 MILEAGE & FUEL LOG -->
+    <section class="form" data-screen-label="DR-VIR-03 Mileage Log 2">
+      <div class="formcode"><span>Form DR-VIR-03 · One Sheet Per Month</span><span>Sheet 2 of 6</span></div>
+      <div class="form-head"><h2>Mileage &amp; Fuel Log</h2></div>
+      <div class="rule"></div>
+      <div class="grid4" style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:9px 20px;">
+        <div class="fld"><span class="lab">Month / Year</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Unit #</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Driver</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Starting Odometer</span><div class="ln"></div></div>
+      </div>
+      <table class="t">
+        <colgroup><col style="width:13%"><col style="width:31%"><col style="width:14%"><col style="width:14%"><col style="width:10%"><col style="width:9%"><col style="width:9%"></colgroup>
+        <thead><tr><th>Date</th><th>Jobsite / Destination</th><th>Odo Start</th><th>Odo End</th><th>Miles</th><th>Fuel Gal</th><th>Fuel $</th></tr></thead>
+        <tbody><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody>
+        <tfoot><tr><td colspan="4" style="text-align:right; font-family:'Archivo',sans-serif; font-weight:700; background:rgba(14,110,168,0.06);">Month Totals</td><td style="background:rgba(14,110,168,0.06);"></td><td style="background:rgba(14,110,168,0.06);"></td><td style="background:rgba(14,110,168,0.06);"></td></tr></tfoot>
+      </table>
+      <div class="note"><span class="lbl">Maintenance Reminder</span><p>Log oil changes every 5,000 mi. Flag the shop when within 500 mi of the next service interval.</p></div>
+      <div class="sig">
+        <div><div class="ln"></div><div class="cap">Submitted to Fleet (Name)</div></div>
+        <div><div class="ln"></div><div class="cap">Date</div></div>
+      </div>
+      <div style="margin-top:24px; padding-top:13px; border-top:1px solid #948e80;">
+        <p style="font-family:'IBM Plex Mono',monospace; font-size:8.5px; letter-spacing:0.12em; text-transform:uppercase; color:var(--soft); margin:0;">DunRite Construction Group LLC · In-Vehicle Report Packet · Forms DR-VIR-01/02/03 · Rev. 1.0</p>
+      </div>
+    </section>
+
+    <!-- DR-VIR-03 MILEAGE & FUEL LOG -->
+    <section class="form" data-screen-label="DR-VIR-03 Mileage Log 3">
+      <div class="formcode"><span>Form DR-VIR-03 · One Sheet Per Month</span><span>Sheet 3 of 6</span></div>
+      <div class="form-head"><h2>Mileage &amp; Fuel Log</h2></div>
+      <div class="rule"></div>
+      <div class="grid4" style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:9px 20px;">
+        <div class="fld"><span class="lab">Month / Year</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Unit #</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Driver</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Starting Odometer</span><div class="ln"></div></div>
+      </div>
+      <table class="t">
+        <colgroup><col style="width:13%"><col style="width:31%"><col style="width:14%"><col style="width:14%"><col style="width:10%"><col style="width:9%"><col style="width:9%"></colgroup>
+        <thead><tr><th>Date</th><th>Jobsite / Destination</th><th>Odo Start</th><th>Odo End</th><th>Miles</th><th>Fuel Gal</th><th>Fuel $</th></tr></thead>
+        <tbody><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody>
+        <tfoot><tr><td colspan="4" style="text-align:right; font-family:'Archivo',sans-serif; font-weight:700; background:rgba(14,110,168,0.06);">Month Totals</td><td style="background:rgba(14,110,168,0.06);"></td><td style="background:rgba(14,110,168,0.06);"></td><td style="background:rgba(14,110,168,0.06);"></td></tr></tfoot>
+      </table>
+      <div class="note"><span class="lbl">Maintenance Reminder</span><p>Log oil changes every 5,000 mi. Flag the shop when within 500 mi of the next service interval.</p></div>
+      <div class="sig">
+        <div><div class="ln"></div><div class="cap">Submitted to Fleet (Name)</div></div>
+        <div><div class="ln"></div><div class="cap">Date</div></div>
+      </div>
+      <div style="margin-top:24px; padding-top:13px; border-top:1px solid #948e80;">
+        <p style="font-family:'IBM Plex Mono',monospace; font-size:8.5px; letter-spacing:0.12em; text-transform:uppercase; color:var(--soft); margin:0;">DunRite Construction Group LLC · In-Vehicle Report Packet · Forms DR-VIR-01/02/03 · Rev. 1.0</p>
+      </div>
+    </section>
+
+    <!-- DR-VIR-03 MILEAGE & FUEL LOG -->
+    <section class="form" data-screen-label="DR-VIR-03 Mileage Log 4">
+      <div class="formcode"><span>Form DR-VIR-03 · One Sheet Per Month</span><span>Sheet 4 of 6</span></div>
+      <div class="form-head"><h2>Mileage &amp; Fuel Log</h2></div>
+      <div class="rule"></div>
+      <div class="grid4" style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:9px 20px;">
+        <div class="fld"><span class="lab">Month / Year</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Unit #</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Driver</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Starting Odometer</span><div class="ln"></div></div>
+      </div>
+      <table class="t">
+        <colgroup><col style="width:13%"><col style="width:31%"><col style="width:14%"><col style="width:14%"><col style="width:10%"><col style="width:9%"><col style="width:9%"></colgroup>
+        <thead><tr><th>Date</th><th>Jobsite / Destination</th><th>Odo Start</th><th>Odo End</th><th>Miles</th><th>Fuel Gal</th><th>Fuel $</th></tr></thead>
+        <tbody><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody>
+        <tfoot><tr><td colspan="4" style="text-align:right; font-family:'Archivo',sans-serif; font-weight:700; background:rgba(14,110,168,0.06);">Month Totals</td><td style="background:rgba(14,110,168,0.06);"></td><td style="background:rgba(14,110,168,0.06);"></td><td style="background:rgba(14,110,168,0.06);"></td></tr></tfoot>
+      </table>
+      <div class="note"><span class="lbl">Maintenance Reminder</span><p>Log oil changes every 5,000 mi. Flag the shop when within 500 mi of the next service interval.</p></div>
+      <div class="sig">
+        <div><div class="ln"></div><div class="cap">Submitted to Fleet (Name)</div></div>
+        <div><div class="ln"></div><div class="cap">Date</div></div>
+      </div>
+      <div style="margin-top:24px; padding-top:13px; border-top:1px solid #948e80;">
+        <p style="font-family:'IBM Plex Mono',monospace; font-size:8.5px; letter-spacing:0.12em; text-transform:uppercase; color:var(--soft); margin:0;">DunRite Construction Group LLC · In-Vehicle Report Packet · Forms DR-VIR-01/02/03 · Rev. 1.0</p>
+      </div>
+    </section>
+
+    <!-- DR-VIR-03 MILEAGE & FUEL LOG -->
+    <section class="form" data-screen-label="DR-VIR-03 Mileage Log 5">
+      <div class="formcode"><span>Form DR-VIR-03 · One Sheet Per Month</span><span>Sheet 5 of 6</span></div>
+      <div class="form-head"><h2>Mileage &amp; Fuel Log</h2></div>
+      <div class="rule"></div>
+      <div class="grid4" style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:9px 20px;">
+        <div class="fld"><span class="lab">Month / Year</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Unit #</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Driver</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Starting Odometer</span><div class="ln"></div></div>
+      </div>
+      <table class="t">
+        <colgroup><col style="width:13%"><col style="width:31%"><col style="width:14%"><col style="width:14%"><col style="width:10%"><col style="width:9%"><col style="width:9%"></colgroup>
+        <thead><tr><th>Date</th><th>Jobsite / Destination</th><th>Odo Start</th><th>Odo End</th><th>Miles</th><th>Fuel Gal</th><th>Fuel $</th></tr></thead>
+        <tbody><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody>
+        <tfoot><tr><td colspan="4" style="text-align:right; font-family:'Archivo',sans-serif; font-weight:700; background:rgba(14,110,168,0.06);">Month Totals</td><td style="background:rgba(14,110,168,0.06);"></td><td style="background:rgba(14,110,168,0.06);"></td><td style="background:rgba(14,110,168,0.06);"></td></tr></tfoot>
+      </table>
+      <div class="note"><span class="lbl">Maintenance Reminder</span><p>Log oil changes every 5,000 mi. Flag the shop when within 500 mi of the next service interval.</p></div>
+      <div class="sig">
+        <div><div class="ln"></div><div class="cap">Submitted to Fleet (Name)</div></div>
+        <div><div class="ln"></div><div class="cap">Date</div></div>
+      </div>
+      <div style="margin-top:24px; padding-top:13px; border-top:1px solid #948e80;">
+        <p style="font-family:'IBM Plex Mono',monospace; font-size:8.5px; letter-spacing:0.12em; text-transform:uppercase; color:var(--soft); margin:0;">DunRite Construction Group LLC · In-Vehicle Report Packet · Forms DR-VIR-01/02/03 · Rev. 1.0</p>
+      </div>
+    </section>
+
+    <!-- DR-VIR-03 MILEAGE & FUEL LOG -->
+    <section class="form" data-screen-label="DR-VIR-03 Mileage Log 6">
+      <div class="formcode"><span>Form DR-VIR-03 · One Sheet Per Month</span><span>Sheet 6 of 6</span></div>
+      <div class="form-head"><h2>Mileage &amp; Fuel Log</h2></div>
+      <div class="rule"></div>
+      <div class="grid4" style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:9px 20px;">
+        <div class="fld"><span class="lab">Month / Year</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Unit #</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Driver</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Starting Odometer</span><div class="ln"></div></div>
+      </div>
+      <table class="t">
+        <colgroup><col style="width:13%"><col style="width:31%"><col style="width:14%"><col style="width:14%"><col style="width:10%"><col style="width:9%"><col style="width:9%"></colgroup>
+        <thead><tr><th>Date</th><th>Jobsite / Destination</th><th>Odo Start</th><th>Odo End</th><th>Miles</th><th>Fuel Gal</th><th>Fuel $</th></tr></thead>
+        <tbody><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody>
+        <tfoot><tr><td colspan="4" style="text-align:right; font-family:'Archivo',sans-serif; font-weight:700; background:rgba(14,110,168,0.06);">Month Totals</td><td style="background:rgba(14,110,168,0.06);"></td><td style="background:rgba(14,110,168,0.06);"></td><td style="background:rgba(14,110,168,0.06);"></td></tr></tfoot>
+      </table>
+      <div class="note"><span class="lbl">Maintenance Reminder</span><p>Log oil changes every 5,000 mi. Flag the shop when within 500 mi of the next service interval.</p></div>
+      <div class="sig">
+        <div><div class="ln"></div><div class="cap">Submitted to Fleet (Name)</div></div>
+        <div><div class="ln"></div><div class="cap">Date</div></div>
+      </div>
+      <div style="margin-top:24px; padding-top:13px; border-top:1px solid #948e80;">
+        <p style="font-family:'IBM Plex Mono',monospace; font-size:8.5px; letter-spacing:0.12em; text-transform:uppercase; color:var(--soft); margin:0;">DunRite Construction Group LLC · In-Vehicle Report Packet · Forms DR-VIR-01/02/03 · Rev. 1.0</p>
+      </div>
+    </section>
+
+    </td></tr></tbody>
+    <tfoot><tr><td class="ftr-space"></td></tr></tfoot>
+  </table>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;8.5in&quot;},&quot;accent&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;DunRite Blue&quot;,&quot;Safety Orange&quot;,&quot;Forest Green&quot;,&quot;Slate&quot;],&quot;default&quot;:&quot;DunRite Blue&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Theme&quot;},&quot;paper&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Warm Cream&quot;,&quot;Bright White&quot;,&quot;Cool Grey&quot;],&quot;default&quot;:&quot;Warm Cream&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Theme&quot;},&quot;density&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Relaxed&quot;,&quot;Standard&quot;,&quot;Compact&quot;],&quot;default&quot;:&quot;Standard&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Layout&quot;}}">class Component extends DCLogic {
+  componentDidMount(){ this.apply(); }
+  componentDidUpdate(){ this.apply(); }
+  apply(){
+    const r = document.documentElement;
+    const acc = ({
+      "DunRite Blue": ["#0e6ea8","#1ca0e0"],
+      "Safety Orange": ["#c75d1e","#ef962f"],
+      "Forest Green": ["#1f7a4d","#36a86a"],
+      "Slate": ["#3a4654","#5d6b7d"]
+    })[this.props.accent] || ["#0e6ea8","#1ca0e0"];
+    r.style.setProperty("--accent", acc[0]);
+    r.style.setProperty("--sky", acc[1]);
+    const paper = ({
+      "Warm Cream": "#f6f4ef",
+      "Bright White": "#ffffff",
+      "Cool Grey": "#eceff3"
+    })[this.props.paper] || "#f6f4ef";
+    r.style.setProperty("--paper", paper);
+    r.setAttribute("data-density", (this.props.density || "Standard").toLowerCase());
+  }
+  renderVals(){ return {}; }
+}</script>
+</body>
+</html>

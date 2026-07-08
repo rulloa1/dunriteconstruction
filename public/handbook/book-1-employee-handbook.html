@@ -1,0 +1,1490 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<style>
+
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; background:#cfc9bc; }
+  body{ font-family:"Source Serif 4",Georgia,serif; color:#1d2127; -webkit-font-smoothing:antialiased; }
+  /* neutralize per-document fixed running headers / footers / watermarks so stacked docs don't collide */
+  .doc .running-hdr, .doc .running-ftr{ display:none !important; }
+  .doc .wm{ display:none !important; }
+  .doc .hdr-space, .doc .ftr-space{ height:0 !important; }
+  .doc .blankback{ display:none !important; }
+  .bundle-doc{ break-before:page; }
+  .bundle-blank{ display:none; }
+  @media print{
+    .bundle-blank{ display:block; break-before:page; break-after:page; min-height:10in; }
+    html,body{ background:#fff; }
+    .noprint{ display:none !important; }
+    .bundle-cover{ break-after:page; }
+    @page{ size:letter; margin:0; }
+    html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  }
+
+
+/* ---- Employee Handbook ---- */
+.bkdoc1{
+    --paper:#f6f4ef; --ink:#1d2127; --muted:#6c7077; --soft:#8b8f96;
+    --accent:#0e6ea8; --sky:#1ca0e0; --navy:#15273b; --hair:#dcd7cb;
+    --card:#fffdf8;
+  }
+.bkdoc1{ margin:0; background:var(--paper); color:var(--ink);
+        font-family:"Source Serif 4",Georgia,serif; -webkit-font-smoothing:antialiased; }
+.bkdoc1 .doc{ box-sizing:border-box; max-width:8.5in; margin:0 auto; background:inherit;
+        padding:0 clamp(20px,5vw,0.75in) 96px; }
+.bkdoc1 .doc-frame{ width:100%; border-collapse:collapse; position:relative; z-index:1; }
+.bkdoc1 .doc-frame td{ padding:0; }
+.bkdoc1 .running-hdr,
+.bkdoc1 .running-ftr,
+.bkdoc1 .hdr-space,
+.bkdoc1 .ftr-space{ display:none; }
+.bkdoc1 /* ---- Typography ---- */
+  h1,
+.bkdoc1 h2,
+.bkdoc1 h3,
+.bkdoc1 h4{ font-family:"Archivo",sans-serif; color:var(--ink);
+        text-wrap:balance; margin:0; }
+.bkdoc1 h2{ font-weight:800; font-size:30px; letter-spacing:-0.01em; line-height:1.08; }
+.bkdoc1 h3{ font-weight:700; font-size:18px; letter-spacing:0.01em; margin:30px 0 8px; }
+.bkdoc1 h4{ font-weight:700; font-size:14px; letter-spacing:0.04em; text-transform:uppercase;
+        color:var(--accent); margin:22px 0 6px; }
+.bkdoc1 p{ font-size:15px; line-height:1.66; margin:0 0 13px; color:#272b31; text-wrap:pretty; }
+.bkdoc1 ul,
+.bkdoc1 ol{ font-size:15px; line-height:1.62; margin:4px 0 14px; padding-left:22px; color:#272b31; }
+.bkdoc1 li{ margin:0 0 6px; text-wrap:pretty; }
+.bkdoc1 li::marker{ color:var(--accent); }
+.bkdoc1 strong{ font-weight:700; color:var(--ink); }
+.bkdoc1 a{ color:var(--accent); text-decoration:none; }
+.bkdoc1 .doc-frame em{ color:var(--muted); }
+.bkdoc1 /* ---- Section header ---- */
+  .sec{ break-before:page; padding-top:18px; }
+.bkdoc1 .sec-head{ display:flex; align-items:flex-start; gap:18px; margin:0 0 6px; }
+.bkdoc1 .sec-num{ font-family:"Archivo",sans-serif; font-weight:900; font-size:46px;
+        line-height:0.82; color:var(--accent); flex:none; }
+.bkdoc1 .sec-kicker{ font-family:"Archivo",sans-serif; font-weight:600; font-size:12px;
+        letter-spacing:0.22em; text-transform:uppercase; color:var(--soft); margin:4px 0 4px; }
+.bkdoc1 .rule{ height:2px; background:var(--ink); margin:14px 0 22px; }
+.bkdoc1 /* ---- Callouts ---- */
+  .note{ background:var(--card); border:1px solid var(--hair); border-left:3px solid var(--accent);
+        padding:15px 20px; margin:18px 0; border-radius:2px; }
+.bkdoc1 .note p{ margin:0; font-size:14px; }
+.bkdoc1 .note .lbl{ font-family:"Archivo",sans-serif; font-weight:700; font-size:11px;
+        letter-spacing:0.16em; text-transform:uppercase; color:var(--accent); display:block; margin-bottom:6px; }
+.bkdoc1 .note.fla{ border-left-color:var(--sky); }
+.bkdoc1 .note.legal{ border-left-color:#9a7b1e; }
+.bkdoc1 .note.legal .lbl{ color:#9a7b1e; }
+.bkdoc1 /* ---- Tables ---- */
+  table.t{ width:100%; border-collapse:collapse; margin:16px 0 20px; font-size:14px; }
+.bkdoc1 table.t th{ font-family:"Archivo",sans-serif; font-weight:700; font-size:11px;
+        letter-spacing:0.08em; text-transform:uppercase; text-align:left; color:var(--ink);
+        border-bottom:2px solid var(--ink); padding:8px 12px; }
+.bkdoc1 table.t td{ border-bottom:1px solid #948e80; padding:10px 12px; vertical-align:top; line-height:1.5; }
+.bkdoc1 table.t td:first-child{ font-weight:600; color:var(--ink); white-space:nowrap; }
+.bkdoc1 /* ---- Steps ---- */
+  .steps{ counter-reset:st; list-style:none; padding:0; margin:14px 0 18px; }
+.bkdoc1 .steps li{ position:relative; padding:0 0 14px 46px; counter-increment:st; }
+.bkdoc1 .steps li::before{ content:counter(st); position:absolute; left:0; top:-2px;
+        width:30px; height:30px; border-radius:50%; background:var(--accent); color:#fff;
+        font-family:"Archivo",sans-serif; font-weight:700; font-size:14px;
+        display:flex; align-items:center; justify-content:center; }
+.bkdoc1 .steps li strong{ display:block; }
+.bkdoc1 .screen-only{}
+.bkdoc1 .dr-watermark{ position:fixed; top:50%; left:50%; width:380px; height:380px; transform:translate(-50%,-50%); background:url('assets/dunrite-logo.png') no-repeat center/contain; opacity:0.06; pointer-events:none; z-index:0; }
+.bkdoc1 /* ---- Print ---- */
+  h3,
+.bkdoc1 h4{ break-after:avoid; }
+.bkdoc1 h4+ul,
+.bkdoc1 h4+ol,
+.bkdoc1 h3+ul,
+.bkdoc1 h3+ol,
+.bkdoc1 h4+table,
+.bkdoc1 h4+p{ break-before:avoid; }
+.bkdoc1 .blankback{ display:none; }
+@media print{.bkdoc1 .blankback{ display:flex !important; align-items:center; justify-content:center; min-height:6in; break-before:page; break-after:page; }
+.bkdoc1 .blankback span{ font-family:"IBM Plex Mono",monospace; font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:#b8b3a6; }
+.bkdoc1{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+.bkdoc1,
+.bkdoc1{ margin:0; padding:0; }
+.bkdoc1 .doc{ max-width:none !important; margin:0 !important; padding:0 0.75in !important;
+          box-shadow:none !important; border:none !important; }
+.bkdoc1 #dc-root,
+.bkdoc1 .sc-host{ height:auto !important; }
+.bkdoc1 .hdr-space,
+.bkdoc1 .ftr-space{ display:table-cell; height:0.7in !important; }
+.bkdoc1 .running-hdr,
+.bkdoc1 .running-ftr{ display:flex !important; justify-content:space-between;
+          align-items:baseline; position:fixed !important; left:0; right:0; margin:0 !important;
+          font-family:"Archivo",sans-serif; font-size:9px; letter-spacing:0.12em;
+          text-transform:uppercase; color:var(--soft); }
+.bkdoc1 .running-hdr{ top:0; padding:0.32in 0.75in 0 !important; }
+.bkdoc1 .running-ftr{ bottom:0; padding:0 0.75in 0.32in !important; }
+.bkdoc1 h1,
+.bkdoc1 h2,
+.bkdoc1 h3,
+.bkdoc1 h4{ break-after:avoid; }
+.bkdoc1 figure,
+.bkdoc1 pre,
+.bkdoc1 blockquote,
+.bkdoc1 table,
+.bkdoc1 tr,
+.bkdoc1 .note,
+.bkdoc1 .steps li{ break-inside:avoid; }
+.bkdoc1 p,
+.bkdoc1 li{ orphans:3; widows:3; }
+.bkdoc1 .cover{ break-after:page; }
+.bkdoc1 .frontmatter{ break-after:page; }
+.bkdoc1 .screen-only{ display:none !important; }
+}
+.bkdoc1 /* ---- polish pass ---- */
+p{ line-height:1.7; color:#2b3036; }
+.bkdoc1 h2{ letter-spacing:-0.02em; }
+.bkdoc1 .rule{ height:0 !important; background:transparent !important; border:0; border-top:1px solid var(--ink); position:relative; }
+.bkdoc1 .rule::before{ content:""; position:absolute; top:-2px; left:0; width:52px; height:3px; background:var(--accent); }
+.bkdoc1 .rule + p{ font-size:16.5px; line-height:1.66; color:#1b1f25; }
+.bkdoc1 .sec-num{ letter-spacing:-.03em; }
+.bkdoc1 h4{ display:flex; align-items:center; gap:9px; }
+.bkdoc1 h4::before{ content:""; width:15px; height:2px; background:currentColor; opacity:.8; flex:none; }
+.bkdoc1 .note{ border-radius:3px; box-shadow:0 1px 2px rgba(21,39,59,.04); }
+.bkdoc1 table.t td{ padding-top:11px; padding-bottom:11px; }
+.bkdoc1 table.t th{ letter-spacing:.1em; }
+.bkdoc1 /* ---- review markers ---- */
+.rev{ display:inline-flex; align-items:center; justify-content:center; min-width:16px; height:16px; padding:0 4px; margin-left:7px; background:var(--accent); color:#fff !important; font-family:"Archivo",sans-serif; font-weight:700; font-size:10px; line-height:1; border-radius:9px; vertical-align:super; box-shadow:0 1px 2px rgba(21,39,59,.18); }
+.bkdoc1 .rev-dark{ background:var(--sky); }
+@media print{.bkdoc1 .rev{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+}
+.bkdoc1 .wm{ position:fixed; inset:0; background:url("assets/dunrite-mark.png") no-repeat center; background-size:360px auto; opacity:0.07; transform:rotate(-20deg); pointer-events:none; z-index:0; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+.bkdoc1 .doc{ position:relative; z-index:1; }
+
+
+/* ---- New Hire Orientation Guide ---- */
+.bkdoc2{
+    --paper:#f6f4ef; --ink:#1d2127; --muted:#6c7077; --soft:#8b8f96;
+    --accent:#0e6ea8; --sky:#1ca0e0; --navy:#15273b; --hair:#dcd7cb;
+    --card:#fffdf8; --tint:#eef4f8;
+  }
+.bkdoc2{ margin:0; background:var(--paper); color:var(--ink);
+        font-family:"Source Serif 4",Georgia,serif; -webkit-font-smoothing:antialiased; }
+.bkdoc2 .doc{ box-sizing:border-box; max-width:8.5in; margin:0 auto; background:inherit;
+        padding:0 clamp(20px,5vw,0.75in) 96px; }
+.bkdoc2 .doc-frame{ width:100%; border-collapse:collapse; }
+.bkdoc2 .doc-frame td{ padding:0; }
+.bkdoc2 .running-hdr,
+.bkdoc2 .running-ftr,
+.bkdoc2 .hdr-space,
+.bkdoc2 .ftr-space{ display:none; }
+.bkdoc2 h1,
+.bkdoc2 h2,
+.bkdoc2 h3,
+.bkdoc2 h4{ font-family:"Archivo",sans-serif; color:var(--ink); text-wrap:balance; margin:0; }
+.bkdoc2 h2{ font-weight:800; font-size:28px; letter-spacing:-0.01em; line-height:1.08; }
+.bkdoc2 h3{ font-weight:700; font-size:17px; margin:26px 0 8px; }
+.bkdoc2 h4{ font-weight:700; font-size:13px; letter-spacing:0.07em; text-transform:uppercase; color:var(--accent); margin:22px 0 8px; }
+.bkdoc2 p{ font-size:15px; line-height:1.65; margin:0 0 13px; color:#272b31; text-wrap:pretty; }
+.bkdoc2 ul,
+.bkdoc2 ol{ font-size:15px; line-height:1.6; margin:4px 0 14px; padding-left:22px; color:#272b31; }
+.bkdoc2 li{ margin:0 0 6px; text-wrap:pretty; }
+.bkdoc2 li::marker{ color:var(--accent); }
+.bkdoc2 strong{ font-weight:700; color:var(--ink); }
+.bkdoc2 a{ color:var(--accent); text-decoration:none; }
+.bkdoc2 .doc-frame em{ color:var(--muted); }
+.bkdoc2 .sec{ break-before:page; padding-top:14px; }
+.bkdoc2 .sec-head{ display:flex; align-items:flex-start; gap:18px; margin:0 0 6px; }
+.bkdoc2 .sec-num{ font-family:"Archivo",sans-serif; font-weight:900; font-size:42px; line-height:0.84; color:var(--accent); flex:none; }
+.bkdoc2 .sec-kicker{ font-family:"Archivo",sans-serif; font-weight:600; font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:var(--soft); margin:3px 0 4px; }
+.bkdoc2 .rule{ height:2px; background:var(--ink); margin:12px 0 18px; }
+.bkdoc2 .note{ background:var(--card); border:1px solid var(--hair); border-left:3px solid var(--accent); padding:15px 20px; margin:18px 0; border-radius:2px; }
+.bkdoc2 .note p{ margin:0; font-size:14px; }
+.bkdoc2 .note .lbl{ font-family:"Archivo",sans-serif; font-weight:700; font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent); display:block; margin-bottom:6px; }
+.bkdoc2 .note.fla{ border-left-color:var(--sky); }
+.bkdoc2 .note.fla .lbl{ color:#0f86c4; }
+.bkdoc2 table.t{ width:100%; border-collapse:collapse; margin:16px 0 20px; font-size:14px; }
+.bkdoc2 table.t th{ font-family:"Archivo",sans-serif; font-weight:700; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; text-align:left; color:var(--ink); border-bottom:2px solid var(--ink); padding:8px 12px; }
+.bkdoc2 table.t td{ border-bottom:1px solid #948e80; padding:10px 12px; vertical-align:top; line-height:1.5; }
+.bkdoc2 table.t td:first-child{ font-weight:600; color:var(--ink); white-space:nowrap; }
+.bkdoc2 /* checklist */
+  .check{ list-style:none; padding:0; margin:14px 0 20px; }
+.bkdoc2 .check li{ position:relative; padding:11px 0 11px 40px; border-bottom:1px solid #948e80; font-size:15px; line-height:1.5; }
+.bkdoc2 .check li::before{ content:""; position:absolute; left:0; top:11px; width:20px; height:20px; border:2px solid var(--accent); border-radius:4px; background:var(--card); }
+.bkdoc2 .check li strong{ display:block; }
+.bkdoc2 .check li span.sub{ color:var(--muted); font-size:13.5px; }
+.bkdoc2 .daycard{ background:var(--card); border:1px solid var(--hair); border-radius:4px; padding:18px 22px; margin:14px 0; }
+.bkdoc2 .daycard h4{ margin-top:0; }
+.bkdoc2 h3,
+.bkdoc2 h4{ break-after:avoid; }
+.bkdoc2 h4+ul,
+.bkdoc2 h4+ol,
+.bkdoc2 h3+ul,
+.bkdoc2 h3+ol,
+.bkdoc2 h4+table,
+.bkdoc2 h4+p{ break-before:avoid; }
+.bkdoc2 .blankback{ display:none; }
+@media print{.bkdoc2 .blankback{ display:flex !important; align-items:center; justify-content:center; min-height:6in; break-before:page; break-after:page; }
+.bkdoc2 .blankback span{ font-family:"IBM Plex Mono",monospace; font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:#b8b3a6; }
+.bkdoc2{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+.bkdoc2,
+.bkdoc2{ margin:0; padding:0; }
+.bkdoc2 .doc{ max-width:none !important; margin:0 !important; padding:0 0.75in !important; box-shadow:none !important; border:none !important; }
+.bkdoc2 #dc-root,
+.bkdoc2 .sc-host{ height:auto !important; }
+.bkdoc2 .hdr-space,
+.bkdoc2 .ftr-space{ display:table-cell; height:0.7in !important; }
+.bkdoc2 .running-hdr,
+.bkdoc2 .running-ftr{ display:flex !important; justify-content:space-between; align-items:baseline; position:fixed !important; left:0; right:0; margin:0 !important; font-family:"Archivo",sans-serif; font-size:9px; letter-spacing:0.12em; text-transform:uppercase; color:var(--soft); }
+.bkdoc2 .running-hdr{ top:0; padding:0.32in 0.75in 0 !important; }
+.bkdoc2 .running-ftr{ bottom:0; padding:0 0.75in 0.32in !important; }
+.bkdoc2 h1,
+.bkdoc2 h2,
+.bkdoc2 h3,
+.bkdoc2 h4{ break-after:avoid; }
+.bkdoc2 figure,
+.bkdoc2 pre,
+.bkdoc2 blockquote,
+.bkdoc2 table,
+.bkdoc2 tr,
+.bkdoc2 .note,
+.bkdoc2 .daycard,
+.bkdoc2 .check li{ break-inside:avoid; }
+.bkdoc2 p,
+.bkdoc2 li{ orphans:3; widows:3; }
+.bkdoc2 .cover,
+.bkdoc2 .frontmatter{ break-after:page; }
+.bkdoc2 .screen-only{ display:none !important; }
+}
+.bkdoc2 /* ---- polish pass ---- */
+p{ line-height:1.7; color:#2b3036; }
+.bkdoc2 h2{ letter-spacing:-0.02em; }
+.bkdoc2 .rule{ height:0 !important; background:transparent !important; border:0; border-top:1px solid var(--ink); position:relative; }
+.bkdoc2 .rule::before{ content:""; position:absolute; top:-2px; left:0; width:52px; height:3px; background:var(--accent); }
+.bkdoc2 .rule + p{ font-size:16.5px; line-height:1.66; color:#1b1f25; }
+.bkdoc2 .sec-num{ letter-spacing:-.03em; }
+.bkdoc2 h4{ display:flex; align-items:center; gap:9px; }
+.bkdoc2 h4::before{ content:""; width:15px; height:2px; background:currentColor; opacity:.8; flex:none; }
+.bkdoc2 .note{ border-radius:3px; box-shadow:0 1px 2px rgba(21,39,59,.04); }
+.bkdoc2 table.t td{ padding-top:11px; padding-bottom:11px; }
+.bkdoc2 table.t th{ letter-spacing:.1em; }
+.bkdoc2 .wm{ position:fixed; inset:0; background:url("assets/dunrite-mark.png") no-repeat center; background-size:360px auto; opacity:0.07; transform:rotate(-20deg); pointer-events:none; z-index:0; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+.bkdoc2 .doc{ position:relative; z-index:1; }
+
+
+/* ---- Drug-Free Workplace Program ---- */
+.bkdoc3{
+    --paper:#f6f4ef; --ink:#1d2127; --muted:#6c7077; --soft:#8b8f96;
+    --accent:#0e6ea8; --sky:#1ca0e0; --navy:#15273b; --hair:#dcd7cb;
+    --card:#fffdf8; --tint:#eef4f8;
+  }
+.bkdoc3{ margin:0; background:var(--paper); color:var(--ink);
+        font-family:"Source Serif 4",Georgia,serif; -webkit-font-smoothing:antialiased; }
+.bkdoc3 .doc{ box-sizing:border-box; max-width:8.5in; margin:0 auto; background:inherit;
+        padding:0 clamp(20px,5vw,0.75in) 96px; }
+.bkdoc3 .doc-frame{ width:100%; border-collapse:collapse; }
+.bkdoc3 .doc-frame td{ padding:0; }
+.bkdoc3 .running-hdr,
+.bkdoc3 .running-ftr,
+.bkdoc3 .hdr-space,
+.bkdoc3 .ftr-space{ display:none; }
+.bkdoc3 h1,
+.bkdoc3 h2,
+.bkdoc3 h3,
+.bkdoc3 h4{ font-family:"Archivo",sans-serif; color:var(--ink); text-wrap:balance; margin:0; }
+.bkdoc3 h2{ font-weight:800; font-size:28px; letter-spacing:-0.01em; line-height:1.08; }
+.bkdoc3 h3{ font-weight:700; font-size:17px; margin:26px 0 8px; }
+.bkdoc3 h4{ font-weight:700; font-size:13px; letter-spacing:0.07em; text-transform:uppercase; color:var(--accent); margin:22px 0 8px; }
+.bkdoc3 p{ font-size:15px; line-height:1.65; margin:0 0 13px; color:#272b31; text-wrap:pretty; }
+.bkdoc3 ul,
+.bkdoc3 ol{ font-size:15px; line-height:1.6; margin:4px 0 14px; padding-left:22px; color:#272b31; }
+.bkdoc3 li{ margin:0 0 6px; text-wrap:pretty; }
+.bkdoc3 li::marker{ color:var(--accent); }
+.bkdoc3 strong{ font-weight:700; color:var(--ink); }
+.bkdoc3 a{ color:var(--accent); text-decoration:none; }
+.bkdoc3 .doc-frame em{ color:var(--muted); }
+.bkdoc3 .sec{ break-before:page; padding-top:14px; }
+.bkdoc3 .sec-head{ display:flex; align-items:flex-start; gap:18px; margin:0 0 6px; }
+.bkdoc3 .sec-num{ font-family:"Archivo",sans-serif; font-weight:900; font-size:42px; line-height:0.84; color:var(--accent); flex:none; }
+.bkdoc3 .sec-kicker{ font-family:"Archivo",sans-serif; font-weight:600; font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:var(--soft); margin:3px 0 4px; }
+.bkdoc3 .rule{ height:2px; background:var(--ink); margin:12px 0 18px; }
+.bkdoc3 .note{ background:var(--card); border:1px solid var(--hair); border-left:3px solid var(--accent); padding:15px 20px; margin:18px 0; border-radius:2px; }
+.bkdoc3 .note p{ margin:0; font-size:14px; }
+.bkdoc3 .note .lbl{ font-family:"Archivo",sans-serif; font-weight:700; font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent); display:block; margin-bottom:6px; }
+.bkdoc3 .note.fla{ border-left-color:var(--sky); }
+.bkdoc3 .note.fla .lbl{ color:#0f86c4; }
+.bkdoc3 .note.legal{ border-left-color:#9a7b1e; }
+.bkdoc3 .note.legal .lbl{ color:#9a7b1e; }
+.bkdoc3 table.t{ width:100%; border-collapse:collapse; margin:16px 0 20px; font-size:14px; }
+.bkdoc3 table.t th{ font-family:"Archivo",sans-serif; font-weight:700; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; text-align:left; color:var(--ink); border-bottom:2px solid var(--ink); padding:8px 12px; }
+.bkdoc3 table.t td{ border-bottom:1px solid #948e80; padding:10px 12px; vertical-align:top; line-height:1.5; }
+.bkdoc3 table.t td:first-child{ font-weight:600; color:var(--ink); }
+.bkdoc3 .steps{ counter-reset:st; list-style:none; padding:0; margin:12px 0 16px; }
+.bkdoc3 .steps li{ position:relative; padding:3px 0 14px 44px; counter-increment:st; }
+.bkdoc3 .steps li::before{ content:counter(st); position:absolute; left:0; top:0; width:28px; height:28px; border-radius:50%; background:var(--accent); color:#fff; font-family:"Archivo",sans-serif; font-weight:700; font-size:13px; display:flex; align-items:center; justify-content:center; }
+.bkdoc3 .steps li strong{ display:block; }
+.bkdoc3 h3,
+.bkdoc3 h4{ break-after:avoid; }
+.bkdoc3 h4+ul,
+.bkdoc3 h4+ol,
+.bkdoc3 h3+ul,
+.bkdoc3 h3+ol,
+.bkdoc3 h4+table,
+.bkdoc3 h4+p{ break-before:avoid; }
+.bkdoc3 .blankback{ display:none; }
+@media print{.bkdoc3 .blankback{ display:flex !important; align-items:center; justify-content:center; min-height:6in; break-before:page; break-after:page; }
+.bkdoc3 .blankback span{ font-family:"IBM Plex Mono",monospace; font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:#b8b3a6; }
+.bkdoc3{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+.bkdoc3,
+.bkdoc3{ margin:0; padding:0; }
+.bkdoc3 .doc{ max-width:none !important; margin:0 !important; padding:0 0.75in !important; box-shadow:none !important; border:none !important; }
+.bkdoc3 #dc-root,
+.bkdoc3 .sc-host{ height:auto !important; }
+.bkdoc3 .hdr-space,
+.bkdoc3 .ftr-space{ display:table-cell; height:0.7in !important; }
+.bkdoc3 .running-hdr,
+.bkdoc3 .running-ftr{ display:flex !important; justify-content:space-between; align-items:baseline; position:fixed !important; left:0; right:0; margin:0 !important; font-family:"Archivo",sans-serif; font-size:9px; letter-spacing:0.12em; text-transform:uppercase; color:var(--soft); }
+.bkdoc3 .running-hdr{ top:0; padding:0.32in 0.75in 0 !important; }
+.bkdoc3 .running-ftr{ bottom:0; padding:0 0.75in 0.32in !important; }
+.bkdoc3 h1,
+.bkdoc3 h2,
+.bkdoc3 h3,
+.bkdoc3 h4{ break-after:avoid; }
+.bkdoc3 figure,
+.bkdoc3 pre,
+.bkdoc3 blockquote,
+.bkdoc3 table,
+.bkdoc3 tr,
+.bkdoc3 .note,
+.bkdoc3 .steps li{ break-inside:avoid; }
+.bkdoc3 p,
+.bkdoc3 li{ orphans:3; widows:3; }
+.bkdoc3 .cover,
+.bkdoc3 .frontmatter{ break-after:page; }
+.bkdoc3 .screen-only{ display:none !important; }
+}
+.bkdoc3 /* ---- polish pass ---- */
+p{ line-height:1.7; color:#2b3036; }
+.bkdoc3 h2{ letter-spacing:-0.02em; }
+.bkdoc3 .rule{ height:0 !important; background:transparent !important; border:0; border-top:1px solid var(--ink); position:relative; }
+.bkdoc3 .rule::before{ content:""; position:absolute; top:-2px; left:0; width:52px; height:3px; background:var(--accent); }
+.bkdoc3 .rule + p{ font-size:16.5px; line-height:1.66; color:#1b1f25; }
+.bkdoc3 .sec-num{ letter-spacing:-.03em; }
+.bkdoc3 h4{ display:flex; align-items:center; gap:9px; }
+.bkdoc3 h4::before{ content:""; width:15px; height:2px; background:currentColor; opacity:.8; flex:none; }
+.bkdoc3 .note{ border-radius:3px; box-shadow:0 1px 2px rgba(21,39,59,.04); }
+.bkdoc3 table.t td{ padding-top:11px; padding-bottom:11px; }
+.bkdoc3 table.t th{ letter-spacing:.1em; }
+.bkdoc3 .wm{ position:fixed; inset:0; background:url("assets/dunrite-mark.png") no-repeat center; background-size:360px auto; opacity:0.07; transform:rotate(-20deg); pointer-events:none; z-index:0; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+.bkdoc3 .doc{ position:relative; z-index:1; }
+
+
+/* ---- Employee Sign-Off Forms ---- */
+.bkdoc4{ --paper:#f6f4ef; --ink:#1d2127; --muted:#6c7077; --soft:#8b8f96; --accent:#0e6ea8; --sky:#1ca0e0; --char:#272b31; --hair:#d7d2c6; --card:#fffdf8; }
+.bkdoc4{ margin:0; background:var(--paper); color:var(--ink); font-family:"Source Serif 4",Georgia,serif; -webkit-font-smoothing:antialiased; }
+.bkdoc4 .doc{ box-sizing:border-box; max-width:8.5in; margin:0 auto; padding:0 clamp(20px,5vw,0.75in) 96px; }
+.bkdoc4 .doc-frame{ width:100%; border-collapse:collapse; }
+.bkdoc4 .doc-frame td{ padding:0; }
+.bkdoc4 .running-hdr,
+.bkdoc4 .running-ftr,
+.bkdoc4 .hdr-space,
+.bkdoc4 .ftr-space{ display:none; }
+.bkdoc4 h1,
+.bkdoc4 h2,
+.bkdoc4 h3,
+.bkdoc4 h4{ font-family:"Archivo",sans-serif; color:var(--ink); text-wrap:balance; margin:0; }
+.bkdoc4 p{ font-size:14.5px; line-height:1.62; margin:0 0 12px; color:#2b3036; }
+.bkdoc4 strong{ font-weight:700; }
+.bkdoc4 .form{ break-before:page; padding-top:16px; }
+.bkdoc4 .form-head{ display:flex; align-items:baseline; gap:12px; }
+.bkdoc4 .form-head .n{ font-family:"IBM Plex Mono",monospace; font-weight:600; font-size:12px; letter-spacing:0.1em; color:var(--accent); }
+.bkdoc4 .form-head h2{ font-weight:800; font-size:23px; letter-spacing:-0.015em; }
+.bkdoc4 .kicker{ font-family:"IBM Plex Mono",monospace; font-weight:600; font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:var(--soft); margin-bottom:6px; }
+.bkdoc4 .rule{ height:0; border-top:1px solid var(--ink); position:relative; margin:11px 0 16px; }
+.bkdoc4 .rule::before{ content:""; position:absolute; top:-2px; left:0; width:52px; height:3px; background:var(--accent); }
+.bkdoc4 .ack{ border:1.5px solid var(--ink); border-radius:4px; padding:22px 24px; margin:16px 0; background:var(--card); }
+.bkdoc4 .ack p{ font-size:14px; margin:0 0 11px; }
+.bkdoc4 .ack p:last-child{ margin:0; }
+.bkdoc4 .sig{ display:grid; grid-template-columns:1fr 1fr; gap:26px 40px; margin-top:30px; }
+.bkdoc4 .sig .ln{ border-bottom:1.5px solid var(--ink); height:32px; }
+.bkdoc4 .sig .cap{ font-family:"IBM Plex Mono",monospace; font-size:9.5px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin-top:7px; }
+.bkdoc4 .frow{ display:grid; grid-template-columns:auto 1fr; gap:12px 16px; align-items:end; margin:14px 0; }
+.bkdoc4 .frow .lab{ font-family:"Archivo",sans-serif; font-weight:600; font-size:13px; white-space:nowrap; }
+.bkdoc4 .frow .ln{ border-bottom:1px solid var(--soft); height:22px; }
+.bkdoc4 table.t{ width:100%; border-collapse:collapse; margin:12px 0; font-size:13px; table-layout:fixed; }
+.bkdoc4 table.t th{ background:var(--char); color:#fff; font-family:"Archivo",sans-serif; font-weight:600; font-size:10.5px; letter-spacing:0.04em; text-transform:uppercase; text-align:left; padding:8px 10px; border:1px solid var(--char); }
+.bkdoc4 table.t td{ border:1px solid var(--hair); padding:0 10px; height:34px; }
+.bkdoc4 h3,
+.bkdoc4 h4{ break-after:avoid; }
+.bkdoc4 h4+ul,
+.bkdoc4 h4+ol,
+.bkdoc4 h3+ul,
+.bkdoc4 h3+ol,
+.bkdoc4 h4+table,
+.bkdoc4 h4+p{ break-before:avoid; }
+.bkdoc4 .blankback{ display:none; }
+@media print{.bkdoc4 .blankback{ display:flex !important; align-items:center; justify-content:center; min-height:6in; break-before:page; break-after:page; }
+.bkdoc4 .blankback span{ font-family:"IBM Plex Mono",monospace; font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:#b8b3a6; }
+.bkdoc4{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+.bkdoc4,
+.bkdoc4{ margin:0; padding:0; }
+.bkdoc4 .doc{ max-width:none !important; margin:0 !important; padding:0 0.65in !important; }
+.bkdoc4 #dc-root,
+.bkdoc4 .sc-host{ height:auto !important; }
+.bkdoc4 .hdr-space,
+.bkdoc4 .ftr-space{ display:table-cell; height:0.62in !important; }
+.bkdoc4 .running-hdr,
+.bkdoc4 .running-ftr{ display:flex !important; justify-content:space-between; align-items:baseline; position:fixed !important; left:0; right:0; margin:0 !important; font-family:"IBM Plex Mono",monospace; font-size:8px; letter-spacing:0.12em; text-transform:uppercase; color:var(--soft); }
+.bkdoc4 .running-hdr{ top:0; padding:0.3in 0.65in 0 !important; }
+.bkdoc4 .running-ftr{ bottom:0; padding:0 0.65in 0.3in !important; }
+.bkdoc4 h2,
+.bkdoc4 h3,
+.bkdoc4 h4{ break-after:avoid; }
+.bkdoc4 table,
+.bkdoc4 tr,
+.bkdoc4 .ack,
+.bkdoc4 .sig{ break-inside:avoid; }
+.bkdoc4 .cover{ break-after:page; }
+}
+.bkdoc4 .wm{ position:fixed; inset:0; background:url("assets/dunrite-mark.png") no-repeat center; background-size:360px auto; opacity:0.07; transform:rotate(-20deg); pointer-events:none; z-index:0; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+.bkdoc4 .doc{ position:relative; z-index:1; }
+
+
+
+/* ---- single book watermark (replaces the stacked per-section ones) ---- */
+.book-wm{ position:fixed; inset:0; background:url("assets/dunrite-mark.png") no-repeat center; background-size:340px auto; opacity:0.05; transform:rotate(-20deg); pointer-events:none; z-index:1; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+
+/* ---- BOOK PRINT OVERRIDES (must stay last): one margin system, no per-doc fixed chrome ---- */
+@media print{
+  @page{ size:letter; margin:0.55in 0; }
+  #dc-root, .sc-host, html, body{ height:auto !important; }
+  /* no sliced lines at page bottom, no straggler lines wasting pages */
+  .bundle-blank{ display:none !important; }
+  p, li{ orphans:3; widows:3; }
+  h1, h2, h3, h4{ break-after:avoid; }
+  tr, .note, .sig, .fld, .check li, .formcode, .form-head{ break-inside:avoid; }
+  .bundle-doc .running-hdr, .bundle-doc .running-ftr{ display:none !important; }
+  .bundle-doc .hdr-space, .bundle-doc .ftr-space{ display:none !important; height:0 !important; }
+  .bundle-doc .blankback{ display:none !important; }
+  .bundle-doc .wm{ display:none !important; }
+  .bundle-cover{ min-height:0 !important; }
+  .appdoc .page{ min-height:auto !important; }
+}
+
+</style>
+</helmet>
+<main>
+  <div class="book-wm" aria-hidden="true"></div>
+
+  <div class="noprint" style="max-width:816px; margin:24px auto 16px; display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap; font-family:'IBM Plex Mono',monospace;">
+    <div style="font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:#5b5f66;">Book 1 of 3 · 4 sections · one merged PDF</div>
+    <button onclick="{{ onPrint }}" style="font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:#fff; background:#15273b; border:none; border-radius:4px; padding:9px 18px; cursor:pointer;">Print / Save as PDF</button>
+  </div>
+
+  <!-- BOOK COVER -->
+  <section class="bundle-cover" style="width:816px; max-width:100%; min-height:1056px; margin:0 auto; background:#ffffff; color:#1d2127; display:flex; flex-direction:column; box-sizing:border-box; box-shadow:0 10px 34px rgba(29,33,39,0.18);">
+    <div style="background:#15273b; display:flex; justify-content:space-between; align-items:center; padding:13px 44px;">
+      <span style="font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:0.22em; text-transform:uppercase; color:#8fa5bb;">DunRite Construction Group LLC</span>
+      <span style="font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:0.22em; text-transform:uppercase; color:#1ca0e0;">2026 Edition · Rev 1.0</span>
+    </div>
+    <div style="height:4px; background:linear-gradient(90deg,#0e6ea8 0%,#1ca0e0 60%,#dce9f4 100%);"></div>
+    <div style="flex:1; display:flex; flex-direction:column; align-items:center; text-align:center; padding:60px 84px 0;">
+      <img src="assets/dunrite-logo-dark.png" alt="DunRite Construction Group LLC" style="display:block; width:236px; max-width:60%; height:auto; margin:0 auto;">
+      <div style="margin:48px 0 0; display:inline-flex; align-items:center; border:1.5px solid #0e6ea8; border-radius:999px; padding:7px 20px;">
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.26em; text-transform:uppercase; color:#0e6ea8;">Book 01 / 03</span>
+      </div>
+      <div style="margin:26px 0 0; font-family:'Archivo',sans-serif; font-weight:600; font-size:13px; letter-spacing:0.34em; text-transform:uppercase; color:#1ca0e0;">Read & Sign</div>
+      <h1 style="font-family:'Archivo',sans-serif; font-weight:800; font-size:54px; line-height:1.0; letter-spacing:-0.028em; margin:16px 0 0; color:#1d2127;">Employee<br>Handbook</h1>
+      <div style="width:64px; height:3px; background:#1ca0e0; margin:26px auto 0; border-radius:2px;"></div>
+      <p style="font-size:15px; line-height:1.65; color:#5b5f66; max-width:520px; margin:20px auto 0; font-family:'Source Serif 4',Georgia,serif;">Everything an employee reads and signs — company policies, first-week orientation, the drug-free workplace program, and the acknowledgement forms.</p>
+    </div>
+    <div style="padding:32px 60px 0;">
+      <div style="background:#f2f6fa; border:1px solid #dbe5ee; border-radius:10px; padding:22px 30px 24px;">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:#0e6ea8; margin-bottom:13px;">Contents · 4 sections</div>
+        <ol style="margin:0; padding:0; list-style:none; display:grid; grid-template-columns:1fr 1fr; gap:9px 32px; text-align:left;">
+          <li style="display:flex; align-items:baseline; gap:11px; font-family:'Archivo',sans-serif; font-weight:600; font-size:15px; color:#1d2127;"><span style="font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:11px; color:#1ca0e0;">01</span><span>Employee Handbook</span></li>
+          <li style="display:flex; align-items:baseline; gap:11px; font-family:'Archivo',sans-serif; font-weight:600; font-size:15px; color:#1d2127;"><span style="font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:11px; color:#1ca0e0;">02</span><span>New Hire Orientation Guide</span></li>
+          <li style="display:flex; align-items:baseline; gap:11px; font-family:'Archivo',sans-serif; font-weight:600; font-size:15px; color:#1d2127;"><span style="font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:11px; color:#1ca0e0;">03</span><span>Drug-Free Workplace Program</span></li>
+          <li style="display:flex; align-items:baseline; gap:11px; font-family:'Archivo',sans-serif; font-weight:600; font-size:15px; color:#1d2127;"><span style="font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:11px; color:#1ca0e0;">04</span><span>Employee Sign-Off Forms</span></li>
+        </ol>
+      </div>
+    </div>
+    <div style="margin-top:32px; background:#15273b; text-align:center; padding:12px 20px;">
+      <span style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:#8fa5bb;">DunRite Construction Group LLC · Employee Handbook · 2026 Edition · Confidential — Internal Use Only</span>
+    </div>
+  </section>
+
+  <div class="bundle-blank" aria-hidden="true"></div>
+
+  <!-- DOCUMENTS -->
+
+<div class="bundle-doc bkdoc1"><div class="doc">
+  <div class="wm" aria-hidden="true"></div>
+  <div class="running-hdr"><span>DunRite Construction Group LLC</span><span>Employee Handbook · 2026</span></div>
+  <div class="running-ftr"><span>Confidential — Internal Use Only</span><span>Effective January 2026</span></div>
+  <table class="doc-frame" role="presentation">
+    <thead><tr><td class="hdr-space"></td></tr></thead>
+    <tbody><tr><td>
+
+    <!-- ===================== COVER — Centered Monolith ===================== -->
+    <section class="cover" data-screen-label="Cover" style="background:#ffffff; color:var(--ink); border:1px solid var(--hair); border-radius:4px; margin:0 0 40px; padding:96px clamp(40px,7vw,84px); min-height:9.4in; box-sizing:border-box; position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+      <img src="assets/dunrite-logo-dark.png" alt="DunRite Construction Group LLC" style="display:block; width:248px; max-width:62%; height:auto; margin:0 auto;">
+      <div style="width:64px; height:3px; background:var(--sky); margin:46px auto 30px; border-radius:2px;"></div>
+      <div style="font-family:'Archivo',sans-serif; font-weight:600; font-size:13px; letter-spacing:0.34em; text-transform:uppercase; color:var(--sky);">Employee Handbook</div>
+      <h1 style="font-family:'Archivo',sans-serif; font-weight:800; font-size:54px; line-height:1.0; letter-spacing:-0.028em; margin:20px 0 0; color:var(--ink); text-align:left;">Policies,<br>Standards &amp;<br>Expectations</h1>
+    </section>
+
+    <!-- BLANK BACK OF TITLE PAGE -->
+    <section class="blankback" aria-hidden="true"><span>This page intentionally left blank</span></section>
+
+    <!-- ===================== FRONT MATTER / TOC ===================== -->
+    <section class="frontmatter" data-screen-label="Contents">
+      <div class="sec-kicker" style="margin-top:8px;">DunRite Construction Group LLC</div>
+      <h2 style="font-size:34px; margin-bottom:8px;">About This Handbook<span class="rev">30</span></h2>
+      <div class="rule"></div>
+      <p>This Employee Handbook explains the policies, benefits, and expectations that apply to all employees of DunRite Construction Group LLC ("DunRite," "the Company"). It is designed to answer the questions that come up most often — how you are paid, what time off you earn, how we keep jobsites safe, and the standards of conduct we all share. Please read it carefully and keep it as a reference throughout your employment.</p>
+      <p>This handbook applies to all employees regardless of position or location. Where a policy refers to a more detailed document — such as the Company's Safety Manual, Drug-Free Workplace Program, or Fleet Safety Program — those documents are incorporated by reference and govern in the event of a conflict on their specific subject matter.</p>
+
+      <h3 style="margin-top:8px;">Contents</h3>
+      <div class="rule" style="margin-top:10px;"></div>
+      <div style="columns:2; column-gap:48px; font-family:'Archivo',sans-serif;">
+        <a href="#sec-1" style="display:flex; gap:12px; padding:7px 0; border-bottom:1px solid #948e80; break-inside:avoid; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:22px;">01</span><span style="font-weight:500; font-size:14px;">Welcome</span></a>
+        <a href="#sec-2" style="display:flex; gap:12px; padding:7px 0; border-bottom:1px solid #948e80; break-inside:avoid; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:22px;">02</span><span style="font-weight:500; font-size:14px;">Employment Relationship</span></a>
+        <a href="#sec-3" style="display:flex; gap:12px; padding:7px 0; border-bottom:1px solid #948e80; break-inside:avoid; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:22px;">03</span><span style="font-weight:500; font-size:14px;">Employment Classifications</span></a>
+        <a href="#sec-4" style="display:flex; gap:12px; padding:7px 0; border-bottom:1px solid #948e80; break-inside:avoid; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:22px;">04</span><span style="font-weight:500; font-size:14px;">Hiring Requirements</span></a>
+        <a href="#sec-5" style="display:flex; gap:12px; padding:7px 0; border-bottom:1px solid #948e80; break-inside:avoid; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:22px;">05</span><span style="font-weight:500; font-size:14px;">Compensation Policies</span></a>
+        <a href="#sec-6" style="display:flex; gap:12px; padding:7px 0; border-bottom:1px solid #948e80; break-inside:avoid; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:22px;">06</span><span style="font-weight:500; font-size:14px;">Attendance &amp; Scheduling</span></a>
+        <a href="#sec-7" style="display:flex; gap:12px; padding:7px 0; border-bottom:1px solid #948e80; break-inside:avoid; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:22px;">07</span><span style="font-weight:500; font-size:14px;">Benefits</span></a>
+        <a href="#sec-8" style="display:flex; gap:12px; padding:7px 0; border-bottom:1px solid #948e80; break-inside:avoid; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:22px;">08</span><span style="font-weight:500; font-size:14px;">Leave Policies</span></a>
+        <a href="#sec-9" style="display:flex; gap:12px; padding:7px 0; border-bottom:1px solid #948e80; break-inside:avoid; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:22px;">09</span><span style="font-weight:500; font-size:14px;">Workplace Conduct</span></a>
+        <a href="#sec-10" style="display:flex; gap:12px; padding:7px 0; border-bottom:1px solid #948e80; break-inside:avoid; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:22px;">10</span><span style="font-weight:500; font-size:14px;">Drug &amp; Alcohol Policy</span></a>
+        <a href="#sec-11" style="display:flex; gap:12px; padding:7px 0; border-bottom:1px solid #948e80; break-inside:avoid; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:22px;">11</span><span style="font-weight:500; font-size:14px;">Safety &amp; PPE Requirements</span></a>
+        <a href="#sec-12" style="display:flex; gap:12px; padding:7px 0; border-bottom:1px solid #948e80; break-inside:avoid; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:22px;">12</span><span style="font-weight:500; font-size:14px;">Workers' Compensation</span></a>
+        <a href="#sec-13" style="display:flex; gap:12px; padding:7px 0; border-bottom:1px solid #948e80; break-inside:avoid; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:22px;">13</span><span style="font-weight:500; font-size:14px;">Company Vehicles</span></a>
+        <a href="#sec-14" style="display:flex; gap:12px; padding:7px 0; border-bottom:1px solid #948e80; break-inside:avoid; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:22px;">14</span><span style="font-weight:500; font-size:14px;">Technology &amp; Equipment Use</span></a>
+        <a href="#sec-15" style="display:flex; gap:12px; padding:7px 0; border-bottom:1px solid #948e80; break-inside:avoid; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:22px;">15</span><span style="font-weight:500; font-size:14px;">Discipline Policy</span></a>
+        <a href="#sec-16" style="display:flex; gap:12px; padding:7px 0; border-bottom:1px solid #948e80; break-inside:avoid; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:22px;">16</span><span style="font-weight:500; font-size:14px;">Separation of Employment</span></a>
+        <a href="#sec-17" style="display:flex; gap:12px; padding:7px 0; border-bottom:1px solid #948e80; break-inside:avoid; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:22px;">17</span><span style="font-weight:500; font-size:14px;">Employee Acknowledgement</span></a>
+      </div>
+    </section>
+
+    <!-- ===================== SECTION 1 ===================== -->
+    <section class="sec" id="sec-1" data-screen-label="01 Welcome">
+      <div class="sec-head"><div class="sec-num">01</div><div><div class="sec-kicker">Section One</div><h2>Welcome</h2></div></div>
+      <div class="rule"></div>
+
+      <h4>A Letter from the President<span class="rev">2</span></h4>
+      <p>Welcome to DunRite Construction Group. Whether you are joining us in the field or in the office, you are now part of a team that takes real pride in building things the right way — safely, honestly, and to a standard we are willing to put our name on.</p>
+      <p>Construction is demanding work. The hours can be long, the Florida heat is real, and the expectations are high. In return, we commit to treating you fairly, paying you accurately and on time, giving you the training and equipment to do your job safely, and listening when you raise a concern. This handbook is part of that commitment. It lays out what you can expect from us and what we expect from you.</p>
+      <p>Read it, keep it handy, and don't hesitate to ask questions. The strongest projects we build are built by people who understand the plan. We're glad you're here.</p>
+      <p style="margin-top:22px;"><strong>The President</strong><span class="rev">3</span><br>DunRite Construction Group LLC</p>
+
+      <h4>Company History<span class="rev">4</span></h4>
+      <p>DunRite Construction Group LLC was founded on a simple idea: that clients, employees, and partners all deserve work that is done right the first time. From our roots as a small Florida crew, we have grown into a full-service construction company serving commercial and residential clients across the region, while holding on to the hands-on, do-it-right values we started with.</p>
+
+      <h4>Mission Statement<span class="rev">5</span></h4>
+      <p>To build lasting, high-quality construction for our clients while providing a safe, respectful, and rewarding workplace for the people who make it possible.</p>
+
+      <h4>Core Values</h4>
+      <ul>
+        <li><strong>Safety First, Always.</strong> No deadline, budget, or shortcut is worth an injury. Everyone goes home the way they came.</li>
+        <li><strong>Do It Right.</strong> We hold ourselves to a standard of craftsmanship and integrity, even when no one is watching.</li>
+        <li><strong>Respect.</strong> We treat clients, coworkers, subcontractors, and the public with professionalism and dignity.</li>
+        <li><strong>Accountability.</strong> We own our work, our mistakes, and our commitments.</li>
+        <li><strong>Teamwork.</strong> Great construction is a team sport. We support each other and communicate openly.</li>
+      </ul>
+
+      <h4>Equal Employment Opportunity</h4>
+      <p>DunRite Construction Group LLC is an equal opportunity employer. We are committed to providing a workplace free of discrimination and to making all employment decisions — including recruiting, hiring, training, promotion, compensation, discipline, and termination — without regard to race, color, religion, sex, pregnancy, national origin, age (40 and over), disability, genetic information, marital status, sexual orientation, gender identity, military or veteran status, or any other characteristic protected by federal, Florida, or local law.</p>
+      <p>This commitment extends to providing reasonable accommodations for qualified individuals with disabilities and for sincerely held religious beliefs, except where doing so would impose an undue hardship. Any employee who believes they have experienced or witnessed discrimination should report it under the procedures in Section 9.</p>
+    </section>
+
+    <!-- ===================== SECTION 2 ===================== -->
+    <section class="sec" id="sec-2" data-screen-label="02 Employment Relationship">
+      <div class="sec-head"><div class="sec-num">02</div><div><div class="sec-kicker">Section Two</div><h2>Employment Relationship</h2></div></div>
+      <div class="rule"></div>
+
+      <h4>At-Will Employment</h4>
+      <p>Employment with DunRite Construction Group LLC is <strong>at-will</strong>. This means that either you or the Company may end the employment relationship at any time, with or without cause and with or without advance notice. Nothing in this handbook, in any Company document, or in any verbal statement creates a contract of employment or a guarantee of employment for any specific period.</p>
+
+      <div class="note fla">
+        <span class="lbl">Florida</span>
+        <p>Florida is an <strong>at-will employment</strong> state and a <strong>right-to-work</strong> state. No employee may be required to join or pay dues to a labor organization as a condition of employment, and employment is presumed to be at-will unless a written agreement signed by an authorized officer of the Company states otherwise.</p>
+      </div>
+
+      <h4>No Contract / Authority to Modify</h4>
+      <p>This handbook is a summary of current policies and is not a contract, express or implied. Only the President of DunRite Construction Group has the authority to enter into an employment agreement that alters the at-will relationship, and any such agreement must be in writing and signed. No supervisor, manager, or representative has the authority to make promises of continued or permanent employment.</p>
+
+      <h4>Changes to the Handbook</h4>
+      <p>The Company reserves the right to add, change, suspend, interpret, or eliminate any policy, practice, or benefit in this handbook at any time, with or without notice, to the extent permitted by law. When material changes are made, the Company will communicate them and may ask employees to sign an updated acknowledgement. This handbook supersedes all prior handbooks, policy statements, and practices on the subjects it addresses.</p>
+    </section>
+
+    <!-- ===================== SECTION 3 ===================== -->
+    <section class="sec" id="sec-3" data-screen-label="03 Classifications">
+      <div class="sec-head"><div class="sec-num">03</div><div><div class="sec-kicker">Section Three</div><h2>Employment Classifications<span class="rev">6</span></h2></div></div>
+      <div class="rule"></div>
+      <p>Each employee is assigned an employment classification at hire. Your classification determines your eligibility for benefits and how wage-and-hour laws apply to you. Classifications may change with the needs of the business; you will be notified of any change to yours. Classification does not alter the at-will nature of employment.</p>
+
+      <table class="t">
+        <thead><tr><th style="width:34%;">Classification</th><th>Definition</th></tr></thead>
+        <tbody>
+          <tr><td>Full-Time</td><td>Regularly scheduled to work 30 or more hours per week. Eligible to participate in Company benefit programs subject to each plan's terms.</td></tr>
+          <tr><td>Part-Time</td><td>Regularly scheduled to work fewer than 30 hours per week. Generally not eligible for most benefits except as required by law or plan terms.</td></tr>
+          <tr><td>Temporary</td><td>Hired for a specific project or a limited period. Not eligible for benefits unless required by law.</td></tr>
+          <tr><td>Seasonal</td><td>Hired for a defined peak period. Not eligible for benefits unless required by law.</td></tr>
+          <tr><td>Exempt</td><td>Paid on a salary basis and exempt from federal/state overtime requirements based on duties and salary level.</td></tr>
+          <tr><td>Non-Exempt</td><td>Entitled to overtime pay at 1.5× the regular rate for hours worked over 40 in a workweek. Most field and hourly positions are non-exempt.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="note">
+        <span class="lbl">Note</span>
+        <p>Exempt vs. non-exempt status is determined by the duties you perform and the salary thresholds set under the federal Fair Labor Standards Act (FLSA), not by job title alone. Questions about your classification should be directed to the office manager.<span class="rev">7</span></p>
+      </div>
+    </section>
+
+    <!-- ===================== SECTION 4 ===================== -->
+    <section class="sec" id="sec-4" data-screen-label="04 Hiring Requirements">
+      <div class="sec-head"><div class="sec-num">04</div><div><div class="sec-kicker">Section Four</div><h2>Hiring Requirements<span class="rev">8</span></h2></div></div>
+      <div class="rule"></div>
+      <p>All offers of employment with DunRite are contingent on satisfying the Company's pre-employment requirements. Failure to meet or maintain any applicable requirement may result in withdrawal of an offer or termination of employment.</p>
+
+      <h4>Background Checks</h4>
+      <p>Where permitted by law and appropriate to the position, the Company conducts background checks, which may include criminal history, employment verification, and reference checks. Checks subject to the Fair Credit Reporting Act (FCRA) are conducted only after written authorization, and adverse decisions follow the required notice process.</p>
+
+      <h4>Drug Screening</h4>
+      <p>Employment is contingent on passing a pre-employment drug screen. The Company maintains a Drug-Free Workplace (see Section 10), and additional testing may be required during employment as described in that policy. Drug and alcohol screening is required of any employee who drives a Company vehicle or operates Company equipment or machinery larger than hand tools. These requirements apply to all employees and associates of the Company, with no exceptions or grandfathering.</p>
+
+      <h4>I-9 Employment Eligibility &amp; E-Verify</h4>
+      <p>Federal law requires every employee to complete Form I-9 and present documents establishing identity and authorization to work in the United States within three business days of hire. DunRite participates in <strong>E-Verify</strong> to confirm work authorization. Employment may not continue without satisfactory verification.</p>
+
+      <h4>Driver Qualification &amp; Valid License</h4>
+      <p>Employees who drive Company vehicles or drive personal vehicles for Company business must hold a valid driver's license and maintain an acceptable driving record. The Company may review motor vehicle records before assignment and periodically thereafter. Positions requiring the operation of certain commercial vehicles may require a valid Commercial Driver's License (CDL) and compliance with applicable U.S. Department of Transportation (DOT) requirements (see Section 13). You must immediately notify your supervisor if your license is suspended, revoked, restricted, or expired.</p>
+    </section>
+
+    <!-- ===================== SECTION 5 ===================== -->
+    <section class="sec" id="sec-5" data-screen-label="05 Compensation">
+      <div class="sec-head"><div class="sec-num">05</div><div><div class="sec-kicker">Section Five</div><h2>Compensation Policies</h2></div></div>
+      <div class="rule"></div>
+
+      <h4>Pay Periods &amp; Paydays<span class="rev">9</span></h4>
+      <p>Employees are paid on a <strong>weekly</strong> basis. The Company sets the standard workweek and pay schedule and communicates it to each employee. If a payday falls on a holiday, employees are generally paid on the preceding business day.</p>
+
+      <h4>Direct Deposit<span class="rev">10</span></h4>
+      <p>The Company encourages all employees to enroll in direct deposit. Pay is deposited to your designated account on payday. It is your responsibility to keep your banking information current with the office.</p>
+
+      <h4>Timekeeping</h4>
+      <p>Non-exempt employees must accurately record all time worked using the Company's timekeeping system. You must record your actual start time, end time, and meal periods. Falsifying time records — your own or another employee's — is a serious violation that may result in termination. Review your hours for accuracy and report any error promptly.</p>
+
+      <h4>Overtime</h4>
+      <p>Non-exempt employees are paid overtime at <strong>1.5× the regular rate</strong> for all hours worked over 40 in a workweek, in accordance with the FLSA. All overtime must be authorized in advance by your supervisor. Working unauthorized overtime may result in discipline, but the Company will pay you for all hours actually worked.</p>
+      <div class="note fla">
+        <span class="lbl">Florida</span>
+        <p>Florida does not have a separate state overtime law; overtime is governed by the federal FLSA. Florida's minimum wage is adjusted annually — the Company pays at or above the current Florida minimum wage in effect.</p>
+      </div>
+
+      <h4>Payroll Deductions</h4>
+      <p>The Company makes legally required deductions (such as federal income tax, Social Security, and Medicare) and any voluntary deductions you authorize in writing (such as benefit premiums or retirement contributions). Your pay statement itemizes all deductions. Contact the office with any questions.</p>
+
+      <h4>Prevailing Wage Projects</h4>
+      <p>On public works or other projects subject to prevailing wage requirements (for example, under the Davis-Bacon Act), employees performing covered work are paid the applicable prevailing wage and fringe rate for the classification and locality of the work. Certified payroll records are maintained as required. Notify the office if you believe your prevailing wage rate has been applied incorrectly.</p>
+    </section>
+
+    <!-- ===================== SECTION 6 ===================== -->
+    <section class="sec" id="sec-6" data-screen-label="06 Attendance">
+      <div class="sec-head"><div class="sec-num">06</div><div><div class="sec-kicker">Section Six</div><h2>Attendance &amp; Scheduling<span class="rev">11</span></h2></div></div>
+      <div class="rule"></div>
+
+      <h4>Work Hours</h4>
+      <p>Standard work hours vary by jobsite and project schedule and are set by your supervisor. Construction work may begin early to avoid the heat of the day and may include extended hours during critical phases. You are expected to be at your assigned work area, ready to work, at your scheduled start time.</p>
+
+      <h4>Reporting Absences</h4>
+      <p>If you will be absent or late, notify your supervisor as early as possible, and before your scheduled start time. Leaving a message is not sufficient unless you speak with or receive confirmation from your supervisor. You must call in for each day of an absence unless told otherwise.</p>
+
+      <h4>No-Call / No-Show</h4>
+      <p>Failing to report to work and failing to notify your supervisor is a "no-call/no-show." <strong>Two consecutive</strong> scheduled workdays of no-call/no-show will be treated as a voluntary resignation (job abandonment), as described in Section 16.</p>
+
+      <h4>Inclement Weather</h4>
+      <p>Florida weather can interrupt outdoor work. When conditions make a jobsite unsafe — lightning, high winds, flooding, or extreme heat — work may be delayed, relocated, or suspended. Do not assume work is canceled; check with your supervisor or the designated call line before reporting. Non-exempt employees are generally paid only for hours actually worked, except where reporting-time or other rules apply.</p>
+
+      <div class="note fla">
+        <span class="lbl">Hurricane &amp; Severe Weather Response</span><span class="rev">12</span>
+        <p>During a hurricane watch or warning, the Company will communicate jobsite securing procedures and closure decisions through the Company's designated communication channels. Employees assigned to secure equipment and sites must follow the Company's storm-preparation checklist. After a storm, do not return to a jobsite until it has been declared safe. Your personal and family safety comes first — never travel through unsafe conditions to reach a site.</p>
+      </div>
+    </section>
+
+    <!-- ===================== SECTION 7 ===================== -->
+    <section class="sec" id="sec-7" data-screen-label="07 Benefits">
+      <div class="sec-head"><div class="sec-num">07</div><div><div class="sec-kicker">Section Seven</div><h2>Benefits</h2></div></div>
+      <div class="rule"></div>
+      <p>DunRite offers a range of benefits to eligible employees. The summaries below are general; the official plan documents and insurance contracts govern in all cases. Eligibility, costs, and waiting periods are described in your enrollment materials.<span class="rev">13</span></p>
+
+      <table class="t">
+        <thead><tr><th style="width:34%;">Benefit</th><th>Summary</th></tr></thead>
+        <tbody>
+          <tr><td>Health Insurance<span class="rev">14</span></td><td>Group medical coverage available to eligible full-time employees after the applicable waiting period.</td></tr>
+          <tr><td>Dental &amp; Vision</td><td>Optional dental and vision coverage for eligible employees and dependents.</td></tr>
+          <tr><td>401(k) Retirement<span class="rev">15</span></td><td>Eligible employees may contribute pre-tax through payroll. Eligibility and any Company contribution are described in the plan documents.</td></tr>
+          <tr><td>Paid Time Off (PTO)<span class="rev">16</span></td><td>Eligible employees accrue PTO based on length of service. Accrual rates and carryover are described in the Company's PTO policy.</td></tr>
+          <tr><td>Holidays<span class="rev">17</span></td><td>The Company observes a set of paid holidays each year for eligible employees.</td></tr>
+          <tr><td>Bereavement<span class="rev">18</span></td><td>Paid time off following the death of an immediate family member, as described in the Company's bereavement policy.</td></tr>
+          <tr><td>Jury Duty</td><td>Time off to serve on a jury (see Section 8).</td></tr>
+          <tr><td>Military Leave</td><td>Leave for military service in accordance with USERRA (see Section 8).</td></tr>
+        </tbody>
+      </table>
+      <div class="note">
+        <span class="lbl">Note</span>
+        <p>Benefit eligibility generally requires full-time status and may include a waiting period. Enrollment windows, qualifying life events, and continuation rights (such as COBRA, where applicable) are described in your plan materials. Direct questions to the office manager.</p>
+      </div>
+    </section>
+
+    <!-- ===================== SECTION 8 ===================== -->
+    <section class="sec" id="sec-8" data-screen-label="08 Leave">
+      <div class="sec-head"><div class="sec-num">08</div><div><div class="sec-kicker">Section Eight</div><h2>Leave Policies</h2></div></div>
+      <div class="rule"></div>
+      <p>The Company provides the following leaves of absence in accordance with applicable law. Request leave as far in advance as practical, and keep your supervisor and the office informed of your status and expected return date.</p>
+
+      <h4>Family &amp; Medical Leave (FMLA)<span class="rev">19</span></h4>
+      <p>If the Company is a covered employer (50 or more employees within 75 miles), eligible employees may take up to 12 weeks of unpaid, job-protected leave in a 12-month period for qualifying reasons, including the birth or adoption of a child, a serious health condition, or to care for a family member with a serious health condition, and up to 26 weeks for qualifying military caregiver leave. Eligibility requires 12 months of service and 1,250 hours worked in the prior 12 months. Where FMLA applies, the Company administers leave in accordance with the law.</p>
+
+      <h4>Military Leave (USERRA)</h4>
+      <p>Employees who serve in the uniformed services are granted leave and reemployment rights in accordance with the Uniformed Services Employment and Reemployment Rights Act (USERRA). Provide advance notice of service when possible.</p>
+
+      <h4>Jury Duty</h4>
+      <p>The Company grants time off to serve on a jury. Notify your supervisor promptly when you receive a summons and provide documentation. Florida law prohibits dismissing or threatening an employee because of jury service.</p>
+
+      <h4>Voting Leave</h4>
+      <p>The Company encourages employees to vote. Where schedules conflict with polling hours, speak with your supervisor in advance to arrange time to vote.</p>
+
+      <h4>Workers' Compensation Leave<span class="rev">20</span></h4>
+      <p>An employee who is unable to work due to a work-related injury or illness may be placed on workers' compensation leave and is subject to the procedures in Section 12. Return to work may require a medical release, and the Company may offer transitional or light-duty assignments where available.</p>
+
+      <h4>ADA Accommodation</h4>
+      <p>The Company provides reasonable accommodations to qualified individuals with disabilities to enable them to perform the essential functions of their job, unless doing so would cause undue hardship. If you need an accommodation, contact your supervisor or the office manager to begin an interactive discussion. The Company keeps medical information confidential.</p>
+    </section>
+
+    <!-- ===================== SECTION 9 ===================== -->
+    <section class="sec" id="sec-9" data-screen-label="09 Conduct">
+      <div class="sec-head"><div class="sec-num">09</div><div><div class="sec-kicker">Section Nine</div><h2>Workplace Conduct</h2></div></div>
+      <div class="rule"></div>
+
+      <h4>Professional Conduct</h4>
+      <p>Every employee is expected to act professionally, treat others with respect, and represent DunRite well on jobsites, in the office, and in front of clients and the public. Insubordination, dishonesty, theft, fighting, threats, and willful damage to property are grounds for immediate termination.</p>
+
+      <h4>Anti-Harassment &amp; Anti-Discrimination</h4>
+      <p>DunRite prohibits harassment and discrimination based on any characteristic protected by law (see Section 1). This includes sexual harassment — unwelcome advances, requests for sexual favors, and other verbal or physical conduct of a sexual nature — as well as harassment based on race, national origin, religion, age, disability, or any other protected status. This policy applies to conduct by and toward employees, supervisors, clients, vendors, and subcontractors.</p>
+      <p><strong>Reporting:</strong> If you experience or witness harassment or discrimination, report it immediately to your supervisor, the office manager, or the President. If your supervisor is the source of the concern, report it to any of the other contacts. The Company will investigate promptly and discreetly.</p>
+      <p><strong>No retaliation:</strong> The Company strictly prohibits retaliation against anyone who reports a concern in good faith or participates in an investigation. Retaliation is itself a violation of this policy and grounds for discipline up to termination.</p>
+
+      <h4>Workplace Violence Prevention</h4>
+      <p>Threats, intimidation, and acts of violence are strictly prohibited. Weapons are not permitted on Company property or jobsites except as expressly allowed by law. Report any threat or act of violence immediately, and call 911 in an emergency.</p>
+
+      <h4>Social Media<span class="rev">21</span></h4>
+      <p>You are personally responsible for what you post. Do not post confidential Company or client information, jobsite photos that reveal client or security details, or content that harasses coworkers or disparages clients. Make clear that your personal views are your own. Nothing in this policy restricts legally protected activity, including discussing wages or working conditions.</p>
+
+      <h4>Confidentiality</h4>
+      <p>In the course of your work you may learn confidential information about the Company, clients, bids, pricing, and employees. You must keep this information confidential during and after employment and use it only for legitimate business purposes.</p>
+
+      <h4>Company Property</h4>
+      <p>Tools, equipment, vehicles, materials, devices, and documents are Company property to be used for business purposes and cared for responsibly. The Company may inspect its property, including vehicles, lockers, and devices, consistent with law. All Company property must be returned upon separation. At no time during an employee's tenure with the Company may Company property — whether in print or stored digitally or electronically — be removed from Company control or stored at any location, including personal devices or cloud storage, that has not been authorized by Company management and granted in writing.</p>
+    </section>
+
+    <!-- ===================== SECTION 10 ===================== -->
+    <section class="sec" id="sec-10" data-screen-label="10 Drug & Alcohol">
+      <div class="sec-head"><div class="sec-num">10</div><div><div class="sec-kicker">Section Ten</div><h2>Drug &amp; Alcohol Policy<span class="rev">22</span></h2></div></div>
+      <div class="rule"></div>
+      <p>Construction is safety-sensitive work. DunRite is committed to a drug- and alcohol-free workplace to protect the safety of all employees, subcontractors, and the public. The unlawful use, possession, sale, or being under the influence of drugs or alcohol while on duty, on Company property, or on a jobsite is strictly prohibited and may result in immediate termination.</p>
+
+      <h4>Types of Testing<span class="rev">23</span></h4>
+      <ul>
+        <li><strong>Pre-Employment:</strong><span class="rev">24</span> Required of applicants as a condition of employment.</li>
+        <li><strong>Post-Accident:</strong> Required following a workplace accident or injury, consistent with policy and law.</li>
+        <li><strong>Reasonable Suspicion:</strong> Required when a trained supervisor documents specific, observable signs of impairment.</li>
+        <li><strong>Random:</strong> Conducted on a neutral-selection basis where the Company implements random testing.</li>
+      </ul>
+      <p>Drug and alcohol testing applies to any and all employees who operate Company equipment or machinery or who drive a Company-owned vehicle. Employees whose roles do not involve operating Company equipment or driving Company-owned vehicles may not be subject to every category of testing, except as otherwise required by law or this policy.</p>
+
+      <h4>Prescription Drugs</h4>
+      <p>If you are taking a prescription or over-the-counter medication that may affect your ability to work safely, you must report it to your supervisor before performing safety-sensitive duties. You are not required to disclose your underlying medical condition.</p>
+
+      <div class="note fla">
+        <span class="lbl">Florida Drug-Free Workplace Program</span>
+        <p>To the extent DunRite participates in Florida's Drug-Free Workplace Program (Fla. Stat. § 440.102), the Company follows the program's notice, testing, and confidentiality requirements, which can affect workers' compensation premium credits and the handling of injury-related claims. The Company's separate <strong>Drug-Free Workplace Program</strong> document governs the testing procedures, substances tested, confirmation testing, and employee rights in detail.</p>
+      </div>
+    </section>
+
+    <!-- ===================== SECTION 11 ===================== -->
+    <section class="sec" id="sec-11" data-screen-label="11 Safety & PPE">
+      <div class="sec-head"><div class="sec-num">11</div><div><div class="sec-kicker">Section Eleven</div><h2>Safety &amp; PPE Requirements<span class="rev">25</span></h2></div></div>
+      <div class="rule"></div>
+      <p>Safety is our first core value. This section summarizes baseline expectations. The Company's separate <strong>Safety Manual</strong>, which follows federal OSHA construction standards (29 CFR 1926), governs detailed safety procedures and takes precedence on the specific subjects it covers.</p>
+
+      <h4>Mandatory PPE</h4>
+      <p>Required personal protective equipment must be worn at all times in designated areas. At a minimum this includes a hard hat, safety glasses, high-visibility apparel, and appropriate footwear. Task-specific PPE — gloves, hearing protection, respirators, fall-protection harnesses — must be worn as required by the job and the Safety Manual. PPE must be inspected before use and kept in good condition.</p>
+
+      <h4>Jobsite Rules</h4>
+      <ul>
+        <li>Follow all posted signs, barricades, and supervisor instructions.</li>
+        <li>Keep work areas clean and free of trip and fall hazards (good housekeeping).</li>
+        <li>Operate only equipment you are trained and authorized to use.</li>
+        <li>Stay hydrated and follow heat-illness prevention practices in Florida conditions.</li>
+        <li>Never bypass guards, tie-offs, or safety devices.</li>
+      </ul>
+
+      <h4>Stop Work Authority</h4>
+      <p><strong>Every employee has the authority — and the responsibility — to stop work</strong> when they observe an unsafe condition or act that could cause injury. Stopping work to address a hazard is always supported and will never be a basis for discipline.</p>
+
+      <h4>Reporting Unsafe Conditions &amp; Injuries</h4>
+      <p>Report unsafe conditions, near misses, and all injuries — no matter how minor — to your supervisor immediately. Early reporting protects you and helps us prevent the next incident. Injury reporting procedures are detailed in Section 12.</p>
+    </section>
+
+    <!-- ===================== SECTION 12 ===================== -->
+    <section class="sec" id="sec-12" data-screen-label="12 Workers' Comp">
+      <div class="sec-head"><div class="sec-num">12</div><div><div class="sec-kicker">Section Twelve</div><h2>Workers' Compensation<span class="rev">25</span></h2></div></div>
+      <div class="rule"></div>
+      <p>DunRite carries workers' compensation insurance as required for Florida construction employers. If you are injured on the job, workers' compensation provides medical care and partial wage replacement for covered work-related injuries and illnesses, regardless of fault.</p>
+
+      <h4>If You Are Injured</h4>
+      <ol class="steps">
+        <li><strong>Get safe and get help.</strong> In an emergency, call 911. Seek first aid or medical attention as needed.</li>
+        <li><strong>Report it immediately.</strong> Notify your supervisor as soon as possible — Florida law sets time limits for reporting work injuries, and prompt reporting protects your claim.</li>
+        <li><strong>Use authorized care.</strong> Except in an emergency, treatment must be provided by a medical provider authorized by the Company's workers' compensation carrier.</li>
+        <li><strong>Cooperate with the claim.</strong> Provide accurate information and complete required forms with the office.</li>
+        <li><strong>Follow restrictions &amp; return to work.</strong> Provide medical releases and follow any work restrictions. The Company may offer light-duty or transitional work where available.</li>
+      </ol>
+
+      <div class="note fla">
+        <span class="lbl">Florida</span>
+        <p>Florida construction employers are generally required to carry workers' compensation coverage. Post-accident drug testing may apply (see Section 10), and benefits may be affected by failure to report timely or by intoxication, as provided under Florida law. Fraudulent claims are prohibited and may result in termination and legal consequences.</p>
+      </div>
+    </section>
+
+    <!-- ===================== SECTION 13 ===================== -->
+    <section class="sec" id="sec-13" data-screen-label="13 Vehicles">
+      <div class="sec-head"><div class="sec-num">13</div><div><div class="sec-kicker">Section Thirteen</div><h2>Company Vehicles</h2></div></div>
+      <div class="rule"></div>
+      <p>Employees authorized to operate Company vehicles — or to drive personal vehicles for Company business — must do so safely, legally, and responsibly. The Company's separate <strong>Fleet Safety Program</strong> provides additional detail.</p>
+
+      <h4>Fleet Safety &amp; Authorization</h4>
+      <p>Only employees who are authorized and hold a valid license (and CDL where required) may operate Company vehicles. This section applies to all Company-owned vehicles, trailers, and equipment. They are to be used for business purposes and kept clean, maintained, and secured. Report mechanical problems promptly.</p>
+
+      <h4>Assigned Driver</h4>
+      <p>A Company vehicle may be designated to an <strong>assigned driver</strong>, who is responsible for its day-to-day operation, condition, security, and routine upkeep. Only the assigned driver and other authorized employees may operate that vehicle. Assigned drivers must complete a vehicle condition check at assignment and report any damage, mechanical issue, or accident promptly.</p>
+
+      <h4>Personal Use of Vehicles, Equipment &amp; Tools</h4>
+      <p>Company-owned vehicles, trailers, equipment, and hand tools are provided for Company business. Personal use — including taking Company tools or equipment home, or towing or hauling with a personal vehicle for non-Company purposes — is not permitted unless authorized by Company management in writing. Employees are responsible for the care and return of any Company property issued to them.</p>
+
+      <h4>Seatbelt Policy</h4>
+      <p>All occupants must wear seatbelts at all times the vehicle is in motion. No exceptions.</p>
+
+      <h4>Cell Phone &amp; Distracted Driving</h4>
+      <p>Texting while driving is prohibited. Handheld phone use while driving is prohibited; if a call is necessary, use a hands-free device or pull over safely. Florida law restricts texting and handheld use in work and school zones. When in doubt, pull over.</p>
+
+      <h4>DOT Requirements</h4>
+      <p>Employees operating vehicles subject to U.S. DOT regulations must comply with applicable requirements, which may include medical certification, hours-of-service rules, inspections, and participation in a DOT drug-and-alcohol testing program.</p>
+
+      <h4>Accident Reporting<span class="rev">26</span></h4>
+      <p>Report any accident involving a Company vehicle — or a personal vehicle used for Company business — immediately, regardless of severity. Call 911 if anyone is injured, exchange information as required, do not admit fault, photograph the scene if safe, and notify your supervisor. Complete the Company's accident report.</p>
+    </section>
+
+    <!-- ===================== SECTION 14 ===================== -->
+    <section class="sec" id="sec-14" data-screen-label="14 Technology">
+      <div class="sec-head"><div class="sec-num">14</div><div><div class="sec-kicker">Section Fourteen</div><h2>Technology &amp; Equipment Use</h2></div></div>
+      <div class="rule"></div>
+      <p>Company-provided technology and equipment are tools for doing your job. Use them responsibly and primarily for business purposes. The Company may monitor, access, and review its systems and devices consistent with law; you should have no expectation of privacy in Company systems.</p>
+
+      <h4>Phones &amp; Tablets</h4>
+      <p>Company phones and tablets are for business use, including jobsite documentation, scheduling, and project management apps. Protect devices from loss, theft, and damage, and secure them with required passcodes.</p>
+
+      <h4>GPS Tracking</h4>
+      <p>Company vehicles and certain equipment may be equipped with GPS for safety, routing, dispatch, and asset protection. By operating Company vehicles and equipment, you acknowledge they may be tracked.</p>
+
+      <h4>Email &amp; Internet</h4>
+      <p>Company email and internet access are provided for business use. Do not use Company systems to send harassing, discriminatory, or offensive material, to access inappropriate content, or to disclose confidential information. Communicate professionally — assume anything you write may be read by others.</p>
+
+      <h4>Company Computers &amp; Software</h4>
+      <p>Install only authorized software, keep credentials confidential, and follow Company security practices. Do not connect unauthorized devices to Company systems. Report lost devices or suspected security incidents immediately.</p>
+    </section>
+
+    <!-- ===================== SECTION 15 ===================== -->
+    <section class="sec" id="sec-15" data-screen-label="15 Discipline">
+      <div class="sec-head"><div class="sec-num">15</div><div><div class="sec-kicker">Section Fifteen</div><h2>Discipline Policy<span class="rev">27</span></h2></div></div>
+      <div class="rule"></div>
+      <p>The Company expects all employees to meet its standards of conduct, performance, attendance, and safety. When standards are not met, the Company may use a progressive discipline approach to give employees an opportunity to correct the issue.</p>
+
+      <h4>Progressive Discipline</h4>
+      <ol class="steps">
+        <li><strong>Coaching</strong><span>An informal conversation to clarify expectations and correct minor issues early.</span></li>
+        <li><strong>Verbal Warning</strong><span>A documented verbal discussion identifying the problem and required improvement.</span></li>
+        <li><strong>Written Warning</strong><span>A formal written notice describing the issue, expectations, and consequences of continued problems.</span></li>
+        <li><strong>Final Warning</strong><span>A last opportunity to correct, which may include suspension.</span></li>
+        <li><strong>Termination</strong><span>Ending employment when prior steps have not resolved the issue.</span></li>
+      </ol>
+
+      <div class="note">
+        <span class="lbl">Reservation of Rights</span>
+        <p>Progressive discipline is a guideline, not a contract or a promise. Because employment is at-will, the Company reserves the right to begin discipline at any step — including immediate termination — based on the seriousness of the conduct and the circumstances. Some violations (such as theft, violence, serious safety violations, intoxication on duty, or falsifying records) may result in immediate termination without prior warnings.</p>
+      </div>
+    </section>
+
+    <!-- ===================== SECTION 16 ===================== -->
+    <section class="sec" id="sec-16" data-screen-label="16 Separation">
+      <div class="sec-head"><div class="sec-num">16</div><div><div class="sec-kicker">Section Sixteen</div><h2>Separation of Employment<span class="rev">28</span></h2></div></div>
+      <div class="rule"></div>
+
+      <h4>Resignation</h4>
+      <p>Employees who choose to resign are asked to provide at least <strong>two weeks' written notice</strong> as a professional courtesy. Notice helps ensure a smooth transition, though employment remains at-will.</p>
+
+      <h4>Job Abandonment</h4>
+      <p>An employee who is absent without notice for <strong>two consecutive</strong> scheduled workdays (no-call/no-show, see Section 6) is considered to have voluntarily resigned by abandoning their position.</p>
+
+      <h4>Termination</h4>
+      <p>The Company may end employment at any time, consistent with the at-will relationship and applicable law. Termination decisions are made by management.</p>
+
+      <h4>Final Pay</h4>
+      <p>Final wages for all hours worked are paid in accordance with Florida law and the Company's regular pay practices, generally on the next scheduled payday. Authorized deductions and the value of unreturned property may be addressed as permitted by law. Any accrued, unused PTO is handled in accordance with Company policy and applicable law.</p>
+
+      <h4>Return of Company Property</h4>
+      <p>On or before your last day, you must return all Company property, including tools, equipment, keys, access cards, phones, tablets, computers, uniforms, documents, and any confidential materials. Failure to return property may result in legal action and deductions to the extent permitted by law.</p>
+    </section>
+
+    <!-- ===================== SECTION 17 ===================== -->
+    <section class="sec" id="sec-17" data-screen-label="17 Acknowledgement">
+      <div class="sec-head"><div class="sec-num">17</div><div><div class="sec-kicker">Section Seventeen</div><h2>Employee Acknowledgement<span class="rev">29</span></h2></div></div>
+      <div class="rule"></div>
+      <p>This page must be signed and returned to the office. Please read it carefully before signing.</p>
+
+      <div style="border:1.5px solid var(--ink); border-radius:3px; padding:26px 28px; margin:20px 0; background:var(--card);">
+        <p style="font-size:14px;">I acknowledge that I have received a copy of the DunRite Construction Group LLC Employee Handbook. I understand that it is my responsibility to read, understand, and comply with the policies it contains, and to ask questions about anything I do not understand.</p>
+        <p style="font-size:14px;">I understand that this handbook is a summary of current policies and is <strong>not a contract of employment</strong> and does not guarantee employment for any specific period. I understand that my employment with the Company is <strong>at-will</strong>, meaning that either I or the Company may end the employment relationship at any time, with or without cause or notice.</p>
+        <p style="font-size:14px;">I understand that the Company may change, add, or eliminate policies in this handbook at any time, with or without notice, to the extent permitted by law, and that only the President has the authority to alter the at-will relationship, and only in a signed writing.</p>
+        <p style="font-size:14px; margin-bottom:0;">I acknowledge that I have been given the opportunity to ask questions about the handbook and that I am responsible for complying with its policies, including the safety and drug-free workplace requirements.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:30px 40px; margin-top:40px;">
+        <div><div style="border-bottom:1.5px solid var(--ink); height:34px;"></div><div style="font-family:'Archivo',sans-serif; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-top:7px;">Employee Name (Print)</div></div>
+        <div><div style="border-bottom:1.5px solid var(--ink); height:34px;"></div><div style="font-family:'Archivo',sans-serif; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-top:7px;">Employee ID</div></div>
+        <div><div style="border-bottom:1.5px solid var(--ink); height:34px;"></div><div style="font-family:'Archivo',sans-serif; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-top:7px;">Employee Signature</div></div>
+        <div><div style="border-bottom:1.5px solid var(--ink); height:34px;"></div><div style="font-family:'Archivo',sans-serif; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-top:7px;">Date</div></div>
+      </div>
+
+      <div style="margin-top:48px; padding-top:18px; border-top:1px solid #948e80; display:flex; align-items:center; gap:14px;">
+        <img src="assets/dunrite-logo.png" alt="DunRite" style="height:38px; width:auto; filter:brightness(0) saturate(100%); opacity:0.0; position:absolute; left:-9999px;">
+        <p style="font-family:'Archivo',sans-serif; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--soft); margin:0;">DunRite Construction Group LLC · Employee Handbook · 2026 Edition · Confidential<span class="rev">31</span></p>
+      </div>
+    </section>
+
+    </td></tr></tbody>
+    <tfoot><tr><td class="ftr-space"></td></tr></tfoot>
+  </table>
+</div></div>
+  
+<div class="bundle-doc bkdoc2"><div class="doc">
+  <div class="wm" aria-hidden="true"></div>
+  <div class="running-hdr"><span>DunRite Construction Group LLC</span><span>New Hire Orientation · 2026</span></div>
+  <div class="running-ftr"><span>Welcome to the team</span><span>Effective January 2026</span></div>
+  <table class="doc-frame" role="presentation">
+    <thead><tr><td class="hdr-space"></td></tr></thead>
+    <tbody><tr><td>
+
+    <!-- COVER -->
+        <!-- ===================== COVER — Centered Monolith ===================== -->
+    <section class="cover" data-screen-label="Cover" style="background:#ffffff; color:#1d2127; border:1px solid #dcd7cb; border-radius:4px; margin:0 0 40px; padding:96px clamp(40px,7vw,84px); min-height:9.4in; box-sizing:border-box; position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+      <img src="assets/dunrite-logo-dark.png" alt="DunRite Construction Group LLC" style="display:block; width:248px; max-width:62%; height:auto; margin:0 auto;">
+      <div style="width:64px; height:3px; background:#1ca0e0; margin:46px auto 30px; border-radius:2px;"></div>
+      <div style="font-family:'Archivo',sans-serif; font-weight:600; font-size:13px; letter-spacing:0.34em; text-transform:uppercase; color:#1ca0e0;">New Hire Orientation Guide</div>
+      <h1 style="font-family:'Archivo',sans-serif; font-weight:800; font-size:54px; line-height:1.0; letter-spacing:-0.028em; margin:20px 0 0; color:#1d2127; text-align:left;">Welcome to<br>the Crew</h1>
+    </section>
+
+    <!-- BLANK BACK OF TITLE PAGE -->
+    <section class="blankback" aria-hidden="true"><span>This page intentionally left blank</span></section>
+
+    <!-- FRONT MATTER -->
+    <section class="frontmatter" data-screen-label="Welcome">
+      <div class="sec-kicker" style="margin-top:8px;">DunRite Construction Group LLC</div>
+      <h2 style="font-size:32px; margin-bottom:8px;">Glad You're Here</h2>
+      <div class="rule"></div>
+      <p>Welcome to DunRite Construction Group. You've joined a team that takes pride in safe, high-quality work — and we want your first days to set you up to do your best. This guide walks you through what to bring, how onboarding works, and what your first day, week, and month will look like. Keep it handy and check things off as you go.</p>
+      <p>Your supervisor and the office are here to help. No question is too small — asking is exactly how you learn the DunRite way of doing things right.</p>
+
+      <div class="note">
+        <span class="lbl">How this fits together</span>
+        <p>This guide is your roadmap. The details live in three companion documents you'll receive and sign: the <strong>Employee Handbook</strong>, the <strong>Safety Manual</strong>, and the <strong>Drug-Free Workplace Program</strong>. If you'll drive for the Company, you'll also get the <strong>Fleet Safety Program</strong>.</p>
+      </div>
+
+      <h3 style="margin-top:30px;">Contents</h3>
+      <div class="rule" style="margin-top:10px;"></div>
+      <div style="font-family:'Archivo',sans-serif;">
+        <a href="#sec-1" style="display:flex; gap:14px; padding:7px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">01</span><span style="font-weight:500; font-size:14px;">Before Your First Day</span></a>
+        <a href="#sec-2" style="display:flex; gap:14px; padding:7px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">02</span><span style="font-weight:500; font-size:14px;">Your First Day, Week &amp; Month</span></a>
+        <a href="#sec-3" style="display:flex; gap:14px; padding:7px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">03</span><span style="font-weight:500; font-size:14px;">Paperwork &amp; Onboarding Checklist</span></a>
+        <a href="#sec-4" style="display:flex; gap:14px; padding:7px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">04</span><span style="font-weight:500; font-size:14px;">Safety Starts Now</span></a>
+        <a href="#sec-5" style="display:flex; gap:14px; padding:7px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">05</span><span style="font-weight:500; font-size:14px;">Who to Ask &amp; Key Contacts</span></a>
+      </div>
+    </section>
+
+    <!-- 1 -->
+    <section class="sec" id="sec-1" data-screen-label="01 Before First Day">
+      <div class="sec-head"><div class="sec-num">01</div><div><div class="sec-kicker">Getting Ready</div><h2>Before Your First Day</h2></div></div>
+      <div class="rule"></div>
+      <h4>What to Bring</h4>
+      <ul class="check">
+        <li><strong>Documents for I-9 verification</strong><span class="sub">Acceptable ID and work-authorization documents (e.g., a passport, or a driver's license plus Social Security card). See the I-9 list of acceptable documents.</span></li>
+        <li><strong>Voided check or bank details</strong><span class="sub">For direct deposit setup.</span></li>
+        <li><strong>Driver's license</strong><span class="sub">If your role involves driving Company vehicles.</span></li>
+        <li><strong>Any required certifications</strong><span class="sub">OSHA 10/30, CDL, trade licenses, or equipment certs, if you have them.</span></li>
+      </ul>
+      <h4>What to Wear</h4>
+      <p>Come dressed for fieldwork: sturdy work boots, comfortable work clothes, and any PPE you already own. The Company will provide or confirm required PPE on day one. Dress for the Florida weather and bring a water bottle.</p>
+      <div class="note fla"><span class="lbl">Where &amp; When</span><p>Your start location, start time, and supervisor will be confirmed with you before your first day. If anything changes or you're running late, call ahead.</p></div>
+    </section>
+
+    <!-- 2 -->
+    <section class="sec" id="sec-2" data-screen-label="02 First Day/Week/Month">
+      <div class="sec-head"><div class="sec-num">02</div><div><div class="sec-kicker">Your Roadmap</div><h2>Your First Day, Week &amp; Month</h2></div></div>
+      <div class="rule"></div>
+
+      <div class="daycard">
+        <h4>Day One</h4>
+        <ul>
+          <li>Welcome and introductions to your supervisor and crew.</li>
+          <li>Complete new-hire paperwork (I-9, tax forms, direct deposit, acknowledgements).</li>
+          <li>Receive and review the Employee Handbook, Safety Manual, and Drug-Free Workplace Program.</li>
+          <li>Site safety orientation and PPE issue/fitting.</li>
+          <li>Tour of the jobsite or shop; review of where things are and how the day runs.</li>
+        </ul>
+      </div>
+
+      <div class="daycard">
+        <h4>Your First Week</h4>
+        <ul>
+          <li>Attend daily toolbox talks and learn the Job Hazard Analysis (JHA) for your tasks.</li>
+          <li>Learn timekeeping and how to report your hours accurately.</li>
+          <li>Work alongside an experienced team member who shows you the ropes.</li>
+          <li>Confirm benefits enrollment timing and ask any questions.</li>
+          <li>Learn the tools, equipment, and apps you'll use (including Procore, if applicable).</li>
+        </ul>
+      </div>
+
+      <div class="daycard">
+        <h4>Your First 30 Days</h4>
+        <ul>
+          <li>Get comfortable with our safety expectations and Stop Work Authority.</li>
+          <li>Build working relationships across the crew and office.</li>
+          <li>Complete any required training or certifications for your role.</li>
+          <li>Have a check-in with your supervisor on how it's going and what you need.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section class="sec" id="sec-3" data-screen-label="03 Onboarding Checklist">
+      <div class="sec-head"><div class="sec-num">03</div><div><div class="sec-kicker">Get It Done</div><h2>Paperwork &amp; Onboarding Checklist</h2></div></div>
+      <div class="rule"></div>
+      <p>Work through this list with the office. Check each item as it's completed.</p>
+      <ul class="check">
+        <li><strong>Form I-9</strong><span class="sub">Identity and work-authorization verification (E-Verify).</span></li>
+        <li><strong>Federal tax withholding (Form W-4)</strong></li>
+        <li><strong>Direct deposit authorization</strong></li>
+        <li><strong>Emergency contact information</strong></li>
+        <li><strong>Employee Handbook acknowledgement</strong></li>
+        <li><strong>Safety Manual acknowledgement</strong></li>
+        <li><strong>Drug-Free Workplace Program acknowledgement</strong><span class="sub">Plus pre-employment drug screen, if not already completed.</span></li>
+        <li><strong>Fleet Safety Program acknowledgement</strong><span class="sub">If you'll drive for the Company; MVR authorization.</span></li>
+        <li><strong>Benefits enrollment materials</strong><span class="sub">Review eligibility and enrollment windows.</span></li>
+        <li><strong>PPE issued and fitted</strong></li>
+        <li><strong>Equipment / app access set up</strong><span class="sub">Email, timekeeping, Procore, and any role tools.</span></li>
+      </ul>
+    </section>
+
+    <!-- 4 -->
+    <section class="sec" id="sec-4" data-screen-label="04 Safety Starts Now">
+      <div class="sec-head"><div class="sec-num">04</div><div><div class="sec-kicker">Most Important</div><h2>Safety Starts Now</h2></div></div>
+      <div class="rule"></div>
+      <p>Safety is our first core value, and it starts on day one. Here are the basics every team member follows from the very beginning — the full details are in the Safety Manual.</p>
+      <ul>
+        <li>Wear your required PPE — hard hat, safety glasses, high-visibility apparel, and boots — in all active work areas.</li>
+        <li>Attend every toolbox talk and follow the JHA for your task.</li>
+        <li>Use only equipment you're trained and authorized to use.</li>
+        <li>Stay hydrated and watch yourself and others for signs of heat illness.</li>
+        <li>Report unsafe conditions, near-misses, and any injury — no matter how minor — right away.</li>
+      </ul>
+      <div class="note"><span class="lbl">You Have Stop Work Authority</span><p>From your first day, you have the authority — and the responsibility — to <strong>stop work</strong> if you see something unsafe. We will always support you for speaking up. No task is worth getting hurt.</p></div>
+    </section>
+
+    <!-- 5 -->
+    <section class="sec" id="sec-5" data-screen-label="05 Key Contacts">
+      <div class="sec-head"><div class="sec-num">05</div><div><div class="sec-kicker">Here to Help</div><h2>Who to Ask &amp; Key Contacts</h2></div></div>
+      <div class="rule"></div>
+      <p>When you have a question, start with your supervisor. For pay, benefits, or paperwork, the office is your go-to. Fill in the contacts below and keep this page handy.</p>
+      <table class="t">
+        <thead><tr><th style="width:42%;">For…</th><th>Contact</th></tr></thead>
+        <tbody>
+          <tr><td>Your daily work &amp; schedule</td><td>Supervisor / Foreman — Provided at orientation</td></tr>
+          <tr><td>Safety questions &amp; incidents</td><td>Safety Manager — Provided at orientation</td></tr>
+          <tr><td>Pay, benefits, paperwork</td><td>Office Manager — Provided at orientation</td></tr>
+          <tr><td>Vehicles &amp; equipment</td><td>Fleet / Equipment Coordinator — Provided at orientation</td></tr>
+          <tr><td>Emergencies</td><td>911 · then notify your supervisor</td></tr>
+        </tbody>
+      </table>
+      <div class="note fla"><span class="lbl">Welcome again</span><p>We're glad you're here. Give it your best, ask questions, look out for your crew — and let's build it right.</p></div>
+      <div style="margin-top:40px; padding-top:18px; border-top:1px solid #948e80;">
+        <p style="font-family:'Archivo',sans-serif; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--soft); margin:0;">DunRite Construction Group LLC · New Hire Orientation Guide · 2026 Edition</p>
+      </div>
+    </section>
+
+    </td></tr></tbody>
+    <tfoot><tr><td class="ftr-space"></td></tr></tfoot>
+  </table>
+</div></div>
+  
+<div class="bundle-doc bkdoc3"><div class="doc">
+  <div class="wm" aria-hidden="true"></div>
+  <div class="running-hdr"><span>DunRite Construction Group LLC</span><span>Drug-Free Workplace Program · 2026</span></div>
+  <div class="running-ftr"><span>Confidential — Internal Use Only</span><span>Effective January 2026 · Rev. 1.0</span></div>
+  <table class="doc-frame" role="presentation">
+    <thead><tr><td class="hdr-space"></td></tr></thead>
+    <tbody><tr><td>
+
+    <!-- COVER -->
+        <!-- ===================== COVER — Centered Monolith ===================== -->
+    <section class="cover" data-screen-label="Cover" style="background:#ffffff; color:#1d2127; border:1px solid #dcd7cb; border-radius:4px; margin:0 0 40px; padding:96px clamp(40px,7vw,84px); min-height:9.4in; box-sizing:border-box; position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+      <img src="assets/dunrite-logo-dark.png" alt="DunRite Construction Group LLC" style="display:block; width:248px; max-width:62%; height:auto; margin:0 auto;">
+      <div style="width:64px; height:3px; background:#1ca0e0; margin:46px auto 30px; border-radius:2px;"></div>
+      <div style="font-family:'Archivo',sans-serif; font-weight:600; font-size:13px; letter-spacing:0.34em; text-transform:uppercase; color:#1ca0e0;">Drug-Free Workplace Program</div>
+      <h1 style="font-family:'Archivo',sans-serif; font-weight:800; font-size:54px; line-height:1.0; letter-spacing:-0.028em; margin:20px 0 0; color:#1d2127; text-align:left;">Clear, Sober,<br>and Safe</h1>
+    </section>
+
+    <!-- BLANK BACK OF TITLE PAGE -->
+    <section class="blankback" aria-hidden="true"><span>This page intentionally left blank</span></section>
+
+    <!-- FRONT MATTER -->
+    <section class="frontmatter" data-screen-label="Overview">
+      <div class="sec-kicker" style="margin-top:8px;">DunRite Construction Group LLC</div>
+      <h2 style="font-size:32px; margin-bottom:8px;">Program Overview</h2>
+      <div class="rule"></div>
+      <p>DunRite Construction Group LLC is committed to a safe, healthy, and productive workplace. Because construction is safety-sensitive work, drug and alcohol use endangers everyone on the jobsite. This Drug-Free Workplace Program describes the substances we test for, the circumstances under which testing occurs, and the rights and responsibilities of employees and applicants.</p>
+      <p>This Program supplements the Drug &amp; Alcohol Policy in the Employee Handbook (Section 10). It is designed to be consistent with Florida's Drug-Free Workplace Program statute so the Company may qualify for available workers' compensation premium credits and related benefits.</p>
+
+      <div class="note legal">
+        <span class="lbl">Important — Please Read</span>
+        <p>This is a <strong>draft template</strong> for general information only and is not legal advice. Florida's Drug-Free Workplace Program (Fla. Stat. § 440.102 and Fla. Admin. Code) imposes specific notice, testing, laboratory, confirmation, MRO, and confidentiality requirements. Before adopting, DunRite must have this Program reviewed by qualified counsel and its workers' compensation carrier, select a certified laboratory and Medical Review Officer (MRO), and provide the required 60-day advance notice before testing begins. Bracketed items must be completed.</p>
+      </div>
+
+      <h3 style="margin-top:30px;">Contents</h3>
+      <div class="rule" style="margin-top:10px;"></div>
+      <div style="font-family:'Archivo',sans-serif;">
+        <a href="#sec-1" style="display:flex; gap:14px; padding:7px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">01</span><span style="font-weight:500; font-size:14px;">Policy &amp; Prohibited Conduct</span></a>
+        <a href="#sec-2" style="display:flex; gap:14px; padding:7px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">02</span><span style="font-weight:500; font-size:14px;">Types of Testing</span></a>
+        <a href="#sec-3" style="display:flex; gap:14px; padding:7px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">03</span><span style="font-weight:500; font-size:14px;">Substances Tested &amp; Testing Procedures</span></a>
+        <a href="#sec-4" style="display:flex; gap:14px; padding:7px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">04</span><span style="font-weight:500; font-size:14px;">Employee Rights &amp; Confidentiality</span></a>
+        <a href="#sec-5" style="display:flex; gap:14px; padding:7px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">05</span><span style="font-weight:500; font-size:14px;">Consequences &amp; Assistance</span></a>
+        <a href="#sec-6" style="display:flex; gap:14px; padding:7px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">06</span><span style="font-weight:500; font-size:14px;">Employee Acknowledgement</span></a>
+      </div>
+    </section>
+
+    <!-- 1 -->
+    <section class="sec" id="sec-1" data-screen-label="01 Policy">
+      <div class="sec-head"><div class="sec-num">01</div><div><div class="sec-kicker">Section One</div><h2>Policy &amp; Prohibited Conduct</h2></div></div>
+      <div class="rule"></div>
+      <p>It is DunRite's policy that employees and applicants are free of the influence of drugs and alcohol while performing Company work. The following are strictly prohibited and may result in termination:</p>
+      <ul>
+        <li>The unlawful use, possession, sale, distribution, or manufacture of illegal drugs or controlled substances.</li>
+        <li>Being under the influence of alcohol or drugs while on duty, on Company property, or on a jobsite.</li>
+        <li>The use of alcohol during work hours, including meal and break periods, while on duty.</li>
+        <li>The misuse of legal drugs (including prescription and over-the-counter medication) in a way that impairs safe job performance.</li>
+        <li>Refusing to submit to a required test, or tampering with, adulterating, or substituting a sample.</li>
+      </ul>
+      <div class="note"><span class="lbl">Prescription &amp; OTC Medication</span><p>If you are taking a medication that may affect your ability to work safely, notify your supervisor before performing safety-sensitive duties. You are not required to disclose the underlying medical condition. The Company will not take action based solely on the lawful, as-directed use of a valid prescription, but you remain responsible for working safely.</p></div>
+      <div class="note fla"><span class="lbl">Florida Medical Use</span><p>Florida law on medical marijuana does not require employers to accommodate on-the-job use or impairment, and marijuana remains federally illegal. Confirm the Company's position on lawful off-duty use with counsel and reflect it here.</p></div>
+    </section>
+
+    <!-- 2 -->
+    <section class="sec" id="sec-2" data-screen-label="02 Types of Testing">
+      <div class="sec-head"><div class="sec-num">02</div><div><div class="sec-kicker">Section Two</div><h2>Types of Testing</h2></div></div>
+      <div class="rule"></div>
+      <table class="t">
+        <thead><tr><th style="width:30%;">Test Type</th><th>When It Applies</th></tr></thead>
+        <tbody>
+          <tr><td>Pre-Employment</td><td>Required of applicants after a conditional offer and before starting work.</td></tr>
+          <tr><td>Reasonable Suspicion</td><td>When a trained supervisor documents specific, observable signs of impairment (appearance, behavior, speech, odor, or a workplace incident).</td></tr>
+          <tr><td>Post-Accident</td><td>Following a workplace accident or injury that may involve drugs or alcohol, consistent with policy and law.</td></tr>
+          <tr><td>Random</td><td>Where implemented, conducted on a neutral, statistically random selection basis.</td></tr>
+          <tr><td>Follow-Up / Return-to-Duty</td><td>For employees returning to work after a positive test or completion of an assistance program, as a condition of continued employment.</td></tr>
+        </tbody>
+      </table>
+      <div class="note legal"><span class="lbl">Confirm</span><p>Whether DunRite implements random and follow-up testing — and the exact triggers for post-accident testing — must be set by ownership and counsel and applied consistently to all covered employees.</p></div>
+    </section>
+
+    <!-- 3 -->
+    <section class="sec" id="sec-3" data-screen-label="03 Procedures">
+      <div class="sec-head"><div class="sec-num">03</div><div><div class="sec-kicker">Section Three</div><h2>Substances Tested &amp; Testing Procedures</h2></div></div>
+      <div class="rule"></div>
+      <h4>Substances Tested</h4>
+      <p>Testing covers alcohol and the controlled substances specified under the applicable testing standard, which commonly include marijuana/THC metabolites, cocaine, amphetamines, opioids, and phencyclidine (PCP) and others as designated. The final panel is set by the Company's testing provider in accordance with Florida requirements.</p>
+      <h4>How Testing Is Conducted</h4>
+      <ol class="steps">
+        <li><strong>Collection.</strong><span>Samples are collected by a qualified collector following chain-of-custody procedures that protect sample integrity and privacy.</span></li>
+        <li><strong>Laboratory analysis.</strong><span>Samples are analyzed by a licensed/certified laboratory using an initial screen.</span></li>
+        <li><strong>Confirmation testing.</strong><span>Any positive screen is confirmed by a second, more specific method before being reported as positive.</span></li>
+        <li><strong>Medical Review Officer (MRO).</strong><span>A qualified MRO reviews confirmed positives, contacts the employee, and considers legitimate medical explanations before reporting a verified result.</span></li>
+        <li><strong>Result &amp; action.</strong><span>Verified results are reported confidentially to the Company's designated representative, who determines the appropriate action.</span></li>
+      </ol>
+      <div class="note"><span class="lbl">Refusals &amp; Tampering</span><p>Refusing to test, failing to appear, or tampering with a sample is treated as a positive result and may lead to withdrawal of an offer or termination.</p></div>
+    </section>
+
+    <!-- 4 -->
+    <section class="sec" id="sec-4" data-screen-label="04 Rights">
+      <div class="sec-head"><div class="sec-num">04</div><div><div class="sec-kicker">Section Four</div><h2>Employee Rights &amp; Confidentiality</h2></div></div>
+      <div class="rule"></div>
+      <p>Under Florida's Drug-Free Workplace Program, employees and applicants have certain rights, including:</p>
+      <ul>
+        <li><strong>Advance notice.</strong> The Company provides general notice of this Program before testing begins, as required by law.</li>
+        <li><strong>Notice of a positive result.</strong> An employee who tests positive is notified and may request a copy of the test results.</li>
+        <li><strong>Right to explain.</strong> The employee may, within the time allowed, explain or contest a positive result, including identifying prescriptions or over-the-counter medications taken.</li>
+        <li><strong>Confidential medication list.</strong> The employee may confidentially provide a list of medications to the MRO.</li>
+        <li><strong>Challenge / retest.</strong> The employee may have the sample retested at a licensed laboratory, consistent with program rules and applicable law.</li>
+      </ul>
+      <div class="note"><span class="lbl">Confidentiality</span><p>All test results and related medical information are kept confidential, maintained separately from personnel files, and released only as permitted or required by law. Supervisors receive only the information needed to act on a result.</p></div>
+    </section>
+
+    <!-- 5 -->
+    <section class="sec" id="sec-5" data-screen-label="05 Consequences">
+      <div class="sec-head"><div class="sec-num">05</div><div><div class="sec-kicker">Section Five</div><h2>Consequences &amp; Assistance</h2></div></div>
+      <div class="rule"></div>
+      <h4>Consequences of a Violation</h4>
+      <p>A verified positive test, a refusal to test, or other violation of this Program may result in withdrawal of a conditional job offer (applicants) or discipline up to and including termination (employees), consistent with the Employee Handbook and applicable law.</p>
+      <div class="note fla"><span class="lbl">Florida — Workers' Compensation</span><p>Under Florida law, an employee who tests positive for drugs or alcohol following a workplace injury may forfeit eligibility for workers' compensation indemnity benefits, subject to the statute's rebuttable presumptions and procedures. This is one reason prompt, lawful post-accident testing matters.</p></div>
+      <h4>Employee Assistance</h4>
+      <p>The Company can refer employees to an Employee Assistance Program (EAP) or community resources for substance-abuse concerns. Employees are encouraged to seek help voluntarily <strong>before</strong> a positive test or incident. Seeking help on your own initiative will not, by itself, be used as the basis for discipline, though it does not excuse policy violations or poor performance.</p>
+      <p>If you have a substance-abuse concern, talk to the office manager confidentially about available resources.</p>
+    </section>
+
+    <!-- 6 -->
+    <section class="sec" id="sec-6" data-screen-label="06 Acknowledgement">
+      <div class="sec-head"><div class="sec-num">06</div><div><div class="sec-kicker">Section Six</div><h2>Employee Acknowledgement</h2></div></div>
+      <div class="rule"></div>
+      <p>This page must be signed and returned to the office.</p>
+      <div style="border:1.5px solid var(--ink); border-radius:3px; padding:26px 28px; margin:20px 0; background:var(--card);">
+        <p style="font-size:14px;">I acknowledge that I have received and reviewed the DunRite Construction Group LLC Drug-Free Workplace Program. I understand that DunRite maintains a drug- and alcohol-free workplace and that I may be required to submit to testing as described in this Program.</p>
+        <p style="font-size:14px;">I understand that a verified positive test, a refusal to test, or tampering with a sample may result in withdrawal of a job offer or discipline up to and including termination, and that under Florida law a positive post-accident test may affect my workers' compensation benefits.</p>
+        <p style="font-size:14px; margin-bottom:0;">I understand that I should report any prescription or over-the-counter medication that may affect my ability to work safely before performing safety-sensitive duties, and that my test results will be kept confidential.</p>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:30px 40px; margin-top:40px;">
+        <div><div style="border-bottom:1.5px solid var(--ink); height:34px;"></div><div style="font-family:'Archivo',sans-serif; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-top:7px;">Employee Name (Print)</div></div>
+        <div><div style="border-bottom:1.5px solid var(--ink); height:34px;"></div><div style="font-family:'Archivo',sans-serif; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-top:7px;">Employee ID</div></div>
+        <div><div style="border-bottom:1.5px solid var(--ink); height:34px;"></div><div style="font-family:'Archivo',sans-serif; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-top:7px;">Employee Signature</div></div>
+        <div><div style="border-bottom:1.5px solid var(--ink); height:34px;"></div><div style="font-family:'Archivo',sans-serif; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-top:7px;">Date</div></div>
+      </div>
+      <div style="margin-top:48px; padding-top:18px; border-top:1px solid #948e80;">
+        <p style="font-family:'Archivo',sans-serif; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--soft); margin:0;">DunRite Construction Group LLC · Drug-Free Workplace Program · 2026 · Rev. 1.0 · Confidential</p>
+      </div>
+    </section>
+
+    </td></tr></tbody>
+    <tfoot><tr><td class="ftr-space"></td></tr></tfoot>
+  </table>
+</div></div>
+  
+<div class="bundle-doc bkdoc4"><div class="doc">
+  <div class="wm" aria-hidden="true"></div>
+  <div class="running-hdr"><span>DunRite Construction Group LLC</span><span>Employee Sign-Off Forms</span></div>
+  <div class="running-ftr"><span>Confidential — Personnel Record</span><span>2026 Edition</span></div>
+  <table class="doc-frame" role="presentation">
+    <thead><tr><td class="hdr-space"></td></tr></thead>
+    <tbody><tr><td>
+
+    <!-- COVER -->
+        <!-- ===================== COVER — Centered Monolith ===================== -->
+    <section class="cover" data-screen-label="Cover" style="background:#ffffff; color:#1d2127; border:1px solid #dcd7cb; border-radius:4px; margin:0 0 40px; padding:96px clamp(40px,7vw,84px); min-height:9.4in; box-sizing:border-box; position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+      <img src="assets/dunrite-logo-dark.png" alt="DunRite Construction Group LLC" style="display:block; width:248px; max-width:62%; height:auto; margin:0 auto;">
+      <div style="width:64px; height:3px; background:#1ca0e0; margin:46px auto 30px; border-radius:2px;"></div>
+      <div style="font-family:'Archivo',sans-serif; font-weight:600; font-size:13px; letter-spacing:0.34em; text-transform:uppercase; color:#1ca0e0;">Acknowledgements &amp; Receipts</div>
+      <h1 style="font-family:'Archivo',sans-serif; font-weight:800; font-size:54px; line-height:1.0; letter-spacing:-0.028em; margin:20px 0 0; color:#1d2127; text-align:left;">Employee<br>Sign-Off Forms</h1>
+    </section>
+
+    <!-- BLANK BACK OF TITLE PAGE -->
+    <section class="blankback" aria-hidden="true"><span>This page intentionally left blank</span></section>
+
+    <!-- INDEX -->
+    <section data-screen-label="Index">
+      <div class="kicker">DunRite Construction Group LLC</div>
+      <h2 style="font-size:26px; letter-spacing:-0.01em;">Forms in This Packet</h2>
+      <div class="rule"></div>
+      <p>Complete each form that applies to the employee's role. Forms 1–4 are required of all employees; forms 5–7 apply to those issued equipment, PPE, or who drive Company vehicles. File all signed forms in the employee's personnel record.</p>
+      <table class="t">
+        <colgroup><col style="width:9%"><col style="width:58%"><col style="width:33%"></colgroup>
+        <thead><tr><th>Form</th><th>Title</th><th>Applies To</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Employee Handbook Receipt &amp; Acknowledgement</td><td>All employees</td></tr>
+          <tr><td>2</td><td>Safety Manual Acknowledgement</td><td>All employees</td></tr>
+          <tr><td>3</td><td>Drug-Free Workplace Acknowledgement</td><td>All employees</td></tr>
+          <tr><td>4</td><td>Confidentiality &amp; Company Property Agreement</td><td>All employees</td></tr>
+          <tr><td>5</td><td>PPE Issue &amp; Acknowledgement</td><td>Field employees</td></tr>
+          <tr><td>6</td><td>Tool &amp; Equipment Issue Record</td><td>As issued</td></tr>
+          <tr><td>7</td><td>Fleet / Driver Acknowledgement &amp; MVR Authorization</td><td>Drivers</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- FORM 1 -->
+    <section class="form" data-screen-label="01 Handbook Receipt">
+      <div class="kicker">Form 1 of 7</div>
+      <div class="form-head"><span class="n">01</span><h2>Employee Handbook Receipt &amp; Acknowledgement</h2></div>
+      <div class="rule"></div>
+      <div class="ack">
+        <p>I acknowledge that I have received a copy of the DunRite Construction Group LLC Employee Handbook. I understand it is my responsibility to read, understand, and comply with the policies it contains, and to ask questions about anything I do not understand.</p>
+        <p>I understand that the handbook is a summary of current policies and is <strong>not a contract of employment</strong> and does not guarantee employment for any period. I understand my employment is <strong>at-will</strong> — either I or the Company may end the employment relationship at any time, with or without cause or notice.</p>
+        <p>I understand the Company may change, add, or eliminate policies at any time to the extent permitted by law, and that only the President may alter the at-will relationship, and only in a signed writing.</p>
+      </div>
+      <div class="sig">
+        <div><div class="ln"></div><div class="cap">Employee Name (Print)</div></div>
+        <div><div class="ln"></div><div class="cap">Employee ID</div></div>
+        <div><div class="ln"></div><div class="cap">Employee Signature</div></div>
+        <div><div class="ln"></div><div class="cap">Date</div></div>
+      </div>
+    </section>
+
+    <!-- FORM 2 -->
+    <section class="form" data-screen-label="02 Safety Acknowledgement">
+      <div class="kicker">Form 2 of 7</div>
+      <div class="form-head"><span class="n">02</span><h2>Safety Manual Acknowledgement</h2></div>
+      <div class="rule"></div>
+      <div class="ack">
+        <p>I acknowledge that I have received and reviewed the DunRite Construction Group LLC Safety Manual. I understand I am responsible for following all safety rules and programs, wearing required PPE, and working safely at all times.</p>
+        <p>I understand that I have <strong>Stop Work Authority</strong> and a duty to report unsafe conditions, near-misses, and all injuries immediately. I will not operate equipment I am not trained and authorized to use, and I will never bypass safety devices.</p>
+        <p>I understand that violating safety rules may result in discipline up to and including termination, and that serious violations may result in immediate removal from the jobsite.</p>
+      </div>
+      <div class="sig">
+        <div><div class="ln"></div><div class="cap">Employee Name (Print)</div></div>
+        <div><div class="ln"></div><div class="cap">Employee ID</div></div>
+        <div><div class="ln"></div><div class="cap">Employee Signature</div></div>
+        <div><div class="ln"></div><div class="cap">Date</div></div>
+      </div>
+    </section>
+
+    <!-- FORM 3 -->
+    <section class="form" data-screen-label="03 Drug-Free Ack">
+      <div class="kicker">Form 3 of 7</div>
+      <div class="form-head"><span class="n">03</span><h2>Drug-Free Workplace Acknowledgement</h2></div>
+      <div class="rule"></div>
+      <div class="ack">
+        <p>I acknowledge that I have received and reviewed the DunRite Construction Group LLC Drug-Free Workplace Program. I understand that DunRite maintains a drug- and alcohol-free workplace and that I may be required to submit to testing as described in that Program.</p>
+        <p>I understand that a verified positive test, a refusal to test, or tampering with a sample may result in withdrawal of a job offer or discipline up to and including termination, and that under Florida law a positive post-accident test may affect my workers' compensation benefits.</p>
+        <p>I understand I should report any prescription or over-the-counter medication that may affect my ability to work safely before performing safety-sensitive duties, and that my test results will be kept confidential.</p>
+      </div>
+      <div class="sig">
+        <div><div class="ln"></div><div class="cap">Employee Name (Print)</div></div>
+        <div><div class="ln"></div><div class="cap">Employee ID</div></div>
+        <div><div class="ln"></div><div class="cap">Employee Signature</div></div>
+        <div><div class="ln"></div><div class="cap">Date</div></div>
+      </div>
+    </section>
+
+    <!-- FORM 4 -->
+    <section class="form" data-screen-label="04 Confidentiality">
+      <div class="kicker">Form 4 of 7</div>
+      <div class="form-head"><span class="n">04</span><h2>Confidentiality &amp; Company Property Agreement</h2></div>
+      <div class="rule"></div>
+      <div class="ack">
+        <p>I understand that during my employment I may have access to confidential information about the Company, its clients, bids, pricing, and employees. I agree to keep this information confidential during and after my employment and to use it only for legitimate business purposes.</p>
+        <p>I understand that tools, equipment, vehicles, materials, devices, and documents are Company property to be used for business purposes and returned upon separation. I agree that at no time will I remove Company property — in print or stored digitally or electronically — from Company control, or store it at any unauthorized location (including personal devices or cloud storage), without written authorization from Company management.</p>
+        <p>I agree to return all Company property on or before my last day of employment.</p>
+      </div>
+      <div class="sig">
+        <div><div class="ln"></div><div class="cap">Employee Name (Print)</div></div>
+        <div><div class="ln"></div><div class="cap">Employee ID</div></div>
+        <div><div class="ln"></div><div class="cap">Employee Signature</div></div>
+        <div><div class="ln"></div><div class="cap">Date</div></div>
+      </div>
+    </section>
+
+    <!-- FORM 5 -->
+    <section class="form" data-screen-label="05 PPE Issue">
+      <div class="kicker">Form 5 of 7</div>
+      <div class="form-head"><span class="n">05</span><h2>PPE Issue &amp; Acknowledgement</h2></div>
+      <div class="rule"></div>
+      <p>The following personal protective equipment has been issued to the employee. I acknowledge receipt and agree to inspect, maintain, and wear it as required, and to report damaged or worn PPE for replacement.</p>
+      <table class="t">
+        <colgroup><col style="width:46%"><col style="width:16%"><col style="width:18%"><col style="width:20%"></colgroup>
+        <thead><tr><th>Item Issued</th><th>Qty</th><th>Size</th><th>Date Issued</th></tr></thead>
+        <tbody>
+          <tr><td>Hard Hat</td><td></td><td></td><td></td></tr>
+          <tr><td>Safety Glasses</td><td></td><td></td><td></td></tr>
+          <tr><td>High-Visibility Apparel</td><td></td><td></td><td></td></tr>
+          <tr><td>Gloves</td><td></td><td></td><td></td></tr>
+          <tr><td>Hearing Protection</td><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td><td></td></tr>
+        </tbody>
+      </table>
+      <div class="sig">
+        <div><div class="ln"></div><div class="cap">Employee Signature</div></div>
+        <div><div class="ln"></div><div class="cap">Date</div></div>
+        <div><div class="ln"></div><div class="cap">Issued By</div></div>
+        <div><div class="ln"></div><div class="cap">Date</div></div>
+      </div>
+    </section>
+
+    <!-- FORM 6 -->
+    <section class="form" data-screen-label="06 Tool & Equipment">
+      <div class="kicker">Form 6 of 7</div>
+      <div class="form-head"><span class="n">06</span><h2>Tool &amp; Equipment Issue Record</h2></div>
+      <div class="rule"></div>
+      <p>Record Company tools and equipment issued to the employee. The employee is responsible for the care and return of all issued items. Unreturned items may be addressed as permitted by law.</p>
+      <table class="t">
+        <colgroup><col style="width:34%"><col style="width:20%"><col style="width:15%"><col style="width:15%"><col style="width:16%"></colgroup>
+        <thead><tr><th>Tool / Equipment</th><th>Serial / ID</th><th>Issued</th><th>Returned</th><th>Condition</th></tr></thead>
+        <tbody>
+          <tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr>
+        </tbody>
+      </table>
+      <div class="sig">
+        <div><div class="ln"></div><div class="cap">Employee Signature</div></div>
+        <div><div class="ln"></div><div class="cap">Date</div></div>
+      </div>
+    </section>
+
+    <!-- FORM 7 -->
+    <section class="form" data-screen-label="07 Fleet / Driver">
+      <div class="kicker">Form 7 of 7</div>
+      <div class="form-head"><span class="n">07</span><h2>Fleet / Driver Acknowledgement &amp; MVR Authorization</h2></div>
+      <div class="rule"></div>
+      <div class="ack">
+        <p>I acknowledge that I have received and reviewed the DunRite Construction Group LLC Fleet Safety Program. I understand that operating a Company vehicle is a privilege requiring a valid license, an acceptable driving record, and compliance with that Program.</p>
+        <p>I agree to wear my seatbelt at all times, obey all traffic laws, refrain from texting and handheld phone use while driving, and never operate a vehicle while impaired. I will immediately report any change to my license status, any serious traffic violation or DUI, and any accident involving a Company vehicle or a personal vehicle used for Company business.</p>
+        <p>I <strong>authorize</strong> DunRite Construction Group LLC to obtain and review my Motor Vehicle Record (MVR) at hire and periodically during my employment.</p>
+      </div>
+      <div class="frow"><div class="lab">Driver's License No. / State</div><div class="ln"></div></div>
+      <div class="sig">
+        <div><div class="ln"></div><div class="cap">Driver Name (Print)</div></div>
+        <div><div class="ln"></div><div class="cap">Date of Birth</div></div>
+        <div><div class="ln"></div><div class="cap">Driver Signature</div></div>
+        <div><div class="ln"></div><div class="cap">Date</div></div>
+      </div>
+      <div style="margin-top:34px; padding-top:14px; border-top:1px solid #948e80;">
+        <p style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.12em; text-transform:uppercase; color:var(--soft); margin:0;">DunRite Construction Group LLC · Employee Sign-Off Forms · 2026 Edition</p>
+      </div>
+    </section>
+
+    </td></tr></tbody>
+    <tfoot><tr><td class="ftr-space"></td></tr></tfoot>
+  </table>
+</div></div>
+  
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:816,&quot;height&quot;:1040}}">
+class Component extends DCLogic {
+  renderVals(){
+    return { onPrint:()=>window.print() };
+  }
+}
+</script>
+</body>
+</html>

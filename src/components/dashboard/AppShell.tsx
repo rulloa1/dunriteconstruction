@@ -21,6 +21,7 @@ const NAV_GROUPS: { label: string; items: NavItem[] }[] = [
     items: [
       { to: "/app/controls", label: "Project Controls", icon: ClipboardList, exact: false },
       { to: "/app/documents", label: "Documents", icon: BookOpen, exact: false },
+      { to: "/handbook", label: "Handbook", icon: BookOpen, exact: false },
     ],
   },
   {

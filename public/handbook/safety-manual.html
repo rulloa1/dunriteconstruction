@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f6f4ef; --ink:#1d2127; --muted:#6c7077; --soft:#8b8f96;
+    --accent:#0e6ea8; --sky:#1ca0e0; --navy:#15273b; --hair:#dcd7cb;
+    --card:#fffdf8; --tint:#eef4f8;
+  }
+  body{ margin:0; background:var(--paper); color:var(--ink);
+        font-family:"Source Serif 4",Georgia,serif; -webkit-font-smoothing:antialiased; }
+  .doc{ box-sizing:border-box; max-width:8.5in; margin:0 auto; background:inherit;
+        padding:0 clamp(20px,5vw,0.75in) 96px; }
+  .doc-frame{ width:100%; border-collapse:collapse; }
+  .doc-frame td{ padding:0; }
+  .running-hdr,.running-ftr,.hdr-space,.ftr-space{ display:none; }
+
+  h1,h2,h3,h4{ font-family:"Archivo",sans-serif; color:var(--ink); text-wrap:balance; margin:0; }
+  h2{ font-weight:800; font-size:28px; letter-spacing:-0.01em; line-height:1.08; }
+  h3{ font-weight:700; font-size:17px; margin:26px 0 8px; }
+  h4{ font-weight:700; font-size:13px; letter-spacing:0.07em; text-transform:uppercase; color:var(--accent); margin:22px 0 8px; }
+  p{ font-size:15px; line-height:1.65; margin:0 0 13px; color:#272b31; text-wrap:pretty; }
+  ul,ol{ font-size:15px; line-height:1.6; margin:4px 0 14px; padding-left:22px; color:#272b31; }
+  li{ margin:0 0 6px; text-wrap:pretty; }
+  li::marker{ color:var(--accent); }
+  strong{ font-weight:700; color:var(--ink); }
+  a{ color:var(--accent); text-decoration:none; }
+  .doc-frame em{ color:var(--muted); }
+
+  .sec{ break-before:page; padding-top:14px; }
+  .sec-head{ display:flex; align-items:flex-start; gap:18px; margin:0 0 6px; }
+  .sec-num{ font-family:"Archivo",sans-serif; font-weight:900; font-size:42px; line-height:0.84; color:var(--accent); flex:none; }
+  .sec-kicker{ font-family:"Archivo",sans-serif; font-weight:600; font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:var(--soft); margin:3px 0 4px; }
+  .rule{ height:2px; background:var(--ink); margin:12px 0 14px; }
+  .stdref{ display:inline-block; font-family:"Archivo",sans-serif; font-weight:700; font-size:10.5px; letter-spacing:0.08em; text-transform:uppercase; color:#fff; background:var(--accent); padding:5px 11px; border-radius:3px; margin:0 0 18px; }
+
+  .note{ background:var(--card); border:1px solid var(--hair); border-left:3px solid var(--accent); padding:15px 20px; margin:18px 0; border-radius:2px; }
+  .note p{ margin:0; font-size:14px; }
+  .note .lbl{ font-family:"Archivo",sans-serif; font-weight:700; font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent); display:block; margin-bottom:6px; }
+  .note.fla{ border-left-color:var(--sky); } .note.fla .lbl{ color:#0f86c4; }
+  .note.danger{ border-left-color:#b3471f; background:#fbf2ee; } .note.danger .lbl{ color:#b3471f; }
+  .note.legal{ border-left-color:#9a7b1e; } .note.legal .lbl{ color:#9a7b1e; }
+
+  table.t{ width:100%; border-collapse:collapse; margin:16px 0 20px; font-size:14px; }
+  table.t th{ font-family:"Archivo",sans-serif; font-weight:700; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; text-align:left; color:var(--ink); border-bottom:2px solid var(--ink); padding:8px 12px; }
+  table.t td{ border-bottom:1px solid #948e80; padding:10px 12px; vertical-align:top; line-height:1.5; }
+  table.t td:first-child{ font-weight:600; color:var(--ink); }
+
+  .steps{ counter-reset:st; list-style:none; padding:0; margin:12px 0 16px; }
+  .steps li{ position:relative; padding:3px 0 14px 44px; counter-increment:st; }
+  .steps li::before{ content:counter(st); position:absolute; left:0; top:0; width:28px; height:28px; border-radius:50%; background:var(--accent); color:#fff; font-family:"Archivo",sans-serif; font-weight:700; font-size:13px; display:flex; align-items:center; justify-content:center; }
+  .steps li strong{ display:block; }
+
+  h3,h4{ break-after:avoid; } h4+ul,h4+ol,h3+ul,h3+ol,h4+table,h4+p{ break-before:avoid; }
+  .blankback{ display:none; }
+  @page{ size:letter; margin:0; }
+  @media print{
+    .blankback{ display:flex !important; align-items:center; justify-content:center; min-height:6in; break-before:page; break-after:page; }
+    .blankback span{ font-family:"IBM Plex Mono",monospace; font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:#b8b3a6; }
+    html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    html,body{ margin:0; padding:0; }
+    .doc{ max-width:none !important; margin:0 !important; padding:0 0.75in !important; box-shadow:none !important; border:none !important; }
+    #dc-root,.sc-host{ height:auto !important; }
+    .hdr-space,.ftr-space{ display:table-cell; height:0.7in !important; }
+    .running-hdr,.running-ftr{ display:flex !important; justify-content:space-between; align-items:baseline; position:fixed !important; left:0; right:0; margin:0 !important; font-family:"Archivo",sans-serif; font-size:9px; letter-spacing:0.12em; text-transform:uppercase; color:var(--soft); }
+    .running-hdr{ top:0; padding:0.32in 0.75in 0 !important; }
+    .running-ftr{ bottom:0; padding:0 0.75in 0.32in !important; }
+    h1,h2,h3,h4{ break-after:avoid; }
+    figure,pre,blockquote,table,tr,.note,.steps li{ break-inside:avoid; }
+    p,li{ orphans:3; widows:3; }
+    .cover,.frontmatter{ break-after:page; }
+    .screen-only{ display:none !important; }
+  }
+
+/* ---- polish pass ---- */
+p{ line-height:1.7; color:#2b3036; }
+h2{ letter-spacing:-0.02em; }
+.rule{ height:0 !important; background:transparent !important; border:0; border-top:1px solid var(--ink); position:relative; }
+.rule::before{ content:""; position:absolute; top:-2px; left:0; width:52px; height:3px; background:var(--accent); }
+.rule + p{ font-size:16.5px; line-height:1.66; color:#1b1f25; }
+.sec-num{ letter-spacing:-.03em; }
+h4{ display:flex; align-items:center; gap:9px; }
+h4::before{ content:""; width:15px; height:2px; background:currentColor; opacity:.8; flex:none; }
+.note{ border-radius:3px; box-shadow:0 1px 2px rgba(21,39,59,.04); }
+table.t td{ padding-top:11px; padding-bottom:11px; }
+table.t th{ letter-spacing:.1em; }
+
+  .wm{ position:fixed; inset:0; background:url("assets/dunrite-mark.png") no-repeat center; background-size:360px auto; opacity:0.07; transform:rotate(-20deg); pointer-events:none; z-index:0; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .doc{ position:relative; z-index:1; }
+</style>
+</helmet>
+<main class="doc">
+  <div class="wm" aria-hidden="true"></div>
+  <div class="running-hdr"><span>DunRite Construction Group LLC</span><span>Safety Manual · 2026</span></div>
+  <div class="running-ftr"><span>Confidential — Internal Use Only</span><span>Effective January 2026 · Rev. 1.0</span></div>
+  <table class="doc-frame" role="presentation">
+    <thead><tr><td class="hdr-space"></td></tr></thead>
+    <tbody><tr><td>
+
+    <!-- ===================== COVER ===================== -->
+        <!-- ===================== COVER — Centered Monolith ===================== -->
+    <section class="cover" data-screen-label="Cover" style="background:#ffffff; color:#1d2127; border:1px solid #dcd7cb; border-radius:4px; margin:0 0 40px; padding:96px clamp(40px,7vw,84px); min-height:9.4in; box-sizing:border-box; position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+      <img src="assets/dunrite-logo-dark.png" alt="DunRite Construction Group LLC" style="display:block; width:248px; max-width:62%; height:auto; margin:0 auto;">
+      <div style="width:64px; height:3px; background:#1ca0e0; margin:46px auto 30px; border-radius:2px;"></div>
+      <div style="font-family:'Archivo',sans-serif; font-weight:600; font-size:13px; letter-spacing:0.34em; text-transform:uppercase; color:#1ca0e0;">Construction Safety Manual</div>
+      <h1 style="font-family:'Archivo',sans-serif; font-weight:800; font-size:54px; line-height:1.0; letter-spacing:-0.028em; margin:20px 0 0; color:#1d2127; text-align:left;">Everyone Goes<br>Home Safe</h1>
+    </section>
+
+    <!-- BLANK BACK OF TITLE PAGE -->
+    <section class="blankback" aria-hidden="true"><span>This page intentionally left blank</span></section>
+
+    <!-- ===================== FRONT MATTER / TOC ===================== -->
+    <section class="frontmatter" data-screen-label="Contents">
+      <div class="sec-kicker" style="margin-top:8px;">DunRite Construction Group LLC</div>
+      <h2 style="font-size:32px; margin-bottom:8px;">About This Manual</h2>
+      <div class="rule"></div>
+      <p>This Safety Manual sets out the safety programs and rules that apply on every DunRite Construction Group LLC jobsite. It is built on the federal OSHA construction standards in 29 CFR 1926, which govern construction work in Florida. Safety is our first core value: no schedule, budget, or shortcut is ever worth an injury.</p>
+      <p>This manual works alongside the Employee Handbook (Section 11) and the Standard Operating Procedures Manual. Where a topic also appears there, the more protective requirement applies. Each section below cites the primary OSHA standard it is based on.</p>
+
+      <div class="note legal">
+        <span class="lbl">Important — Please Read</span>
+        <p>This manual is a <strong>draft template</strong> provided for general informational purposes only. It is not legal or professional safety advice and does not replace the full text of the OSHA standards, manufacturer instructions, or a qualified/competent person's judgment on site. Before adopting and relying on this manual, DunRite should have it reviewed and tailored by a qualified safety professional, and should confirm site-specific requirements. Bracketed items must be completed before publication.</p>
+      </div>
+
+      <div class="note danger">
+        <span class="lbl">Stop Work Authority</span>
+        <p>Every person on a DunRite jobsite has the authority — and the duty — to <strong>stop work</strong> when they see an unsafe condition or act. Stopping work to protect someone is always supported and will never result in discipline.</p>
+      </div>
+
+      <h3 style="margin-top:30px;">Contents</h3>
+      <div class="rule" style="margin-top:10px;"></div>
+      <div style="font-family:'Archivo',sans-serif; margin-bottom:8px;">
+        <div style="font-weight:800; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:var(--accent); margin:12px 0 4px;">Foundation</div>
+        <a href="#sec-1" style="display:flex; gap:14px; padding:6px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">01</span><span style="font-weight:500; font-size:14px;">Safety Policy &amp; Responsibilities</span></a>
+        <a href="#sec-2" style="display:flex; gap:14px; padding:6px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">02</span><span style="font-weight:500; font-size:14px;">General Jobsite Safety Rules</span></a>
+        <a href="#sec-3" style="display:flex; gap:14px; padding:6px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">03</span><span style="font-weight:500; font-size:14px;">Incident Reporting &amp; Investigation</span></a>
+
+        <div style="font-weight:800; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:var(--accent); margin:14px 0 4px;">Hazard-Specific Programs</div>
+        <a href="#sec-4" style="display:flex; gap:14px; padding:6px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">04</span><span style="font-weight:500; font-size:14px;">Hazard Communication (HazCom)</span></a>
+        <a href="#sec-5" style="display:flex; gap:14px; padding:6px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">05</span><span style="font-weight:500; font-size:14px;">Personal Protective Equipment (PPE)</span></a>
+        <a href="#sec-6" style="display:flex; gap:14px; padding:6px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">06</span><span style="font-weight:500; font-size:14px;">Fall Protection</span></a>
+        <a href="#sec-7" style="display:flex; gap:14px; padding:6px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">07</span><span style="font-weight:500; font-size:14px;">Scaffold Safety</span></a>
+        <a href="#sec-8" style="display:flex; gap:14px; padding:6px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">08</span><span style="font-weight:500; font-size:14px;">Ladder Safety</span></a>
+        <a href="#sec-9" style="display:flex; gap:14px; padding:6px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">09</span><span style="font-weight:500; font-size:14px;">Excavation &amp; Trenching</span></a>
+        <a href="#sec-10" style="display:flex; gap:14px; padding:6px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">10</span><span style="font-weight:500; font-size:14px;">Electrical Safety</span></a>
+        <a href="#sec-11" style="display:flex; gap:14px; padding:6px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">11</span><span style="font-weight:500; font-size:14px;">Lockout / Tagout (LOTO)</span></a>
+        <a href="#sec-12" style="display:flex; gap:14px; padding:6px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">12</span><span style="font-weight:500; font-size:14px;">Respirable Crystalline Silica</span></a>
+        <a href="#sec-13" style="display:flex; gap:14px; padding:6px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">13</span><span style="font-weight:500; font-size:14px;">Heat Illness Prevention</span></a>
+        <a href="#sec-14" style="display:flex; gap:14px; padding:6px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">14</span><span style="font-weight:500; font-size:14px;">Crane &amp; Rigging Operations</span></a>
+        <a href="#sec-15" style="display:flex; gap:14px; padding:6px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">15</span><span style="font-weight:500; font-size:14px;">Aerial &amp; Scissor Lifts</span></a>
+        <a href="#sec-16" style="display:flex; gap:14px; padding:6px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">16</span><span style="font-weight:500; font-size:14px;">Confined Spaces</span></a>
+
+        <div style="font-weight:800; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:var(--accent); margin:14px 0 4px;">Response</div>
+        <a href="#sec-17" style="display:flex; gap:14px; padding:6px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">17</span><span style="font-weight:500; font-size:14px;">First Aid &amp; Emergency Response</span></a>
+        <a href="#sec-18" style="display:flex; gap:14px; padding:6px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">18</span><span style="font-weight:500; font-size:14px;">Employee Safety Acknowledgement</span></a>
+      </div>
+    </section>
+
+    <!-- ===== 1 ===== -->
+    <section class="sec" id="sec-1" data-screen-label="01 Safety Policy">
+      <div class="sec-head"><div class="sec-num">01</div><div><div class="sec-kicker">Foundation</div><h2>Safety Policy &amp; Responsibilities</h2></div></div>
+      <div class="rule"></div>
+      <h4>Safety Policy Statement</h4>
+      <p>DunRite Construction Group LLC is committed to providing a safe and healthful workplace for every employee, subcontractor, and visitor. We believe all injuries are preventable. Management commits the resources, training, and authority needed to work safely, and expects every person on site to take personal responsibility for safety — their own and their coworkers'.</p>
+      <div class="note"><span class="lbl">Compliance Basis</span><p>This program is based on OSHA construction standards (29 CFR 1926) and the General Duty Clause (Section 5(a)(1) of the OSH Act), which requires employers to provide a workplace free from recognized hazards.</p></div>
+      <h4>Responsibilities</h4>
+      <ul>
+        <li><strong>Management / President</strong> — sets safety policy, provides resources, and holds the organization accountable.</li>
+        <li><strong>Safety Manager / Competent Person</strong> — administers the program, conducts inspections and training, and investigates incidents.</li>
+        <li><strong>Superintendents &amp; Foremen</strong> — enforce safety rules, lead toolbox talks and JHAs, and correct hazards.</li>
+        <li><strong>Employees</strong> — follow safe work practices, use required PPE, report hazards and injuries, and never bypass safety devices.</li>
+        <li><strong>Subcontractors</strong> — comply with this manual and OSHA, and manage their own crews' safety.</li>
+      </ul>
+      <h4>Enforcement</h4>
+      <p>Safety rules are conditions of employment. Violations are addressed through the disciplinary process in the Employee Handbook (Section 15), and serious violations may result in immediate termination.</p>
+    </section>
+
+    <!-- ===== 2 ===== -->
+    <section class="sec" id="sec-2" data-screen-label="02 General Rules">
+      <div class="sec-head"><div class="sec-num">02</div><div><div class="sec-kicker">Foundation</div><h2>General Jobsite Safety Rules</h2></div></div>
+      <div class="rule"></div>
+      <p>These baseline rules apply on every DunRite jobsite, in addition to the task-specific programs in this manual.</p>
+      <ul>
+        <li>Wear required PPE — hard hat, safety glasses, high-visibility apparel, and appropriate footwear — at all times in active work areas.</li>
+        <li>Attend the daily/weekly toolbox talk and follow the JHA for your task.</li>
+        <li>Operate only equipment and tools you are trained and authorized to use.</li>
+        <li>Keep work areas clean and orderly; control trip, slip, and fall hazards (good housekeeping).</li>
+        <li>Never remove or bypass guards, barricades, tie-offs, or safety devices.</li>
+        <li>Use the right tool for the job and inspect it before use.</li>
+        <li>Stay hydrated and follow heat-illness prevention practices (Section 13).</li>
+        <li>No horseplay, fighting, or unsafe shortcuts.</li>
+        <li>Report all hazards, near-misses, and injuries immediately.</li>
+        <li>Drugs and alcohol are strictly prohibited (Handbook Section 10).</li>
+      </ul>
+      <div class="note danger"><span class="lbl">Zero Tolerance</span><p>Removing fall protection, disabling safety devices, or working impaired endangers everyone. These are serious violations and may result in immediate removal from site and termination.</p></div>
+    </section>
+
+    <!-- ===== 3 ===== -->
+    <section class="sec" id="sec-3" data-screen-label="03 Incident Reporting">
+      <div class="sec-head"><div class="sec-num">03</div><div><div class="sec-kicker">Foundation</div><h2>Incident Reporting &amp; Investigation</h2></div></div>
+      <div class="rule"></div>
+      <span class="stdref">OSHA 29 CFR 1904 — Recordkeeping</span>
+      <p>Prompt reporting protects the injured person and helps us prevent the next incident. Report <strong>all</strong> injuries, illnesses, near-misses, and property damage — no matter how minor — to your supervisor immediately.</p>
+      <h4>If an Incident Occurs</h4>
+      <ol class="steps">
+        <li><strong>Make the area safe.</strong><span>In an emergency call 911. Provide or summon first aid; do not move a seriously injured person unless they are in further danger.</span></li>
+        <li><strong>Report immediately.</strong><span>Notify your supervisor right away; the supervisor notifies the Safety Manager and office.</span></li>
+        <li><strong>Preserve the scene.</strong><span>Where safe, leave the scene undisturbed for investigation and take photos.</span></li>
+        <li><strong>Provide care &amp; testing.</strong><span>Use authorized medical providers; post-accident drug testing may apply (Handbook Section 10).</span></li>
+        <li><strong>Investigate root cause.</strong><span>The Safety Manager investigates to determine root cause and corrective actions, not blame.</span></li>
+      </ol>
+      <div class="note danger"><span class="lbl">OSHA Reporting Deadlines</span><p>Report any work-related <strong>fatality within 8 hours</strong> and any work-related <strong>in-patient hospitalization, amputation, or loss of an eye within 24 hours</strong> to OSHA. The Safety Manager handles regulatory reporting.</p></div>
+      <h4>Records</h4>
+      <ul><li>Incident / Injury Report</li><li>OSHA 300 Log, 300A Summary, 301 Incident Report (as applicable)</li></ul>
+    </section>
+
+    <!-- ===== 4 ===== -->
+    <section class="sec" id="sec-4" data-screen-label="04 HazCom">
+      <div class="sec-head"><div class="sec-num">04</div><div><div class="sec-kicker">Hazard-Specific Program</div><h2>Hazard Communication (HazCom)</h2></div></div>
+      <div class="rule"></div>
+      <span class="stdref">OSHA 29 CFR 1926.59 / 1910.1200</span>
+      <p>Employees have the right to know about the hazardous chemicals they may be exposed to. DunRite maintains a written Hazard Communication Program aligned with the Globally Harmonized System (GHS).</p>
+      <h4>Key Requirements</h4>
+      <ul>
+        <li>Maintain a chemical inventory and a <strong>Safety Data Sheet (SDS)</strong> for every hazardous chemical on site, accessible to all employees.</li>
+        <li>Ensure all containers are properly <strong>labeled</strong> with product identity and hazard warnings; never use unlabeled containers.</li>
+        <li>Train employees on chemical hazards, label elements, SDS use, and protective measures before exposure and when new hazards are introduced.</li>
+        <li>Maintain the written HazCom program on site.</li>
+      </ul>
+      <h4>Responsibilities</h4>
+      <ul>
+        <li><strong>Safety Manager</strong> — maintains the program, inventory, and SDS library.</li>
+        <li><strong>Employees</strong> — read labels and SDSs, use required controls/PPE, and report missing SDSs or labels.</li>
+      </ul>
+    </section>
+
+    <!-- ===== 5 ===== -->
+    <section class="sec" id="sec-5" data-screen-label="05 PPE">
+      <div class="sec-head"><div class="sec-num">05</div><div><div class="sec-kicker">Hazard-Specific Program</div><h2>Personal Protective Equipment (PPE)</h2></div></div>
+      <div class="rule"></div>
+      <span class="stdref">OSHA 29 CFR 1926 Subpart E (.95–.106)</span>
+      <p>PPE is the last line of defense after engineering and work-practice controls. Required PPE must be provided, worn, inspected, and maintained.</p>
+      <h4>Minimum &amp; Task-Specific PPE</h4>
+      <table class="t">
+        <thead><tr><th style="width:34%;">Hazard</th><th>Required PPE</th></tr></thead>
+        <tbody>
+          <tr><td>General site (always)</td><td>Hard hat, safety glasses, high-visibility apparel, sturdy work boots</td></tr>
+          <tr><td>Noise</td><td>Hearing protection (plugs/muffs) in high-noise areas</td></tr>
+          <tr><td>Airborne dust/fumes</td><td>Respiratory protection per the respirator program</td></tr>
+          <tr><td>Hands</td><td>Task-appropriate gloves (cut, chemical, abrasion)</td></tr>
+          <tr><td>Eyes/face (grinding, cutting)</td><td>Face shield over safety glasses; goggles for chemicals</td></tr>
+          <tr><td>Fall hazards</td><td>Full-body harness and lanyard (see Section 06)</td></tr>
+        </tbody>
+      </table>
+      <h4>Key Requirements</h4>
+      <ul>
+        <li>Inspect PPE before each use; remove damaged PPE from service.</li>
+        <li>Respirator use requires medical evaluation, fit testing, and training.</li>
+        <li>Employees must wear required PPE at all times in designated areas.</li>
+      </ul>
+    </section>
+
+    <!-- ===== 6 ===== -->
+    <section class="sec" id="sec-6" data-screen-label="06 Fall Protection">
+      <div class="sec-head"><div class="sec-num">06</div><div><div class="sec-kicker">Hazard-Specific Program</div><h2>Fall Protection</h2></div></div>
+      <div class="rule"></div>
+      <span class="stdref">OSHA 29 CFR 1926 Subpart M (.501)</span>
+      <p>Falls are the leading cause of death in construction. Fall protection is required and strictly enforced.</p>
+      <div class="note danger"><span class="lbl">6-Foot Rule</span><p>Fall protection is required when working at heights of <strong>6 feet or more</strong> above a lower level (and at any height over dangerous equipment). Acceptable systems include guardrails, safety nets, or personal fall arrest systems (PFAS).</p></div>
+      <h4>Key Requirements</h4>
+      <ul>
+        <li>Use guardrails, covers, or a personal fall arrest system at unprotected edges and openings 6 ft or higher.</li>
+        <li>PFAS: full-body harness, lanyard/SRL, and an anchorage capable of supporting <strong>5,000 lbs</strong> per worker (or designed by a qualified person).</li>
+        <li>Cover and clearly mark all floor and roof openings.</li>
+        <li>Inspect harnesses, lanyards, and connectors before each use; remove damaged equipment from service.</li>
+        <li>A competent person identifies fall hazards and oversees the fall-protection plan.</li>
+      </ul>
+      <h4>Training</h4>
+      <p>Employees exposed to fall hazards are trained by a competent person to recognize hazards and use fall-protection systems, with retraining when conditions or equipment change.</p>
+    </section>
+
+    <!-- ===== 7 ===== -->
+    <section class="sec" id="sec-7" data-screen-label="07 Scaffold">
+      <div class="sec-head"><div class="sec-num">07</div><div><div class="sec-kicker">Hazard-Specific Program</div><h2>Scaffold Safety</h2></div></div>
+      <div class="rule"></div>
+      <span class="stdref">OSHA 29 CFR 1926 Subpart L (.451)</span>
+      <p>Scaffolds must be designed, erected, and used safely under the direction of a competent person.</p>
+      <h4>Key Requirements</h4>
+      <ul>
+        <li>Erect, move, alter, and dismantle scaffolds only under the supervision of a <strong>competent person</strong>, by trained workers.</li>
+        <li>Scaffolds must support at least <strong>4× the intended load</strong> and rest on stable footing (base plates/mud sills).</li>
+        <li>Provide fall protection (guardrails and/or PFAS) for work platforms <strong>10 ft or higher</strong>.</li>
+        <li>Fully plank platforms; maintain safe access (ladders/stair towers) — never climb cross-braces.</li>
+        <li>A competent person inspects the scaffold before each shift and after any event that could affect integrity.</li>
+        <li>Maintain at least <strong>10 ft of clearance</strong> from energized power lines (more for higher voltages).</li>
+      </ul>
+    </section>
+
+    <!-- ===== 8 ===== -->
+    <section class="sec" id="sec-8" data-screen-label="08 Ladder">
+      <div class="sec-head"><div class="sec-num">08</div><div><div class="sec-kicker">Hazard-Specific Program</div><h2>Ladder Safety</h2></div></div>
+      <div class="rule"></div>
+      <span class="stdref">OSHA 29 CFR 1926 Subpart X (.1053)</span>
+      <h4>Key Requirements</h4>
+      <ul>
+        <li>Inspect ladders before use; remove damaged ladders from service and tag them.</li>
+        <li>Extension ladders: set at a <strong>4:1 ratio</strong> (1 ft out for every 4 ft of height) and extend at least <strong>3 ft</strong> above the landing.</li>
+        <li>Secure ladders against displacement; maintain <strong>three points of contact</strong> when climbing.</li>
+        <li>Face the ladder; do not carry loads that cause loss of balance; never stand on the top cap or top rung of a stepladder.</li>
+        <li>Use the correct duty rating; do not use metal ladders near electrical hazards.</li>
+      </ul>
+    </section>
+
+    <!-- ===== 9 ===== -->
+    <section class="sec" id="sec-9" data-screen-label="09 Excavation">
+      <div class="sec-head"><div class="sec-num">09</div><div><div class="sec-kicker">Hazard-Specific Program</div><h2>Excavation &amp; Trenching</h2></div></div>
+      <div class="rule"></div>
+      <span class="stdref">OSHA 29 CFR 1926 Subpart P (.651–.652)</span>
+      <p>Trench collapses kill quickly. No worker may enter an unprotected trench.</p>
+      <div class="note danger"><span class="lbl">5-Foot Rule &amp; Call Before You Dig</span><p>Trenches <strong>5 ft deep or more</strong> require a protective system (sloping, benching, shoring, or shielding) designed by a competent person. Always call <strong>811</strong> to locate underground utilities before digging.</p></div>
+      <h4>Key Requirements</h4>
+      <ul>
+        <li>A <strong>competent person</strong> inspects the excavation daily, before each shift, and after rain or any change in conditions.</li>
+        <li>Keep spoil piles and equipment at least <strong>2 ft</strong> from the trench edge.</li>
+        <li>Provide a safe means of egress (ladder, ramp, or steps) within <strong>25 ft</strong> of workers in trenches 4 ft or deeper.</li>
+        <li>Protect against water accumulation, hazardous atmospheres, and falling loads.</li>
+        <li>Never enter a trench that is not properly protected.</li>
+      </ul>
+    </section>
+
+    <!-- ===== 10 ===== -->
+    <section class="sec" id="sec-10" data-screen-label="10 Electrical">
+      <div class="sec-head"><div class="sec-num">10</div><div><div class="sec-kicker">Hazard-Specific Program</div><h2>Electrical Safety</h2></div></div>
+      <div class="rule"></div>
+      <span class="stdref">OSHA 29 CFR 1926 Subpart K (.400)</span>
+      <h4>Key Requirements</h4>
+      <ul>
+        <li>Use <strong>GFCI protection</strong> on all 120V receptacles used for construction, or an assured equipment grounding conductor program.</li>
+        <li>Inspect cords and tools before use; remove damaged cords and tools with missing ground pins from service.</li>
+        <li>Maintain safe clearance from overhead and underground power lines; assume all lines are energized.</li>
+        <li>Only <strong>qualified persons</strong> work on or near exposed energized parts; de-energize and lock out where possible (Section 11).</li>
+        <li>Keep electrical panels accessible and covers in place; protect temporary wiring from damage.</li>
+      </ul>
+      <div class="note danger"><span class="lbl">Power Lines</span><p>Maintain a minimum <strong>10 ft clearance</strong> from overhead power lines (up to 50kV; more for higher voltages) for equipment and materials. Contact with power lines is frequently fatal.</p></div>
+    </section>
+
+    <!-- ===== 11 ===== -->
+    <section class="sec" id="sec-11" data-screen-label="11 LOTO">
+      <div class="sec-head"><div class="sec-num">11</div><div><div class="sec-kicker">Hazard-Specific Program</div><h2>Lockout / Tagout (LOTO)</h2></div></div>
+      <div class="rule"></div>
+      <span class="stdref">OSHA 29 CFR 1910.147 / 1926.417</span>
+      <p>Hazardous energy must be controlled during service and maintenance so equipment cannot start unexpectedly.</p>
+      <h4>Procedure</h4>
+      <ol class="steps">
+        <li><strong>Prepare &amp; notify.</strong><span>Identify all energy sources and notify affected employees.</span></li>
+        <li><strong>Shut down &amp; isolate.</strong><span>Shut down equipment and isolate it from each energy source.</span></li>
+        <li><strong>Lock &amp; tag.</strong><span>Apply each authorized employee's lock and tag to the energy-isolating device.</span></li>
+        <li><strong>Release stored energy.</strong><span>Relieve, disconnect, or restrain residual/stored energy (electrical, hydraulic, pneumatic, mechanical).</span></li>
+        <li><strong>Verify zero energy.</strong><span>Test to confirm isolation before beginning work.</span></li>
+        <li><strong>Restore safely.</strong><span>After work, clear the area, remove locks/tags (only by the person who applied them), and restore energy.</span></li>
+      </ol>
+      <h4>Key Requirements</h4>
+      <ul><li>Only authorized employees apply and remove their own locks/tags.</li><li>Each worker uses their own lock; never remove another worker's lock.</li></ul>
+    </section>
+
+    <!-- ===== 12 ===== -->
+    <section class="sec" id="sec-12" data-screen-label="12 Silica">
+      <div class="sec-head"><div class="sec-num">12</div><div><div class="sec-kicker">Hazard-Specific Program</div><h2>Respirable Crystalline Silica</h2></div></div>
+      <div class="rule"></div>
+      <span class="stdref">OSHA 29 CFR 1926.1153</span>
+      <p>Cutting, grinding, or drilling concrete, masonry, and stone creates respirable silica dust that causes silicosis, lung cancer, and other diseases.</p>
+      <h4>Key Requirements</h4>
+      <ul>
+        <li>Follow the control methods in the standard's <strong>Table 1</strong> (e.g., water/wet cutting, vacuum dust collection with HEPA filtration) for common tasks.</li>
+        <li>Provide respiratory protection where Table 1 or exposure assessments require it.</li>
+        <li>Maintain a written <strong>exposure control plan</strong> identifying tasks, controls, and the competent person.</li>
+        <li>Restrict access to high-exposure areas and use good housekeeping (no dry sweeping or compressed-air cleaning of silica dust).</li>
+        <li>Offer medical surveillance to employees required to wear a respirator for silica 30+ days per year.</li>
+      </ul>
+    </section>
+
+    <!-- ===== 13 ===== -->
+    <section class="sec" id="sec-13" data-screen-label="13 Heat">
+      <div class="sec-head"><div class="sec-num">13</div><div><div class="sec-kicker">Hazard-Specific Program</div><h2>Heat Illness Prevention</h2></div></div>
+      <div class="rule"></div>
+      <span class="stdref">OSHA General Duty Clause — Section 5(a)(1)</span>
+      <div class="note fla"><span class="lbl">Florida Priority</span><p>Florida's heat and humidity make heat illness one of our most serious year-round hazards. Heat stroke is a medical emergency — <strong>call 911</strong> immediately if a worker is confused, stops sweating, collapses, or has hot/dry skin.</p></div>
+      <h4>Prevention: Water, Rest, Shade</h4>
+      <ul>
+        <li><strong>Water</strong> — provide cool drinking water; encourage drinking small amounts often (about 1 cup every 15–20 minutes).</li>
+        <li><strong>Rest</strong> — schedule rest breaks and adjust work/rest cycles as the heat index rises.</li>
+        <li><strong>Shade</strong> — provide shaded or cooled areas for breaks.</li>
+        <li><strong>Acclimatize</strong> — gradually increase workload for new and returning workers over 1–2 weeks.</li>
+        <li><strong>Watch each other</strong> — use the buddy system and monitor for symptoms (headache, dizziness, cramps, nausea).</li>
+      </ul>
+      <h4>Responding to Heat Illness</h4>
+      <ol class="steps">
+        <li><strong>Move &amp; cool.</strong><span>Move the worker to shade/AC, loosen clothing, and cool with water, ice, or fans.</span></li>
+        <li><strong>Hydrate if alert.</strong><span>Give cool water if the person is conscious and able to drink.</span></li>
+        <li><strong>Call 911 for severe signs.</strong><span>Confusion, fainting, seizures, or hot/dry skin signal heat stroke — call 911 and cool aggressively while waiting.</span></li>
+      </ol>
+    </section>
+
+    <!-- ===== 14 ===== -->
+    <section class="sec" id="sec-14" data-screen-label="14 Crane">
+      <div class="sec-head"><div class="sec-num">14</div><div><div class="sec-kicker">Hazard-Specific Program</div><h2>Crane &amp; Rigging Operations</h2></div></div>
+      <div class="rule"></div>
+      <span class="stdref">OSHA 29 CFR 1926 Subpart CC (.1400)</span>
+      <h4>Key Requirements</h4>
+      <ul>
+        <li>Crane operators must be <strong>certified/qualified</strong>; signal persons and riggers must be qualified.</li>
+        <li>Inspect cranes and rigging before use; follow the manufacturer's load charts and never exceed rated capacity.</li>
+        <li>Establish and barricade the <strong>swing radius</strong> and keep personnel out from under suspended loads.</li>
+        <li>Maintain required clearances from power lines and use a designated signal person where the operator's view is obstructed.</li>
+        <li>Assess ground conditions and use proper outrigger/mat support.</li>
+        <li>Stop lifts in high winds, lightning, or other unsafe conditions.</li>
+      </ul>
+    </section>
+
+    <!-- ===== 15 ===== -->
+    <section class="sec" id="sec-15" data-screen-label="15 Lifts">
+      <div class="sec-head"><div class="sec-num">15</div><div><div class="sec-kicker">Hazard-Specific Program</div><h2>Aerial &amp; Scissor Lifts</h2></div></div>
+      <div class="rule"></div>
+      <span class="stdref">OSHA 29 CFR 1926.453 / Subpart L</span>
+      <h4>Key Requirements</h4>
+      <ul>
+        <li>Only trained and authorized operators use aerial and scissor lifts.</li>
+        <li>Perform a pre-use inspection and a worksite assessment (slopes, drop-offs, overhead hazards, power lines).</li>
+        <li><strong>Boom lifts:</strong> wear a full-body harness with a lanyard attached to the manufacturer's anchor.</li>
+        <li><strong>Scissor lifts:</strong> keep guardrails and chains in place; stay inside the platform — never climb or lean over rails.</li>
+        <li>Do not exceed load or height limits; operate on firm, level ground per the manufacturer.</li>
+        <li>Maintain safe clearance from energized power lines.</li>
+      </ul>
+    </section>
+
+    <!-- ===== 16 ===== -->
+    <section class="sec" id="sec-16" data-screen-label="16 Confined Spaces">
+      <div class="sec-head"><div class="sec-num">16</div><div><div class="sec-kicker">Hazard-Specific Program</div><h2>Confined Spaces</h2></div></div>
+      <div class="rule"></div>
+      <span class="stdref">OSHA 29 CFR 1926 Subpart AA (.1200–.1213)</span>
+      <p>Confined spaces (vaults, manholes, tanks, pits) can contain hazardous atmospheres or engulfment hazards. A <strong>permit-required confined space</strong> must never be entered without a permit and the required precautions.</p>
+      <h4>Key Requirements</h4>
+      <ul>
+        <li>Identify and label permit-required confined spaces; restrict entry to authorized, trained personnel.</li>
+        <li>Issue an entry <strong>permit</strong> and conduct <strong>atmospheric testing</strong> (oxygen, flammable, toxic) before and during entry.</li>
+        <li>Provide ventilation, an attendant outside the space, communication, and rescue/retrieval equipment.</li>
+        <li>Establish non-entry rescue procedures; never attempt an unplanned rescue.</li>
+        <li>A competent/qualified person oversees entry operations.</li>
+      </ul>
+      <div class="note danger"><span class="lbl">Warning</span><p>Many confined-space deaths are would-be rescuers. Never enter to attempt a rescue without proper training and equipment — call 911 and use the planned rescue procedure.</p></div>
+    </section>
+
+    <!-- ===== 17 ===== -->
+    <section class="sec" id="sec-17" data-screen-label="17 Emergency Response">
+      <div class="sec-head"><div class="sec-num">17</div><div><div class="sec-kicker">Response</div><h2>First Aid &amp; Emergency Response</h2></div></div>
+      <div class="rule"></div>
+      <span class="stdref">OSHA 29 CFR 1926.50</span>
+      <h4>First Aid</h4>
+      <ul>
+        <li>First-aid kits are maintained on every jobsite and inspected regularly; know their location.</li>
+        <li>Where medical facilities are not nearby, trained first-aid/CPR providers are available on site.</li>
+        <li>Eye-wash provisions are available where corrosive materials are used.</li>
+      </ul>
+      <h4>Emergency Action Plan</h4>
+      <ol class="steps">
+        <li><strong>Call 911.</strong><span>Report the emergency, location, and nature of injuries.</span></li>
+        <li><strong>Alert &amp; evacuate.</strong><span>Sound the alarm; evacuate to the designated muster point and account for all personnel.</span></li>
+        <li><strong>Provide first aid.</strong><span>Trained responders assist the injured until EMS arrives.</span></li>
+        <li><strong>Direct responders.</strong><span>Send someone to meet and guide emergency responders to the scene.</span></li>
+        <li><strong>Notify management.</strong><span>Notify the Safety Manager and follow incident reporting (Section 3).</span></li>
+      </ol>
+      <div class="note fla"><span class="lbl">Severe Weather &amp; Hurricanes</span><p>For lightning, follow the <strong>30/30 rule</strong> (take shelter at 30 seconds between flash and thunder; resume 30 minutes after the last thunder). Hurricane site-securing and evacuation procedures are coordinated by management per Employee Handbook Section 6.</p></div>
+      <h4>Emergency Contacts <span style="font-weight:400; text-transform:none; letter-spacing:0; color:var(--muted); font-size:13px;">— post on every jobsite</span></h4>
+      <table class="t">
+        <tbody>
+          <tr><td>Emergency (Fire / Medical / Police)</td><td>911</td></tr>
+          <tr><td>Nearest Hospital / ER</td><td>Posted at jobsite</td></tr>
+          <tr><td>Company Safety Manager</td><td>Posted at jobsite</td></tr>
+          <tr><td>Project Superintendent</td><td>Posted at jobsite</td></tr>
+          <tr><td>Utility Locate</td><td>811</td></tr>
+          <tr><td>Poison Control</td><td>1-800-222-1222</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ===== 18 ===== -->
+    <section class="sec" id="sec-18" data-screen-label="18 Acknowledgement">
+      <div class="sec-head"><div class="sec-num">18</div><div><div class="sec-kicker">Acknowledgement</div><h2>Employee Safety Acknowledgement</h2></div></div>
+      <div class="rule"></div>
+      <p>This page must be signed and returned to the office before working on a DunRite jobsite.</p>
+      <div style="border:1.5px solid var(--ink); border-radius:3px; padding:26px 28px; margin:20px 0; background:var(--card);">
+        <p style="font-size:14px;">I acknowledge that I have received and reviewed the DunRite Construction Group LLC Safety Manual. I understand that I am responsible for following all safety rules and programs, wearing required PPE, and working safely at all times.</p>
+        <p style="font-size:14px;">I understand that I have <strong>Stop Work Authority</strong> and a duty to report unsafe conditions, near-misses, and all injuries immediately. I understand that I should never operate equipment I am not trained and authorized to use, and never bypass safety devices.</p>
+        <p style="font-size:14px; margin-bottom:0;">I understand that violating safety rules may result in discipline up to and including termination, and that serious violations may result in immediate removal from the jobsite.</p>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:30px 40px; margin-top:40px;">
+        <div><div style="border-bottom:1.5px solid var(--ink); height:34px;"></div><div style="font-family:'Archivo',sans-serif; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-top:7px;">Employee Name (Print)</div></div>
+        <div><div style="border-bottom:1.5px solid var(--ink); height:34px;"></div><div style="font-family:'Archivo',sans-serif; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-top:7px;">Employee ID</div></div>
+        <div><div style="border-bottom:1.5px solid var(--ink); height:34px;"></div><div style="font-family:'Archivo',sans-serif; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-top:7px;">Employee Signature</div></div>
+        <div><div style="border-bottom:1.5px solid var(--ink); height:34px;"></div><div style="font-family:'Archivo',sans-serif; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-top:7px;">Date</div></div>
+      </div>
+      <div style="margin-top:48px; padding-top:18px; border-top:1px solid #948e80;">
+        <p style="font-family:'Archivo',sans-serif; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--soft); margin:0;">DunRite Construction Group LLC · Safety Manual · 2026 Edition · Rev. 1.0 · Confidential</p>
+      </div>
+    </section>
+
+    </td></tr></tbody>
+    <tfoot><tr><td class="ftr-space"></td></tr></tfoot>
+  </table>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;8.5in&quot;},&quot;paper&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Warm cream&quot;,&quot;Bright white&quot;,&quot;Cool paper&quot;],&quot;default&quot;:&quot;Warm cream&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;accent&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;DunRite blue&quot;,&quot;Deep navy&quot;,&quot;Slate&quot;],&quot;default&quot;:&quot;DunRite blue&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  componentDidMount(){ this.applyTheme(); }
+  componentDidUpdate(){ this.applyTheme(); }
+  applyTheme(){
+    const root = document.documentElement;
+    const paper = { "Warm cream":"#f6f4ef", "Bright white":"#ffffff", "Cool paper":"#f3f5f8" };
+    const accent = { "DunRite blue":"#0e6ea8", "Deep navy":"#16324f", "Slate":"#3a4654" };
+    const p = paper[this.props.paper] || null;
+    const a = accent[this.props.accent] || null;
+    if (p) root.style.setProperty("--paper", p);
+    if (a) root.style.setProperty("--accent", a);
+  }
+  renderVals(){ return {}; }
+}
+</script>
+</body>
+</html>

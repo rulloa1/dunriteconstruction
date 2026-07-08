@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600;1,700&display=swap" rel="stylesheet">
+<style>
+  :root{ --navy:#14305c; --deep:#1b2c4f; --blue:#1878c8; --sky:#2aa0e0; --bord:#bcd9f0; --line:#8fa3b8; --ink:#1d2431; --mut:#5b6572; }
+  body{ margin:0; background:#e9ecef; color:var(--ink); font-family:"Archivo",sans-serif; -webkit-font-smoothing:antialiased; }
+  .page{ box-sizing:border-box; width:8.5in; max-width:100%; margin:0 auto; background:#fff; padding:0.42in 0.5in 0; display:flex; flex-direction:column; min-height:11in; }
+  .page + .page{ margin-top:24px; }
+  .lab{ font-size:12.5px; font-weight:500; color:var(--ink); white-space:nowrap; }
+  .ln{ flex:1; border-bottom:1.2px solid var(--line); height:19px; min-width:40px; }
+  .row{ display:flex; align-items:flex-end; gap:10px; margin:0 0 15px; }
+  .bx{ width:15px; height:15px; border:1.3px solid var(--navy); border-radius:2px; flex:none; }
+  .yn{ display:flex; align-items:center; gap:7px; font-size:12.5px; font-weight:500; }
+  .sect{ border:1.5px solid var(--bord); border-radius:10px; margin:0 0 16px; padding:16px 18px 4px; position:relative; }
+  .ban{ display:flex; align-items:center; margin:-16px -18px 16px; }
+  .ban .ic{ width:40px; height:40px; border-radius:50%; background:linear-gradient(160deg,var(--blue),var(--sky)); border:3px solid #fff; box-shadow:0 1px 4px rgba(20,48,92,0.3); color:#fff; font-weight:800; font-size:16px; display:flex; align-items:center; justify-content:center; flex:none; margin:-6px 0 0 8px; z-index:1; }
+  .ban .bar{ background:linear-gradient(90deg,var(--blue),var(--sky)); color:#fff; font-weight:800; font-size:15.5px; letter-spacing:0.03em; text-transform:uppercase; padding:8px 34px 8px 18px; margin-left:-14px; clip-path:polygon(0 0,100% 0,calc(100% - 22px) 100%,0 100%); display:flex; align-items:baseline; gap:12px; }
+  .ban .note{ font-size:10.5px; font-weight:600; font-style:italic; letter-spacing:0.05em; color:var(--blue); text-transform:uppercase; margin-left:10px; }
+  table.wt{ width:100%; border-collapse:collapse; table-layout:fixed; margin:0 0 14px; }
+  table.wt th{ background:var(--deep); color:#fff; font-size:10px; font-weight:700; letter-spacing:0.05em; text-transform:uppercase; padding:8px 8px; border:1px solid var(--deep); text-align:center; line-height:1.25; }
+  table.wt th .sub{ display:block; font-weight:500; font-style:italic; font-size:8.5px; letter-spacing:0.04em; color:#c6d4e8; }
+  table.wt td{ border:1px solid #c7d2de; height:40px; }
+  @page{ size:letter; margin:0; }
+  @media print{
+    html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    body{ background:#fff; }
+    .page{ width:auto; min-height:10.9in; padding:0.42in 0.5in 0; break-after:page; }
+    .page:last-child{ break-after:auto; }
+    .page + .page{ margin-top:0; }
+    table, tr, .sect{ break-inside:avoid; }
+  }
+</style>
+</helmet>
+<main>
+  <!-- ============ PAGE 1 — EMPLOYMENT APPLICATION ============ -->
+  <section class="page" data-screen-label="Employment Application">
+    <div style="display:flex; align-items:center; gap:22px;">
+      <img src="assets/dunrite-logo-dark.png" alt="DunRite Construction Group LLC" style="width:250px; height:auto; display:block; flex:none;">
+      <div style="width:2px; align-self:stretch; background:var(--navy); opacity:0.85;"></div>
+      <div>
+        <div style="font-weight:800; font-size:31px; letter-spacing:0.01em; color:var(--deep); line-height:1.05;">EMPLOYMENT APPLICATION</div>
+        <div style="font-style:italic; font-weight:600; font-size:13px; color:var(--mut); margin-top:5px; letter-spacing:0.02em;">PLEASE PRINT CLEARLY AND COMPLETE ALL SECTIONS</div>
+      </div>
+    </div>
+    <div style="height:9px; margin:16px 0 14px; background:linear-gradient(90deg,var(--navy) 0%,var(--blue) 55%,var(--sky) 75%,#dce9f4 100%);"></div>
+    <div style="text-align:center; font-style:italic; font-weight:700; font-size:13.5px; color:var(--blue); letter-spacing:0.02em; margin:2px 0 16px;">APPLICATION MUST INCLUDE COPY OF DRIVER'S LICENSE AND SOCIAL SECURITY CARD</div>
+
+    <!-- 1. PERSONAL INFORMATION -->
+    <div class="sect">
+      <div class="ban"><span class="ic">1</span><span class="bar">Personal Information</span></div>
+      <div class="row"><span class="lab">First Name</span><div class="ln" style="flex:2.6;"></div><span class="lab">Middle Initial</span><div class="ln" style="flex:0.5;"></div><span class="lab">Last Name</span><div class="ln" style="flex:2.6;"></div></div>
+      <div class="row"><span class="lab">Address</span><div class="ln" style="flex:5;"></div><span class="lab">Apt/Unit</span><div class="ln" style="flex:0.7;"></div></div>
+      <div class="row"><span class="lab">City</span><div class="ln" style="flex:2.4;"></div><span class="lab">State</span><div class="ln" style="flex:1.4;"></div><span class="lab">ZIP</span><div class="ln" style="flex:1.6;"></div></div>
+      <div class="row"><span class="lab">Home Phone</span><div class="ln" style="flex:1.5;"></div><span class="lab">Cell Phone</span><div class="ln" style="flex:1.5;"></div><span class="lab">Email</span><div class="ln" style="flex:2.2;"></div></div>
+      <div class="row"><span class="lab">Date of Birth</span><div class="ln" style="flex:1.8;"></div><span class="lab">Social Security Number</span><div class="ln" style="flex:0.55;"></div><span class="lab" style="font-weight:700;">-</span><div class="ln" style="flex:0.55;"></div><span class="lab" style="font-weight:700;">-</span><div class="ln" style="flex:0.85;"></div></div>
+      <div class="row"><span class="lab">Driver's License Number</span><div class="ln" style="flex:2.6;"></div><span class="lab">State</span><div class="ln" style="flex:0.5;"></div><span class="lab">Expiration Date</span><div class="ln" style="flex:1.3;"></div></div>
+      <div class="row" style="align-items:center;"><span class="lab" style="flex:2.4; white-space:normal;">Do you have a valid Florida Driver's License?</span><span class="yn"><span class="bx"></span>Yes</span><span style="width:26px;"></span><span class="yn"><span class="bx"></span>No</span><span style="flex:1.6;"></span></div>
+      <div class="row" style="align-items:center;"><span class="lab" style="flex:2.4; white-space:normal;">Do you have transportation to and from job sites?</span><span class="yn"><span class="bx"></span>Yes</span><span style="width:26px;"></span><span class="yn"><span class="bx"></span>No</span><span style="flex:1.6;"></span></div>
+      <div class="row" style="align-items:center;"><span class="lab" style="flex:3.4; white-space:normal;">Are you legally able to be employed in this country? <em style="font-weight:500;">(If hired, verification will be required by law)</em></span><span class="yn"><span class="bx"></span>Yes</span><span style="width:26px;"></span><span class="yn"><span class="bx"></span>No</span></div>
+      <div class="row"><span class="lab">If hired, when can you start?</span><div class="ln" style="flex:3;"></div></div>
+    </div>
+
+    <!-- 2. WORK HISTORY -->
+    <div class="sect" style="padding-bottom:14px;">
+      <div class="ban"><span class="ic">2</span><span class="bar">Work History</span><span class="note">Please list your most recent employment first.</span></div>
+      <table class="wt">
+        <colgroup><col style="width:17%"><col style="width:15%"><col style="width:15%"><col style="width:18%"><col style="width:10%"><col style="width:10%"><col style="width:15%"></colgroup>
+        <thead><tr><th>Previous Employer</th><th>Address<span class="sub">City, State, ZIP</span></th><th>Supervisor<span class="sub">Name &amp; Phone</span></th><th>Job Description</th><th>Start Date</th><th>End Date</th><th>Reason for Leaving</th></tr></thead>
+        <tbody><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody>
+      </table>
+    </div>
+
+    <!-- 3 + 4 side by side -->
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+      <div class="sect" style="margin:0; padding-bottom:14px;">
+        <div class="ban"><span class="ic">3</span><span class="bar" style="font-size:14px;">References</span></div>
+        <table class="wt">
+          <colgroup><col style="width:31%"><col style="width:25%"><col style="width:24%"><col style="width:20%"></colgroup>
+          <thead><tr><th>Name</th><th>Phone</th><th>Relationship</th><th>Years Known</th></tr></thead>
+          <tbody><tr><td style="height:34px;"></td><td></td><td></td><td></td></tr><tr><td style="height:34px;"></td><td></td><td></td><td></td></tr><tr><td style="height:34px;"></td><td></td><td></td><td></td></tr></tbody>
+        </table>
+      </div>
+      <div class="sect" style="margin:0; padding-bottom:14px;">
+        <div class="ban"><span class="ic">4</span><span class="bar" style="font-size:14px;">Emergency Contact Information</span></div>
+        <table class="wt">
+          <colgroup><col style="width:38%"><col style="width:32%"><col style="width:30%"></colgroup>
+          <thead><tr><th>Name</th><th>Phone</th><th>Relationship</th></tr></thead>
+          <tbody><tr><td style="height:34px;"></td><td></td><td></td></tr><tr><td style="height:34px;"></td><td></td><td></td></tr><tr><td style="height:34px;"></td><td></td><td></td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div style="border-top:1.2px solid var(--line); margin-top:20px; padding-top:14px; font-size:12.5px; line-height:1.55;">I certify that the information provided on this application is true and complete to the best of my knowledge. I understand that any false information or omission may disqualify me from consideration for employment or result in my dismissal if employed.</div>
+    <div style="display:grid; grid-template-columns:1.4fr 1fr; gap:60px; margin-top:34px;">
+      <div><div style="border-bottom:1.2px solid var(--ink); height:2px;"></div><div style="font-style:italic; font-size:12px; margin-top:6px;">Applicant Signature</div></div>
+      <div><div style="border-bottom:1.2px solid var(--ink); height:2px;"></div><div style="font-style:italic; font-size:12px; margin-top:6px;">Date</div></div>
+    </div>
+
+    <!-- footer -->
+    <div style="margin-top:auto;">
+      <div style="display:flex; align-items:center; gap:0; padding:14px 0 12px;">
+        <img src="assets/dunrite-mark.png" alt="DC" style="height:52px; width:auto; flex:none;">
+        <div style="flex:1; display:flex; justify-content:space-evenly; align-items:center; font-size:12px; font-weight:600; color:var(--deep);">
+          <span>12412 Curley St.<br>San Antonio, FL 33576</span>
+          <span style="width:1px; height:26px; background:#c7d2de;"></span>
+          <span>(352) 588-4050</span>
+          <span style="width:1px; height:26px; background:#c7d2de;"></span>
+          <span>www.dunriteconstruction.com</span>
+          <span style="width:1px; height:26px; background:#c7d2de;"></span>
+          <span>bids@dunriteconstruction.com</span>
+        </div>
+      </div>
+      <div style="background:var(--deep); color:#fff; text-align:center; font-weight:700; font-size:12px; letter-spacing:0.42em; padding:9px 0; margin:0 -0.5in;">EQUAL&nbsp;OPPORTUNITY&nbsp;EMPLOYER</div>
+    </div>
+  </section>
+
+  <!-- ============ PAGE 2 — PAYROLL SETUP ============ -->
+  <section class="page" data-screen-label="Payroll Setup">
+    <div style="display:flex; align-items:center; gap:22px;">
+      <img src="assets/dunrite-logo-dark.png" alt="DunRite Construction Group LLC" style="width:210px; height:auto; display:block; flex:none;">
+      <div style="width:2px; align-self:stretch; background:var(--navy); opacity:0.85;"></div>
+      <div>
+        <div style="font-weight:800; font-size:26px; color:var(--deep); line-height:1.05;">PAYROLL SETUP</div>
+        <div style="font-style:italic; font-weight:600; font-size:12px; color:var(--mut); margin-top:4px;">PAYROLL PROCESSED THROUGH ESI PAYROLL SERVICES, LLC</div>
+      </div>
+      <img src="assets/esi-logo.png" alt="ESI Payroll Services" style="width:140px; height:auto; margin-left:auto; flex:none;">
+    </div>
+    <div style="height:9px; margin:14px 0 18px; background:linear-gradient(90deg,var(--navy) 0%,var(--blue) 55%,var(--sky) 75%,#dce9f4 100%);"></div>
+
+    <div class="sect">
+      <div class="ban"><span class="ic">5</span><span class="bar">Employee Information</span></div>
+      <div class="row"><span class="lab">Employee Name</span><div class="ln" style="flex:2.4;"></div><span class="lab">Social Security Number</span><div class="ln" style="flex:1.6;"></div></div>
+      <div class="row"><span class="lab">Date of Birth</span><div class="ln" style="flex:1.4;"></div><span class="lab">Email <em style="font-weight:500;">(required for portal access)</em></span><div class="ln" style="flex:2.2;"></div></div>
+      <div class="row"><span class="lab">Address</span><div class="ln" style="flex:3;"></div><span class="lab">City</span><div class="ln" style="flex:1.4;"></div><span class="lab">State / ZIP</span><div class="ln" style="flex:1;"></div></div>
+      <div class="row" style="align-items:center;"><span class="lab">Phone Number</span><div class="ln" style="flex:1.6;"></div><span class="yn"><span class="bx"></span>Married</span><span class="yn"><span class="bx"></span>Single</span><span style="width:16px;"></span><span class="yn"><span class="bx"></span>Male</span><span class="yn"><span class="bx"></span>Female</span></div>
+    </div>
+
+    <div class="sect">
+      <div class="ban"><span class="ic">6</span><span class="bar">To Be Completed by Employer</span></div>
+      <div class="row" style="align-items:center;"><span class="lab" style="width:110px;">Pay Type</span><span class="yn"><span class="bx"></span>Hourly</span><span class="yn"><span class="bx"></span>Salary</span><span class="yn"><span class="bx"></span>Other</span></div>
+      <div class="row" style="align-items:center;"><span class="lab" style="width:110px;">Work Status</span><span class="yn"><span class="bx"></span>Full-Time</span><span class="yn"><span class="bx"></span>Part-Time</span></div>
+      <div class="row" style="align-items:center;"><span class="lab" style="width:110px;">Pay Period</span><span class="yn"><span class="bx"></span>Weekly</span><span class="yn"><span class="bx"></span>Bi-Weekly</span><span class="yn"><span class="bx"></span>Semi-Monthly</span><span class="yn"><span class="bx"></span>Monthly</span></div>
+      <div class="row"><span class="lab">Rate of Pay</span><div class="ln" style="flex:1;"></div><span class="lab">Department / WC Code</span><div class="ln" style="flex:1;"></div></div>
+      <div class="row" style="margin-top:22px;"><span class="lab">Manager Signature</span><div class="ln" style="flex:2;"></div><span class="lab">Date</span><div class="ln" style="flex:0.8;"></div></div>
+    </div>
+
+    <div class="sect">
+      <div class="ban"><span class="ic">7</span><span class="bar">Deductions</span></div>
+      <div class="row" style="align-items:center;"><span class="lab" style="flex:3; white-space:normal;">Child Support <em style="font-weight:500;">(if Yes, attach complete Child Support Order)</em></span><span class="yn"><span class="bx"></span>Yes</span><span style="width:22px;"></span><span class="yn"><span class="bx"></span>No</span></div>
+      <div class="row" style="align-items:center;"><span class="lab" style="flex:3; white-space:normal;">Garnishments <em style="font-weight:500;">(if Yes, attach Court Order(s))</em></span><span class="yn"><span class="bx"></span>Yes</span><span style="width:22px;"></span><span class="yn"><span class="bx"></span>No</span></div>
+    </div>
+
+    <div style="margin-top:auto;">
+      <div style="text-align:center; font-size:11px; color:var(--mut); padding:12px 0;">Payroll processed by ESI Payroll Services, LLC · 3011 Manatee Ave W, Bradenton, FL 34205 · (941) 744-9777</div>
+      <div style="background:var(--deep); color:#fff; text-align:center; font-weight:700; font-size:12px; letter-spacing:0.42em; padding:9px 0; margin:0 -0.5in;">DUNRITE&nbsp;CONSTRUCTION&nbsp;GROUP&nbsp;LLC</div>
+    </div>
+  </section>
+
+  <!-- ============ PAGE 3 — DIRECT DEPOSIT ============ -->
+  <section class="page" data-screen-label="Direct Deposit">
+    <div style="display:flex; align-items:center; gap:22px;">
+      <img src="assets/dunrite-logo-dark.png" alt="DunRite Construction Group LLC" style="width:210px; height:auto; display:block; flex:none;">
+      <div style="width:2px; align-self:stretch; background:var(--navy); opacity:0.85;"></div>
+      <div>
+        <div style="font-weight:800; font-size:26px; color:var(--deep); line-height:1.05;">DIRECT DEPOSIT</div>
+        <div style="font-style:italic; font-weight:600; font-size:12px; color:var(--mut); margin-top:4px;">EMPLOYEE AUTHORIZATION AGREEMENT</div>
+      </div>
+      <img src="assets/esi-logo.png" alt="ESI Payroll Services" style="width:140px; height:auto; margin-left:auto; flex:none;">
+    </div>
+    <div style="height:9px; margin:14px 0 18px; background:linear-gradient(90deg,var(--navy) 0%,var(--blue) 55%,var(--sky) 75%,#dce9f4 100%);"></div>
+
+    <p style="font-size:13px; line-height:1.6; margin:0 0 16px;">ESI Payroll Services, LLC (3011 Manatee Ave W, Bradenton, FL 34205) is hereby authorized to initiate credit — and if necessary, debit — entries and adjustments for ESI or bank credit entries made in error to the account indicated below. This authorization remains in full force and effect until ESI receives written notification of its termination, allowing ESI and the financial institution a reasonable opportunity to act, per the provisions of US law governing ACH transactions.</p>
+
+    <div class="sect">
+      <div class="ban"><span class="ic">8</span><span class="bar">Account Information</span></div>
+      <div class="row"><span class="lab">Bank Name</span><div class="ln" style="flex:2;"></div></div>
+      <div class="row"><span class="lab">Routing Number</span><div class="ln" style="flex:1.4;"></div><span class="lab">Account Number</span><div class="ln" style="flex:1.4;"></div></div>
+      <div class="row" style="align-items:center;"><span class="yn"><span class="bx"></span>Checking</span><span style="width:26px;"></span><span class="yn"><span class="bx"></span>Savings</span></div>
+      <div class="row" style="margin-top:22px;"><span class="lab">Employee Name (Print)</span><div class="ln" style="flex:1.6;"></div><span class="lab">Date</span><div class="ln" style="flex:0.7;"></div></div>
+      <div class="row"><span class="lab">Signature ✕</span><div class="ln" style="flex:2.4;"></div></div>
+    </div>
+
+    <div style="font-weight:700; font-size:12.5px; margin:4px 0 8px;">A voided check or mobile-banking screenshot showing the routing and account numbers <span style="color:var(--blue);">MUST</span> be attached.</div>
+    <div style="border:1.5px dashed var(--line); border-radius:8px; height:2.4in; display:flex; align-items:center; justify-content:center; font-style:italic; font-size:12px; color:var(--mut);">Attach voided check / bank screenshot here</div>
+
+    <div style="margin-top:auto;">
+      <div style="text-align:center; font-size:11px; color:var(--mut); padding:12px 0;">The IRS Form W-4 and any child-support / garnishment orders are completed on the official forms and attached to this packet.</div>
+      <div style="background:var(--deep); color:#fff; text-align:center; font-weight:700; font-size:12px; letter-spacing:0.42em; padding:9px 0; margin:0 -0.5in;">DUNRITE&nbsp;CONSTRUCTION&nbsp;GROUP&nbsp;LLC</div>
+    </div>
+  </section>
+
+  <!-- ============ PAGE 4 — IRS FORM W-4 (OFFICIAL, UNALTERED) ============ -->
+  <section class="page" data-screen-label="IRS Form W-4" style="padding:0; min-height:0;">
+    <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; background:var(--deep); color:#fff; padding:8px 0.5in;">
+      <span style="font-weight:800; font-size:11px; letter-spacing:0.18em;">DUNRITE&nbsp;CONSTRUCTION&nbsp;GROUP&nbsp;LLC&nbsp;·&nbsp;NEW&nbsp;HIRE&nbsp;PACKET</span>
+      <span style="font-weight:600; font-size:10px; letter-spacing:0.12em; color:#b9c9de;">OFFICIAL&nbsp;FEDERAL&nbsp;FORM&nbsp;—&nbsp;COMPLETE&nbsp;AS&nbsp;PROVIDED</span>
+    </div>
+    <img src="assets/form-w4-2026.png" alt="IRS Form W-4 (2026) — Employee's Withholding Certificate (official form, unaltered)" style="height:10.5in; width:auto; display:block; margin:0 auto;">
+  </section>
+
+  <!-- ============ PAGE 5 — USCIS FORM I-9 (OFFICIAL, UNALTERED) ============ -->
+  <section class="page" data-screen-label="USCIS Form I-9" style="padding:0; min-height:0;">
+    <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; background:var(--deep); color:#fff; padding:8px 0.5in;">
+      <span style="font-weight:800; font-size:11px; letter-spacing:0.18em;">DUNRITE&nbsp;CONSTRUCTION&nbsp;GROUP&nbsp;LLC&nbsp;·&nbsp;NEW&nbsp;HIRE&nbsp;PACKET</span>
+      <span style="font-weight:600; font-size:10px; letter-spacing:0.12em; color:#b9c9de;">OFFICIAL&nbsp;FEDERAL&nbsp;FORM&nbsp;—&nbsp;COMPLETE&nbsp;AS&nbsp;PROVIDED</span>
+    </div>
+    <img src="assets/form-i9.png" alt="USCIS Form I-9 — Employment Eligibility Verification (official form, unaltered)" style="height:10.5in; width:auto; display:block; margin:0 auto;">
+  </section>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;8.5in&quot;}}"></script>
+</body>
+</html>

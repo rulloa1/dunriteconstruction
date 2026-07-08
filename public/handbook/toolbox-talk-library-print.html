@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style data-omelette-print-defaults>
+@media print {
+  h1, h2, h3, h4, h5, h6 { break-after: avoid; }
+  figure, table, pre, blockquote, img, svg, tr, [class~="card" i] { break-inside: avoid; }
+  img, svg { max-width: 100%; }
+  p { orphans: 3; widows: 3; }
+}
+</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f6f4ef; --ink:#1d2127; --muted:#6c7077; --soft:#8b8f96;
+    --accent:#0e6ea8; --sky:#1ca0e0; --navy:#15273b; --hair:#dcd7cb;
+    --card:#fffdf8; --tint:#eef4f8;
+  }
+  body{ margin:0; background:var(--paper); color:var(--ink);
+        font-family:"Source Serif 4",Georgia,serif; -webkit-font-smoothing:antialiased; }
+  .doc{ box-sizing:border-box; max-width:8.5in; margin:0 auto; background:inherit;
+        padding:0 clamp(20px,5vw,0.75in) 96px; }
+  .doc-frame{ width:100%; border-collapse:collapse; }
+  .doc-frame td{ padding:0; }
+  .running-hdr,.running-ftr,.hdr-space,.ftr-space{ display:none; }
+
+  h1,h2,h3,h4{ font-family:"Archivo",sans-serif; color:var(--ink); text-wrap:balance; margin:0; }
+  h2{ font-weight:800; font-size:26px; letter-spacing:-0.01em; line-height:1.08; }
+  h3{ font-weight:700; font-size:17px; margin:26px 0 8px; }
+  h4{ font-weight:700; font-size:12px; letter-spacing:0.09em; text-transform:uppercase; color:var(--accent); margin:18px 0 7px; }
+  p{ font-size:14.5px; line-height:1.62; margin:0 0 11px; color:#272b31; text-wrap:pretty; }
+  ul,ol{ font-size:14.5px; line-height:1.55; margin:4px 0 12px; padding-left:20px; color:#272b31; }
+  li{ margin:0 0 5px; text-wrap:pretty; }
+  li::marker{ color:var(--accent); }
+  strong{ font-weight:700; color:var(--ink); }
+  a{ color:var(--accent); text-decoration:none; }
+  .doc-frame em{ color:var(--muted); }
+
+  .sec-kicker{ font-family:"Archivo",sans-serif; font-weight:600; font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:var(--soft); margin:3px 0 4px; }
+  .rule{ height:2px; background:var(--ink); margin:12px 0 18px; }
+
+  /* talk card — one per page */
+  .talk{ break-before:page; padding-top:10px; }
+  .talk-head{ display:flex; align-items:flex-start; gap:16px; border-top:3px solid var(--accent); padding-top:16px; }
+  .talk-no{ font-family:"Archivo",sans-serif; font-weight:900; font-size:15px; letter-spacing:0.04em; color:#fff; background:var(--accent); border-radius:5px; padding:7px 12px; flex:none; line-height:1; }
+  .talk-cat{ font-family:"Archivo",sans-serif; font-weight:600; font-size:10.5px; letter-spacing:0.18em; text-transform:uppercase; color:var(--soft); }
+  .talk h2{ margin-top:2px; }
+  .why{ background:var(--tint); border-radius:4px; padding:13px 18px; margin:14px 0; font-size:14px; line-height:1.55; }
+  .why strong{ color:var(--accent); }
+
+  table.t{ width:100%; border-collapse:collapse; margin:14px 0 18px; font-size:13.5px; }
+  table.t th{ font-family:"Archivo",sans-serif; font-weight:700; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; text-align:left; color:var(--ink); border-bottom:2px solid var(--ink); padding:7px 12px; }
+  table.t td{ border-bottom:1px solid #948e80; padding:9px 12px; vertical-align:top; line-height:1.45; }
+  table.t td:first-child{ font-weight:600; color:var(--ink); }
+
+  .signoff{ border:1.5px solid var(--ink); border-radius:4px; padding:16px 18px; margin-top:20px; background:var(--card); }
+  .signoff .row{ display:flex; gap:14px; align-items:flex-end; padding:9px 0; border-bottom:1px dashed var(--hair); }
+  .signoff .row:last-child{ border-bottom:none; }
+  .signoff .ln{ flex:1; border-bottom:1px solid var(--soft); height:20px; }
+  .signoff .cap{ font-family:"Archivo",sans-serif; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); }
+  .meta{ display:flex; gap:24px; flex-wrap:wrap; margin:14px 0 4px; }
+  .meta .m{ font-family:"Archivo",sans-serif; font-size:11px; color:var(--muted); }
+  .meta .m b{ display:block; color:var(--ink); font-size:13px; font-weight:600; margin-top:2px; }
+
+  h3,h4{ break-after:avoid; } h4+ul,h4+ol,h3+ul,h3+ol,h4+table,h4+p{ break-before:avoid; }
+  .blankback{ display:none; }
+  @page{ size:letter; margin:0; }
+  @media print{
+    .blankback{ display:flex !important; align-items:center; justify-content:center; min-height:6in; break-before:page; break-after:page; }
+    .blankback span{ font-family:"IBM Plex Mono",monospace; font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:#b8b3a6; }
+    html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    html,body{ margin:0; padding:0; }
+    .doc{ max-width:none !important; margin:0 !important; padding:0 0.75in !important; box-shadow:none !important; border:none !important; }
+    #dc-root,.sc-host{ height:auto !important; }
+    .hdr-space,.ftr-space{ display:table-cell; height:0.7in !important; }
+    .running-hdr,.running-ftr{ display:flex !important; justify-content:space-between; align-items:baseline; position:fixed !important; left:0; right:0; margin:0 !important; font-family:"Archivo",sans-serif; font-size:9px; letter-spacing:0.12em; text-transform:uppercase; color:var(--soft); }
+    .running-hdr{ top:0; padding:0.32in 0.75in 0 !important; }
+    .running-ftr{ bottom:0; padding:0 0.75in 0.32in !important; }
+    h1,h2,h3,h4{ break-after:avoid; }
+    table,tr,.why,.signoff{ break-inside:avoid; }
+    p,li{ orphans:3; widows:3; }
+    .cover,.frontmatter{ break-after:page; }
+  }
+
+/* ---- polish pass ---- */
+p{ line-height:1.7; color:#2b3036; }
+h2{ letter-spacing:-0.02em; }
+.rule{ height:0 !important; background:transparent !important; border:0; border-top:1px solid var(--ink); position:relative; }
+.rule::before{ content:""; position:absolute; top:-2px; left:0; width:52px; height:3px; background:var(--accent); }
+.rule + p{ font-size:16.5px; line-height:1.66; color:#1b1f25; }
+.sec-num{ letter-spacing:-.03em; }
+h4{ display:flex; align-items:center; gap:9px; }
+h4::before{ content:""; width:15px; height:2px; background:currentColor; opacity:.8; flex:none; }
+.note{ border-radius:3px; box-shadow:0 1px 2px rgba(21,39,59,.04); }
+table.t td{ padding-top:11px; padding-bottom:11px; }
+table.t th{ letter-spacing:.1em; }
+
+  .wm{ position:fixed; inset:0; background:url("assets/dunrite-mark.png") no-repeat center; background-size:360px auto; opacity:0.07; transform:rotate(-20deg); pointer-events:none; z-index:0; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .doc{ position:relative; z-index:1; }
+</style>
+</helmet>
+<main class="doc">
+  <div class="wm" aria-hidden="true"></div>
+  <div class="running-hdr"><span>DunRite Construction Group LLC</span><span>Toolbox Talk Library · 2026</span></div>
+  <div class="running-ftr"><span>Document &amp; retain every talk</span><span>Effective January 2026</span></div>
+  <table class="doc-frame" role="presentation">
+    <thead><tr><td class="hdr-space"></td></tr></thead>
+    <tbody><tr><td>
+
+    <!-- COVER -->
+        <!-- ===================== COVER — Centered Monolith ===================== -->
+    <section class="cover" data-screen-label="Cover" style="background:#ffffff; color:#1d2127; border:1px solid #dcd7cb; border-radius:4px; margin:0 0 40px; padding:96px clamp(40px,7vw,84px); min-height:9.4in; box-sizing:border-box; position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+      <img src="assets/dunrite-logo-dark.png" alt="DunRite Construction Group LLC" style="display:block; width:248px; max-width:62%; height:auto; margin:0 auto;">
+      <div style="width:64px; height:3px; background:#1ca0e0; margin:46px auto 30px; border-radius:2px;"></div>
+      <div style="font-family:'Archivo',sans-serif; font-weight:600; font-size:13px; letter-spacing:0.34em; text-transform:uppercase; color:#1ca0e0;">Toolbox Talk Library</div>
+      <h1 style="font-family:'Archivo',sans-serif; font-weight:800; font-size:54px; line-height:1.0; letter-spacing:-0.028em; margin:20px 0 0; color:#1d2127; text-align:left;">Start Every Day<br>With Safety</h1>
+    </section>
+
+    <!-- BLANK BACK OF TITLE PAGE -->
+    <section class="blankback" aria-hidden="true"><span>This page intentionally left blank</span></section>
+
+    <!-- FRONT MATTER -->
+    <section class="frontmatter" data-screen-label="How to Use">
+      <div class="sec-kicker" style="margin-top:8px;">DunRite Construction Group LLC</div>
+      <h2 style="font-size:30px; margin-bottom:8px;">How to Run a Toolbox Talk</h2>
+      <div class="rule"></div>
+      <p>A toolbox talk is a short, focused safety conversation held at the jobsite — usually at the start of a shift or a new task. It keeps safety top of mind and gives the crew a chance to raise concerns. Each talk in this library is designed to take about five minutes.</p>
+      <h4>Running the Talk</h4>
+      <ol>
+        <li>Pick the talk that fits the day's work and hazards.</li>
+        <li>Gather the crew where everyone can hear you. Keep it short and conversational.</li>
+        <li>Read the key points, then connect them to today's specific tasks and site conditions.</li>
+        <li>Ask the discussion questions — get the crew talking, not just listening.</li>
+        <li>Answer questions and address concerns; fix any hazards raised.</li>
+        <li>Have everyone sign the attendance sheet, and keep it on file.</li>
+      </ol>
+      <div class="why"><strong>Why it matters:</strong> Documented toolbox talks reinforce training, show your safety program is active, and are valuable records for OSHA, insurers, and project prequalification. More importantly — they prevent injuries.</div>
+
+      <h3 style="margin-top:26px;">Talks in This Library</h3>
+      <div class="rule" style="margin-top:10px;"></div>
+      <div style="columns:2; column-gap:44px; font-family:'Archivo',sans-serif;">
+        <a href="#t-1" style="display:flex; gap:10px; padding:6px 0; border-bottom:1px solid #948e80; break-inside:avoid; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:22px;">01</span><span style="font-weight:500; font-size:13.5px;">Heat Illness Prevention</span></a>
+        <a href="#t-2" style="display:flex; gap:10px; padding:6px 0; border-bottom:1px solid #948e80; break-inside:avoid; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:22px;">02</span><span style="font-weight:500; font-size:13.5px;">Fall Protection</span></a>
+        <a href="#t-3" style="display:flex; gap:10px; padding:6px 0; border-bottom:1px solid #948e80; break-inside:avoid; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:22px;">03</span><span style="font-weight:500; font-size:13.5px;">Ladder Safety</span></a>
+        <a href="#t-4" style="display:flex; gap:10px; padding:6px 0; border-bottom:1px solid #948e80; break-inside:avoid; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:22px;">04</span><span style="font-weight:500; font-size:13.5px;">Trenching &amp; Excavation</span></a>
+        <a href="#t-5" style="display:flex; gap:10px; padding:6px 0; border-bottom:1px solid #948e80; break-inside:avoid; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:22px;">05</span><span style="font-weight:500; font-size:13.5px;">Electrical Safety &amp; Power Lines</span></a>
+        <a href="#t-6" style="display:flex; gap:10px; padding:6px 0; border-bottom:1px solid #948e80; break-inside:avoid; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:22px;">06</span><span style="font-weight:500; font-size:13.5px;">Silica Dust</span></a>
+        <a href="#t-7" style="display:flex; gap:10px; padding:6px 0; border-bottom:1px solid #948e80; break-inside:avoid; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:22px;">07</span><span style="font-weight:500; font-size:13.5px;">PPE: Wear It Right</span></a>
+        <a href="#t-8" style="display:flex; gap:10px; padding:6px 0; border-bottom:1px solid #948e80; break-inside:avoid; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:22px;">08</span><span style="font-weight:500; font-size:13.5px;">Housekeeping &amp; Slips/Trips</span></a>
+        <a href="#t-9" style="display:flex; gap:10px; padding:6px 0; border-bottom:1px solid #948e80; break-inside:avoid; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:22px;">09</span><span style="font-weight:500; font-size:13.5px;">Power Tools &amp; Equipment</span></a>
+        <a href="#t-10" style="display:flex; gap:10px; padding:6px 0; border-bottom:1px solid #948e80; break-inside:avoid; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:22px;">10</span><span style="font-weight:500; font-size:13.5px;">Struck-By &amp; Caught-Between</span></a>
+        <a href="#t-11" style="display:flex; gap:10px; padding:6px 0; border-bottom:1px solid #948e80; break-inside:avoid; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:22px;">11</span><span style="font-weight:500; font-size:13.5px;">Manual Lifting &amp; Back Safety</span></a>
+        <a href="#t-12" style="display:flex; gap:10px; padding:6px 0; border-bottom:1px solid #948e80; break-inside:avoid; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:22px;">12</span><span style="font-weight:500; font-size:13.5px;">Severe Weather &amp; Lightning</span></a>
+      </div>
+    </section>
+
+    <!-- TALK 1 -->
+    <section class="talk" id="t-1" data-screen-label="Talk 01 Heat">
+      <div class="talk-head"><div class="talk-no">01</div><div><div class="talk-cat">Environmental · Florida Priority</div><h2>Heat Illness Prevention</h2></div></div>
+      <div class="why"><strong>Why it matters:</strong> Florida heat and humidity make heat illness a year-round killer. Heat stroke can come on fast and is a medical emergency. Most heat illness is preventable with water, rest, and shade.</div>
+      <h4>Key Points</h4>
+      <ul>
+        <li><strong>Water</strong> — drink small amounts often, about a cup every 15–20 minutes; don't wait until you're thirsty.</li>
+        <li><strong>Rest</strong> — take breaks in shade; increase break frequency as the heat index rises.</li>
+        <li><strong>Shade</strong> — use shaded or cooled areas; never sit in a hot vehicle to rest.</li>
+        <li><strong>Acclimatize</strong> — new and returning workers need 1–2 weeks to build tolerance; ease them in.</li>
+        <li><strong>Watch each other</strong> — headache, dizziness, cramps, nausea, and heavy sweating are early warnings.</li>
+      </ul>
+      <h4>Emergency Signs — Call 911</h4>
+      <p>Confusion, slurred speech, fainting, seizures, or hot/dry skin signal <strong>heat stroke</strong>. Call 911, move the person to shade, and cool them aggressively with water and ice while waiting.</p>
+      <h4>Discussion</h4>
+      <ul><li>Where's our water and shade on this site today?</li><li>Who's new or just back, and needs to take it easier today?</li><li>What's the heat index, and how will we adjust breaks?</li></ul>
+      <div class="meta"><div class="m">Related<b>Safety Manual §13</b></div><div class="m">Time<b>~5 min</b></div></div>
+      <div class="signoff">
+        <div class="row" style="border-bottom:1px solid #948e80; padding-bottom:12px;">
+          <div><span class="cap">Date</span><div class="ln" style="width:120px;"></div></div>
+          <div style="flex:1;"><span class="cap">Jobsite / Project</span><div class="ln"></div></div>
+          <div><span class="cap">Presented by</span><div class="ln" style="width:150px;"></div></div>
+        </div>
+        <div style="font-family:'Archivo',sans-serif; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin:12px 0 4px;">Attendees — Print Name &amp; Sign</div>
+        <div class="row"><div class="ln"></div><div class="ln"></div></div>
+        <div class="row"><div class="ln"></div><div class="ln"></div></div>
+        <div class="row"><div class="ln"></div><div class="ln"></div></div>
+      </div>
+    </section>
+
+    <!-- TALK 2 -->
+    <section class="talk" id="t-2" data-screen-label="Talk 02 Fall">
+      <div class="talk-head"><div class="talk-no">02</div><div><div class="talk-cat">Fatal Four</div><h2>Fall Protection</h2></div></div>
+      <div class="why"><strong>Why it matters:</strong> Falls are the #1 killer in construction. Most fall deaths happen at heights people think are "no big deal." Six feet onto rebar or concrete is enough to kill.</div>
+      <h4>Key Points</h4>
+      <ul>
+        <li>Fall protection is required at <strong>6 feet</strong> or more — guardrails, covers, or a personal fall arrest system (PFAS).</li>
+        <li>Inspect your harness, lanyard, and connectors <strong>before every use</strong>; remove damaged gear from service.</li>
+        <li>Tie off to a proper anchor (capable of 5,000 lbs per worker or engineered); keep your tie-off point high to limit fall distance.</li>
+        <li>Cover and mark every floor and roof opening — don't step on or move a cover.</li>
+        <li>100% tie-off when required: stay connected while moving.</li>
+      </ul>
+      <h4>Discussion</h4>
+      <ul><li>Where are the fall hazards on this site today?</li><li>What are we tying off to, and is it adequate?</li><li>Are all openings and edges protected?</li></ul>
+      <div class="meta"><div class="m">Related<b>Safety Manual §6</b></div><div class="m">Time<b>~5 min</b></div></div>
+      <div class="signoff">
+        <div class="row" style="border-bottom:1px solid #948e80; padding-bottom:12px;">
+          <div><span class="cap">Date</span><div class="ln" style="width:120px;"></div></div>
+          <div style="flex:1;"><span class="cap">Jobsite / Project</span><div class="ln"></div></div>
+          <div><span class="cap">Presented by</span><div class="ln" style="width:150px;"></div></div>
+        </div>
+        <div style="font-family:'Archivo',sans-serif; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin:12px 0 4px;">Attendees — Print Name &amp; Sign</div>
+        <div class="row"><div class="ln"></div><div class="ln"></div></div>
+        <div class="row"><div class="ln"></div><div class="ln"></div></div>
+        <div class="row"><div class="ln"></div><div class="ln"></div></div>
+      </div>
+    </section>
+
+    <!-- TALK 3 -->
+    <section class="talk" id="t-3" data-screen-label="Talk 03 Ladder">
+      <div class="talk-head"><div class="talk-no">03</div><div><div class="talk-cat">Walking-Working Surfaces</div><h2>Ladder Safety</h2></div></div>
+      <div class="why"><strong>Why it matters:</strong> Ladder falls send thousands of construction workers to the ER every year. Most are caused by the wrong ladder, a bad setup, or rushing.</div>
+      <h4>Key Points</h4>
+      <ul>
+        <li>Inspect before use; tag and remove damaged ladders.</li>
+        <li>Extension ladders: <strong>4:1 ratio</strong> (1 ft out per 4 ft up) and extend <strong>3 ft</strong> above the landing.</li>
+        <li>Maintain <strong>three points of contact</strong> and face the ladder when climbing.</li>
+        <li>Secure the ladder; don't overreach — move it instead.</li>
+        <li>Never stand on the top cap or top rung of a stepladder; use the right duty rating.</li>
+        <li>Keep metal ladders away from electrical hazards.</li>
+      </ul>
+      <h4>Discussion</h4>
+      <ul><li>Is this the right ladder for the job, or are we making do?</li><li>Is it set at the right angle and secured?</li><li>Could a lift or scaffold be safer here?</li></ul>
+      <div class="meta"><div class="m">Related<b>Safety Manual §8</b></div><div class="m">Time<b>~5 min</b></div></div>
+      <div class="signoff">
+        <div class="row" style="border-bottom:1px solid #948e80; padding-bottom:12px;">
+          <div><span class="cap">Date</span><div class="ln" style="width:120px;"></div></div>
+          <div style="flex:1;"><span class="cap">Jobsite / Project</span><div class="ln"></div></div>
+          <div><span class="cap">Presented by</span><div class="ln" style="width:150px;"></div></div>
+        </div>
+        <div style="font-family:'Archivo',sans-serif; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin:12px 0 4px;">Attendees — Print Name &amp; Sign</div>
+        <div class="row"><div class="ln"></div><div class="ln"></div></div>
+        <div class="row"><div class="ln"></div><div class="ln"></div></div>
+        <div class="row"><div class="ln"></div><div class="ln"></div></div>
+      </div>
+    </section>
+
+    <!-- TALK 4 -->
+    <section class="talk" id="t-4" data-screen-label="Talk 04 Trenching">
+      <div class="talk-head"><div class="talk-no">04</div><div><div class="talk-cat">Excavation</div><h2>Trenching &amp; Excavation</h2></div></div>
+      <div class="why"><strong>Why it matters:</strong> A cubic yard of soil weighs as much as a car. A trench collapse buries and kills in seconds — there's no time to react. No worker enters an unprotected trench, ever.</div>
+      <h4>Key Points</h4>
+      <ul>
+        <li>Trenches <strong>5 ft+</strong> need a protective system: sloping, benching, shoring, or a trench box.</li>
+        <li>Always call <strong>811</strong> before digging to locate underground utilities.</li>
+        <li>A <strong>competent person</strong> inspects daily, before each shift, and after rain.</li>
+        <li>Keep spoil piles and equipment back at least <strong>2 ft</strong> from the edge.</li>
+        <li>Have a ladder or ramp within <strong>25 ft</strong> of workers in trenches 4 ft+.</li>
+        <li>Watch for water buildup and hazardous atmospheres.</li>
+      </ul>
+      <h4>Discussion</h4>
+      <ul><li>Have utilities been located and marked?</li><li>What's our protective system and who's the competent person?</li><li>How do we get out fast if we need to?</li></ul>
+      <div class="meta"><div class="m">Related<b>Safety Manual §9</b></div><div class="m">Time<b>~5 min</b></div></div>
+      <div class="signoff">
+        <div class="row" style="border-bottom:1px solid #948e80; padding-bottom:12px;">
+          <div><span class="cap">Date</span><div class="ln" style="width:120px;"></div></div>
+          <div style="flex:1;"><span class="cap">Jobsite / Project</span><div class="ln"></div></div>
+          <div><span class="cap">Presented by</span><div class="ln" style="width:150px;"></div></div>
+        </div>
+        <div style="font-family:'Archivo',sans-serif; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin:12px 0 4px;">Attendees — Print Name &amp; Sign</div>
+        <div class="row"><div class="ln"></div><div class="ln"></div></div>
+        <div class="row"><div class="ln"></div><div class="ln"></div></div>
+        <div class="row"><div class="ln"></div><div class="ln"></div></div>
+      </div>
+    </section>
+
+    <!-- TALK 5 -->
+    <section class="talk" id="t-5" data-screen-label="Talk 05 Electrical">
+      <div class="talk-head"><div class="talk-no">05</div><div><div class="talk-cat">Fatal Four</div><h2>Electrical Safety &amp; Power Lines</h2></div></div>
+      <div class="why"><strong>Why it matters:</strong> Electricity is one of the Fatal Four. Contact with overhead power lines and damaged cords kills construction workers every year — and you don't get a second chance.</div>
+      <h4>Key Points</h4>
+      <ul>
+        <li>Assume every line and wire is <strong>energized</strong> until proven otherwise.</li>
+        <li>Stay at least <strong>10 ft</strong> from overhead power lines with equipment, ladders, and materials.</li>
+        <li>Use <strong>GFCI protection</strong> on all 120V construction receptacles.</li>
+        <li>Inspect cords and tools; remove those with damage or missing ground pins.</li>
+        <li>Keep panels accessible and covered; protect temporary wiring from damage and water.</li>
+        <li>Only qualified persons work on energized equipment — lock out where possible.</li>
+      </ul>
+      <h4>Discussion</h4>
+      <ul><li>Where are the overhead lines, and what's our clearance plan?</li><li>Are our cords and tools in good shape?</li><li>Is GFCI protection in place?</li></ul>
+      <div class="meta"><div class="m">Related<b>Safety Manual §10–11</b></div><div class="m">Time<b>~5 min</b></div></div>
+      <div class="signoff">
+        <div class="row" style="border-bottom:1px solid #948e80; padding-bottom:12px;">
+          <div><span class="cap">Date</span><div class="ln" style="width:120px;"></div></div>
+          <div style="flex:1;"><span class="cap">Jobsite / Project</span><div class="ln"></div></div>
+          <div><span class="cap">Presented by</span><div class="ln" style="width:150px;"></div></div>
+        </div>
+        <div style="font-family:'Archivo',sans-serif; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin:12px 0 4px;">Attendees — Print Name &amp; Sign</div>
+        <div class="row"><div class="ln"></div><div class="ln"></div></div>
+        <div class="row"><div class="ln"></div><div class="ln"></div></div>
+        <div class="row"><div class="ln"></div><div class="ln"></div></div>
+      </div>
+    </section>
+
+    <!-- TALK 6 -->
+    <section class="talk" id="t-6" data-screen-label="Talk 06 Silica">
+      <div class="talk-head"><div class="talk-no">06</div><div><div class="talk-cat">Health Hazard</div><h2>Silica Dust</h2></div></div>
+      <div class="why"><strong>Why it matters:</strong> Cutting, grinding, and drilling concrete and masonry releases invisible silica dust. Breathing it causes silicosis and lung cancer — diseases that show up years later and can't be cured.</div>
+      <h4>Key Points</h4>
+      <ul>
+        <li>Control the dust at the source: <strong>use water</strong> (wet cutting) or <strong>vacuum dust collection</strong> with a HEPA filter.</li>
+        <li>Follow the Table 1 method for your task; wear the required respirator when called for.</li>
+        <li><strong>Never dry sweep</strong> silica dust or clean it with compressed air.</li>
+        <li>Keep others out of the dust zone.</li>
+        <li>If you're required to wear a respirator 30+ days/year for silica, medical surveillance is offered.</li>
+      </ul>
+      <h4>Discussion</h4>
+      <ul><li>Which tasks today create silica dust?</li><li>Do we have water or vacuum controls ready?</li><li>Who needs a respirator, and is it fit-tested?</li></ul>
+      <div class="meta"><div class="m">Related<b>Safety Manual §12</b></div><div class="m">Time<b>~5 min</b></div></div>
+      <div class="signoff">
+        <div class="row" style="border-bottom:1px solid #948e80; padding-bottom:12px;">
+          <div><span class="cap">Date</span><div class="ln" style="width:120px;"></div></div>
+          <div style="flex:1;"><span class="cap">Jobsite / Project</span><div class="ln"></div></div>
+          <div><span class="cap">Presented by</span><div class="ln" style="width:150px;"></div></div>
+        </div>
+        <div style="font-family:'Archivo',sans-serif; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin:12px 0 4px;">Attendees — Print Name &amp; Sign</div>
+        <div class="row"><div class="ln"></div><div class="ln"></div></div>
+        <div class="row"><div class="ln"></div><div class="ln"></div></div>
+        <div class="row"><div class="ln"></div><div class="ln"></div></div>
+      </div>
+    </section>
+
+    <!-- TALK 7 -->
+    <section class="talk" id="t-7" data-screen-label="Talk 07 PPE">
+      <div class="talk-head"><div class="talk-no">07</div><div><div class="talk-cat">PPE</div><h2>PPE: Wear It Right</h2></div></div>
+      <div class="why"><strong>Why it matters:</strong> PPE is your last line of defense. It only works if you wear it, wear it correctly, and keep it in good shape. The few seconds it takes to put it on can save your sight, hearing, or life.</div>
+      <h4>Key Points</h4>
+      <ul>
+        <li><strong>Always on site:</strong> hard hat, safety glasses, high-visibility apparel, sturdy boots.</li>
+        <li>Match PPE to the hazard — gloves, face shield, hearing protection, respirator.</li>
+        <li>Inspect PPE before use; replace anything cracked, frayed, or worn out.</li>
+        <li>Fit matters: a loose harness or wrong-size respirator won't protect you.</li>
+        <li>Keep safety glasses clean and on — most eye injuries happen to people "just doing one quick thing."</li>
+      </ul>
+      <h4>Discussion</h4>
+      <ul><li>What PPE does today's work require beyond the basics?</li><li>Is anyone missing or short on gear?</li><li>Is everyone's gear in good condition?</li></ul>
+      <div class="meta"><div class="m">Related<b>Safety Manual §5</b></div><div class="m">Time<b>~5 min</b></div></div>
+      <div class="signoff">
+        <div class="row" style="border-bottom:1px solid #948e80; padding-bottom:12px;">
+          <div><span class="cap">Date</span><div class="ln" style="width:120px;"></div></div>
+          <div style="flex:1;"><span class="cap">Jobsite / Project</span><div class="ln"></div></div>
+          <div><span class="cap">Presented by</span><div class="ln" style="width:150px;"></div></div>
+        </div>
+        <div style="font-family:'Archivo',sans-serif; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin:12px 0 4px;">Attendees — Print Name &amp; Sign</div>
+        <div class="row"><div class="ln"></div><div class="ln"></div></div>
+        <div class="row"><div class="ln"></div><div class="ln"></div></div>
+        <div class="row"><div class="ln"></div><div class="ln"></div></div>
+      </div>
+    </section>
+
+    <!-- TALK 8 -->
+    <section class="talk" id="t-8" data-screen-label="Talk 08 Housekeeping">
+      <div class="talk-head"><div class="talk-no">08</div><div><div class="talk-cat">Walking-Working Surfaces</div><h2>Housekeeping &amp; Slips, Trips, Falls</h2></div></div>
+      <div class="why"><strong>Why it matters:</strong> Slips, trips, and falls on the same level cause a huge share of jobsite injuries — sprains, broken bones, and worse when near edges or openings. A clean site is a safe site.</div>
+      <h4>Key Points</h4>
+      <ul>
+        <li>Clean as you go — don't let debris, cords, and materials pile up.</li>
+        <li>Keep walkways, stairs, and exits clear.</li>
+        <li>Route and cover cords and hoses so they're not trip hazards.</li>
+        <li>Clean up spills and mud immediately; mark wet areas.</li>
+        <li>Stack and store materials safely so they can't fall or block paths.</li>
+        <li>Watch footing in Florida rain and on uneven ground.</li>
+      </ul>
+      <h4>Discussion</h4>
+      <ul><li>Where are the trip hazards on this site right now?</li><li>Whose job is cleanup for today's tasks?</li><li>Are paths and exits clear?</li></ul>
+      <div class="meta"><div class="m">Related<b>Safety Manual §2</b></div><div class="m">Time<b>~5 min</b></div></div>
+      <div class="signoff">
+        <div class="row" style="border-bottom:1px solid #948e80; padding-bottom:12px;">
+          <div><span class="cap">Date</span><div class="ln" style="width:120px;"></div></div>
+          <div style="flex:1;"><span class="cap">Jobsite / Project</span><div class="ln"></div></div>
+          <div><span class="cap">Presented by</span><div class="ln" style="width:150px;"></div></div>
+        </div>
+        <div style="font-family:'Archivo',sans-serif; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin:12px 0 4px;">Attendees — Print Name &amp; Sign</div>
+        <div class="row"><div class="ln"></div><div class="ln"></div></div>
+        <div class="row"><div class="ln"></div><div class="ln"></div></div>
+        <div class="row"><div class="ln"></div><div class="ln"></div></div>
+      </div>
+    </section>
+
+    <!-- TALK 9 -->
+    <section class="talk" id="t-9" data-screen-label="Talk 09 Power Tools">
+      <div class="talk-head"><div class="talk-no">09</div><div><div class="talk-cat">Tools &amp; Equipment</div><h2>Power Tools &amp; Equipment</h2></div></div>
+      <div class="why"><strong>Why it matters:</strong> Power tools cause serious cuts, amputations, and eye injuries — usually from missing guards, dull blades, or rushing. Respect the tool and it works with you, not against you.</div>
+      <h4>Key Points</h4>
+      <ul>
+        <li>Use only tools you're <strong>trained and authorized</strong> to operate.</li>
+        <li>Inspect before use; never use a tool with a <strong>missing or disabled guard</strong>.</li>
+        <li>Use the right tool for the job; keep blades and bits sharp and correct.</li>
+        <li>Wear required eye and hearing protection; secure loose clothing and jewelry.</li>
+        <li>Disconnect power before changing blades/bits or clearing jams.</li>
+        <li>Keep hands clear of the cut line; let the tool stop before setting it down.</li>
+      </ul>
+      <h4>Discussion</h4>
+      <ul><li>Are all guards in place on today's tools?</li><li>Is anyone using a tool they haven't been trained on?</li><li>What PPE does each tool require?</li></ul>
+      <div class="meta"><div class="m">Related<b>Safety Manual §2, §5</b></div><div class="m">Time<b>~5 min</b></div></div>
+      <div class="signoff">
+        <div class="row" style="border-bottom:1px solid #948e80; padding-bottom:12px;">
+          <div><span class="cap">Date</span><div class="ln" style="width:120px;"></div></div>
+          <div style="flex:1;"><span class="cap">Jobsite / Project</span><div class="ln"></div></div>
+          <div><span class="cap">Presented by</span><div class="ln" style="width:150px;"></div></div>
+        </div>
+        <div style="font-family:'Archivo',sans-serif; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin:12px 0 4px;">Attendees — Print Name &amp; Sign</div>
+        <div class="row"><div class="ln"></div><div class="ln"></div></div>
+        <div class="row"><div class="ln"></div><div class="ln"></div></div>
+        <div class="row"><div class="ln"></div><div class="ln"></div></div>
+      </div>
+    </section>
+
+    <!-- TALK 10 -->
+    <section class="talk" id="t-10" data-screen-label="Talk 10 Struck-By">
+      <div class="talk-head"><div class="talk-no">10</div><div><div class="talk-cat">Fatal Four</div><h2>Struck-By &amp; Caught-Between</h2></div></div>
+      <div class="why"><strong>Why it matters:</strong> Struck-by and caught-between hazards — vehicles, equipment, swinging loads, falling objects — are two of the Fatal Four. Stay visible, stay clear, and watch the heavy iron.</div>
+      <h4>Key Points</h4>
+      <ul>
+        <li>Wear high-visibility apparel and make eye contact with equipment operators.</li>
+        <li>Stay out of the <strong>swing radius</strong> and never stand under a suspended load.</li>
+        <li>Watch for backing vehicles; use spotters and stay out of blind spots.</li>
+        <li>Secure tools and materials at heights so nothing falls on the crew below.</li>
+        <li>Keep clear of pinch points between equipment, walls, and materials.</li>
+        <li>Never position yourself between moving equipment and a fixed object.</li>
+      </ul>
+      <h4>Discussion</h4>
+      <ul><li>Where's the equipment working today, and where are the no-go zones?</li><li>Do we need spotters or a traffic plan?</li><li>What could fall, and who's below?</li></ul>
+      <div class="meta"><div class="m">Related<b>Safety Manual §14–15</b></div><div class="m">Time<b>~5 min</b></div></div>
+      <div class="signoff">
+        <div class="row" style="border-bottom:1px solid #948e80; padding-bottom:12px;">
+          <div><span class="cap">Date</span><div class="ln" style="width:120px;"></div></div>
+          <div style="flex:1;"><span class="cap">Jobsite / Project</span><div class="ln"></div></div>
+          <div><span class="cap">Presented by</span><div class="ln" style="width:150px;"></div></div>
+        </div>
+        <div style="font-family:'Archivo',sans-serif; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin:12px 0 4px;">Attendees — Print Name &amp; Sign</div>
+        <div class="row"><div class="ln"></div><div class="ln"></div></div>
+        <div class="row"><div class="ln"></div><div class="ln"></div></div>
+        <div class="row"><div class="ln"></div><div class="ln"></div></div>
+      </div>
+    </section>
+
+    <!-- TALK 11 -->
+    <section class="talk" id="t-11" data-screen-label="Talk 11 Lifting">
+      <div class="talk-head"><div class="talk-no">11</div><div><div class="talk-cat">Ergonomics</div><h2>Manual Lifting &amp; Back Safety</h2></div></div>
+      <div class="why"><strong>Why it matters:</strong> Back and shoulder injuries from lifting are some of the most common — and most preventable — injuries in construction. They can end a career. Lift smart, not hard.</div>
+      <h4>Key Points</h4>
+      <ul>
+        <li><strong>Size it up first</strong> — test the weight; if it's too heavy or awkward, get help or a machine.</li>
+        <li>Lift with your <strong>legs, not your back</strong> — bend the knees, keep the load close, back straight.</li>
+        <li><strong>Don't twist</strong> while lifting — turn with your feet.</li>
+        <li>Use carts, dollies, and team lifts for heavy or bulky loads.</li>
+        <li>Keep clear paths and good footing before you carry.</li>
+        <li>Take breaks on repetitive lifting; warm up.</li>
+      </ul>
+      <h4>Discussion</h4>
+      <ul><li>What heavy or awkward loads are we moving today?</li><li>What equipment could do the lifting for us?</li><li>When do we call for a team lift?</li></ul>
+      <div class="meta"><div class="m">Related<b>Safety Manual §2</b></div><div class="m">Time<b>~5 min</b></div></div>
+      <div class="signoff">
+        <div class="row" style="border-bottom:1px solid #948e80; padding-bottom:12px;">
+          <div><span class="cap">Date</span><div class="ln" style="width:120px;"></div></div>
+          <div style="flex:1;"><span class="cap">Jobsite / Project</span><div class="ln"></div></div>
+          <div><span class="cap">Presented by</span><div class="ln" style="width:150px;"></div></div>
+        </div>
+        <div style="font-family:'Archivo',sans-serif; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin:12px 0 4px;">Attendees — Print Name &amp; Sign</div>
+        <div class="row"><div class="ln"></div><div class="ln"></div></div>
+        <div class="row"><div class="ln"></div><div class="ln"></div></div>
+        <div class="row"><div class="ln"></div><div class="ln"></div></div>
+      </div>
+    </section>
+
+    <!-- TALK 12 -->
+    <section class="talk" id="t-12" data-screen-label="Talk 12 Weather">
+      <div class="talk-head"><div class="talk-no">12</div><div><div class="talk-cat">Environmental · Florida Priority</div><h2>Severe Weather &amp; Lightning</h2></div></div>
+      <div class="why"><strong>Why it matters:</strong> Florida is the lightning capital of the U.S., and storms blow up fast. Lightning, high winds, and flooding can turn a normal day dangerous in minutes. Know the plan before the sky turns.</div>
+      <h4>Key Points</h4>
+      <ul>
+        <li><strong>Lightning 30/30 rule:</strong> take shelter when thunder follows lightning by 30 seconds or less; wait 30 minutes after the last thunder to resume.</li>
+        <li>Get to a safe shelter — a building or enclosed vehicle — not under trees, scaffolds, or equipment.</li>
+        <li>Stop crane, lift, and elevated work when storms approach.</li>
+        <li>Secure loose materials and tools before high winds.</li>
+        <li>Avoid standing water — it can hide electrical and trip hazards.</li>
+        <li>Know the site's shelter location and the hurricane plan (Handbook §6).</li>
+      </ul>
+      <h4>Discussion</h4>
+      <ul><li>What's today's forecast, and who's watching the sky?</li><li>Where do we shelter, and how do we call the stop?</li><li>What needs securing if wind picks up?</li></ul>
+      <div class="meta"><div class="m">Related<b>Safety Manual §17 · Handbook §6</b></div><div class="m">Time<b>~5 min</b></div></div>
+      <div class="signoff">
+        <div class="row" style="border-bottom:1px solid #948e80; padding-bottom:12px;">
+          <div><span class="cap">Date</span><div class="ln" style="width:120px;"></div></div>
+          <div style="flex:1;"><span class="cap">Jobsite / Project</span><div class="ln"></div></div>
+          <div><span class="cap">Presented by</span><div class="ln" style="width:150px;"></div></div>
+        </div>
+        <div style="font-family:'Archivo',sans-serif; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin:12px 0 4px;">Attendees — Print Name &amp; Sign</div>
+        <div class="row"><div class="ln"></div><div class="ln"></div></div>
+        <div class="row"><div class="ln"></div><div class="ln"></div></div>
+        <div class="row"><div class="ln"></div><div class="ln"></div></div>
+        <div style="margin-top:18px; padding-top:12px; border-top:1px solid #948e80;">
+          <p style="font-family:'Archivo',sans-serif; font-size:10.5px; letter-spacing:0.1em; text-transform:uppercase; color:var(--soft); margin:0;">DunRite Construction Group LLC · Toolbox Talk Library · 2026 · Confidential</p>
+        </div>
+      </div>
+    </section>
+
+    </td></tr></tbody>
+    <tfoot><tr><td class="ftr-space"></td></tr></tfoot>
+  </table>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;8.5in&quot;},&quot;paper&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Warm cream&quot;,&quot;Bright white&quot;,&quot;Cool paper&quot;],&quot;default&quot;:&quot;Warm cream&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;accent&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;DunRite blue&quot;,&quot;Deep navy&quot;,&quot;Slate&quot;],&quot;default&quot;:&quot;DunRite blue&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  componentDidMount(){ this.applyTheme(); }
+  componentDidUpdate(){ this.applyTheme(); }
+  applyTheme(){
+    const root = document.documentElement;
+    const paper = { "Warm cream":"#f6f4ef", "Bright white":"#ffffff", "Cool paper":"#f3f5f8" };
+    const accent = { "DunRite blue":"#0e6ea8", "Deep navy":"#16324f", "Slate":"#3a4654" };
+    const p = paper[this.props.paper] || null;
+    const a = accent[this.props.accent] || null;
+    if (p) root.style.setProperty("--paper", p);
+    if (a) root.style.setProperty("--accent", a);
+  }
+  renderVals(){ return {}; }
+}
+</script>
+<script>
+(async () => {
+  if (!document.title || !document.title.trim()) document.title = "Toolbox Talk Library";
+  // Prepend so page-supplied @page / break rules (deck-stage's margin:0,
+  // author CSS) keep source-order precedence over the baseline.
+  const baseCss = document.createElement('style');
+  baseCss.textContent = "@media print {\n  figure, table { break-inside: avoid; }\n  *, *::before, *::after {\n    print-color-adjust: exact; -webkit-print-color-adjust: exact;\n    backdrop-filter: none !important; -webkit-backdrop-filter: none !important;\n    animation-delay: -99s !important; animation-duration: .001s !important;\n    animation-iteration-count: 1 !important; animation-fill-mode: both !important;\n    animation-play-state: running !important; transition-duration: 0s !important;\n  }\n}";
+  document.head.prepend(baseCss);
+  if (document.readyState === 'loading') {
+    await new Promise((r) => document.addEventListener('DOMContentLoaded', r, { once: true }));
+  }
+  let ds = document.querySelector('deck-stage');
+  // whenDefined never resolves when nothing registers the element, so only
+  // await it when a <deck-stage> tag exists (and race a timeout regardless).
+  if (ds && !customElements.get('deck-stage')) {
+    try {
+      await Promise.race([
+        customElements.whenDefined('deck-stage'),
+        new Promise((r) => setTimeout(r, 3000)),
+      ]);
+    } catch (e) {}
+    ds = document.querySelector('deck-stage');
+  }
+  // dc-runtime assigns window.DCLogic at init and mounts into #dc-root on
+  // DOMContentLoaded; settle on that subtree so React has rendered before
+  // print(). Non-DC pages fall through to weighing body.
+  const isDc = !ds && 'DCLogic' in window;
+  const settleRoot = ds || (isDc ? document.getElementById('dc-root') : null) || document.body;
+  if (settleRoot) {
+    // Weigh only content children — skip script/style/template so inline
+    // Babel/CSS doesn't register as stable "content" before the framework
+    // has mounted anything.
+    const MEDIA = 'img,svg,canvas,video,picture,iframe,embed,object';
+    const weigh = () => {
+      let text = 0, media = 0;
+      for (const c of settleRoot.children) {
+        const t = c.tagName;
+        if (t === 'SCRIPT' || t === 'STYLE' || t === 'TEMPLATE') continue;
+        text += (c.textContent || '').trim().length;
+        media += c.querySelectorAll(MEDIA).length + (c.matches(MEDIA) ? 1 : 0);
+      }
+      return text + media * 100;
+    };
+    // "Non-zero and stable" alone is not sufficient to mean rendered: generic
+    // body can carry a static shell while async main content is pending, and
+    // #dc-root can carry the root DC's static text while child refs are still
+    // .sc-placeholder boxes. Gate generic on readyState 'complete', and never
+    // accept stability while a dc-runtime placeholder is present.
+    const isGeneric = settleRoot === document.body;
+    const deadline = Date.now() + 15000;
+    let last = -1, stable = 0;
+    while (Date.now() < deadline) {
+      const n = weigh();
+      const ready =
+        (!isGeneric || document.readyState === 'complete') &&
+        !settleRoot.querySelector('.sc-placeholder');
+      if (n > 0 && n === last && ready) { if (++stable >= 2) break; } else { stable = 0; }
+      last = n;
+      await new Promise((r) => setTimeout(r, 250));
+    }
+  }
+  // Project support.js may predate runtime default-seeding; push via bridge.
+  if (isDc && window.__dcSetProps && window.__dcRootName) {
+    try {
+      const dpEl = document.querySelector('script[data-dc-script]');
+      const meta = JSON.parse((dpEl && dpEl.getAttribute('data-props')) || '{}');
+      const bag = {};
+      for (const k in meta)
+        if (k[0] !== '$' && meta[k] && meta[k].default !== undefined)
+          bag[k] = meta[k].default;
+      if (Object.keys(bag).length) {
+        window.__dcSetProps(window.__dcRootName(), bag);
+        await new Promise((r) => setTimeout(r, 50));
+      }
+    } catch (e) {}
+  }
+  // Reveal content gated on scroll or visibility before printing. Lazy <img>,
+  // IntersectionObserver fade-ins, and collapsed <details> don't render while
+  // off-screen, so a long page would print with them blank or closed. Open
+  // every <details>, force native-lazy images eager, and scroll the document
+  // through its full height to trip lazy-load + IO; then wait (bounded) for the
+  // newly-triggered images. Inert for deck-stage (slides aren't scroll-gated).
+  try {
+    for (const d of document.querySelectorAll('details')) d.open = true;
+    for (const img of document.querySelectorAll('img[loading="lazy"]'))
+      img.loading = 'eager';
+    const scroller = document.scrollingElement || document.documentElement;
+    const full = Math.max(scroller.scrollHeight, document.body.scrollHeight);
+    const step = window.innerHeight || 800;
+    for (let y = 0; y <= full; y += step) {
+      window.scrollTo(0, y);
+      await new Promise((r) => requestAnimationFrame(r));
+    }
+    window.scrollTo(0, 0);
+    await Promise.race([
+      Promise.all(
+        [...document.images].map((img) =>
+          img.complete
+            ? null
+            : new Promise((res) => {
+                img.addEventListener('load', res, { once: true });
+                img.addEventListener('error', res, { once: true });
+              })
+        )
+      ),
+      new Promise((r) => setTimeout(r, 4000)),
+    ]);
+  } catch (e) {}
+  try { await document.fonts.ready; } catch (e) {}
+  // Jump every animation to its end state so print() never captures a slide
+  // mid-entrance. Ordering matters: the 0s-transition style must be live
+  // BEFORE data-deck-active is set so attribute-keyed transitions don't
+  // start a (now-0s) run from the pre-active base.
+  const st = document.createElement('style');
+  st.textContent = '*,*::before,*::after{animation-delay:-99s !important;animation-duration:.001s !important;animation-iteration-count:1 !important;animation-fill-mode:both !important;animation-play-state:running !important;transition-duration:0s !important}';
+  document.head.appendChild(st);
+  for (const d of document.querySelectorAll('deck-stage')) {
+    for (const c of d.children) {
+      const t = c.tagName;
+      if (t === 'SCRIPT' || t === 'STYLE' || t === 'TEMPLATE') continue;
+      c.setAttribute('data-deck-active', '');
+    }
+  }
+  // Re-append deck-stage's @page last so no author @page can add a margin and
+  // spill each full-bleed slide onto two sheets. Backstop for old copies.
+  if (ds) {
+    let pg = document.getElementById('deck-stage-print-page');
+    if (!pg) {
+      pg = document.createElement('style');
+      pg.textContent = '@page{size:' + (+ds.getAttribute('width') || 1920) +
+        'px ' + (+ds.getAttribute('height') || 1080) + 'px;margin:0}';
+    }
+    document.body.appendChild(pg);
+  }
+  try {
+    const sweep = () => {
+      for (const a of document.getAnimations()) {
+        try { a.finish(); } catch (e) {
+          try { a.currentTime = (a.effect && a.effect.getComputedTiming().duration) || 0; a.pause(); } catch (e2) {}
+        }
+      }
+    };
+    sweep();
+    await new Promise((r) => requestAnimationFrame(r));
+    sweep();
+    await new Promise((r) => requestAnimationFrame(r));
+  } catch (e) {}
+  // Size the PDF page to the rendered design unless the file opted into
+  // standard paper via @page{size:letter|A4|…}. Decks own their own @page.
+  // Wrappers (body, …) lose padding+margin so the frame sits at (0,0); the
+  // frame itself loses only margin — its padding is INSIDE the measured
+  // rect and must stay, or content shifts and leaves a gap at bottom/right.
+  var __m = null;
+  try { __m = (() => {
+  var docEl = document.documentElement;
+  var doc = { width: docEl.scrollWidth, height: docEl.scrollHeight };
+
+  var ds = document.querySelector('deck-stage');
+  if (ds) {
+    var dw = Number(ds.getAttribute('width')) || 1920;
+    var dh = Number(ds.getAttribute('height')) || 1080;
+    var n = typeof ds.length === 'number' ? ds.length : ds.children.length;
+    var idx = typeof ds.index === 'number' ? ds.index : 0;
+    var frames = [];
+    for (var i = 0; i < n; i++) frames.push({ left: 0, top: 0, width: dw, height: dh });
+    return { kind: 'deck', doc: doc, frames: frames,
+      authored: frames.map(function(){return{width:true,height:true}}),
+      deck: { width: dw, height: dh, slideCount: n, index: idx },
+      signals: { paperPage: false, pxPage: false } };
+  }
+
+  var paperPage = false, pxPage = false;
+  var eachRule = function (fn) {
+    for (var s = 0; s < document.styleSheets.length; s++) {
+      var rs; try { rs = document.styleSheets[s].cssRules; } catch (e) { continue; }
+      for (var r = 0; r < rs.length; r++) {
+        fn(rs[r]);
+        if (rs[r].cssRules) for (var n = 0; n < rs[r].cssRules.length; n++) fn(rs[r].cssRules[n]);
+      }
+    }
+  };
+  eachRule(function (r) {
+    if (r.type !== 6) return;
+    var m = /\bsize\s*:\s*([^;}]+)/i.exec(r.cssText || '');
+    if (!m) return;
+    if (/\b(letter|a[3-5]|legal|ledger)\b/i.test(m[1])) paperPage = true;
+    if (/\d+(?:\.\d+)?px\b/i.test(m[1])) pxPage = true;
+  });
+  var signals = { paperPage: paperPage, pxPage: pxPage };
+
+  var pxVal = function (v) {
+    var m = /^(\d+(?:\.\d+)?)px$/.exec(v || ''); return m ? +m[1] : 0;
+  };
+  var authoredPx = function (el, prop) {
+    if (pxVal(el.style[prop])) return true;
+    var attr = el.getAttribute(prop);
+    if (attr && /^\d+$/.test(attr)) return true;
+    var hit = false;
+    eachRule(function (r) {
+      if (hit || r.type !== 1 || !r.style) return;
+      try { if (el.matches(r.selectorText) && pxVal(r.style[prop])) hit = true; } catch (e) {}
+    });
+    return hit;
+  };
+
+  var el = document.body, rootPxW = false;
+  for (;;) {
+    var kids = [];
+    for (var c = 0; c < el.children.length; c++) {
+      var t = el.children[c].tagName;
+      if (t !== 'SCRIPT' && t !== 'STYLE' && t !== 'TEMPLATE') kids.push(el.children[c]);
+    }
+    if (kids.length !== 1 || !(kids[0] instanceof HTMLElement)) break;
+    el.setAttribute('data-om-frame-wrap', '');
+    el = kids[0];
+    rootPxW = authoredPx(el, 'width');
+    if (rootPxW) break;
+  }
+  if (!rootPxW) rootPxW = authoredPx(el, 'width');
+
+  // @page{size:letter} alone is a flowing doc; with a px-width root it's a
+  // fixed sheet pretending to be paper — fall through and size to render.
+  if (paperPage && !rootPxW) {
+    return { kind: 'paper-doc', doc: doc, signals: signals,
+      frames: [{ left: 0, top: 0, width: doc.width, height: doc.height }],
+      authored: [{ width: false, height: false }] };
+  }
+
+  var sx = window.scrollX || 0, sy = window.scrollY || 0;
+  var rectOf = function (e) {
+    var r = e.getBoundingClientRect();
+    var oy; try { oy = getComputedStyle(e).overflowY; } catch (err) {}
+    var h = oy === 'visible' ? Math.max(r.height, e.scrollHeight || 0) : r.height;
+    return { left: r.left + sx, top: r.top + sy, width: r.width, height: h };
+  };
+
+  // Multi-frame: ≥2 visible non-fixed children, each with authored px width
+  // AND height, all within ±2px of each other. Off unless the page opts in
+  // via data-om-multi-frame on the stop element — guards against card grids
+  // and pricing tables that match the geometry but aren't separate canvases.
+  if (el.hasAttribute('data-om-multi-frame')) {
+    var cands = [];
+    for (var k = 0; k < el.children.length; k++) {
+      var ch = el.children[k];
+      var cs; try { cs = getComputedStyle(ch); } catch (e) { continue; }
+      if (cs.display === 'none' || cs.visibility === 'hidden' || cs.position === 'fixed') continue;
+      var rc = rectOf(ch);
+      if (rc.width < 2 || rc.height < 2) continue;
+      if (!authoredPx(ch, 'width') || !authoredPx(ch, 'height')) continue;
+      cands.push(rc);
+    }
+    if (cands.length >= 2) {
+      var w0 = cands[0].width, h0 = cands[0].height, ok = true;
+      for (var q = 1; q < cands.length; q++)
+        if (Math.abs(cands[q].width - w0) > 2 || Math.abs(cands[q].height - h0) > 2) ok = false;
+      if (ok) return { kind: 'multi-frame', doc: doc, signals: signals,
+        frames: cands, authored: cands.map(function(){return{width:true,height:true}}) };
+    }
+  }
+
+  el.setAttribute('data-om-frame', '');
+  return { kind: 'single-canvas', doc: doc, signals: signals,
+    frames: [rectOf(el)],
+    authored: [{ width: rootPxW, height: authoredPx(el, 'height') }] };
+})(); } catch (e) {}
+  var frame = null;
+  if (__m && __m.kind === 'single-canvas') {
+    var f = __m.frames && __m.frames[0];
+    if (f && f.width >= 200 && f.height >= 200) {
+      frame = f;
+      var fst = document.createElement('style');
+      fst.textContent = '@media print{@page{size:' + Math.ceil(f.width) + 'px ' +
+        Math.ceil(f.height) + 'px;margin:0}' +
+        'html,body,[data-om-frame-wrap]{padding:0!important;margin:0!important;background:none!important}' +
+        '[data-om-frame]{margin:0!important}}';
+      document.body.appendChild(fst);
+    }
+  }
+  // Relax break-inside on oversized elements. An element taller than a
+  // printable page can't honor break-inside: avoid — browsers either overflow
+  // it or push it whole to the next page, leaving a blank gap, then break it
+  // anyway at an arbitrary point. After the final layout (content revealed,
+  // animations jumped), find elements taller than a page that still compute
+  // break-inside: avoid and reset them to auto, so the browser breaks them at
+  // their children's boundaries instead (children keep their own avoid). PAGE_PX
+  // is a conservative portrait estimate at 96 CSS px/in — Letter/A4 usable
+  // height minus our 0.5in margins — so only clearly-oversized elements are
+  // touched and under-page elements still stay whole. Skipped for decks (slides
+  // are sized to the page) and for fixed-size canvases (frame set, or an author
+  // px-based @page) — runs as before for flowing docs on letter/A4.
+  try {
+    if (!ds && !frame && !(__m && __m.signals && __m.signals.pxPage)) {
+      const PAGE_PX = 1024;
+      // Our print defaults add a real @page margin only when the source has
+      // no @page of its own; computed style can't tell us (it reports screen
+      // media), so read the injected rule directly.
+      const defaults = document.querySelector('style[data-omelette-print-defaults]');
+      const pageInset = /@page\s*\{[^}]*margin/.test(defaults ? defaults.textContent || '' : '');
+      const SEL = 'section,article,figure,table,pre,blockquote,[class~="card" i],[class~="page" i],[class~="sheet" i]';
+      for (const el of document.body.querySelectorAll(SEL)) {
+        if (el instanceof HTMLElement && el.offsetHeight > PAGE_PX) {
+          el.setAttribute('data-om-oversized', '');
+          // Fake-paged docs simulate sheets with over-tall break-after:page
+          // boxes; honoring the break spills half-blank pages and ends a
+          // colored box mid-sheet. Flow them, and (only when we own the page
+          // inset) drop the redundant padding/background via the rule below.
+          const cs = getComputedStyle(el);
+          if (cs.breakAfter === 'page' || cs.pageBreakAfter === 'always') {
+            el.setAttribute('data-om-fakepage', '');
+          }
+        }
+      }
+      const ost = document.createElement('style');
+      ost.textContent = '@media print{' +
+        '[data-om-oversized]{break-inside:auto !important;page-break-inside:auto !important}' +
+        '[data-om-fakepage]{break-after:auto !important;page-break-after:auto !important}' +
+        (pageInset ? '[data-om-fakepage]{padding:0 !important;background:none !important}' : '') +
+        '}';
+      document.head.appendChild(ost);
+    }
+  } catch (e) {}
+  // macOS Preview renders Skia-PDF Luminosity soft-masks as opaque grey boxes;
+  // swap the CSS that triggers them for Preview-safe forms.
+  try {
+    for (const el of document.body.querySelectorAll('*')) {
+      const cs = getComputedStyle(el);
+
+      if (cs.boxShadow !== 'none' && cs.filter === 'none') {
+        const outs = [], kept = [];
+        for (const s of cs.boxShadow.split(/,(?![^(]*[)])/)) {
+          const t = s.trim();
+          const m = t.match(/^(rgba?[(][^)]+[)]) (-?[0-9.]+px) (-?[0-9.]+px) ([0-9.]+px) -?[0-9.]+px$/);
+          if (m && parseFloat(m[4]) > 0) outs.push('drop-shadow(' + m[2] + ' ' + m[3] + ' ' + m[4] + ' ' + m[1] + ')');
+          else kept.push(t);
+        }
+        if (outs.length) {
+          el.style.setProperty('filter', outs.join(' '), 'important');
+          el.style.setProperty('box-shadow', kept.join(', ') || 'none', 'important');
+        }
+      }
+
+      const mask = cs.maskImage && cs.maskImage !== 'none' ? cs.maskImage : cs.webkitMaskImage;
+      if (mask && mask !== 'none' && cs.filter === 'none') el.style.setProperty('filter', 'opacity(1)', 'important');
+    }
+  } catch (e) {}
+  setTimeout(() => { try { window.print(); } catch (e) {} }, 200);
+})();
+</script>
+</body>
+</html>

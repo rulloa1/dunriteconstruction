@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<style>
+  :root{ --paper:#f6f4ef; --ink:#1d2127; --muted:#6c7077; --soft:#8b8f96; --accent:#0e6ea8; --sky:#1ca0e0; --char:#272b31; --hair:#d7d2c6; --card:#fffdf8; }
+  body{ margin:0; background:var(--paper); color:var(--ink); font-family:"Source Serif 4",Georgia,serif; -webkit-font-smoothing:antialiased; }
+  .doc{ box-sizing:border-box; max-width:8.5in; margin:0 auto; padding:0 clamp(20px,5vw,0.75in) 96px; }
+  .doc-frame{ width:100%; border-collapse:collapse; } .doc-frame td{ padding:0; }
+  .running-hdr,.running-ftr,.hdr-space,.ftr-space{ display:none; }
+  h1,h2,h3,h4{ font-family:"Archivo",sans-serif; color:var(--ink); text-wrap:balance; margin:0; }
+  p{ font-size:14.5px; line-height:1.62; margin:0 0 12px; color:#2b3036; }
+  strong{ font-weight:700; }
+  .form{ break-before:page; padding-top:16px; }
+  .form-head{ display:flex; align-items:baseline; gap:12px; }
+  .form-head .n{ font-family:"IBM Plex Mono",monospace; font-weight:600; font-size:12px; letter-spacing:0.1em; color:var(--accent); }
+  .form-head h2{ font-weight:800; font-size:23px; letter-spacing:-0.015em; }
+  .kicker{ font-family:"IBM Plex Mono",monospace; font-weight:600; font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:var(--soft); margin-bottom:6px; }
+  .rule{ height:0; border-top:1px solid var(--ink); position:relative; margin:11px 0 16px; }
+  .rule::before{ content:""; position:absolute; top:-2px; left:0; width:52px; height:3px; background:var(--accent); }
+  .ack{ border:1.5px solid var(--ink); border-radius:4px; padding:22px 24px; margin:16px 0; background:var(--card); }
+  .ack p{ font-size:14px; margin:0 0 11px; } .ack p:last-child{ margin:0; }
+  .sig{ display:grid; grid-template-columns:1fr 1fr; gap:26px 40px; margin-top:30px; }
+  .sig .ln{ border-bottom:1.5px solid var(--ink); height:32px; }
+  .sig .cap{ font-family:"IBM Plex Mono",monospace; font-size:9.5px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin-top:7px; }
+  .frow{ display:grid; grid-template-columns:auto 1fr; gap:12px 16px; align-items:end; margin:14px 0; }
+  .frow .lab{ font-family:"Archivo",sans-serif; font-weight:600; font-size:13px; white-space:nowrap; }
+  .frow .ln{ border-bottom:1px solid var(--soft); height:22px; }
+  table.t{ width:100%; border-collapse:collapse; margin:12px 0; font-size:13px; table-layout:fixed; }
+  table.t th{ background:var(--char); color:#fff; font-family:"Archivo",sans-serif; font-weight:600; font-size:10.5px; letter-spacing:0.04em; text-transform:uppercase; text-align:left; padding:8px 10px; border:1px solid var(--char); }
+  table.t td{ border:1px solid var(--hair); padding:0 10px; height:34px; }
+  h3,h4{ break-after:avoid; } h4+ul,h4+ol,h3+ul,h3+ol,h4+table,h4+p{ break-before:avoid; }
+  .blankback{ display:none; }
+  @page{ size:letter; margin:0; }
+  @media print{
+    .blankback{ display:flex !important; align-items:center; justify-content:center; min-height:6in; break-before:page; break-after:page; }
+    .blankback span{ font-family:"IBM Plex Mono",monospace; font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:#b8b3a6; }
+    html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; } html,body{ margin:0; padding:0; }
+    .doc{ max-width:none !important; margin:0 !important; padding:0 0.65in !important; }
+    #dc-root,.sc-host{ height:auto !important; }
+    .hdr-space,.ftr-space{ display:table-cell; height:0.62in !important; }
+    .running-hdr,.running-ftr{ display:flex !important; justify-content:space-between; align-items:baseline; position:fixed !important; left:0; right:0; margin:0 !important; font-family:"IBM Plex Mono",monospace; font-size:8px; letter-spacing:0.12em; text-transform:uppercase; color:var(--soft); }
+    .running-hdr{ top:0; padding:0.3in 0.65in 0 !important; } .running-ftr{ bottom:0; padding:0 0.65in 0.3in !important; }
+    h2,h3,h4{ break-after:avoid; } table,tr,.ack,.sig{ break-inside:avoid; }
+    .cover{ break-after:page; }
+  }
+
+  .wm{ position:fixed; inset:0; background:url("assets/dunrite-mark.png") no-repeat center; background-size:360px auto; opacity:0.07; transform:rotate(-20deg); pointer-events:none; z-index:0; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .doc{ position:relative; z-index:1; }
+</style>
+</helmet>
+<main class="doc">
+  <div class="wm" aria-hidden="true"></div>
+  <div class="running-hdr"><span>DunRite Construction Group LLC</span><span>Employee Sign-Off Forms</span></div>
+  <div class="running-ftr"><span>Confidential — Personnel Record</span><span>2026 Edition</span></div>
+  <table class="doc-frame" role="presentation">
+    <thead><tr><td class="hdr-space"></td></tr></thead>
+    <tbody><tr><td>
+
+    <!-- COVER -->
+        <!-- ===================== COVER — Centered Monolith ===================== -->
+    <section class="cover" data-screen-label="Cover" style="background:#ffffff; color:#1d2127; border:1px solid #dcd7cb; border-radius:4px; margin:0 0 40px; padding:96px clamp(40px,7vw,84px); min-height:9.4in; box-sizing:border-box; position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+      <img src="assets/dunrite-logo-dark.png" alt="DunRite Construction Group LLC" style="display:block; width:248px; max-width:62%; height:auto; margin:0 auto;">
+      <div style="width:64px; height:3px; background:#1ca0e0; margin:46px auto 30px; border-radius:2px;"></div>
+      <div style="font-family:'Archivo',sans-serif; font-weight:600; font-size:13px; letter-spacing:0.34em; text-transform:uppercase; color:#1ca0e0;">Acknowledgements &amp; Receipts</div>
+      <h1 style="font-family:'Archivo',sans-serif; font-weight:800; font-size:54px; line-height:1.0; letter-spacing:-0.028em; margin:20px 0 0; color:#1d2127; text-align:left;">Employee<br>Sign-Off Forms</h1>
+    </section>
+
+    <!-- BLANK BACK OF TITLE PAGE -->
+    <section class="blankback" aria-hidden="true"><span>This page intentionally left blank</span></section>
+
+    <!-- INDEX -->
+    <section data-screen-label="Index">
+      <div class="kicker">DunRite Construction Group LLC</div>
+      <h2 style="font-size:26px; letter-spacing:-0.01em;">Forms in This Packet</h2>
+      <div class="rule"></div>
+      <p>Complete each form that applies to the employee's role. Forms 1–4 are required of all employees; forms 5–7 apply to those issued equipment, PPE, or who drive Company vehicles. File all signed forms in the employee's personnel record.</p>
+      <table class="t">
+        <colgroup><col style="width:9%"><col style="width:58%"><col style="width:33%"></colgroup>
+        <thead><tr><th>Form</th><th>Title</th><th>Applies To</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Employee Handbook Receipt &amp; Acknowledgement</td><td>All employees</td></tr>
+          <tr><td>2</td><td>Safety Manual Acknowledgement</td><td>All employees</td></tr>
+          <tr><td>3</td><td>Drug-Free Workplace Acknowledgement</td><td>All employees</td></tr>
+          <tr><td>4</td><td>Confidentiality &amp; Company Property Agreement</td><td>All employees</td></tr>
+          <tr><td>5</td><td>PPE Issue &amp; Acknowledgement</td><td>Field employees</td></tr>
+          <tr><td>6</td><td>Tool &amp; Equipment Issue Record</td><td>As issued</td></tr>
+          <tr><td>7</td><td>Fleet / Driver Acknowledgement &amp; MVR Authorization</td><td>Drivers</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- FORM 1 -->
+    <section class="form" data-screen-label="01 Handbook Receipt">
+      <div class="kicker">Form 1 of 7</div>
+      <div class="form-head"><span class="n">01</span><h2>Employee Handbook Receipt &amp; Acknowledgement</h2></div>
+      <div class="rule"></div>
+      <div class="ack">
+        <p>I acknowledge that I have received a copy of the DunRite Construction Group LLC Employee Handbook. I understand it is my responsibility to read, understand, and comply with the policies it contains, and to ask questions about anything I do not understand.</p>
+        <p>I understand that the handbook is a summary of current policies and is <strong>not a contract of employment</strong> and does not guarantee employment for any period. I understand my employment is <strong>at-will</strong> — either I or the Company may end the employment relationship at any time, with or without cause or notice.</p>
+        <p>I understand the Company may change, add, or eliminate policies at any time to the extent permitted by law, and that only the President may alter the at-will relationship, and only in a signed writing.</p>
+      </div>
+      <div class="sig">
+        <div><div class="ln"></div><div class="cap">Employee Name (Print)</div></div>
+        <div><div class="ln"></div><div class="cap">Employee ID</div></div>
+        <div><div class="ln"></div><div class="cap">Employee Signature</div></div>
+        <div><div class="ln"></div><div class="cap">Date</div></div>
+      </div>
+    </section>
+
+    <!-- FORM 2 -->
+    <section class="form" data-screen-label="02 Safety Acknowledgement">
+      <div class="kicker">Form 2 of 7</div>
+      <div class="form-head"><span class="n">02</span><h2>Safety Manual Acknowledgement</h2></div>
+      <div class="rule"></div>
+      <div class="ack">
+        <p>I acknowledge that I have received and reviewed the DunRite Construction Group LLC Safety Manual. I understand I am responsible for following all safety rules and programs, wearing required PPE, and working safely at all times.</p>
+        <p>I understand that I have <strong>Stop Work Authority</strong> and a duty to report unsafe conditions, near-misses, and all injuries immediately. I will not operate equipment I am not trained and authorized to use, and I will never bypass safety devices.</p>
+        <p>I understand that violating safety rules may result in discipline up to and including termination, and that serious violations may result in immediate removal from the jobsite.</p>
+      </div>
+      <div class="sig">
+        <div><div class="ln"></div><div class="cap">Employee Name (Print)</div></div>
+        <div><div class="ln"></div><div class="cap">Employee ID</div></div>
+        <div><div class="ln"></div><div class="cap">Employee Signature</div></div>
+        <div><div class="ln"></div><div class="cap">Date</div></div>
+      </div>
+    </section>
+
+    <!-- FORM 3 -->
+    <section class="form" data-screen-label="03 Drug-Free Ack">
+      <div class="kicker">Form 3 of 7</div>
+      <div class="form-head"><span class="n">03</span><h2>Drug-Free Workplace Acknowledgement</h2></div>
+      <div class="rule"></div>
+      <div class="ack">
+        <p>I acknowledge that I have received and reviewed the DunRite Construction Group LLC Drug-Free Workplace Program. I understand that DunRite maintains a drug- and alcohol-free workplace and that I may be required to submit to testing as described in that Program.</p>
+        <p>I understand that a verified positive test, a refusal to test, or tampering with a sample may result in withdrawal of a job offer or discipline up to and including termination, and that under Florida law a positive post-accident test may affect my workers' compensation benefits.</p>
+        <p>I understand I should report any prescription or over-the-counter medication that may affect my ability to work safely before performing safety-sensitive duties, and that my test results will be kept confidential.</p>
+      </div>
+      <div class="sig">
+        <div><div class="ln"></div><div class="cap">Employee Name (Print)</div></div>
+        <div><div class="ln"></div><div class="cap">Employee ID</div></div>
+        <div><div class="ln"></div><div class="cap">Employee Signature</div></div>
+        <div><div class="ln"></div><div class="cap">Date</div></div>
+      </div>
+    </section>
+
+    <!-- FORM 4 -->
+    <section class="form" data-screen-label="04 Confidentiality">
+      <div class="kicker">Form 4 of 7</div>
+      <div class="form-head"><span class="n">04</span><h2>Confidentiality &amp; Company Property Agreement</h2></div>
+      <div class="rule"></div>
+      <div class="ack">
+        <p>I understand that during my employment I may have access to confidential information about the Company, its clients, bids, pricing, and employees. I agree to keep this information confidential during and after my employment and to use it only for legitimate business purposes.</p>
+        <p>I understand that tools, equipment, vehicles, materials, devices, and documents are Company property to be used for business purposes and returned upon separation. I agree that at no time will I remove Company property — in print or stored digitally or electronically — from Company control, or store it at any unauthorized location (including personal devices or cloud storage), without written authorization from Company management.</p>
+        <p>I agree to return all Company property on or before my last day of employment.</p>
+      </div>
+      <div class="sig">
+        <div><div class="ln"></div><div class="cap">Employee Name (Print)</div></div>
+        <div><div class="ln"></div><div class="cap">Employee ID</div></div>
+        <div><div class="ln"></div><div class="cap">Employee Signature</div></div>
+        <div><div class="ln"></div><div class="cap">Date</div></div>
+      </div>
+    </section>
+
+    <!-- FORM 5 -->
+    <section class="form" data-screen-label="05 PPE Issue">
+      <div class="kicker">Form 5 of 7</div>
+      <div class="form-head"><span class="n">05</span><h2>PPE Issue &amp; Acknowledgement</h2></div>
+      <div class="rule"></div>
+      <p>The following personal protective equipment has been issued to the employee. I acknowledge receipt and agree to inspect, maintain, and wear it as required, and to report damaged or worn PPE for replacement.</p>
+      <table class="t">
+        <colgroup><col style="width:46%"><col style="width:16%"><col style="width:18%"><col style="width:20%"></colgroup>
+        <thead><tr><th>Item Issued</th><th>Qty</th><th>Size</th><th>Date Issued</th></tr></thead>
+        <tbody>
+          <tr><td>Hard Hat</td><td></td><td></td><td></td></tr>
+          <tr><td>Safety Glasses</td><td></td><td></td><td></td></tr>
+          <tr><td>High-Visibility Apparel</td><td></td><td></td><td></td></tr>
+          <tr><td>Gloves</td><td></td><td></td><td></td></tr>
+          <tr><td>Hearing Protection</td><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td><td></td></tr>
+          <tr><td></td><td></td><td></td><td></td></tr>
+        </tbody>
+      </table>
+      <div class="sig">
+        <div><div class="ln"></div><div class="cap">Employee Signature</div></div>
+        <div><div class="ln"></div><div class="cap">Date</div></div>
+        <div><div class="ln"></div><div class="cap">Issued By</div></div>
+        <div><div class="ln"></div><div class="cap">Date</div></div>
+      </div>
+    </section>
+
+    <!-- FORM 6 -->
+    <section class="form" data-screen-label="06 Tool & Equipment">
+      <div class="kicker">Form 6 of 7</div>
+      <div class="form-head"><span class="n">06</span><h2>Tool &amp; Equipment Issue Record</h2></div>
+      <div class="rule"></div>
+      <p>Record Company tools and equipment issued to the employee. The employee is responsible for the care and return of all issued items. Unreturned items may be addressed as permitted by law.</p>
+      <table class="t">
+        <colgroup><col style="width:34%"><col style="width:20%"><col style="width:15%"><col style="width:15%"><col style="width:16%"></colgroup>
+        <thead><tr><th>Tool / Equipment</th><th>Serial / ID</th><th>Issued</th><th>Returned</th><th>Condition</th></tr></thead>
+        <tbody>
+          <tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr>
+        </tbody>
+      </table>
+      <div class="sig">
+        <div><div class="ln"></div><div class="cap">Employee Signature</div></div>
+        <div><div class="ln"></div><div class="cap">Date</div></div>
+      </div>
+    </section>
+
+    <!-- FORM 7 -->
+    <section class="form" data-screen-label="07 Fleet / Driver">
+      <div class="kicker">Form 7 of 7</div>
+      <div class="form-head"><span class="n">07</span><h2>Fleet / Driver Acknowledgement &amp; MVR Authorization</h2></div>
+      <div class="rule"></div>
+      <div class="ack">
+        <p>I acknowledge that I have received and reviewed the DunRite Construction Group LLC Fleet Safety Program. I understand that operating a Company vehicle is a privilege requiring a valid license, an acceptable driving record, and compliance with that Program.</p>
+        <p>I agree to wear my seatbelt at all times, obey all traffic laws, refrain from texting and handheld phone use while driving, and never operate a vehicle while impaired. I will immediately report any change to my license status, any serious traffic violation or DUI, and any accident involving a Company vehicle or a personal vehicle used for Company business.</p>
+        <p>I <strong>authorize</strong> DunRite Construction Group LLC to obtain and review my Motor Vehicle Record (MVR) at hire and periodically during my employment.</p>
+      </div>
+      <div class="frow"><div class="lab">Driver's License No. / State</div><div class="ln"></div></div>
+      <div class="sig">
+        <div><div class="ln"></div><div class="cap">Driver Name (Print)</div></div>
+        <div><div class="ln"></div><div class="cap">Date of Birth</div></div>
+        <div><div class="ln"></div><div class="cap">Driver Signature</div></div>
+        <div><div class="ln"></div><div class="cap">Date</div></div>
+      </div>
+      <div style="margin-top:34px; padding-top:14px; border-top:1px solid #948e80;">
+        <p style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.12em; text-transform:uppercase; color:var(--soft); margin:0;">DunRite Construction Group LLC · Employee Sign-Off Forms · 2026 Edition</p>
+      </div>
+    </section>
+
+    </td></tr></tbody>
+    <tfoot><tr><td class="ftr-space"></td></tr></tfoot>
+  </table>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;8.5in&quot;}}"></script>
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<style>
+  :root{ --paper:#f6f4ef; --ink:#1d2127; --muted:#6c7077; --soft:#8b8f96; --accent:#0e6ea8; --sky:#1ca0e0; --char:#272b31; --hair:#d7d2c6; --card:#fffdf8; }
+  body{ margin:0; background:var(--paper); color:var(--ink); font-family:"Source Serif 4",Georgia,serif; -webkit-font-smoothing:antialiased; }
+  .doc{ box-sizing:border-box; max-width:8.5in; margin:0 auto; padding:0 clamp(20px,5vw,0.75in) 96px; }
+  .doc-frame{ width:100%; border-collapse:collapse; } .doc-frame td{ padding:0; }
+  .running-hdr,.running-ftr,.hdr-space,.ftr-space{ display:none; }
+  h1,h2,h3,h4{ font-family:"Archivo",sans-serif; color:var(--ink); margin:0; }
+  p{ font-size:14.5px; line-height:1.62; margin:0 0 12px; color:#2b3036; }
+  strong{ font-weight:700; }
+  .kicker{ font-family:"IBM Plex Mono",monospace; font-weight:600; font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:var(--soft); margin-bottom:6px; }
+  .rule{ height:0; border-top:1px solid var(--ink); position:relative; margin:11px 0 16px; }
+  .rule::before{ content:""; position:absolute; top:-2px; left:0; width:52px; height:3px; background:var(--accent); }
+  .page{ break-before:page; padding-top:16px; }
+  h4{ font-family:"Archivo",sans-serif; font-weight:700; font-size:12px; letter-spacing:0.05em; text-transform:uppercase; color:var(--accent); margin:22px 0 8px; }
+  .tree{ font-family:"IBM Plex Mono",monospace; font-size:12.5px; line-height:1.85; background:var(--card); border:1px solid var(--hair); border-radius:5px; padding:20px 22px; margin:10px 0 16px; color:#2b3036; white-space:pre; overflow-x:auto; }
+  .tree .f{ color:var(--accent); font-weight:600; }
+  .tree .c{ color:var(--soft); }
+  .note{ background:var(--card); border:1px solid var(--hair); border-left:3px solid var(--accent); border-radius:3px; padding:14px 18px; margin:16px 0; }
+  .note .lbl{ font-family:"Archivo",sans-serif; font-weight:700; font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); display:block; margin-bottom:5px; }
+  .note p{ margin:0; font-size:13.5px; }
+  table.t{ width:100%; border-collapse:collapse; margin:12px 0; font-size:13px; table-layout:fixed; }
+  table.t th{ background:var(--char); color:#fff; font-family:"Archivo",sans-serif; font-weight:600; font-size:10.5px; letter-spacing:0.04em; text-transform:uppercase; text-align:left; padding:8px 10px; border:1px solid var(--char); }
+  table.t td{ border:1px solid var(--hair); padding:9px 10px; vertical-align:top; line-height:1.45; }
+  table.t td:first-child{ font-family:"IBM Plex Mono",monospace; font-weight:600; color:var(--ink); font-size:12px; }
+  h3,h4{ break-after:avoid; } h4+ul,h4+ol,h3+ul,h3+ol,h4+table,h4+p{ break-before:avoid; }
+  .blankback{ display:none; }
+  @page{ size:letter; margin:0; }
+  @media print{
+    .blankback{ display:flex !important; align-items:center; justify-content:center; min-height:6in; break-before:page; break-after:page; }
+    .blankback span{ font-family:"IBM Plex Mono",monospace; font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:#b8b3a6; }
+    html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; } html,body{ margin:0; padding:0; }
+    .doc{ max-width:none !important; margin:0 !important; padding:0 0.65in !important; }
+    #dc-root,.sc-host{ height:auto !important; }
+    .hdr-space,.ftr-space{ display:table-cell; height:0.62in !important; }
+    .running-hdr,.running-ftr{ display:flex !important; justify-content:space-between; align-items:baseline; position:fixed !important; left:0; right:0; margin:0 !important; font-family:"IBM Plex Mono",monospace; font-size:8px; letter-spacing:0.12em; text-transform:uppercase; color:var(--soft); }
+    .running-hdr{ top:0; padding:0.3in 0.65in 0 !important; } .running-ftr{ bottom:0; padding:0 0.65in 0.3in !important; }
+    h2,h3,h4{ break-after:avoid; } table,tr,.note,.tree{ break-inside:avoid; }
+    .cover{ break-after:page; }
+  }
+
+  .wm{ position:fixed; inset:0; background:url("assets/dunrite-mark.png") no-repeat center; background-size:360px auto; opacity:0.07; transform:rotate(-20deg); pointer-events:none; z-index:0; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .doc{ position:relative; z-index:1; }
+</style>
+</helmet>
+<main class="doc">
+  <div class="wm" aria-hidden="true"></div>
+  <div class="running-hdr"><span>DunRite Construction Group LLC</span><span>Dropbox Project Folder Template</span></div>
+  <div class="running-ftr"><span>Confidential — File Standards</span><span>2026 Edition</span></div>
+  <table class="doc-frame" role="presentation">
+    <thead><tr><td class="hdr-space"></td></tr></thead>
+    <tbody><tr><td>
+
+    <!-- COVER -->
+        <!-- ===================== COVER — Centered Monolith ===================== -->
+    <section class="cover" data-screen-label="Cover" style="background:#ffffff; color:#1d2127; border:1px solid #dcd7cb; border-radius:4px; margin:0 0 40px; padding:96px clamp(40px,7vw,84px); min-height:9.4in; box-sizing:border-box; position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+      <img src="assets/dunrite-logo-dark.png" alt="DunRite Construction Group LLC" style="display:block; width:248px; max-width:62%; height:auto; margin:0 auto;">
+      <div style="width:64px; height:3px; background:#1ca0e0; margin:46px auto 30px; border-radius:2px;"></div>
+      <div style="font-family:'Archivo',sans-serif; font-weight:600; font-size:13px; letter-spacing:0.34em; text-transform:uppercase; color:#1ca0e0;">Standard Project Filing</div>
+      <h1 style="font-family:'Archivo',sans-serif; font-weight:800; font-size:54px; line-height:1.0; letter-spacing:-0.028em; margin:20px 0 0; color:#1d2127; text-align:left;">Dropbox Project<br>Folder Template</h1>
+    </section>
+
+    <!-- BLANK BACK OF TITLE PAGE -->
+    <section class="blankback" aria-hidden="true"><span>This page intentionally left blank</span></section>
+
+    <!-- HOW TO USE -->
+    <section data-screen-label="How to Use">
+      <div class="kicker">DunRite Construction Group LLC</div>
+      <h2 style="font-size:26px; letter-spacing:-0.01em;">How to Use This Template</h2>
+      <div class="rule"></div>
+      <p>Every project lives in one folder, named the same way, with the same sub-folders inside. This keeps files predictable and makes handoffs, audits, and closeouts painless. Jobs start in the <strong>Bid Folder</strong> (next page) and move here once contracted.</p>
+      <div class="note"><span class="lbl">Naming standard</span><p>Name each project folder <strong>YYYY — Project Name — Lot/Address</strong> (e.g. <em>2026 — Maple Ridge — Lot 14</em>). Keep file names descriptive and dated where it matters: <strong>YYYY-MM-DD Description</strong>.</p></div>
+      <h4>Setting up a new project</h4>
+      <ol style="font-size:14px; line-height:1.6; padding-left:20px;">
+        <li>Copy the <strong>_TEMPLATE — Project</strong> folder.</li>
+        <li>Rename the copy using the naming standard above.</li>
+        <li>Drop the <strong>Project Management Workbook</strong> into <em>01 Contract &amp; Admin</em>.</li>
+        <li>File documents into the matching sub-folder as the job progresses.</li>
+        <li>At closeout, confirm every folder is complete and move the project to <em>Archive</em>.</li>
+      </ol>
+    </section>
+
+    <!-- BID PHASE -->
+    <section class="page" data-screen-label="Bid Phase">
+      <div class="kicker">DunRite Construction Group LLC</div>
+      <h2 style="font-size:26px; letter-spacing:-0.01em;">Bid Phase — Before the Contract</h2>
+      <div class="rule"></div>
+      <p>Every job starts in the <strong>Bid Folder</strong>, not the project template. Bid files carry the <strong>BID prefix</strong> so estimating work never mixes with contracted work.</p>
+      <div class="note"><span class="lbl">Bid naming standard</span><p><strong>BID_###_ProjectName_Document_MM.DD.YY</strong> — bid number, project name, what it is, date received or issued (e.g. <em>BID_123_BlankHouse_PlanSet_06.15.26</em>).</p></div>
+      <div class="tree"><span class="f">📁 Bids</span>
+   <span class="f">📁 BID_123_BlankHouse</span>
+      📄 BID_123_BlankHouse_PlanSet_06.15.26        <span class="c"># plan set as received</span>
+      📄 BID_123_BlankHouse_Takeoffs_06.16.26       <span class="c"># quantity takeoffs</span>
+      <span class="f">📁 BID_123_BlankHouse_BidProposal_06.17.26</span>   <span class="c"># bid proposal + budget + schedule</span>
+      <span class="f">📁 BID_123_BlankHouse_RetBids</span>                <span class="c"># returned sub bids</span>
+      <span class="f">📁 BID_123_BlankHouse_PrevPlans</span>              <span class="c"># superseded plan sets</span>
+      📄 PlanRevis_1_123_BlankHouse_06.14.26        <span class="c"># plan revisions, numbered</span>
+      📄 PlanRevis_2_123_BlankHouse_06.16.26
+      📄 PlanRevis_3_123_BlankHouse_06.17.26</div>
+      <div class="note"><span class="lbl">Bid proposal folder</span><p>The Bid Proposal folder always holds three things: the <strong>bid proposal</strong>, the <strong>budget</strong>, and the <strong>schedule</strong>.</p></div>
+      <h4>After the contract is signed</h4>
+      <ol style="font-size:14px; line-height:1.6; padding-left:20px;">
+        <li>Move the whole bid folder into <strong>Contracted Projects</strong>.</li>
+        <li>Rename the working files — <strong>drop the BID prefix</strong>, keep the number and name.</li>
+        <li>Then set up the full project folder using the standard structure on the next page.</li>
+      </ol>
+      <div class="tree"><span class="f">📁 Contracted Projects</span>
+   <span class="f">📁 123_BlankHouse</span>
+      📄 123_BlankHouse_PlanSet_06.19.26            <span class="c"># current contract set</span>
+      📄 123_BlankHouse_BidProposal_06.17.26        <span class="c"># as-accepted proposal</span>
+      📄 123_BlankHouse_Contract_06.17.26           <span class="c"># executed contract</span></div>
+    </section>
+
+    <!-- STRUCTURE -->
+    <section class="page" data-screen-label="Folder Structure">
+      <div class="kicker">DunRite Construction Group LLC</div>
+      <h2 style="font-size:26px; letter-spacing:-0.01em;">Standard Folder Structure</h2>
+      <div class="rule"></div>
+      <div class="tree"><span class="f">📁 YYYY — Project Name — Lot/Address</span>
+   <span class="f">📁 01 Contract &amp; Admin</span>          <span class="c"># contract, insurance, permits, NOC</span>
+   <span class="f">📁 02 Estimating &amp; Bids</span>         <span class="c"># takeoffs, bid packets, leveling</span>
+   <span class="f">📁 03 Budget &amp; Cost</span>             <span class="c"># budget, buyout, change orders</span>
+   <span class="f">📁 04 Subcontracts &amp; POs</span>        <span class="c"># executed subs, purchase orders</span>
+   <span class="f">📁 05 Plans &amp; Specs</span>             <span class="c"># current set, revisions, addenda</span>
+   <span class="f">📁 06 RFIs &amp; Submittals</span>         <span class="c"># RFI log, submittal log, approvals</span>
+   <span class="f">📁 07 Schedule</span>                  <span class="c"># baseline &amp; updates, look-aheads</span>
+   <span class="f">📁 08 Daily Reports &amp; Logs</span>      <span class="c"># daily reports, toolbox talks</span>
+   <span class="f">📁 09 Safety</span>                    <span class="c"># JHAs, inspections, incidents</span>
+   <span class="f">📁 10 Photos</span>                    <span class="c"># by date / phase</span>
+   <span class="f">📁 11 Invoices &amp; Pay Apps</span>       <span class="c"># owner pay apps, vendor invoices</span>
+   <span class="f">📁 12 Closeout</span>                  <span class="c"># warranties, as-builts, O&amp;M, lien releases</span></div>
+      <div class="note"><span class="lbl">Tip</span><p>Keep only the <strong>current</strong> plan set at the top of <em>05 Plans &amp; Specs</em>; move superseded sets into a <em>Superseded</em> sub-folder so no one builds from an old drawing.</p></div>
+    </section>
+
+    <!-- WHAT GOES WHERE -->
+    <section class="page" data-screen-label="What Goes Where">
+      <div class="kicker">DunRite Construction Group LLC</div>
+      <h2 style="font-size:26px; letter-spacing:-0.01em;">What Goes Where</h2>
+      <div class="rule"></div>
+      <table class="t">
+        <colgroup><col style="width:34%"><col style="width:66%"></colgroup>
+        <thead><tr><th>Folder</th><th>What to file here</th></tr></thead>
+        <tbody>
+          <tr><td>01 Contract &amp; Admin</td><td>Signed contract, insurance certificates, permits, Notice of Commencement, owner correspondence.</td></tr>
+          <tr><td>02 Estimating &amp; Bids</td><td>Takeoffs, bid invitations, sub bids, bid leveling, Bid Packet Progress tracker.</td></tr>
+          <tr><td>03 Budget &amp; Cost</td><td>Original budget, buyout log, cost tracking, change order log and backup.</td></tr>
+          <tr><td>04 Subcontracts &amp; POs</td><td>Executed subcontracts, purchase orders, vendor W-9s and insurance.</td></tr>
+          <tr><td>05 Plans &amp; Specs</td><td>Current drawing set and specifications, revisions, addenda, Superseded sub-folder.</td></tr>
+          <tr><td>06 RFIs &amp; Submittals</td><td>RFI log and responses, submittal log, shop drawings, product data, approvals.</td></tr>
+          <tr><td>07 Schedule</td><td>Baseline schedule, updates, two-week look-aheads.</td></tr>
+          <tr><td>08 Daily Reports &amp; Logs</td><td>Daily reports, manpower, toolbox talk sign-offs, delay documentation.</td></tr>
+          <tr><td>09 Safety</td><td>Job Hazard Analyses, safety inspections, incident reports, training records.</td></tr>
+          <tr><td>10 Photos</td><td>Progress photos organized by date or phase; pre-existing condition photos.</td></tr>
+          <tr><td>11 Invoices &amp; Pay Apps</td><td>Owner pay applications, vendor and sub invoices, lien waivers.</td></tr>
+          <tr><td>12 Closeout</td><td>Warranties, as-builts, O&amp;M manuals, final lien releases, final inspection.</td></tr>
+        </tbody>
+      </table>
+      <div style="margin-top:24px; padding-top:14px; border-top:1px solid #948e80;">
+        <p style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.12em; text-transform:uppercase; color:var(--soft); margin:0;">DunRite Construction Group LLC · Dropbox Project Folder Template · 2026 Edition</p>
+      </div>
+    </section>
+
+    </td></tr></tbody>
+    <tfoot><tr><td class="ftr-space"></td></tr></tfoot>
+  </table>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;8.5in&quot;}}"></script>
+</body>
+</html>

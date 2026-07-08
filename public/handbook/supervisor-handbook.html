@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f6f4ef; --ink:#1d2127; --muted:#6c7077; --soft:#8b8f96;
+    --accent:#0e6ea8; --sky:#1ca0e0; --navy:#15273b; --hair:#dcd7cb;
+    --card:#fffdf8; --tint:#eef4f8;
+  }
+  body{ margin:0; background:var(--paper); color:var(--ink);
+        font-family:"Source Serif 4",Georgia,serif; -webkit-font-smoothing:antialiased; }
+  .doc{ box-sizing:border-box; max-width:8.5in; margin:0 auto; background:inherit;
+        padding:0 clamp(20px,5vw,0.75in) 96px; }
+  .doc-frame{ width:100%; border-collapse:collapse; }
+  .doc-frame td{ padding:0; }
+  .running-hdr,.running-ftr,.hdr-space,.ftr-space{ display:none; }
+
+  h1,h2,h3,h4{ font-family:"Archivo",sans-serif; color:var(--ink); text-wrap:balance; margin:0; }
+  h2{ font-weight:800; font-size:28px; letter-spacing:-0.01em; line-height:1.08; }
+  h3{ font-weight:700; font-size:17px; margin:26px 0 8px; }
+  h4{ font-weight:700; font-size:13px; letter-spacing:0.07em; text-transform:uppercase; color:var(--accent); margin:22px 0 8px; }
+  p{ font-size:15px; line-height:1.65; margin:0 0 13px; color:#272b31; text-wrap:pretty; }
+  ul,ol{ font-size:15px; line-height:1.6; margin:4px 0 14px; padding-left:22px; color:#272b31; }
+  li{ margin:0 0 6px; text-wrap:pretty; }
+  li::marker{ color:var(--accent); }
+  strong{ font-weight:700; color:var(--ink); }
+  a{ color:var(--accent); text-decoration:none; }
+  .doc-frame em{ color:var(--muted); }
+
+  .sec{ break-before:page; padding-top:14px; }
+  .sec-head{ display:flex; align-items:flex-start; gap:18px; margin:0 0 6px; }
+  .sec-num{ font-family:"Archivo",sans-serif; font-weight:900; font-size:42px; line-height:0.84; color:var(--accent); flex:none; }
+  .sec-kicker{ font-family:"Archivo",sans-serif; font-weight:600; font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:var(--soft); margin:3px 0 4px; }
+  .rule{ height:2px; background:var(--ink); margin:12px 0 18px; }
+
+  .note{ background:var(--card); border:1px solid var(--hair); border-left:3px solid var(--accent); padding:15px 20px; margin:18px 0; border-radius:2px; }
+  .note p{ margin:0; font-size:14px; }
+  .note .lbl{ font-family:"Archivo",sans-serif; font-weight:700; font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent); display:block; margin-bottom:6px; }
+  .note.fla{ border-left-color:var(--sky); } .note.fla .lbl{ color:#0f86c4; }
+  .note.danger{ border-left-color:#b3471f; background:#fbf2ee; } .note.danger .lbl{ color:#b3471f; }
+  .note.legal{ border-left-color:#9a7b1e; } .note.legal .lbl{ color:#9a7b1e; }
+
+  table.t{ width:100%; border-collapse:collapse; margin:16px 0 20px; font-size:14px; }
+  table.t th{ font-family:"Archivo",sans-serif; font-weight:700; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; text-align:left; color:var(--ink); border-bottom:2px solid var(--ink); padding:8px 12px; }
+  table.t td{ border-bottom:1px solid #948e80; padding:10px 12px; vertical-align:top; line-height:1.5; }
+  table.t td:first-child{ font-weight:600; color:var(--ink); }
+
+  .steps{ counter-reset:st; list-style:none; padding:0; margin:12px 0 16px; }
+  .steps li{ position:relative; padding:3px 0 14px 44px; counter-increment:st; }
+  .steps li::before{ content:counter(st); position:absolute; left:0; top:0; width:28px; height:28px; border-radius:50%; background:var(--accent); color:#fff; font-family:"Archivo",sans-serif; font-weight:700; font-size:13px; display:flex; align-items:center; justify-content:center; }
+  .steps li strong{ display:block; }
+
+  .check{ list-style:none; padding:0; margin:14px 0 20px; }
+  .check li{ position:relative; padding:10px 0 10px 38px; border-bottom:1px solid #948e80; font-size:14.5px; line-height:1.5; }
+  .check li::before{ content:""; position:absolute; left:0; top:11px; width:18px; height:18px; border:2px solid var(--accent); border-radius:4px; background:var(--card); }
+
+  h3,h4{ break-after:avoid; } h4+ul,h4+ol,h3+ul,h3+ol,h4+table,h4+p{ break-before:avoid; }
+  .blankback{ display:none; }
+  @page{ size:letter; margin:0; }
+  @media print{
+    .blankback{ display:flex !important; align-items:center; justify-content:center; min-height:6in; break-before:page; break-after:page; }
+    .blankback span{ font-family:"IBM Plex Mono",monospace; font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:#b8b3a6; }
+    html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    html,body{ margin:0; padding:0; }
+    .doc{ max-width:none !important; margin:0 !important; padding:0 0.75in !important; box-shadow:none !important; border:none !important; }
+    #dc-root,.sc-host{ height:auto !important; }
+    .hdr-space,.ftr-space{ display:table-cell; height:0.7in !important; }
+    .running-hdr,.running-ftr{ display:flex !important; justify-content:space-between; align-items:baseline; position:fixed !important; left:0; right:0; margin:0 !important; font-family:"Archivo",sans-serif; font-size:9px; letter-spacing:0.12em; text-transform:uppercase; color:var(--soft); }
+    .running-hdr{ top:0; padding:0.32in 0.75in 0 !important; }
+    .running-ftr{ bottom:0; padding:0 0.75in 0.32in !important; }
+    h1,h2,h3,h4{ break-after:avoid; }
+    figure,pre,blockquote,table,tr,.note,.steps li,.check li{ break-inside:avoid; }
+    p,li{ orphans:3; widows:3; }
+    .cover,.frontmatter{ break-after:page; }
+    .screen-only{ display:none !important; }
+  }
+
+/* ---- polish pass ---- */
+p{ line-height:1.7; color:#2b3036; }
+h2{ letter-spacing:-0.02em; }
+.rule{ height:0 !important; background:transparent !important; border:0; border-top:1px solid var(--ink); position:relative; }
+.rule::before{ content:""; position:absolute; top:-2px; left:0; width:52px; height:3px; background:var(--accent); }
+.rule + p{ font-size:16.5px; line-height:1.66; color:#1b1f25; }
+.sec-num{ letter-spacing:-.03em; }
+h4{ display:flex; align-items:center; gap:9px; }
+h4::before{ content:""; width:15px; height:2px; background:currentColor; opacity:.8; flex:none; }
+.note{ border-radius:3px; box-shadow:0 1px 2px rgba(21,39,59,.04); }
+table.t td{ padding-top:11px; padding-bottom:11px; }
+table.t th{ letter-spacing:.1em; }
+
+  .wm{ position:fixed; inset:0; background:url("assets/dunrite-mark.png") no-repeat center; background-size:360px auto; opacity:0.07; transform:rotate(-20deg); pointer-events:none; z-index:0; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .doc{ position:relative; z-index:1; }
+</style>
+</helmet>
+<main class="doc">
+  <div class="wm" aria-hidden="true"></div>
+  <div class="running-hdr"><span>DunRite Construction Group LLC</span><span>Supervisor Handbook · 2026</span></div>
+  <div class="running-ftr"><span>Confidential — For Supervisors &amp; Managers</span><span>Effective January 2026 · Rev. 1.0</span></div>
+  <table class="doc-frame" role="presentation">
+    <thead><tr><td class="hdr-space"></td></tr></thead>
+    <tbody><tr><td>
+
+    <!-- COVER -->
+        <!-- ===================== COVER — Centered Monolith ===================== -->
+    <section class="cover" data-screen-label="Cover" style="background:#ffffff; color:#1d2127; border:1px solid #dcd7cb; border-radius:4px; margin:0 0 40px; padding:96px clamp(40px,7vw,84px); min-height:9.4in; box-sizing:border-box; position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+      <img src="assets/dunrite-logo-dark.png" alt="DunRite Construction Group LLC" style="display:block; width:248px; max-width:62%; height:auto; margin:0 auto;">
+      <div style="width:64px; height:3px; background:#1ca0e0; margin:46px auto 30px; border-radius:2px;"></div>
+      <div style="font-family:'Archivo',sans-serif; font-weight:600; font-size:13px; letter-spacing:0.34em; text-transform:uppercase; color:#1ca0e0;">Supervisor Handbook</div>
+      <h1 style="font-family:'Archivo',sans-serif; font-weight:800; font-size:54px; line-height:1.0; letter-spacing:-0.028em; margin:20px 0 0; color:#1d2127; text-align:left;">Set the Standard</h1>
+    </section>
+
+    <!-- BLANK BACK OF TITLE PAGE -->
+    <section class="blankback" aria-hidden="true"><span>This page intentionally left blank</span></section>
+
+    <!-- FRONT MATTER -->
+    <section class="frontmatter" data-screen-label="Overview">
+      <div class="sec-kicker" style="margin-top:8px;">DunRite Construction Group LLC</div>
+      <h2 style="font-size:32px; margin-bottom:8px;">About This Handbook</h2>
+      <div class="rule"></div>
+      <p>As a supervisor, you are the face of DunRite to your crew and the first line of defense for safety, quality, and fair treatment. This handbook is your field guide: it explains what the Company expects of you as a leader and gives you practical tools to handle the day-to-day situations supervisors face — coaching, discipline, complaints, injuries, and documentation.</p>
+      <p>This is a companion to the Employee Handbook, Safety Manual, and SOP Manual, not a replacement. When in doubt, follow those documents and reach out to the office. Your judgment, consistency, and example set the tone for everyone you lead.</p>
+
+      <div class="note legal">
+        <span class="lbl">Important — Please Read</span>
+        <p>This is a <strong>draft template</strong> for general information only and is not legal advice. Employment decisions — especially discipline, accommodation, leave, and termination — carry legal risk. Supervisors should involve the office and, where appropriate, qualified counsel before acting. Before adopting, DunRite should have this handbook reviewed by counsel and HR. Bracketed items must be completed.</p>
+      </div>
+
+      <h3 style="margin-top:30px;">Contents</h3>
+      <div class="rule" style="margin-top:10px;"></div>
+      <div style="font-family:'Archivo',sans-serif;">
+        <a href="#sec-1" style="display:flex; gap:14px; padding:7px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">01</span><span style="font-weight:500; font-size:14px;">The Supervisor's Role</span></a>
+        <a href="#sec-2" style="display:flex; gap:14px; padding:7px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">02</span><span style="font-weight:500; font-size:14px;">Leading the Crew</span></a>
+        <a href="#sec-3" style="display:flex; gap:14px; padding:7px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">03</span><span style="font-weight:500; font-size:14px;">Safety Leadership</span></a>
+        <a href="#sec-4" style="display:flex; gap:14px; padding:7px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">04</span><span style="font-weight:500; font-size:14px;">Performance &amp; Coaching</span></a>
+        <a href="#sec-5" style="display:flex; gap:14px; padding:7px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">05</span><span style="font-weight:500; font-size:14px;">Discipline &amp; Documentation</span></a>
+        <a href="#sec-6" style="display:flex; gap:14px; padding:7px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">06</span><span style="font-weight:500; font-size:14px;">Handling Complaints &amp; Investigations</span></a>
+        <a href="#sec-7" style="display:flex; gap:14px; padding:7px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">07</span><span style="font-weight:500; font-size:14px;">Timekeeping &amp; Pay Compliance</span></a>
+        <a href="#sec-8" style="display:flex; gap:14px; padding:7px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">08</span><span style="font-weight:500; font-size:14px;">When Things Go Wrong: Injuries &amp; Incidents</span></a>
+        <a href="#sec-9" style="display:flex; gap:14px; padding:7px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">09</span><span style="font-weight:500; font-size:14px;">Legal Landmines to Avoid</span></a>
+      </div>
+    </section>
+
+    <!-- 1 -->
+    <section class="sec" id="sec-1" data-screen-label="01 Supervisor Role">
+      <div class="sec-head"><div class="sec-num">01</div><div><div class="sec-kicker">Section One</div><h2>The Supervisor's Role</h2></div></div>
+      <div class="rule"></div>
+      <p>Supervisors carry the Company's authority and its responsibility. You direct the work, but you also model the standards: safety, quality, honesty, and respect. Your crew watches what you do far more than what you say.</p>
+      <h4>Your Core Responsibilities</h4>
+      <ul>
+        <li><strong>Safety</strong> — enforce the Safety Manual, lead toolbox talks and JHAs, correct hazards, and back up anyone who exercises Stop Work Authority.</li>
+        <li><strong>Productivity &amp; quality</strong> — plan the work, set clear expectations, and hold the crew to DunRite's standard of craftsmanship.</li>
+        <li><strong>People</strong> — train, coach, recognize good work, and address problems early and fairly.</li>
+        <li><strong>Compliance</strong> — apply Company policy consistently and document what matters.</li>
+        <li><strong>Communication</strong> — keep your crew informed and keep the office informed of issues, injuries, and needs.</li>
+      </ul>
+      <div class="note"><span class="lbl">Lead by Example</span><p>You cannot enforce a rule you break. Wear your PPE, follow the procedures, and own your mistakes. Credibility is a supervisor's most valuable tool.</p></div>
+    </section>
+
+    <!-- 2 -->
+    <section class="sec" id="sec-2" data-screen-label="02 Leading the Crew">
+      <div class="sec-head"><div class="sec-num">02</div><div><div class="sec-kicker">Section Two</div><h2>Leading the Crew</h2></div></div>
+      <div class="rule"></div>
+      <h4>Set Clear Expectations</h4>
+      <p>People perform to the standard you set and consistently hold. At the start of each day or task, make sure the crew knows the plan, the hazards, the quality standard, and who is responsible for what.</p>
+      <h4>Communicate Well</h4>
+      <ul>
+        <li>Be direct, respectful, and specific — praise in public, correct in private.</li>
+        <li>Listen. Your most experienced hands often see problems first.</li>
+        <li>Give feedback close to the moment, not weeks later.</li>
+        <li>Bridge language and experience gaps so instructions are truly understood.</li>
+      </ul>
+      <h4>Build the Team</h4>
+      <ul>
+        <li>Recognize good work and safe behavior out loud.</li>
+        <li>Develop people — delegate, teach, and give newer workers a capable buddy.</li>
+        <li>Treat everyone consistently; favoritism destroys trust and creates legal risk.</li>
+      </ul>
+      <div class="note fla"><span class="lbl">Florida Heat &amp; Crew Care</span><p>Looking after your crew includes the basics: water, rest, and shade. Build heat-illness prevention into the day, acclimate new workers, and watch for early symptoms. A supervisor who manages heat well prevents the most common Florida jobsite emergencies.</p></div>
+    </section>
+
+    <!-- 3 -->
+    <section class="sec" id="sec-3" data-screen-label="03 Safety Leadership">
+      <div class="sec-head"><div class="sec-num">03</div><div><div class="sec-kicker">Section Three</div><h2>Safety Leadership</h2></div></div>
+      <div class="rule"></div>
+      <p>Safety is the supervisor's first job. You are the Company's competent person on many tasks and the one who sets the safety tone for the crew.</p>
+      <h4>Daily Safety Routine</h4>
+      <ul class="check">
+        <li>Lead or assign the daily toolbox talk and document attendance.</li>
+        <li>Review the Job Hazard Analysis (JHA) for the day's tasks with the crew.</li>
+        <li>Walk the site for hazards before work begins and throughout the day.</li>
+        <li>Verify required PPE is worn and fall protection is in place.</li>
+        <li>Confirm equipment is inspected and operators are authorized.</li>
+        <li>Correct unsafe acts and conditions immediately.</li>
+      </ul>
+      <div class="note danger"><span class="lbl">Back Up Stop Work Authority</span><p>When anyone stops work over a safety concern, support them — every time. Never pressure a worker to skip fall protection, rush a trench, or bypass a guard to hit a deadline. Production never comes before safety, and that decision starts with you.</p></div>
+      <h4>If You See a Hazard</h4>
+      <p>Fix it or stop the work. Document the hazard and the correction. If a hazard is beyond your authority or resources to fix, escalate to the Safety Manager immediately and keep workers clear until it's resolved.</p>
+    </section>
+
+    <!-- 4 -->
+    <section class="sec" id="sec-4" data-screen-label="04 Performance & Coaching">
+      <div class="sec-head"><div class="sec-num">04</div><div><div class="sec-kicker">Section Four</div><h2>Performance &amp; Coaching</h2></div></div>
+      <div class="rule"></div>
+      <p>Most performance problems are best solved early, informally, and respectfully. Coaching is your everyday tool; formal discipline is for when coaching doesn't work or the conduct is serious.</p>
+      <h4>The Coaching Conversation</h4>
+      <ol class="steps">
+        <li><strong>Prepare.</strong><span>Know the specific facts — what happened, when, and the impact. Stick to behavior, not personality.</span></li>
+        <li><strong>Talk privately.</strong><span>Address the issue one-on-one, calmly and directly.</span></li>
+        <li><strong>Be specific &amp; clear.</strong><span>Describe the gap between what's expected and what happened, and why it matters (safety, quality, schedule).</span></li>
+        <li><strong>Agree on the fix.</strong><span>Set clear, achievable expectations and a timeframe; offer support and training.</span></li>
+        <li><strong>Follow up.</strong><span>Check back, recognize improvement, and note the conversation.</span></li>
+      </ol>
+      <div class="note"><span class="lbl">Document Coaching</span><p>Even informal coaching should be noted briefly (date, topic, what was agreed). If the issue escalates later, that record shows you addressed it fairly and consistently.</p></div>
+    </section>
+
+    <!-- 5 -->
+    <section class="sec" id="sec-5" data-screen-label="05 Discipline & Documentation">
+      <div class="sec-head"><div class="sec-num">05</div><div><div class="sec-kicker">Section Five</div><h2>Discipline &amp; Documentation</h2></div></div>
+      <div class="rule"></div>
+      <p>Follow the progressive discipline framework in the Employee Handbook (Section 15): coaching, verbal warning, written warning, final warning, termination — while reserving the right to skip steps for serious misconduct. <strong>Consistency is everything:</strong> treat similar situations similarly, regardless of who is involved.</p>
+      <div class="note danger"><span class="lbl">Loop in the Office First</span><p>Before issuing a <strong>written warning, suspension, or termination</strong>, contact the office / HR. Do not terminate an employee on your own authority unless you have been specifically authorized to do so. This protects both the Company and you.</p></div>
+      <h4>How to Document Well</h4>
+      <ul>
+        <li><strong>Be factual.</strong> Record observable facts — what was said and done, dates, times, witnesses — not opinions or labels.</li>
+        <li><strong>Be timely.</strong> Write it down while it's fresh.</li>
+        <li><strong>Be specific.</strong> "Arrived 45 minutes late on 3/4, 3/6, and 3/11 without notice" beats "always late."</li>
+        <li><strong>Tie it to policy.</strong> Reference the rule or expectation that was not met.</li>
+        <li><strong>Stay consistent.</strong> Apply the same standard to everyone.</li>
+        <li><strong>Keep it professional.</strong> Assume anything you write could be read in a hearing.</li>
+      </ul>
+      <h4>Written Warning Should Include</h4>
+      <ul>
+        <li>The specific problem and the facts supporting it.</li>
+        <li>The policy or expectation involved and prior steps taken.</li>
+        <li>The required improvement and timeframe.</li>
+        <li>The consequence of failing to improve.</li>
+        <li>Signatures (employee signature acknowledges receipt, not agreement).</li>
+      </ul>
+    </section>
+
+    <!-- 6 -->
+    <section class="sec" id="sec-6" data-screen-label="06 Complaints">
+      <div class="sec-head"><div class="sec-num">06</div><div><div class="sec-kicker">Section Six</div><h2>Handling Complaints &amp; Investigations</h2></div></div>
+      <div class="rule"></div>
+      <p>How you respond to a complaint matters enormously — legally and for crew trust. Take every complaint of harassment, discrimination, safety, or retaliation seriously.</p>
+      <h4>When an Employee Raises a Concern</h4>
+      <ol class="steps">
+        <li><strong>Listen and take it seriously.</strong><span>Don't dismiss, minimize, or promise to keep it secret. Thank them for coming forward.</span></li>
+        <li><strong>Don't investigate alone.</strong><span>Report harassment, discrimination, and retaliation complaints to the office / HR promptly so a proper, discreet investigation can occur.</span></li>
+        <li><strong>Protect against retaliation.</strong><span>Ensure no one is punished for raising a good-faith concern — including by you.</span></li>
+        <li><strong>Keep it confidential.</strong><span>Share only with those who need to know to investigate and act.</span></li>
+        <li><strong>Document.</strong><span>Note what was reported, when, and the steps taken.</span></li>
+      </ol>
+      <div class="note danger"><span class="lbl">Never Retaliate</span><p>Retaliating against someone for reporting a concern, filing a workers' comp claim, or participating in an investigation is illegal and strictly prohibited. This is one of the most common — and costly — supervisor mistakes.</p></div>
+    </section>
+
+    <!-- 7 -->
+    <section class="sec" id="sec-7" data-screen-label="07 Timekeeping">
+      <div class="sec-head"><div class="sec-num">07</div><div><div class="sec-kicker">Section Seven</div><h2>Timekeeping &amp; Pay Compliance</h2></div></div>
+      <div class="rule"></div>
+      <p>Wage-and-hour mistakes are expensive and personal to your crew. Supervisors must protect the accuracy of time records.</p>
+      <ul>
+        <li><strong>Pay for all time worked.</strong> Non-exempt employees must be paid for all hours actually worked — including pre-shift and post-shift work.</li>
+        <li><strong>No off-the-clock work.</strong> Never ask or allow employees to work off the clock, skip recorded breaks they're taking, or "round down" their time.</li>
+        <li><strong>Authorize overtime properly.</strong> Manage schedules to control overtime, but if an employee works it, they must be paid for it (1.5× over 40/week).</li>
+        <li><strong>Never alter time records improperly.</strong> Corrections must reflect actual time worked and be documented.</li>
+        <li><strong>Review and approve timecards</strong> accurately and on schedule.</li>
+      </ul>
+      <div class="note legal"><span class="lbl">FLSA Risk</span><p>Pressuring employees to underreport hours or work off the clock exposes the Company to FLSA back-pay, penalties, and lawsuits. If a worker reports a time error, fix it correctly and tell the office — don't bury it.</p></div>
+    </section>
+
+    <!-- 8 -->
+    <section class="sec" id="sec-8" data-screen-label="08 Injuries & Incidents">
+      <div class="sec-head"><div class="sec-num">08</div><div><div class="sec-kicker">Section Eight</div><h2>When Things Go Wrong: Injuries &amp; Incidents</h2></div></div>
+      <div class="rule"></div>
+      <p>When an injury or serious incident happens, your calm, correct response protects the worker and the Company.</p>
+      <h4>Immediate Response</h4>
+      <ol class="steps">
+        <li><strong>Care first.</strong><span>Get medical help — call 911 for emergencies. Make the area safe and keep others clear.</span></li>
+        <li><strong>Secure the scene.</strong><span>Where safe, preserve the scene and take photos for investigation.</span></li>
+        <li><strong>Notify.</strong><span>Contact the Safety Manager and office immediately. Remember OSHA's reporting deadlines (fatality within 8 hours; in-patient hospitalization, amputation, or eye loss within 24 hours).</span></li>
+        <li><strong>Support the claim.</strong><span>Direct the worker to authorized medical care; arrange post-accident testing where the policy applies.</span></li>
+        <li><strong>Document &amp; investigate.</strong><span>Complete the incident report and help find the root cause — to prevent the next one, not to assign blame.</span></li>
+      </ol>
+      <div class="note"><span class="lbl">Return to Work</span><p>Support injured workers' return, including light-duty or transitional assignments where available, and follow any medical restrictions. Stay in respectful contact — and never retaliate against someone for filing a workers' comp claim.</p></div>
+    </section>
+
+    <!-- 9 -->
+    <section class="sec" id="sec-9" data-screen-label="09 Legal Landmines">
+      <div class="sec-head"><div class="sec-num">09</div><div><div class="sec-kicker">Section Nine</div><h2>Legal Landmines to Avoid</h2></div></div>
+      <div class="rule"></div>
+      <p>A few supervisor mistakes cause most employment claims. Know these and steer clear.</p>
+      <table class="t">
+        <thead><tr><th style="width:42%;">Don't</th><th>Instead</th></tr></thead>
+        <tbody>
+          <tr><td>Promise "permanent" or guaranteed employment</td><td>Keep it at-will; only the President can alter that, in writing</td></tr>
+          <tr><td>Make decisions based on protected traits</td><td>Base decisions on performance, conduct, and safety — documented</td></tr>
+          <tr><td>Retaliate against complaints or claims</td><td>Protect those who report; escalate concerns to HR</td></tr>
+          <tr><td>Allow off-the-clock or unpaid work</td><td>Pay for all hours worked; record accurately</td></tr>
+          <tr><td>Ask about medical conditions or disabilities</td><td>Focus on the ability to do the job; route accommodation requests to HR</td></tr>
+          <tr><td>Ignore harassment "banter"</td><td>Stop it, report it, and document it</td></tr>
+          <tr><td>Terminate on the spot, on your own</td><td>Involve the office/HR before written warnings, suspensions, terminations</td></tr>
+          <tr><td>Discipline inconsistently</td><td>Treat similar cases similarly, and document why</td></tr>
+        </tbody>
+      </table>
+      <div class="note legal"><span class="lbl">When in Doubt, Ask</span><p>If you are unsure how to handle a personnel situation — discipline, accommodation, leave, a complaint, or a termination — pause and call the office / HR before acting. A two-minute call prevents most costly mistakes.</p></div>
+      <div style="margin-top:40px; padding-top:18px; border-top:1px solid #948e80;">
+        <p style="font-family:'Archivo',sans-serif; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--soft); margin:0;">DunRite Construction Group LLC · Supervisor Handbook · 2026 · Rev. 1.0 · Confidential</p>
+      </div>
+    </section>
+
+    </td></tr></tbody>
+    <tfoot><tr><td class="ftr-space"></td></tr></tfoot>
+  </table>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;8.5in&quot;},&quot;paper&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Warm cream&quot;,&quot;Bright white&quot;,&quot;Cool paper&quot;],&quot;default&quot;:&quot;Warm cream&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;accent&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;DunRite blue&quot;,&quot;Deep navy&quot;,&quot;Slate&quot;],&quot;default&quot;:&quot;DunRite blue&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  componentDidMount(){ this.applyTheme(); }
+  componentDidUpdate(){ this.applyTheme(); }
+  applyTheme(){
+    const root = document.documentElement;
+    const paper = { "Warm cream":"#f6f4ef", "Bright white":"#ffffff", "Cool paper":"#f3f5f8" };
+    const accent = { "DunRite blue":"#0e6ea8", "Deep navy":"#16324f", "Slate":"#3a4654" };
+    const p = paper[this.props.paper] || null;
+    const a = accent[this.props.accent] || null;
+    if (p) root.style.setProperty("--paper", p);
+    if (a) root.style.setProperty("--accent", a);
+  }
+  renderVals(){ return {}; }
+}
+</script>
+</body>
+</html>
