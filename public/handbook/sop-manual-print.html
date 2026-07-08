@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style data-omelette-print-defaults>
+@media print {
+  h1, h2, h3, h4, h5, h6 { break-after: avoid; }
+  figure, table, pre, blockquote, img, svg, tr, [class~="card" i] { break-inside: avoid; }
+  img, svg { max-width: 100%; }
+  p { orphans: 3; widows: 3; }
+}
+</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f6f4ef; --ink:#1d2127; --muted:#6c7077; --soft:#8b8f96;
+    --accent:#0e6ea8; --sky:#1ca0e0; --navy:#15273b; --hair:#dcd7cb;
+    --card:#fffdf8; --tint:#eef4f8;
+  }
+  body{ margin:0; background:var(--paper); color:var(--ink);
+        font-family:"Source Serif 4",Georgia,serif; -webkit-font-smoothing:antialiased; }
+  .doc{ box-sizing:border-box; max-width:8.5in; margin:0 auto; background:inherit;
+        padding:0 clamp(20px,5vw,0.75in) 96px; }
+  .doc-frame{ width:100%; border-collapse:collapse; }
+  .doc-frame td{ padding:0; }
+  .running-hdr,.running-ftr,.hdr-space,.ftr-space{ display:none; }
+
+  h1,h2,h3,h4{ font-family:"Archivo",sans-serif; color:var(--ink); text-wrap:balance; margin:0; }
+  h2{ font-weight:800; font-size:27px; letter-spacing:-0.01em; line-height:1.1; }
+  h3{ font-weight:700; font-size:17px; margin:26px 0 8px; }
+  h4{ font-weight:700; font-size:13px; letter-spacing:0.07em; text-transform:uppercase; color:var(--accent); margin:22px 0 8px; }
+  p{ font-size:15px; line-height:1.65; margin:0 0 13px; color:#272b31; text-wrap:pretty; }
+  ul,ol{ font-size:15px; line-height:1.6; margin:4px 0 14px; padding-left:22px; color:#272b31; }
+  li{ margin:0 0 6px; text-wrap:pretty; }
+  li::marker{ color:var(--accent); }
+  strong{ font-weight:700; color:var(--ink); }
+  a{ color:var(--accent); text-decoration:none; }
+  .doc-frame em{ color:var(--muted); }
+
+  .sec{ break-before:page; padding-top:14px; }
+  .sec-head{ display:flex; align-items:flex-start; gap:18px; margin:0 0 6px; }
+  .sec-num{ font-family:"Archivo",sans-serif; font-weight:900; font-size:34px; line-height:0.9; color:var(--accent); flex:none; white-space:nowrap; }
+  .sec-kicker{ font-family:"Archivo",sans-serif; font-weight:600; font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:var(--soft); margin:2px 0 4px; }
+  .rule{ height:2px; background:var(--ink); margin:12px 0 18px; }
+
+  /* SOP meta box */
+  .sopbox{ border:1px solid var(--hair); border-radius:3px; overflow:hidden; margin:14px 0 22px; background:var(--card); }
+  .sopbox .row{ display:grid; grid-template-columns:128px 1fr; border-bottom:1px solid #948e80; }
+  .sopbox .row:last-child{ border-bottom:none; }
+  .sopbox .k{ font-family:"Archivo",sans-serif; font-weight:700; font-size:10.5px; letter-spacing:0.1em; text-transform:uppercase; color:var(--accent); padding:11px 14px; border-right:1px solid var(--hair); background:var(--tint); }
+  .sopbox .v{ padding:11px 14px; font-size:14px; line-height:1.5; }
+
+  .note{ background:var(--card); border:1px solid var(--hair); border-left:3px solid var(--accent); padding:15px 20px; margin:18px 0; border-radius:2px; }
+  .note p{ margin:0; font-size:14px; }
+  .note .lbl{ font-family:"Archivo",sans-serif; font-weight:700; font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent); display:block; margin-bottom:6px; }
+
+  table.t{ width:100%; border-collapse:collapse; margin:16px 0 20px; font-size:14px; }
+  table.t th{ font-family:"Archivo",sans-serif; font-weight:700; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; text-align:left; color:var(--ink); border-bottom:2px solid var(--ink); padding:8px 12px; }
+  table.t td{ border-bottom:1px solid #948e80; padding:10px 12px; vertical-align:top; line-height:1.5; }
+  table.t td:first-child{ font-weight:600; color:var(--ink); }
+
+  .steps{ counter-reset:st; list-style:none; padding:0; margin:12px 0 16px; }
+  .steps li{ position:relative; padding:3px 0 14px 44px; counter-increment:st; }
+  .steps li::before{ content:counter(st); position:absolute; left:0; top:0; width:28px; height:28px; border-radius:50%; background:var(--accent); color:#fff; font-family:"Archivo",sans-serif; font-weight:700; font-size:13px; display:flex; align-items:center; justify-content:center; }
+  .steps li strong{ display:block; }
+
+  .part-divider{ break-before:page; background:var(--navy); color:#fff; border-radius:4px; padding:54px 48px; margin:0 0 36px; min-height:7.2in; box-sizing:border-box; display:flex; flex-direction:column; }
+
+  /* compact SOPs so each fits one page (no orphaned Records & Forms) */
+  .sec{ padding-top:8px !important; }
+  .sec p{ margin:0 0 8px; line-height:1.5; }
+  .sec h4{ margin:12px 0 5px; break-after:avoid; }
+  .sec h4 + ul{ break-before:avoid; }
+  .sec ul,.sec ol{ margin:3px 0 8px; }
+  .sec li{ margin:0 0 3px; }
+  .sec .steps li{ padding:2px 0 7px 44px; }
+  .sec .note{ margin:9px 0; padding:11px 16px; }
+  .blankback{ display:none; }
+  @page{ size:letter; margin:0; }
+  @media print{
+    .blankback{ display:flex !important; align-items:center; justify-content:center; min-height:6in; break-before:page; break-after:page; }
+    .blankback span{ font-family:"IBM Plex Mono",monospace; font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:#b8b3a6; }
+    html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    html,body{ margin:0; padding:0; }
+    .doc{ max-width:none !important; margin:0 !important; padding:0 0.75in !important; box-shadow:none !important; border:none !important; }
+    #dc-root,.sc-host{ height:auto !important; }
+    .hdr-space,.ftr-space{ display:table-cell; height:0.7in !important; }
+    .running-hdr,.running-ftr{ display:flex !important; justify-content:space-between; align-items:baseline; position:fixed !important; left:0; right:0; margin:0 !important; font-family:"Archivo",sans-serif; font-size:9px; letter-spacing:0.12em; text-transform:uppercase; color:var(--soft); }
+    .running-hdr{ top:0; padding:0.32in 0.75in 0 !important; }
+    .running-ftr{ bottom:0; padding:0 0.75in 0.32in !important; }
+    h1,h2,h3,h4{ break-after:avoid; }
+    figure,pre,blockquote,table,tr,.note,.steps li,.sopbox{ break-inside:avoid; }
+    p,li{ orphans:3; widows:3; }
+    .cover,.frontmatter{ break-after:page; }
+    .screen-only{ display:none !important; }
+  }
+
+/* ---- polish pass ---- */
+p{ line-height:1.7; color:#2b3036; }
+h2{ letter-spacing:-0.02em; }
+.rule{ height:0 !important; background:transparent !important; border:0; border-top:1px solid var(--ink); position:relative; }
+.rule::before{ content:""; position:absolute; top:-2px; left:0; width:52px; height:3px; background:var(--accent); }
+.rule + p{ font-size:16.5px; line-height:1.66; color:#1b1f25; }
+.sec-num{ letter-spacing:-.03em; }
+h4{ display:flex; align-items:center; gap:9px; }
+h4::before{ content:""; width:15px; height:2px; background:currentColor; opacity:.8; flex:none; }
+.note{ border-radius:3px; box-shadow:0 1px 2px rgba(21,39,59,.04); }
+table.t td{ padding-top:11px; padding-bottom:11px; }
+table.t th{ letter-spacing:.1em; }
+
+  .wm{ position:fixed; inset:0; background:url("assets/dunrite-mark.png") no-repeat center; background-size:360px auto; opacity:0.07; transform:rotate(-20deg); pointer-events:none; z-index:0; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .doc{ position:relative; z-index:1; }
+</style>
+</helmet>
+<main class="doc">
+  <div class="wm" aria-hidden="true"></div>
+  <div class="running-hdr"><span>DunRite Construction Group LLC</span><span>SOP Manual · 2026</span></div>
+  <div class="running-ftr"><span>Confidential — Internal Use Only</span><span>Effective January 2026 · Rev. 1.0</span></div>
+  <table class="doc-frame" role="presentation">
+    <thead><tr><td class="hdr-space"></td></tr></thead>
+    <tbody><tr><td>
+
+    <!-- ===================== COVER ===================== -->
+        <!-- ===================== COVER — Centered Monolith ===================== -->
+    <section class="cover" data-screen-label="Cover" style="background:#ffffff; color:#1d2127; border:1px solid #dcd7cb; border-radius:4px; margin:0 0 40px; padding:96px clamp(40px,7vw,84px); min-height:9.4in; box-sizing:border-box; position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+      <img src="assets/dunrite-logo-dark.png" alt="DunRite Construction Group LLC" style="display:block; width:248px; max-width:62%; height:auto; margin:0 auto;">
+      <div style="width:64px; height:3px; background:#1ca0e0; margin:46px auto 30px; border-radius:2px;"></div>
+      <div style="font-family:'Archivo',sans-serif; font-weight:600; font-size:13px; letter-spacing:0.34em; text-transform:uppercase; color:#1ca0e0;">Standard Operating Procedures</div>
+      <h1 style="font-family:'Archivo',sans-serif; font-weight:800; font-size:54px; line-height:1.0; letter-spacing:-0.028em; margin:20px 0 0; color:#1d2127; text-align:left;">How We Build,<br>Manage &amp; Deliver</h1>
+    </section>
+
+    <!-- BLANK BACK OF TITLE PAGE -->
+    <section class="blankback" aria-hidden="true"><span>This page intentionally left blank</span></section>
+
+    <!-- ===================== FRONT MATTER / TOC ===================== -->
+    <section class="frontmatter" data-screen-label="Contents">
+      <div class="sec-kicker" style="margin-top:8px;">DunRite Construction Group LLC</div>
+      <h2 style="font-size:32px; margin-bottom:8px;">About This Manual</h2>
+      <div class="rule"></div>
+      <p>This Standard Operating Procedures (SOP) Manual documents how DunRite Construction Group LLC performs its core operational, project-management, technology, and financial processes. Its purpose is consistency: when everyone follows the same proven steps, work is safer, cleaner, more predictable, and easier to audit. These SOPs complement — and do not replace — the Employee Handbook and the Safety Manual.</p>
+
+      <h4>How SOPs Are Numbered</h4>
+      <p>Each SOP carries a number tied to its part: the 100 series covers Field Operations, 200 Project Management, 300 Technology, and 400 Financial Controls. Every SOP states its Purpose, Scope, Process Owner, and effective revision, followed by the Procedure, Responsibilities, and the Records or Forms it produces.</p>
+
+      <div class="note">
+        <span class="lbl">Document control</span>
+        <p>This is <strong>Revision 1.0</strong>, effective January 2026. SOPs are living documents. Proposed changes should be submitted to the Operations Manager, who maintains version control. Always work from the current revision published in Procore / the company drive. Bracketed items such as roles, thresholds, and timeframes must be confirmed before publication.</p>
+      </div>
+
+      <h3 style="margin-top:16px;">Contents</h3>
+      <div class="rule" style="margin-top:10px;"></div>
+
+      <div style="font-family:'Archivo',sans-serif; margin-bottom:0; columns:2; column-gap:40px;">
+        <div style="font-weight:800; font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:var(--accent); margin:0 0 6px; break-inside:avoid; break-after:avoid;">Part 1 · Field Operations</div>
+        <a href="#sop-101" style="display:flex; gap:14px; padding:4px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:42px;">101</span><span style="font-weight:500; font-size:14px;">Daily Jobsite Reports</span></a>
+        <a href="#sop-102" style="display:flex; gap:14px; padding:4px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:42px;">102</span><span style="font-weight:500; font-size:14px;">Toolbox Talks</span></a>
+        <a href="#sop-103" style="display:flex; gap:14px; padding:4px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:42px;">103</span><span style="font-weight:500; font-size:14px;">Job Hazard Analysis (JHA)</span></a>
+        <a href="#sop-104" style="display:flex; gap:14px; padding:4px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:42px;">104</span><span style="font-weight:500; font-size:14px;">Equipment Inspection Program</span></a>
+        <a href="#sop-105" style="display:flex; gap:14px; padding:4px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:42px;">105</span><span style="font-weight:500; font-size:14px;">Fleet Management</span></a>
+        <a href="#sop-106" style="display:flex; gap:14px; padding:4px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:42px;">106</span><span style="font-weight:500; font-size:14px;">Subcontractor Management</span></a>
+
+        <div style="font-weight:800; font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:var(--accent); margin:14px 0 6px; break-inside:avoid; break-after:avoid;">Part 2 · Project Management</div>
+        <a href="#sop-201" style="display:flex; gap:14px; padding:4px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:42px;">201</span><span style="font-weight:500; font-size:14px;">Requests for Information (RFI)</span></a>
+        <a href="#sop-202" style="display:flex; gap:14px; padding:4px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:42px;">202</span><span style="font-weight:500; font-size:14px;">Submittals</span></a>
+        <a href="#sop-203" style="display:flex; gap:14px; padding:4px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:42px;">203</span><span style="font-weight:500; font-size:14px;">Change Orders</span></a>
+        <a href="#sop-204" style="display:flex; gap:14px; padding:4px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:42px;">204</span><span style="font-weight:500; font-size:14px;">Schedule Updates</span></a>
+        <a href="#sop-205" style="display:flex; gap:14px; padding:4px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:42px;">205</span><span style="font-weight:500; font-size:14px;">Quality Control Inspections</span></a>
+        <a href="#sop-206" style="display:flex; gap:14px; padding:4px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:42px;">206</span><span style="font-weight:500; font-size:14px;">Project Closeout</span></a>
+
+        <div style="font-weight:800; font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:var(--accent); margin:14px 0 6px; break-inside:avoid; break-after:avoid;">Part 3 · Technology</div>
+        <a href="#sop-301" style="display:flex; gap:14px; padding:4px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:42px;">301</span><span style="font-weight:500; font-size:14px;">Procore Standards</span></a>
+        <a href="#sop-302" style="display:flex; gap:14px; padding:4px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:42px;">302</span><span style="font-weight:500; font-size:14px;">Company Email Standards</span></a>
+        <a href="#sop-303" style="display:flex; gap:14px; padding:4px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:42px;">303</span><span style="font-weight:500; font-size:14px;">AI Usage Policy</span></a>
+        <a href="#sop-304" style="display:flex; gap:14px; padding:4px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:42px;">304</span><span style="font-weight:500; font-size:14px;">Document Retention</span></a>
+
+        <div style="font-weight:800; font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:var(--accent); margin:14px 0 6px; break-inside:avoid; break-after:avoid;">Part 4 · Financial Controls</div>
+        <a href="#sop-401" style="display:flex; gap:14px; padding:4px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:42px;">401</span><span style="font-weight:500; font-size:14px;">Purchasing Authority Matrix</span></a>
+        <a href="#sop-402" style="display:flex; gap:14px; padding:4px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:42px;">402</span><span style="font-weight:500; font-size:14px;">Company Credit Card Policy</span></a>
+        <a href="#sop-403" style="display:flex; gap:14px; padding:4px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:42px;">403</span><span style="font-weight:500; font-size:14px;">Expense Reimbursement</span></a>
+        <a href="#sop-404" style="display:flex; gap:14px; padding:4px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:42px;">404</span><span style="font-weight:500; font-size:14px;">Vendor Approval Process</span></a>
+      </div>
+    </section>
+
+    <!-- ============ PART 1 DIVIDER ============ -->
+    <section class="part-divider" data-screen-label="Part 1">
+      <div style="font-family:'Archivo',sans-serif; font-weight:600; font-size:13px; letter-spacing:0.3em; text-transform:uppercase; color:var(--sky);">Part One</div>
+      <div style="flex:1; display:flex; flex-direction:column; justify-content:center;">
+        <div style="font-family:'Archivo',sans-serif; font-weight:900; font-size:120px; line-height:0.85; color:#26405a;">01</div>
+        <h2 style="color:#fff; font-size:46px; margin:10px 0 0;">Field Operations</h2>
+        <p style="color:#c4d0dc; font-size:16px; max-width:5in; margin-top:16px;">The daily routines that keep our jobsites documented, safe, and well-coordinated — from the morning toolbox talk to the end-of-day report.</p>
+      </div>
+      <div style="font-family:'Archivo',sans-serif; font-size:13px; color:#7f93a8; border-top:1px solid #2c4258; padding-top:18px;">SOP 101 – 106</div>
+    </section>
+
+    <!-- ===== SOP 101 ===== -->
+    <section class="sec" id="sop-101" data-screen-label="SOP 101 Daily Reports">
+      <div class="sec-head"><div class="sec-num">101</div><div><div class="sec-kicker">Field Operations · SOP</div><h2>Daily Jobsite Reports</h2></div></div>
+      <div class="rule"></div>
+      <div class="sopbox">
+        <div class="row"><div class="k">Purpose</div><div class="v">Create a complete, contemporaneous record of each day's site activity, labor, conditions, and issues.</div></div>
+        <div class="row"><div class="k">Scope</div><div class="v">Every active jobsite, every working day.</div></div>
+        <div class="row"><div class="k">Owner</div><div class="v">Site Superintendent / Foreman</div></div>
+        <div class="row"><div class="k">Revision</div><div class="v">1.0 — Effective January 2026</div></div>
+      </div>
+
+      <h4>Procedure</h4>
+      <ol class="steps">
+        <li><strong>Capture conditions at start of day.</strong><span>Record weather, temperature, and any conditions affecting work (rain delay, heat, wind).</span></li>
+        <li><strong>Log labor and equipment.</strong><span>Enter crew headcount by trade, hours worked, subcontractors on site, and major equipment in use.</span></li>
+        <li><strong>Describe work performed.</strong><span>Summarize work completed by area/scope, deliveries received, and quantities installed.</span></li>
+        <li><strong>Document issues.</strong><span>Note delays, inspections, visitors, safety observations, incidents, and any open items requiring follow-up.</span></li>
+        <li><strong>Attach photos.</strong><span>Add dated progress photos of key work areas.</span></li>
+        <li><strong>Submit by deadline.</strong><span>Complete and submit the Daily Jobsite Report in Procore by the end of each shift. The Project Manager reviews within one business day.</span></li>
+      </ol>
+
+      <h4>Responsibilities</h4>
+      <ul>
+        <li><strong>Superintendent / Foreman</strong> — completes and submits the report daily.</li>
+        <li><strong>Project Manager</strong> — reviews reports, follows up on flagged issues.</li>
+      </ul>
+      <h4>Records &amp; Forms</h4>
+      <ul><li>Daily Jobsite Report (Procore Daily Log)</li><li>Progress photos</li></ul>
+    </section>
+
+    <!-- ===== SOP 102 ===== -->
+    <section class="sec" id="sop-102" data-screen-label="SOP 102 Toolbox Talks">
+      <div class="sec-head"><div class="sec-num">102</div><div><div class="sec-kicker">Field Operations · SOP</div><h2>Toolbox Talks</h2></div></div>
+      <div class="rule"></div>
+      <div class="sopbox">
+        <div class="row"><div class="k">Purpose</div><div class="v">Reinforce safe work practices through short, regular, jobsite-specific safety briefings.</div></div>
+        <div class="row"><div class="k">Scope</div><div class="v">All field crews and subcontractors on every active jobsite.</div></div>
+        <div class="row"><div class="k">Owner</div><div class="v">Site Superintendent / Foreman</div></div>
+        <div class="row"><div class="k">Revision</div><div class="v">1.0 — Effective January 2026</div></div>
+      </div>
+
+      <h4>Procedure</h4>
+      <ol class="steps">
+        <li><strong>Select a topic.</strong><span>Choose a relevant topic from the Toolbox Talk Library, prioritizing the day's tasks and recent incidents or near-misses.</span></li>
+        <li><strong>Conduct the talk.</strong><span>Hold the talk before work begins — typically weekly, and daily for high-risk work. Keep it brief (5–10 minutes) and specific to current site conditions.</span></li>
+        <li><strong>Encourage participation.</strong><span>Invite questions and discuss site-specific hazards and controls.</span></li>
+        <li><strong>Document attendance.</strong><span>Record the topic, date, and signatures of all attendees, including subcontractors.</span></li>
+        <li><strong>Submit the record.</strong><span>Upload the signed sign-in sheet to Procore.</span></li>
+      </ol>
+      <h4>Responsibilities</h4>
+      <ul>
+        <li><strong>Foreman</strong> — leads the talk and collects signatures.</li>
+        <li><strong>Safety Manager</strong> — maintains the Toolbox Talk Library and reviews records.</li>
+        <li><strong>All workers</strong> — attend and apply what is covered.</li>
+      </ul>
+      <h4>Records &amp; Forms</h4>
+      <ul><li>Toolbox Talk Sign-In Sheet</li><li>Toolbox Talk Library (topic source)</li></ul>
+    </section>
+
+    <!-- ===== SOP 103 ===== -->
+    <section class="sec" id="sop-103" data-screen-label="SOP 103 JHA">
+      <div class="sec-head"><div class="sec-num">103</div><div><div class="sec-kicker">Field Operations · SOP</div><h2>Job Hazard Analysis (JHA)</h2></div></div>
+      <div class="rule"></div>
+      <div class="sopbox">
+        <div class="row"><div class="k">Purpose</div><div class="v">Identify hazards and define controls before a task or phase begins.</div></div>
+        <div class="row"><div class="k">Scope</div><div class="v">New tasks, new phases, and any high-risk activity.</div></div>
+        <div class="row"><div class="k">Owner</div><div class="v">Foreman / Competent Person</div></div>
+        <div class="row"><div class="k">Revision</div><div class="v">1.0 — Effective January 2026</div></div>
+      </div>
+
+      <h4>Procedure</h4>
+      <ol class="steps">
+        <li><strong>Break the task into steps.</strong><span>List the sequence of steps required to complete the task.</span></li>
+        <li><strong>Identify hazards for each step.</strong><span>Note potential hazards — falls, struck-by, caught-in, electrical, heat, etc.</span></li>
+        <li><strong>Define controls.</strong><span>Specify the controls for each hazard following the hierarchy of controls (eliminate, substitute, engineering, administrative, PPE).</span></li>
+        <li><strong>Review with the crew.</strong><span>Walk the JHA with everyone performing the task before work starts; confirm understanding.</span></li>
+        <li><strong>Re-evaluate when conditions change.</strong><span>Update the JHA if the scope, crew, equipment, or site conditions change.</span></li>
+      </ol>
+      <h4>Responsibilities</h4>
+      <ul>
+        <li><strong>Foreman / Competent Person</strong> — prepares and reviews the JHA.</li>
+        <li><strong>Crew</strong> — participates in the review and follows the controls.</li>
+      </ul>
+      <div class="note"><span class="lbl">Cross-reference</span><p>JHAs support the Safety Manual. Detailed safety standards (fall protection, excavation, etc.) govern under the Safety Manual and OSHA 29 CFR 1926.</p></div>
+      <h4>Records &amp; Forms</h4>
+      <ul><li>Job Hazard Analysis Worksheet</li></ul>
+    </section>
+
+    <!-- ===== SOP 104 ===== -->
+    <section class="sec" id="sop-104" data-screen-label="SOP 104 Equipment Inspection">
+      <div class="sec-head"><div class="sec-num">104</div><div><div class="sec-kicker">Field Operations · SOP</div><h2>Equipment Inspection Program</h2></div></div>
+      <div class="rule"></div>
+      <div class="sopbox">
+        <div class="row"><div class="k">Purpose</div><div class="v">Keep tools, equipment, and machinery safe and serviceable through routine inspection.</div></div>
+        <div class="row"><div class="k">Scope</div><div class="v">All Company-owned and rented equipment and powered tools.</div></div>
+        <div class="row"><div class="k">Owner</div><div class="v">Equipment Manager / Operators</div></div>
+        <div class="row"><div class="k">Revision</div><div class="v">1.0 — Effective January 2026</div></div>
+      </div>
+
+      <h4>Procedure</h4>
+      <ol class="steps">
+        <li><strong>Perform pre-use inspections.</strong><span>Operators inspect equipment before each use against the applicable checklist (fluids, guards, controls, tires/tracks, attachments).</span></li>
+        <li><strong>Tag out defects.</strong><span>Remove defective equipment from service immediately, apply a "Do Not Use" tag, and report it.</span></li>
+        <li><strong>Schedule periodic maintenance.</strong><span>Perform manufacturer-recommended and periodic inspections on schedule; track service intervals.</span></li>
+        <li><strong>Log inspections.</strong><span>Record inspections, defects, and repairs in the equipment log.</span></li>
+        <li><strong>Verify before return to service.</strong><span>Confirm repairs are complete and the equipment passes inspection before reuse.</span></li>
+      </ol>
+      <h4>Responsibilities</h4>
+      <ul>
+        <li><strong>Operators</strong> — complete pre-use inspections and report defects.</li>
+        <li><strong>Equipment Manager</strong> — coordinates maintenance and maintains records.</li>
+      </ul>
+      <h4>Records &amp; Forms</h4>
+      <ul><li>Equipment Inspection Checklist</li><li>Equipment Service / Repair Log</li></ul>
+    </section>
+
+    <!-- ===== SOP 105 ===== -->
+    <section class="sec" id="sop-105" data-screen-label="SOP 105 Fleet Management">
+      <div class="sec-head"><div class="sec-num">105</div><div><div class="sec-kicker">Field Operations · SOP</div><h2>Fleet Management</h2></div></div>
+      <div class="rule"></div>
+      <div class="sopbox">
+        <div class="row"><div class="k">Purpose</div><div class="v">Manage Company vehicles for safety, availability, and cost control.</div></div>
+        <div class="row"><div class="k">Scope</div><div class="v">All Company-owned and leased vehicles and assigned drivers.</div></div>
+        <div class="row"><div class="k">Owner</div><div class="v">Fleet Coordinator</div></div>
+        <div class="row"><div class="k">Revision</div><div class="v">1.0 — Effective January 2026</div></div>
+      </div>
+
+      <h4>Procedure</h4>
+      <ol class="steps">
+        <li><strong>Assign and authorize.</strong><span>Assign vehicles only to authorized drivers with verified valid licenses and acceptable driving records.</span></li>
+        <li><strong>Inspect and maintain.</strong><span>Drivers perform regular walk-around inspections; the Fleet Coordinator schedules preventive maintenance by mileage/hours.</span></li>
+        <li><strong>Manage fuel and mileage.</strong><span>Use assigned fuel cards for fuel only; record mileage and retain receipts.</span></li>
+        <li><strong>Report problems and accidents.</strong><span>Report mechanical issues promptly; report any accident immediately per Handbook Section 13.</span></li>
+        <li><strong>Track the fleet.</strong><span>GPS data supports routing, maintenance, and accountability.</span></li>
+      </ol>
+      <h4>Responsibilities</h4>
+      <ul>
+        <li><strong>Drivers</strong> — operate safely, inspect, and report.</li>
+        <li><strong>Fleet Coordinator</strong> — maintains records, schedules service, reviews driving records.</li>
+      </ul>
+      <div class="note"><span class="lbl">Cross-reference</span><p>Vehicle safety, seatbelt, cell phone, DOT, and accident-reporting rules are in Employee Handbook Section 13 and the Fleet Safety Program.</p></div>
+      <h4>Records &amp; Forms</h4>
+      <ul><li>Vehicle Inspection Log</li><li>Maintenance / Service Records</li><li>Mileage &amp; Fuel Log</li></ul>
+    </section>
+
+    <!-- ===== SOP 106 ===== -->
+    <section class="sec" id="sop-106" data-screen-label="SOP 106 Subcontractor Mgmt">
+      <div class="sec-head"><div class="sec-num">106</div><div><div class="sec-kicker">Field Operations · SOP</div><h2>Subcontractor Management</h2></div></div>
+      <div class="rule"></div>
+      <div class="sopbox">
+        <div class="row"><div class="k">Purpose</div><div class="v">Ensure subcontractors are qualified, insured, contracted, and coordinated.</div></div>
+        <div class="row"><div class="k">Scope</div><div class="v">All subcontractors engaged on Company projects.</div></div>
+        <div class="row"><div class="k">Owner</div><div class="v">Project Manager</div></div>
+        <div class="row"><div class="k">Revision</div><div class="v">1.0 — Effective January 2026</div></div>
+      </div>
+
+      <h4>Procedure</h4>
+      <ol class="steps">
+        <li><strong>Prequalify.</strong><span>Evaluate experience, references, licensing, financial stability, and safety record before award.</span></li>
+        <li><strong>Verify insurance &amp; licensing.</strong><span>Collect a current Certificate of Insurance (COI) meeting Company requirements, W-9, and required Florida licenses before mobilization.</span></li>
+        <li><strong>Execute a subcontract.</strong><span>Issue a signed subcontract defining scope, schedule, price, insurance, and safety obligations before work begins.</span></li>
+        <li><strong>Orient on site.</strong><span>Provide jobsite safety orientation; subcontractors attend toolbox talks and follow Company site rules.</span></li>
+        <li><strong>Coordinate and evaluate.</strong><span>Coordinate daily scope and schedule; document performance and any deficiencies.</span></li>
+      </ol>
+      <h4>Responsibilities</h4>
+      <ul>
+        <li><strong>Project Manager</strong> — prequalifies, contracts, and evaluates subcontractors.</li>
+        <li><strong>Superintendent</strong> — coordinates daily field work and enforces site rules.</li>
+        <li><strong>Office</strong> — verifies COIs, W-9s, and licenses are current.</li>
+      </ul>
+      <h4>Records &amp; Forms</h4>
+      <ul><li>Subcontractor Prequalification Form</li><li>Certificate of Insurance &amp; W-9</li><li>Executed Subcontract Agreement</li></ul>
+    </section>
+
+    <!-- ============ PART 2 DIVIDER ============ -->
+    <section class="part-divider" data-screen-label="Part 2">
+      <div style="font-family:'Archivo',sans-serif; font-weight:600; font-size:13px; letter-spacing:0.3em; text-transform:uppercase; color:var(--sky);">Part Two</div>
+      <div style="flex:1; display:flex; flex-direction:column; justify-content:center;">
+        <div style="font-family:'Archivo',sans-serif; font-weight:900; font-size:120px; line-height:0.85; color:#26405a;">02</div>
+        <h2 style="color:#fff; font-size:46px; margin:10px 0 0;">Project Management</h2>
+        <p style="color:#c4d0dc; font-size:16px; max-width:5.2in; margin-top:16px;">The procedures that move a project from information requests to a clean closeout — keeping scope, schedule, cost, and quality under control.</p>
+      </div>
+      <div style="font-family:'Archivo',sans-serif; font-size:13px; color:#7f93a8; border-top:1px solid #2c4258; padding-top:18px;">SOP 201 – 206</div>
+    </section>
+
+    <!-- ===== SOP 201 ===== -->
+    <section class="sec" id="sop-201" data-screen-label="SOP 201 RFI">
+      <div class="sec-head"><div class="sec-num">201</div><div><div class="sec-kicker">Project Management · SOP</div><h2>Requests for Information (RFI)</h2></div></div>
+      <div class="rule"></div>
+      <div class="sopbox">
+        <div class="row"><div class="k">Purpose</div><div class="v">Obtain timely clarification of design or contract documents and create a clear record.</div></div>
+        <div class="row"><div class="k">Scope</div><div class="v">All projects requiring clarification from the design team or owner.</div></div>
+        <div class="row"><div class="k">Owner</div><div class="v">Project Manager / Project Engineer</div></div>
+        <div class="row"><div class="k">Revision</div><div class="v">1.0 — Effective January 2026</div></div>
+      </div>
+
+      <h4>Procedure</h4>
+      <ol class="steps">
+        <li><strong>Identify the question.</strong><span>Field or office staff identify an ambiguity, conflict, or missing information in the documents.</span></li>
+        <li><strong>Draft the RFI.</strong><span>Create the RFI in Procore with a clear question, references to drawings/specs, and a proposed solution where possible.</span></li>
+        <li><strong>Assign and route.</strong><span>Route to the architect/engineer or owner with a required response date and log it in the RFI register.</span></li>
+        <li><strong>Track to closure.</strong><span>Follow up before the due date; escalate overdue RFIs that affect schedule or cost.</span></li>
+        <li><strong>Distribute the answer.</strong><span>Share the response with affected field and trade partners and note any cost/schedule impact (which may trigger a Change Order, SOP 203).</span></li>
+      </ol>
+      <h4>Responsibilities</h4>
+      <ul>
+        <li><strong>Project Engineer</strong> — drafts, logs, and tracks RFIs.</li>
+        <li><strong>Project Manager</strong> — reviews, escalates, and evaluates impacts.</li>
+      </ul>
+      <h4>Records &amp; Forms</h4>
+      <ul><li>RFI (Procore)</li><li>RFI Register / Log</li></ul>
+    </section>
+
+    <!-- ===== SOP 202 ===== -->
+    <section class="sec" id="sop-202" data-screen-label="SOP 202 Submittals">
+      <div class="sec-head"><div class="sec-num">202</div><div><div class="sec-kicker">Project Management · SOP</div><h2>Submittals</h2></div></div>
+      <div class="rule"></div>
+      <div class="sopbox">
+        <div class="row"><div class="k">Purpose</div><div class="v">Confirm materials and equipment meet specifications before procurement and installation.</div></div>
+        <div class="row"><div class="k">Scope</div><div class="v">All shop drawings, product data, and samples required by the specifications.</div></div>
+        <div class="row"><div class="k">Owner</div><div class="v">Project Engineer</div></div>
+        <div class="row"><div class="k">Revision</div><div class="v">1.0 — Effective January 2026</div></div>
+      </div>
+
+      <h4>Procedure</h4>
+      <ol class="steps">
+        <li><strong>Build the submittal register.</strong><span>Extract all required submittals from the specifications and build a register with due dates aligned to the schedule.</span></li>
+        <li><strong>Collect from trade partners.</strong><span>Request shop drawings, product data, and samples from subcontractors and suppliers.</span></li>
+        <li><strong>Review for compliance.</strong><span>Check submittals against the specs; reject or return incomplete packages.</span></li>
+        <li><strong>Route for approval.</strong><span>Submit to the architect/engineer; track the review cycle in Procore.</span></li>
+        <li><strong>Release for procurement.</strong><span>Procure only from approved submittals; distribute approved copies to the field.</span></li>
+      </ol>
+      <h4>Responsibilities</h4>
+      <ul>
+        <li><strong>Project Engineer</strong> — maintains the register and manages the review cycle.</li>
+        <li><strong>Subcontractors / Suppliers</strong> — provide complete, timely submittals.</li>
+      </ul>
+      <h4>Records &amp; Forms</h4>
+      <ul><li>Submittal Register</li><li>Approved Submittals (Procore)</li></ul>
+    </section>
+
+    <!-- ===== SOP 203 ===== -->
+    <section class="sec" id="sop-203" data-screen-label="SOP 203 Change Orders">
+      <div class="sec-head"><div class="sec-num">203</div><div><div class="sec-kicker">Project Management · SOP</div><h2>Change Orders</h2></div></div>
+      <div class="rule"></div>
+      <div class="sopbox">
+        <div class="row"><div class="k">Purpose</div><div class="v">Document and price changes to scope, cost, or schedule and obtain authorization before proceeding.</div></div>
+        <div class="row"><div class="k">Scope</div><div class="v">Any change to contract scope, price, or time.</div></div>
+        <div class="row"><div class="k">Owner</div><div class="v">Project Manager</div></div>
+        <div class="row"><div class="k">Revision</div><div class="v">1.0 — Effective January 2026</div></div>
+      </div>
+
+      <h4>Procedure</h4>
+      <ol class="steps">
+        <li><strong>Identify the change.</strong><span>Recognize a change from an RFI response, owner request, field condition, or design revision.</span></li>
+        <li><strong>Prepare a PCO.</strong><span>Create a Potential Change Order with a detailed scope description and price (labor, material, equipment, subs, markup) and schedule impact.</span></li>
+        <li><strong>Submit for approval.</strong><span>Submit the PCO to the owner/architect for written approval.</span></li>
+        <li><strong>Do not proceed without authorization.</strong><span>Except for documented emergencies, do not perform changed work until written authorization is received.</span></li>
+        <li><strong>Execute and log.</strong><span>Issue the executed Change Order, update the contract value and schedule, and log it in the Change Order register.</span></li>
+      </ol>
+      <h4>Responsibilities</h4>
+      <ul>
+        <li><strong>Project Manager</strong> — prices, submits, and executes change orders.</li>
+        <li><strong>Superintendent</strong> — identifies field changes and supports pricing.</li>
+      </ul>
+      <h4>Records &amp; Forms</h4>
+      <ul><li>Potential Change Order (PCO)</li><li>Executed Change Order</li><li>Change Order Log</li></ul>
+    </section>
+
+    <!-- ===== SOP 204 ===== -->
+    <section class="sec" id="sop-204" data-screen-label="SOP 204 Schedule">
+      <div class="sec-head"><div class="sec-num">204</div><div><div class="sec-kicker">Project Management · SOP</div><h2>Schedule Updates</h2></div></div>
+      <div class="rule"></div>
+      <div class="sopbox">
+        <div class="row"><div class="k">Purpose</div><div class="v">Keep the project schedule current and use it to manage the work proactively.</div></div>
+        <div class="row"><div class="k">Scope</div><div class="v">All projects with a baseline schedule.</div></div>
+        <div class="row"><div class="k">Owner</div><div class="v">Project Manager</div></div>
+        <div class="row"><div class="k">Revision</div><div class="v">1.0 — Effective January 2026</div></div>
+      </div>
+
+      <h4>Procedure</h4>
+      <ol class="steps">
+        <li><strong>Establish the baseline.</strong><span>Develop and obtain agreement on a baseline schedule at project start.</span></li>
+        <li><strong>Collect progress.</strong><span>Gather actual start/finish and percent-complete from the field each update cycle.</span></li>
+        <li><strong>Update the schedule.</strong><span>Update progress on a regular cycle, recalculate the critical path, and identify variances.</span></li>
+        <li><strong>Issue look-aheads.</strong><span>Distribute a short-interval look-ahead to the field and trade partners.</span></li>
+        <li><strong>Plan recovery.</strong><span>When the project is behind, develop and communicate a recovery plan.</span></li>
+      </ol>
+      <h4>Responsibilities</h4>
+      <ul>
+        <li><strong>Project Manager</strong> — owns and updates the schedule.</li>
+        <li><strong>Superintendent</strong> — provides field progress and executes look-aheads.</li>
+      </ul>
+      <h4>Records &amp; Forms</h4>
+      <ul><li>Baseline &amp; Updated Schedules</li><li>Look-Ahead Schedule</li></ul>
+    </section>
+
+    <!-- ===== SOP 205 ===== -->
+    <section class="sec" id="sop-205" data-screen-label="SOP 205 QC">
+      <div class="sec-head"><div class="sec-num">205</div><div><div class="sec-kicker">Project Management · SOP</div><h2>Quality Control Inspections</h2></div></div>
+      <div class="rule"></div>
+      <div class="sopbox">
+        <div class="row"><div class="k">Purpose</div><div class="v">Verify that work meets contract documents, codes, and Company standards.</div></div>
+        <div class="row"><div class="k">Scope</div><div class="v">All installed work and defined inspection/hold points.</div></div>
+        <div class="row"><div class="k">Owner</div><div class="v">Superintendent / QC Lead</div></div>
+        <div class="row"><div class="k">Revision</div><div class="v">1.0 — Effective January 2026</div></div>
+      </div>
+
+      <h4>Procedure</h4>
+      <ol class="steps">
+        <li><strong>Define inspection points.</strong><span>Establish QC checklists and hold points by trade and phase.</span></li>
+        <li><strong>Inspect work in progress.</strong><span>Inspect at defined points; do not allow covering of work that has not passed required inspection.</span></li>
+        <li><strong>Document results.</strong><span>Record inspections, photos, and any deficiencies.</span></li>
+        <li><strong>Correct deficiencies.</strong><span>Issue and track corrective items to completion; re-inspect.</span></li>
+        <li><strong>Manage the punch list.</strong><span>Develop and close out the punch list before substantial completion.</span></li>
+      </ol>
+      <h4>Responsibilities</h4>
+      <ul>
+        <li><strong>Superintendent / QC Lead</strong> — performs inspections and manages corrections.</li>
+        <li><strong>Trade partners</strong> — correct deficient work promptly.</li>
+      </ul>
+      <h4>Records &amp; Forms</h4>
+      <ul><li>QC Inspection Checklists</li><li>Punch List</li></ul>
+    </section>
+
+    <!-- ===== SOP 206 ===== -->
+    <section class="sec" id="sop-206" data-screen-label="SOP 206 Closeout">
+      <div class="sec-head"><div class="sec-num">206</div><div><div class="sec-kicker">Project Management · SOP</div><h2>Project Closeout</h2></div></div>
+      <div class="rule"></div>
+      <div class="sopbox">
+        <div class="row"><div class="k">Purpose</div><div class="v">Complete the project's contractual, financial, and documentation obligations.</div></div>
+        <div class="row"><div class="k">Scope</div><div class="v">All projects approaching substantial and final completion.</div></div>
+        <div class="row"><div class="k">Owner</div><div class="v">Project Manager</div></div>
+        <div class="row"><div class="k">Revision</div><div class="v">1.0 — Effective January 2026</div></div>
+      </div>
+
+      <h4>Procedure</h4>
+      <ol class="steps">
+        <li><strong>Complete the punch list.</strong><span>Close all punch items and obtain owner/architect sign-off.</span></li>
+        <li><strong>Assemble closeout documents.</strong><span>Collect as-builts, O&amp;M manuals, warranties, and training records.</span></li>
+        <li><strong>Obtain final approvals.</strong><span>Complete final inspections and secure the Certificate of Occupancy where applicable.</span></li>
+        <li><strong>Finalize billing.</strong><span>Submit final application for payment and process retainage release.</span></li>
+        <li><strong>Capture lessons learned.</strong><span>Hold a closeout review and document lessons learned for future projects.</span></li>
+      </ol>
+      <h4>Responsibilities</h4>
+      <ul>
+        <li><strong>Project Manager</strong> — leads closeout and final billing.</li>
+        <li><strong>Project Engineer</strong> — assembles closeout documentation.</li>
+      </ul>
+      <h4>Records &amp; Forms</h4>
+      <ul><li>Closeout Document Package (as-builts, O&amp;M, warranties)</li><li>Final Pay Application &amp; Retainage Release</li><li>Lessons Learned Log</li></ul>
+    </section>
+
+    <!-- ============ PART 3 DIVIDER ============ -->
+    <section class="part-divider" data-screen-label="Part 3">
+      <div style="font-family:'Archivo',sans-serif; font-weight:600; font-size:13px; letter-spacing:0.3em; text-transform:uppercase; color:var(--sky);">Part Three</div>
+      <div style="flex:1; display:flex; flex-direction:column; justify-content:center;">
+        <div style="font-family:'Archivo',sans-serif; font-weight:900; font-size:120px; line-height:0.85; color:#26405a;">03</div>
+        <h2 style="color:#fff; font-size:46px; margin:10px 0 0;">Technology</h2>
+        <p style="color:#c4d0dc; font-size:16px; max-width:5.2in; margin-top:16px;">How we use our software, communications, and emerging tools consistently, securely, and professionally.</p>
+      </div>
+      <div style="font-family:'Archivo',sans-serif; font-size:13px; color:#7f93a8; border-top:1px solid #2c4258; padding-top:18px;">SOP 301 – 304</div>
+    </section>
+
+    <!-- ===== SOP 301 ===== -->
+    <section class="sec" id="sop-301" data-screen-label="SOP 301 Procore">
+      <div class="sec-head"><div class="sec-num">301</div><div><div class="sec-kicker">Technology · SOP</div><h2>Procore Standards</h2></div></div>
+      <div class="rule"></div>
+      <div class="sopbox">
+        <div class="row"><div class="k">Purpose</div><div class="v">Standardize how projects are set up and managed in Procore so information is consistent and findable.</div></div>
+        <div class="row"><div class="k">Scope</div><div class="v">All projects and all users of the Company's project-management platform.</div></div>
+        <div class="row"><div class="k">Owner</div><div class="v">Operations Manager</div></div>
+        <div class="row"><div class="k">Revision</div><div class="v">1.0 — Effective January 2026</div></div>
+      </div>
+
+      <h4>Procedure</h4>
+      <ol class="steps">
+        <li><strong>Set up projects consistently.</strong><span>Create projects using the Company template and standard naming convention project number and project name.</span></li>
+        <li><strong>Assign roles and access.</strong><span>Grant permissions by role; remove access when a person leaves a project.</span></li>
+        <li><strong>Use the right tools for the right records.</strong><span>Daily logs, RFIs, submittals, change orders, and photos are entered in their designated Procore tools (see SOPs 101, 201–203).</span></li>
+        <li><strong>Manage documents.</strong><span>Upload current drawings and specs; supersede outdated versions so the field always has the latest set.</span></li>
+        <li><strong>Keep data current.</strong><span>Enter records promptly and accurately; Procore is the system of record.</span></li>
+      </ol>
+      <h4>Responsibilities</h4>
+      <ul>
+        <li><strong>Operations Manager</strong> — owns standards and templates.</li>
+        <li><strong>All users</strong> — follow conventions and keep data current.</li>
+      </ul>
+      <h4>Records &amp; Forms</h4>
+      <ul><li>Procore Project Template</li><li>Naming &amp; Access Conventions</li></ul>
+    </section>
+
+    <!-- ===== SOP 302 ===== -->
+    <section class="sec" id="sop-302" data-screen-label="SOP 302 Email">
+      <div class="sec-head"><div class="sec-num">302</div><div><div class="sec-kicker">Technology · SOP</div><h2>Company Email Standards</h2></div></div>
+      <div class="rule"></div>
+      <div class="sopbox">
+        <div class="row"><div class="k">Purpose</div><div class="v">Maintain professional, secure, and well-documented email communication.</div></div>
+        <div class="row"><div class="k">Scope</div><div class="v">All employees with a Company email account.</div></div>
+        <div class="row"><div class="k">Owner</div><div class="v">Office Manager</div></div>
+        <div class="row"><div class="k">Revision</div><div class="v">1.0 — Effective January 2026</div></div>
+      </div>
+
+      <h4>Procedure</h4>
+      <ol class="steps">
+        <li><strong>Use Company email for business.</strong><span>Conduct project and client communication through your Company account, not personal email.</span></li>
+        <li><strong>Communicate professionally.</strong><span>Use clear subject lines, a standard signature, and a professional tone. Assume every email may be read by a client or in a dispute.</span></li>
+        <li><strong>Protect information.</strong><span>Do not send confidential or sensitive data without appropriate safeguards; verify recipients before sending.</span></li>
+        <li><strong>Watch for threats.</strong><span>Do not click suspicious links or open unexpected attachments; report suspected phishing to the office immediately.</span></li>
+        <li><strong>File key correspondence.</strong><span>Save project-significant emails to the project record (Procore).</span></li>
+      </ol>
+      <h4>Responsibilities</h4>
+      <ul>
+        <li><strong>Office Manager / IT</strong> — manages accounts and security.</li>
+        <li><strong>All employees</strong> — follow professional and security practices.</li>
+      </ul>
+      <h4>Records &amp; Forms</h4>
+      <ul><li>Standard Email Signature Template</li></ul>
+    </section>
+
+    <!-- ===== SOP 303 ===== -->
+    <section class="sec" id="sop-303" data-screen-label="SOP 303 AI Usage">
+      <div class="sec-head"><div class="sec-num">303</div><div><div class="sec-kicker">Technology · SOP</div><h2>AI Usage Policy</h2></div></div>
+      <div class="rule"></div>
+      <div class="sopbox">
+        <div class="row"><div class="k">Purpose</div><div class="v">Allow responsible use of AI tools while protecting confidential information and work quality.</div></div>
+        <div class="row"><div class="k">Scope</div><div class="v">All employees using AI tools for Company work.</div></div>
+        <div class="row"><div class="k">Owner</div><div class="v">Operations Manager</div></div>
+        <div class="row"><div class="k">Revision</div><div class="v">1.0 — Effective January 2026</div></div>
+      </div>
+
+      <h4>Procedure</h4>
+      <ol class="steps">
+        <li><strong>Use approved tools only.</strong><span>Use AI tools approved by the Company for business purposes.</span></li>
+        <li><strong>Never input confidential data.</strong><span>Do not enter client information, pricing, bids, personal data, or proprietary Company information into public/consumer AI tools.</span></li>
+        <li><strong>Verify all output.</strong><span>Treat AI output as a draft. Verify facts, code references, calculations, and contract language before relying on or sending them.</span></li>
+        <li><strong>Keep a human in the loop.</strong><span>AI does not make decisions on safety, contracts, employment, or money — a responsible person reviews and approves.</span></li>
+        <li><strong>Disclose where required.</strong><span>Disclose AI use when a client, contract, or law requires it.</span></li>
+      </ol>
+      <h4>Responsibilities</h4>
+      <ul>
+        <li><strong>Operations Manager</strong> — maintains the approved-tools list and reviews use.</li>
+        <li><strong>All employees</strong> — protect data and verify output.</li>
+      </ul>
+      <h4>Records &amp; Forms</h4>
+      <ul><li>Approved AI Tools List</li></ul>
+    </section>
+
+    <!-- ===== SOP 304 ===== -->
+    <section class="sec" id="sop-304" data-screen-label="SOP 304 Records">
+      <div class="sec-head"><div class="sec-num">304</div><div><div class="sec-kicker">Technology · SOP</div><h2>Document Retention</h2></div></div>
+      <div class="rule"></div>
+      <div class="sopbox">
+        <div class="row"><div class="k">Purpose</div><div class="v">Retain, store, and dispose of records consistently and in compliance with legal requirements.</div></div>
+        <div class="row"><div class="k">Scope</div><div class="v">All Company business records, physical and electronic.</div></div>
+        <div class="row"><div class="k">Owner</div><div class="v">Office Manager</div></div>
+        <div class="row"><div class="k">Revision</div><div class="v">1.0 — Effective January 2026</div></div>
+      </div>
+
+      <h4>Procedure</h4>
+      <ol class="steps">
+        <li><strong>Classify records.</strong><span>Identify the record type (project, financial, HR, safety, tax) and its required retention period.</span></li>
+        <li><strong>Store securely.</strong><span>Store records in the designated systems with appropriate access controls and backups.</span></li>
+        <li><strong>Honor legal holds.</strong><span>When litigation or an audit is anticipated, suspend destruction of related records immediately.</span></li>
+        <li><strong>Dispose properly.</strong><span>After the retention period and absent a hold, dispose of records securely (shred physical, securely delete electronic).</span></li>
+      </ol>
+      <div class="note legal"><span class="lbl">Confirm before publishing</span><p>Retention periods vary by record type and law (employment, tax, OSHA, contract). Confirm the Company's retention schedule with counsel and the CPA before finalizing.</p></div>
+      <h4>Responsibilities</h4>
+      <ul>
+        <li><strong>Office Manager</strong> — maintains the retention schedule and oversees disposal.</li>
+        <li><strong>All employees</strong> — follow the schedule and legal holds.</li>
+      </ul>
+      <h4>Records &amp; Forms</h4>
+      <ul><li>Record Retention Schedule</li><li>Legal Hold Notice</li></ul>
+    </section>
+
+    <!-- ============ PART 4 DIVIDER ============ -->
+    <section class="part-divider" data-screen-label="Part 4">
+      <div style="font-family:'Archivo',sans-serif; font-weight:600; font-size:13px; letter-spacing:0.3em; text-transform:uppercase; color:var(--sky);">Part Four</div>
+      <div style="flex:1; display:flex; flex-direction:column; justify-content:center;">
+        <div style="font-family:'Archivo',sans-serif; font-weight:900; font-size:120px; line-height:0.85; color:#26405a;">04</div>
+        <h2 style="color:#fff; font-size:46px; margin:10px 0 0;">Financial Controls</h2>
+        <p style="color:#c4d0dc; font-size:16px; max-width:5.2in; margin-top:16px;">The approvals and procedures that protect Company funds — who can spend, how, and with what documentation.</p>
+      </div>
+      <div style="font-family:'Archivo',sans-serif; font-size:13px; color:#7f93a8; border-top:1px solid #2c4258; padding-top:18px;">SOP 401 – 404</div>
+    </section>
+
+    <!-- ===== SOP 401 ===== -->
+    <section class="sec" id="sop-401" data-screen-label="SOP 401 Purchasing">
+      <div class="sec-head"><div class="sec-num">401</div><div><div class="sec-kicker">Financial Controls · SOP</div><h2>Purchasing Authority Matrix</h2></div></div>
+      <div class="rule"></div>
+      <div class="sopbox">
+        <div class="row"><div class="k">Purpose</div><div class="v">Define who may commit Company funds and at what dollar thresholds.</div></div>
+        <div class="row"><div class="k">Scope</div><div class="v">All purchases, commitments, and purchase orders.</div></div>
+        <div class="row"><div class="k">Owner</div><div class="v">Controller / President</div></div>
+        <div class="row"><div class="k">Revision</div><div class="v">1.0 — Effective January 2026</div></div>
+      </div>
+
+      <p>Purchases must be approved at or above the dollar threshold by the authorized role before a commitment is made. Thresholds below are placeholders to be set by ownership.</p>
+      <table class="t">
+        <thead><tr><th>Role</th><th>Approval Authority</th><th>PO Required</th></tr></thead>
+        <tbody>
+          <tr><td>Foreman / Superintendent</td><td>Up to $[1,000]</td><td>Over $[500]</td></tr>
+          <tr><td>Project Manager</td><td>Up to $[10,000]</td><td>Yes</td></tr>
+          <tr><td>Operations Manager</td><td>Up to $[50,000]</td><td>Yes</td></tr>
+          <tr><td>Controller / President</td><td>Above $[50,000]</td><td>Yes</td></tr>
+        </tbody>
+      </table>
+      <h4>Procedure</h4>
+      <ol class="steps">
+        <li><strong>Confirm need and budget.</strong><span>Verify the purchase is required and within the project budget.</span></li>
+        <li><strong>Obtain approval.</strong><span>Secure approval from the authorized role for the dollar amount before committing.</span></li>
+        <li><strong>Issue a purchase order.</strong><span>Issue a PO where required and reference it on invoices.</span></li>
+        <li><strong>Receive and verify.</strong><span>Confirm goods/services received match the PO before payment.</span></li>
+      </ol>
+      <h4>Records &amp; Forms</h4>
+      <ul><li>Purchase Order</li><li>Approval Records</li></ul>
+    </section>
+
+    <!-- ===== SOP 402 ===== -->
+    <section class="sec" id="sop-402" data-screen-label="SOP 402 Credit Card">
+      <div class="sec-head"><div class="sec-num">402</div><div><div class="sec-kicker">Financial Controls · SOP</div><h2>Company Credit Card Policy</h2></div></div>
+      <div class="rule"></div>
+      <div class="sopbox">
+        <div class="row"><div class="k">Purpose</div><div class="v">Control and document the use of Company credit cards.</div></div>
+        <div class="row"><div class="k">Scope</div><div class="v">All employees issued a Company card.</div></div>
+        <div class="row"><div class="k">Owner</div><div class="v">Controller</div></div>
+        <div class="row"><div class="k">Revision</div><div class="v">1.0 — Effective January 2026</div></div>
+      </div>
+
+      <h4>Procedure</h4>
+      <ol class="steps">
+        <li><strong>Use for business only.</strong><span>Company cards are for authorized business expenses only — never personal use.</span></li>
+        <li><strong>Stay within limits.</strong><span>Respect card limits and purchasing authority (SOP 401).</span></li>
+        <li><strong>Keep every receipt.</strong><span>Retain an itemized receipt for every transaction and note the business purpose and job/cost code.</span></li>
+        <li><strong>Reconcile on time.</strong><span>Submit receipts and reconcile your statement by the monthly deadline.</span></li>
+      </ol>
+      <div class="note"><span class="lbl">Prohibited</span><p>Cash advances, personal purchases, splitting charges to avoid limits, and undocumented expenses are prohibited and may result in revocation of card privileges, repayment, and discipline.</p></div>
+      <h4>Responsibilities</h4>
+      <ul>
+        <li><strong>Cardholders</strong> — use appropriately, keep receipts, reconcile.</li>
+        <li><strong>Controller</strong> — issues cards, sets limits, reviews statements.</li>
+      </ul>
+      <h4>Records &amp; Forms</h4>
+      <ul><li>Cardholder Agreement</li><li>Monthly Reconciliation &amp; Receipts</li></ul>
+    </section>
+
+    <!-- ===== SOP 403 ===== -->
+    <section class="sec" id="sop-403" data-screen-label="SOP 403 Reimbursement">
+      <div class="sec-head"><div class="sec-num">403</div><div><div class="sec-kicker">Financial Controls · SOP</div><h2>Expense Reimbursement</h2></div></div>
+      <div class="rule"></div>
+      <div class="sopbox">
+        <div class="row"><div class="k">Purpose</div><div class="v">Reimburse employees for approved, documented business expenses.</div></div>
+        <div class="row"><div class="k">Scope</div><div class="v">All employees incurring out-of-pocket business expenses.</div></div>
+        <div class="row"><div class="k">Owner</div><div class="v">Controller</div></div>
+        <div class="row"><div class="k">Revision</div><div class="v">1.0 — Effective January 2026</div></div>
+      </div>
+
+      <h4>Procedure</h4>
+      <ol class="steps">
+        <li><strong>Incur only approved expenses.</strong><span>Obtain prior approval for significant expenses; only reasonable, business-related expenses are reimbursable.</span></li>
+        <li><strong>Submit an expense report.</strong><span>Complete the expense report with itemized receipts, business purpose, and job/cost codes.</span></li>
+        <li><strong>Apply the mileage rate.</strong><span>Reimburse business mileage at the current Company/IRS rate with a mileage log.</span></li>
+        <li><strong>Approve and pay.</strong><span>The manager approves; the office reimburses on the next regular cycle.</span></li>
+      </ol>
+      <h4>Responsibilities</h4>
+      <ul>
+        <li><strong>Employees</strong> — submit complete, accurate reports with receipts.</li>
+        <li><strong>Managers</strong> — review and approve.</li>
+        <li><strong>Controller</strong> — processes reimbursement.</li>
+      </ul>
+      <h4>Records &amp; Forms</h4>
+      <ul><li>Expense Report</li><li>Mileage Log &amp; Receipts</li></ul>
+    </section>
+
+    <!-- ===== SOP 404 ===== -->
+    <section class="sec" id="sop-404" data-screen-label="SOP 404 Vendor Approval">
+      <div class="sec-head"><div class="sec-num">404</div><div><div class="sec-kicker">Financial Controls · SOP</div><h2>Vendor Approval Process</h2></div></div>
+      <div class="rule"></div>
+      <div class="sopbox">
+        <div class="row"><div class="k">Purpose</div><div class="v">Onboard vendors with proper documentation before purchasing or payment.</div></div>
+        <div class="row"><div class="k">Scope</div><div class="v">All new vendors and suppliers.</div></div>
+        <div class="row"><div class="k">Owner</div><div class="v">Controller / Accounts Payable</div></div>
+        <div class="row"><div class="k">Revision</div><div class="v">1.0 — Effective January 2026</div></div>
+      </div>
+
+      <h4>Procedure</h4>
+      <ol class="steps">
+        <li><strong>Request vendor setup.</strong><span>Submit a vendor setup request with the vendor's information.</span></li>
+        <li><strong>Collect documentation.</strong><span>Obtain a completed W-9, certificate of insurance where applicable, and required licenses.</span></li>
+        <li><strong>Approve the vendor.</strong><span>Review and approve the vendor; assign payment terms.</span></li>
+        <li><strong>Add to the system.</strong><span>Enter the approved vendor in the accounting system before issuing POs or payments.</span></li>
+      </ol>
+      <h4>Responsibilities</h4>
+      <ul>
+        <li><strong>Requesting staff</strong> — submit setup requests and documents.</li>
+        <li><strong>Controller / AP</strong> — verifies documentation and approves vendors.</li>
+      </ul>
+      <h4>Records &amp; Forms</h4>
+      <ul><li>Vendor Setup Form &amp; W-9</li><li>Certificate of Insurance (if applicable)</li></ul>
+
+      <div style="margin-top:48px; padding-top:18px; border-top:1px solid #948e80;">
+        <p style="font-family:'Archivo',sans-serif; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--soft); margin:0;">DunRite Construction Group LLC · SOP Manual · 2026 Edition · Rev. 1.0 · Confidential</p>
+      </div>
+    </section>
+
+    </td></tr></tbody>
+    <tfoot><tr><td class="ftr-space"></td></tr></tfoot>
+  </table>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;8.5in&quot;},&quot;paper&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Warm cream&quot;,&quot;Bright white&quot;,&quot;Cool paper&quot;],&quot;default&quot;:&quot;Warm cream&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;accent&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;DunRite blue&quot;,&quot;Deep navy&quot;,&quot;Slate&quot;],&quot;default&quot;:&quot;DunRite blue&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  componentDidMount(){ this.applyTheme(); }
+  componentDidUpdate(){ this.applyTheme(); }
+  applyTheme(){
+    const root = document.documentElement;
+    const paper = { "Warm cream":"#f6f4ef", "Bright white":"#ffffff", "Cool paper":"#f3f5f8" };
+    const accent = { "DunRite blue":"#0e6ea8", "Deep navy":"#16324f", "Slate":"#3a4654" };
+    const p = paper[this.props.paper] || null;
+    const a = accent[this.props.accent] || null;
+    if (p) root.style.setProperty("--paper", p);
+    if (a) root.style.setProperty("--accent", a);
+  }
+  renderVals(){ return {}; }
+}
+</script>
+<script>
+(async () => {
+  if (!document.title || !document.title.trim()) document.title = "SOP Manual";
+  // Prepend so page-supplied @page / break rules (deck-stage's margin:0,
+  // author CSS) keep source-order precedence over the baseline.
+  const baseCss = document.createElement('style');
+  baseCss.textContent = "@media print {\n  figure, table { break-inside: avoid; }\n  *, *::before, *::after {\n    print-color-adjust: exact; -webkit-print-color-adjust: exact;\n    backdrop-filter: none !important; -webkit-backdrop-filter: none !important;\n    animation-delay: -99s !important; animation-duration: .001s !important;\n    animation-iteration-count: 1 !important; animation-fill-mode: both !important;\n    animation-play-state: running !important; transition-duration: 0s !important;\n  }\n}";
+  document.head.prepend(baseCss);
+  if (document.readyState === 'loading') {
+    await new Promise((r) => document.addEventListener('DOMContentLoaded', r, { once: true }));
+  }
+  let ds = document.querySelector('deck-stage');
+  // whenDefined never resolves when nothing registers the element, so only
+  // await it when a <deck-stage> tag exists (and race a timeout regardless).
+  if (ds && !customElements.get('deck-stage')) {
+    try {
+      await Promise.race([
+        customElements.whenDefined('deck-stage'),
+        new Promise((r) => setTimeout(r, 3000)),
+      ]);
+    } catch (e) {}
+    ds = document.querySelector('deck-stage');
+  }
+  // dc-runtime assigns window.DCLogic at init and mounts into #dc-root on
+  // DOMContentLoaded; settle on that subtree so React has rendered before
+  // print(). Non-DC pages fall through to weighing body.
+  const isDc = !ds && 'DCLogic' in window;
+  const settleRoot = ds || (isDc ? document.getElementById('dc-root') : null) || document.body;
+  if (settleRoot) {
+    // Weigh only content children — skip script/style/template so inline
+    // Babel/CSS doesn't register as stable "content" before the framework
+    // has mounted anything.
+    const MEDIA = 'img,svg,canvas,video,picture,iframe,embed,object';
+    const weigh = () => {
+      let text = 0, media = 0;
+      for (const c of settleRoot.children) {
+        const t = c.tagName;
+        if (t === 'SCRIPT' || t === 'STYLE' || t === 'TEMPLATE') continue;
+        text += (c.textContent || '').trim().length;
+        media += c.querySelectorAll(MEDIA).length + (c.matches(MEDIA) ? 1 : 0);
+      }
+      return text + media * 100;
+    };
+    // "Non-zero and stable" alone is not sufficient to mean rendered: generic
+    // body can carry a static shell while async main content is pending, and
+    // #dc-root can carry the root DC's static text while child refs are still
+    // .sc-placeholder boxes. Gate generic on readyState 'complete', and never
+    // accept stability while a dc-runtime placeholder is present.
+    const isGeneric = settleRoot === document.body;
+    const deadline = Date.now() + 15000;
+    let last = -1, stable = 0;
+    while (Date.now() < deadline) {
+      const n = weigh();
+      const ready =
+        (!isGeneric || document.readyState === 'complete') &&
+        !settleRoot.querySelector('.sc-placeholder');
+      if (n > 0 && n === last && ready) { if (++stable >= 2) break; } else { stable = 0; }
+      last = n;
+      await new Promise((r) => setTimeout(r, 250));
+    }
+  }
+  // Project support.js may predate runtime default-seeding; push via bridge.
+  if (isDc && window.__dcSetProps && window.__dcRootName) {
+    try {
+      const dpEl = document.querySelector('script[data-dc-script]');
+      const meta = JSON.parse((dpEl && dpEl.getAttribute('data-props')) || '{}');
+      const bag = {};
+      for (const k in meta)
+        if (k[0] !== '$' && meta[k] && meta[k].default !== undefined)
+          bag[k] = meta[k].default;
+      if (Object.keys(bag).length) {
+        window.__dcSetProps(window.__dcRootName(), bag);
+        await new Promise((r) => setTimeout(r, 50));
+      }
+    } catch (e) {}
+  }
+  // Reveal content gated on scroll or visibility before printing. Lazy <img>,
+  // IntersectionObserver fade-ins, and collapsed <details> don't render while
+  // off-screen, so a long page would print with them blank or closed. Open
+  // every <details>, force native-lazy images eager, and scroll the document
+  // through its full height to trip lazy-load + IO; then wait (bounded) for the
+  // newly-triggered images. Inert for deck-stage (slides aren't scroll-gated).
+  try {
+    for (const d of document.querySelectorAll('details')) d.open = true;
+    for (const img of document.querySelectorAll('img[loading="lazy"]'))
+      img.loading = 'eager';
+    const scroller = document.scrollingElement || document.documentElement;
+    const full = Math.max(scroller.scrollHeight, document.body.scrollHeight);
+    const step = window.innerHeight || 800;
+    for (let y = 0; y <= full; y += step) {
+      window.scrollTo(0, y);
+      await new Promise((r) => requestAnimationFrame(r));
+    }
+    window.scrollTo(0, 0);
+    await Promise.race([
+      Promise.all(
+        [...document.images].map((img) =>
+          img.complete
+            ? null
+            : new Promise((res) => {
+                img.addEventListener('load', res, { once: true });
+                img.addEventListener('error', res, { once: true });
+              })
+        )
+      ),
+      new Promise((r) => setTimeout(r, 4000)),
+    ]);
+  } catch (e) {}
+  try { await document.fonts.ready; } catch (e) {}
+  // Jump every animation to its end state so print() never captures a slide
+  // mid-entrance. Ordering matters: the 0s-transition style must be live
+  // BEFORE data-deck-active is set so attribute-keyed transitions don't
+  // start a (now-0s) run from the pre-active base.
+  const st = document.createElement('style');
+  st.textContent = '*,*::before,*::after{animation-delay:-99s !important;animation-duration:.001s !important;animation-iteration-count:1 !important;animation-fill-mode:both !important;animation-play-state:running !important;transition-duration:0s !important}';
+  document.head.appendChild(st);
+  for (const d of document.querySelectorAll('deck-stage')) {
+    for (const c of d.children) {
+      const t = c.tagName;
+      if (t === 'SCRIPT' || t === 'STYLE' || t === 'TEMPLATE') continue;
+      c.setAttribute('data-deck-active', '');
+    }
+  }
+  // Re-append deck-stage's @page last so no author @page can add a margin and
+  // spill each full-bleed slide onto two sheets. Backstop for old copies.
+  if (ds) {
+    let pg = document.getElementById('deck-stage-print-page');
+    if (!pg) {
+      pg = document.createElement('style');
+      pg.textContent = '@page{size:' + (+ds.getAttribute('width') || 1920) +
+        'px ' + (+ds.getAttribute('height') || 1080) + 'px;margin:0}';
+    }
+    document.body.appendChild(pg);
+  }
+  try {
+    const sweep = () => {
+      for (const a of document.getAnimations()) {
+        try { a.finish(); } catch (e) {
+          try { a.currentTime = (a.effect && a.effect.getComputedTiming().duration) || 0; a.pause(); } catch (e2) {}
+        }
+      }
+    };
+    sweep();
+    await new Promise((r) => requestAnimationFrame(r));
+    sweep();
+    await new Promise((r) => requestAnimationFrame(r));
+  } catch (e) {}
+  // Size the PDF page to the rendered design unless the file opted into
+  // standard paper via @page{size:letter|A4|…}. Decks own their own @page.
+  // Wrappers (body, …) lose padding+margin so the frame sits at (0,0); the
+  // frame itself loses only margin — its padding is INSIDE the measured
+  // rect and must stay, or content shifts and leaves a gap at bottom/right.
+  var __m = null;
+  try { __m = (() => {
+  var docEl = document.documentElement;
+  var doc = { width: docEl.scrollWidth, height: docEl.scrollHeight };
+
+  var ds = document.querySelector('deck-stage');
+  if (ds) {
+    var dw = Number(ds.getAttribute('width')) || 1920;
+    var dh = Number(ds.getAttribute('height')) || 1080;
+    var n = typeof ds.length === 'number' ? ds.length : ds.children.length;
+    var idx = typeof ds.index === 'number' ? ds.index : 0;
+    var frames = [];
+    for (var i = 0; i < n; i++) frames.push({ left: 0, top: 0, width: dw, height: dh });
+    return { kind: 'deck', doc: doc, frames: frames,
+      authored: frames.map(function(){return{width:true,height:true}}),
+      deck: { width: dw, height: dh, slideCount: n, index: idx },
+      signals: { paperPage: false, pxPage: false } };
+  }
+
+  var paperPage = false, pxPage = false;
+  var eachRule = function (fn) {
+    for (var s = 0; s < document.styleSheets.length; s++) {
+      var rs; try { rs = document.styleSheets[s].cssRules; } catch (e) { continue; }
+      for (var r = 0; r < rs.length; r++) {
+        fn(rs[r]);
+        if (rs[r].cssRules) for (var n = 0; n < rs[r].cssRules.length; n++) fn(rs[r].cssRules[n]);
+      }
+    }
+  };
+  eachRule(function (r) {
+    if (r.type !== 6) return;
+    var m = /\bsize\s*:\s*([^;}]+)/i.exec(r.cssText || '');
+    if (!m) return;
+    if (/\b(letter|a[3-5]|legal|ledger)\b/i.test(m[1])) paperPage = true;
+    if (/\d+(?:\.\d+)?px\b/i.test(m[1])) pxPage = true;
+  });
+  var signals = { paperPage: paperPage, pxPage: pxPage };
+
+  var pxVal = function (v) {
+    var m = /^(\d+(?:\.\d+)?)px$/.exec(v || ''); return m ? +m[1] : 0;
+  };
+  var authoredPx = function (el, prop) {
+    if (pxVal(el.style[prop])) return true;
+    var attr = el.getAttribute(prop);
+    if (attr && /^\d+$/.test(attr)) return true;
+    var hit = false;
+    eachRule(function (r) {
+      if (hit || r.type !== 1 || !r.style) return;
+      try { if (el.matches(r.selectorText) && pxVal(r.style[prop])) hit = true; } catch (e) {}
+    });
+    return hit;
+  };
+
+  var el = document.body, rootPxW = false;
+  for (;;) {
+    var kids = [];
+    for (var c = 0; c < el.children.length; c++) {
+      var t = el.children[c].tagName;
+      if (t !== 'SCRIPT' && t !== 'STYLE' && t !== 'TEMPLATE') kids.push(el.children[c]);
+    }
+    if (kids.length !== 1 || !(kids[0] instanceof HTMLElement)) break;
+    el.setAttribute('data-om-frame-wrap', '');
+    el = kids[0];
+    rootPxW = authoredPx(el, 'width');
+    if (rootPxW) break;
+  }
+  if (!rootPxW) rootPxW = authoredPx(el, 'width');
+
+  // @page{size:letter} alone is a flowing doc; with a px-width root it's a
+  // fixed sheet pretending to be paper — fall through and size to render.
+  if (paperPage && !rootPxW) {
+    return { kind: 'paper-doc', doc: doc, signals: signals,
+      frames: [{ left: 0, top: 0, width: doc.width, height: doc.height }],
+      authored: [{ width: false, height: false }] };
+  }
+
+  var sx = window.scrollX || 0, sy = window.scrollY || 0;
+  var rectOf = function (e) {
+    var r = e.getBoundingClientRect();
+    var oy; try { oy = getComputedStyle(e).overflowY; } catch (err) {}
+    var h = oy === 'visible' ? Math.max(r.height, e.scrollHeight || 0) : r.height;
+    return { left: r.left + sx, top: r.top + sy, width: r.width, height: h };
+  };
+
+  // Multi-frame: ≥2 visible non-fixed children, each with authored px width
+  // AND height, all within ±2px of each other. Off unless the page opts in
+  // via data-om-multi-frame on the stop element — guards against card grids
+  // and pricing tables that match the geometry but aren't separate canvases.
+  if (el.hasAttribute('data-om-multi-frame')) {
+    var cands = [];
+    for (var k = 0; k < el.children.length; k++) {
+      var ch = el.children[k];
+      var cs; try { cs = getComputedStyle(ch); } catch (e) { continue; }
+      if (cs.display === 'none' || cs.visibility === 'hidden' || cs.position === 'fixed') continue;
+      var rc = rectOf(ch);
+      if (rc.width < 2 || rc.height < 2) continue;
+      if (!authoredPx(ch, 'width') || !authoredPx(ch, 'height')) continue;
+      cands.push(rc);
+    }
+    if (cands.length >= 2) {
+      var w0 = cands[0].width, h0 = cands[0].height, ok = true;
+      for (var q = 1; q < cands.length; q++)
+        if (Math.abs(cands[q].width - w0) > 2 || Math.abs(cands[q].height - h0) > 2) ok = false;
+      if (ok) return { kind: 'multi-frame', doc: doc, signals: signals,
+        frames: cands, authored: cands.map(function(){return{width:true,height:true}}) };
+    }
+  }
+
+  el.setAttribute('data-om-frame', '');
+  return { kind: 'single-canvas', doc: doc, signals: signals,
+    frames: [rectOf(el)],
+    authored: [{ width: rootPxW, height: authoredPx(el, 'height') }] };
+})(); } catch (e) {}
+  var frame = null;
+  if (__m && __m.kind === 'single-canvas') {
+    var f = __m.frames && __m.frames[0];
+    if (f && f.width >= 200 && f.height >= 200) {
+      frame = f;
+      var fst = document.createElement('style');
+      fst.textContent = '@media print{@page{size:' + Math.ceil(f.width) + 'px ' +
+        Math.ceil(f.height) + 'px;margin:0}' +
+        'html,body,[data-om-frame-wrap]{padding:0!important;margin:0!important;background:none!important}' +
+        '[data-om-frame]{margin:0!important}}';
+      document.body.appendChild(fst);
+    }
+  }
+  // Relax break-inside on oversized elements. An element taller than a
+  // printable page can't honor break-inside: avoid — browsers either overflow
+  // it or push it whole to the next page, leaving a blank gap, then break it
+  // anyway at an arbitrary point. After the final layout (content revealed,
+  // animations jumped), find elements taller than a page that still compute
+  // break-inside: avoid and reset them to auto, so the browser breaks them at
+  // their children's boundaries instead (children keep their own avoid). PAGE_PX
+  // is a conservative portrait estimate at 96 CSS px/in — Letter/A4 usable
+  // height minus our 0.5in margins — so only clearly-oversized elements are
+  // touched and under-page elements still stay whole. Skipped for decks (slides
+  // are sized to the page) and for fixed-size canvases (frame set, or an author
+  // px-based @page) — runs as before for flowing docs on letter/A4.
+  try {
+    if (!ds && !frame && !(__m && __m.signals && __m.signals.pxPage)) {
+      const PAGE_PX = 1024;
+      // Our print defaults add a real @page margin only when the source has
+      // no @page of its own; computed style can't tell us (it reports screen
+      // media), so read the injected rule directly.
+      const defaults = document.querySelector('style[data-omelette-print-defaults]');
+      const pageInset = /@page\s*\{[^}]*margin/.test(defaults ? defaults.textContent || '' : '');
+      const SEL = 'section,article,figure,table,pre,blockquote,[class~="card" i],[class~="page" i],[class~="sheet" i]';
+      for (const el of document.body.querySelectorAll(SEL)) {
+        if (el instanceof HTMLElement && el.offsetHeight > PAGE_PX) {
+          el.setAttribute('data-om-oversized', '');
+          // Fake-paged docs simulate sheets with over-tall break-after:page
+          // boxes; honoring the break spills half-blank pages and ends a
+          // colored box mid-sheet. Flow them, and (only when we own the page
+          // inset) drop the redundant padding/background via the rule below.
+          const cs = getComputedStyle(el);
+          if (cs.breakAfter === 'page' || cs.pageBreakAfter === 'always') {
+            el.setAttribute('data-om-fakepage', '');
+          }
+        }
+      }
+      const ost = document.createElement('style');
+      ost.textContent = '@media print{' +
+        '[data-om-oversized]{break-inside:auto !important;page-break-inside:auto !important}' +
+        '[data-om-fakepage]{break-after:auto !important;page-break-after:auto !important}' +
+        (pageInset ? '[data-om-fakepage]{padding:0 !important;background:none !important}' : '') +
+        '}';
+      document.head.appendChild(ost);
+    }
+  } catch (e) {}
+  // macOS Preview renders Skia-PDF Luminosity soft-masks as opaque grey boxes;
+  // swap the CSS that triggers them for Preview-safe forms.
+  try {
+    for (const el of document.body.querySelectorAll('*')) {
+      const cs = getComputedStyle(el);
+
+      if (cs.boxShadow !== 'none' && cs.filter === 'none') {
+        const outs = [], kept = [];
+        for (const s of cs.boxShadow.split(/,(?![^(]*[)])/)) {
+          const t = s.trim();
+          const m = t.match(/^(rgba?[(][^)]+[)]) (-?[0-9.]+px) (-?[0-9.]+px) ([0-9.]+px) -?[0-9.]+px$/);
+          if (m && parseFloat(m[4]) > 0) outs.push('drop-shadow(' + m[2] + ' ' + m[3] + ' ' + m[4] + ' ' + m[1] + ')');
+          else kept.push(t);
+        }
+        if (outs.length) {
+          el.style.setProperty('filter', outs.join(' '), 'important');
+          el.style.setProperty('box-shadow', kept.join(', ') || 'none', 'important');
+        }
+      }
+
+      const mask = cs.maskImage && cs.maskImage !== 'none' ? cs.maskImage : cs.webkitMaskImage;
+      if (mask && mask !== 'none' && cs.filter === 'none') el.style.setProperty('filter', 'opacity(1)', 'important');
+    }
+  } catch (e) {}
+  setTimeout(() => { try { window.print(); } catch (e) {} }, 200);
+})();
+</script>
+</body>
+</html>

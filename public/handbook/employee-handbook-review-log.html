@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f6f4ef; --ink:#1d2127; --muted:#6c7077; --soft:#8b8f96;
+    --accent:#0e6ea8; --sky:#1ca0e0; --navy:#15273b; --hair:#dcd7cb; --card:#fffdf8;
+    --q:#0e6ea8; --input:#b07d10; --verify:#566778; --edit:#b3471f; --build:#2f7d4f; --format:#7a6f5d;
+    --hl:rgba(255,214,71,.55);
+  }
+  body{ margin:0; background:var(--paper); color:var(--ink); font-family:"Source Serif 4",Georgia,serif; -webkit-font-smoothing:antialiased; }
+  .doc{ box-sizing:border-box; max-width:8.5in; margin:0 auto; background:inherit; padding:0 clamp(20px,5vw,0.75in) 96px; }
+  .doc-frame{ width:100%; border-collapse:collapse; }
+  .doc-frame td{ padding:0; }
+  .running-hdr,.running-ftr,.hdr-space,.ftr-space{ display:none; }
+
+  h1,h2,h3,h4{ font-family:"Archivo",sans-serif; color:var(--ink); text-wrap:balance; margin:0; }
+  p{ font-size:15px; line-height:1.62; margin:0 0 12px; color:#272b31; text-wrap:pretty; }
+  strong{ font-weight:700; color:var(--ink); }
+  mark{ background:var(--hl); color:inherit; padding:0 2px; border-radius:2px; }
+
+  .secgroup{ break-inside:avoid; margin:0 0 10px; }
+  .sechead{ display:flex; align-items:baseline; gap:12px; margin:30px 0 4px; padding-bottom:8px; border-bottom:2px solid var(--ink); }
+  .sechead .n{ font-family:"Archivo",sans-serif; font-weight:900; font-size:20px; color:var(--accent); }
+  .sechead h3{ font-weight:800; font-size:19px; letter-spacing:-0.01em; }
+  .sechead .loc{ margin-left:auto; font-family:"Archivo",sans-serif; font-size:11px; letter-spacing:0.04em; color:var(--soft); }
+
+  .item{ display:flex; gap:14px; padding:14px 0; border-bottom:1px solid #948e80; break-inside:avoid; }
+  .item .id{ flex:none; width:30px; height:30px; border-radius:50%; background:var(--navy); color:#fff; font-family:"Archivo",sans-serif; font-weight:700; font-size:13px; display:flex; align-items:center; justify-content:center; }
+  .item .body{ flex:1; }
+  .item .loc{ font-family:"Archivo",sans-serif; font-weight:700; font-size:11px; letter-spacing:0.07em; text-transform:uppercase; color:var(--muted); margin-bottom:3px; }
+  .item .note{ font-size:15px; line-height:1.55; margin:0; }
+  .chip{ display:inline-block; font-family:"Archivo",sans-serif; font-weight:700; font-size:10px; letter-spacing:0.09em; text-transform:uppercase; color:#fff; padding:3px 9px; border-radius:20px; margin-bottom:6px; }
+  .c-q{ background:var(--q); } .c-input{ background:var(--input); } .c-verify{ background:var(--verify); }
+  .c-edit{ background:var(--edit); } .c-build{ background:var(--build); } .c-format{ background:var(--format); }
+  .resp{ margin-top:9px; border:1px dashed var(--hair); border-radius:5px; padding:8px 12px; background:var(--card); }
+  .resp .lbl{ font-family:"Archivo",sans-serif; font-weight:700; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--soft); }
+  .resp .line{ border-bottom:1px solid #948e80; height:17px; margin-top:6px; }
+
+  h3,h4{ break-after:avoid; } h4+ul,h4+ol,h3+ul,h3+ol,h4+table,h4+p{ break-before:avoid; }
+  .blankback{ display:none; }
+  @page{ size:letter; margin:0; }
+  @media print{
+    .blankback{ display:flex !important; align-items:center; justify-content:center; min-height:6in; break-before:page; break-after:page; }
+    .blankback span{ font-family:"IBM Plex Mono",monospace; font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:#b8b3a6; }
+    html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    html,body{ margin:0; padding:0; }
+    .doc{ max-width:none !important; margin:0 !important; padding:0 0.75in !important; }
+    #dc-root,.sc-host{ height:auto !important; }
+    .hdr-space,.ftr-space{ display:table-cell; height:0.7in !important; }
+    .running-hdr,.running-ftr{ display:flex !important; justify-content:space-between; align-items:baseline; position:fixed !important; left:0; right:0; margin:0 !important; font-family:"Archivo",sans-serif; font-size:9px; letter-spacing:0.12em; text-transform:uppercase; color:var(--soft); }
+    .running-hdr{ top:0; padding:0.32in 0.75in 0 !important; }
+    .running-ftr{ bottom:0; padding:0 0.75in 0.32in !important; }
+    .cover,.frontmatter{ break-after:page; }
+    .item,.secgroup,.sechead{ break-inside:avoid; }
+  }
+
+  .wm{ position:fixed; inset:0; background:url("assets/dunrite-mark.png") no-repeat center; background-size:360px auto; opacity:0.07; transform:rotate(-20deg); pointer-events:none; z-index:0; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .doc{ position:relative; z-index:1; }
+</style>
+</helmet>
+<main class="doc">
+  <div class="wm" aria-hidden="true"></div>
+  <div class="running-hdr"><span>DunRite Construction Group LLC</span><span>Employee Handbook — Review Log</span></div>
+  <div class="running-ftr"><span>Confidential — For Internal Review</span><span>Draft 1 · For Ownership &amp; Leadership</span></div>
+  <table class="doc-frame" role="presentation">
+    <thead><tr><td class="hdr-space"></td></tr></thead>
+    <tbody><tr><td>
+
+    <!-- COVER -->
+        <!-- ===================== COVER — Centered Monolith ===================== -->
+    <section class="cover" data-screen-label="Cover" style="background:#ffffff; color:#1d2127; border:1px solid #dcd7cb; border-radius:4px; margin:0 0 40px; padding:96px clamp(40px,7vw,84px); min-height:9.4in; box-sizing:border-box; position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+      <img src="assets/dunrite-logo-dark.png" alt="DunRite Construction Group LLC" style="display:block; width:248px; max-width:62%; height:auto; margin:0 auto;">
+      <div style="width:64px; height:3px; background:#1ca0e0; margin:46px auto 30px; border-radius:2px;"></div>
+      <div style="font-family:'Archivo',sans-serif; font-weight:600; font-size:13px; letter-spacing:0.34em; text-transform:uppercase; color:#1ca0e0;">Employee Handbook</div>
+      <h1 style="font-family:'Archivo',sans-serif; font-weight:800; font-size:54px; line-height:1.0; letter-spacing:-0.028em; margin:20px 0 0; color:#1d2127; text-align:left;">Review Notes &amp;<br>Open Items</h1>
+    </section>
+
+    <!-- BLANK BACK OF TITLE PAGE -->
+    <section class="blankback" aria-hidden="true"><span>This page intentionally left blank</span></section>
+
+    <!-- INTRO + LEGEND -->
+    <section class="frontmatter" data-screen-label="How to use">
+      <h2 style="font-size:30px; letter-spacing:-0.01em; margin-top:6px;">How to Use This Log</h2>
+      <div style="height:2px; background:var(--ink); margin:12px 0 18px;"></div>
+      <p>This document gathers every handwritten note and mark made on the draft Employee Handbook into one clean list, so the team can review and resolve them efficiently. Each item is tied to its handbook section, written out in full, and tagged by the kind of decision it needs. <mark>Highlighted text</mark> shows the specific wording or placeholder the note refers to.</p>
+      <p>Please work through each item, write the decision in the <strong>Decision / Response</strong> box, and return the marked-up copy. Once all items are resolved, the changes will be applied and the handbook given its final formatting pass.</p>
+
+      <h3 style="font-family:'Archivo',sans-serif; font-weight:800; font-size:15px; letter-spacing:0.04em; text-transform:uppercase; color:var(--accent); margin:26px 0 10px;">Comment Types</h3>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px 22px;">
+        <div style="display:flex; gap:10px; align-items:flex-start;"><span class="chip c-q" style="margin:0;">Question</span><span style="font-size:13.5px; color:#3a3f45;">A decision or clarification is needed from ownership.</span></div>
+        <div style="display:flex; gap:10px; align-items:flex-start;"><span class="chip c-input" style="margin:0;">Needs Input</span><span style="font-size:13.5px; color:#3a3f45;">A placeholder that needs real content (names, numbers, policy).</span></div>
+        <div style="display:flex; gap:10px; align-items:flex-start;"><span class="chip c-verify" style="margin:0;">Verify</span><span style="font-size:13.5px; color:#3a3f45;">Confirm the existing wording is acceptable as written.</span></div>
+        <div style="display:flex; gap:10px; align-items:flex-start;"><span class="chip c-edit" style="margin:0;">Edit</span><span style="font-size:13.5px; color:#3a3f45;">A suggested change or deletion to the text.</span></div>
+        <div style="display:flex; gap:10px; align-items:flex-start;"><span class="chip c-build" style="margin:0;">Action</span><span style="font-size:13.5px; color:#3a3f45;">A companion item to create outside the handbook text.</span></div>
+        <div style="display:flex; gap:10px; align-items:flex-start;"><span class="chip c-format" style="margin:0;">Format</span><span style="font-size:13.5px; color:#3a3f45;">A layout or formatting adjustment.</span></div>
+      </div>
+    </section>
+
+    <!-- ITEMS -->
+    <section data-screen-label="Review items" style="padding-top:18px;">
+
+      <!-- COVER -->
+      <div class="secgroup">
+        <div class="sechead"><span class="n">—</span><h3>Cover</h3><span class="loc">Front cover</span></div>
+        <div class="item"><div class="id">1</div><div class="body"><span class="chip c-verify">Verify</span><div class="loc">Logo &amp; cover treatment</div><p class="note">The <mark>logo on the cover</mark> is circled — confirm the final logo artwork and cover treatment to be used.</p>
+          <div class="resp"><span class="lbl">Decision / Response</span><div class="line"></div></div></div></div>
+      </div>
+
+      <!-- SECTION 01 -->
+      <div class="secgroup">
+        <div class="sechead"><span class="n">01</span><h3>Welcome</h3><span class="loc">Section One</span></div>
+        <div class="item"><div class="id">2</div><div class="body"><span class="chip c-q">Question</span><div class="loc">A Letter from the President</div><p class="note">Does ownership want <mark>the welcome letter included</mark> at all?</p>
+          <div class="resp"><span class="lbl">Decision / Response</span><div class="line"></div></div></div></div>
+        <div class="item"><div class="id">3</div><div class="body"><span class="chip c-q">Question</span><div class="loc">A Letter from the President</div><p class="note">If included, should the letter come from the <mark>President</mark>, or from the CEO, CFO, or COO?</p>
+          <div class="resp"><span class="lbl">Decision / Response</span><div class="line"></div></div></div></div>
+        <div class="item"><div class="id">4</div><div class="body"><span class="chip c-edit">Edit</span><div class="loc">Company History</div><p class="note">The line <mark>“[Insert founding year, founders, and key milestones.]”</mark> can be deleted if desired.</p>
+          <div class="resp"><span class="lbl">Decision / Response</span><div class="line"></div></div></div></div>
+        <div class="item"><div class="id">5</div><div class="body"><span class="chip c-input">Needs Input</span><div class="loc">Mission Statement</div><p class="note">What is the <mark>official company mission statement</mark> to use here?</p>
+          <div class="resp"><span class="lbl">Decision / Response</span><div class="line"></div></div></div></div>
+      </div>
+
+      <!-- SECTION 03 -->
+      <div class="secgroup">
+        <div class="sechead"><span class="n">03</span><h3>Employment Classifications</h3><span class="loc">Section Three</span></div>
+        <div class="item"><div class="id">6</div><div class="body"><span class="chip c-format">Format</span><div class="loc">Section start</div><p class="note"><mark>Reformat so this section begins on the next page</mark> (keep the section heading and its table together).</p>
+          <div class="resp"><span class="lbl">Decision / Response</span><div class="line"></div></div></div></div>
+        <div class="item"><div class="id">7</div><div class="body"><span class="chip c-verify">Verify</span><div class="loc">Classifications policy</div><p class="note">Please confirm ownership is <mark>OK with this policy</mark> and the classification definitions.</p>
+          <div class="resp"><span class="lbl">Decision / Response</span><div class="line"></div></div></div></div>
+      </div>
+
+      <!-- SECTION 04 -->
+      <div class="secgroup">
+        <div class="sechead"><span class="n">04</span><h3>Hiring Requirements</h3><span class="loc">Section Four</span></div>
+        <div class="item"><div class="id">8</div><div class="body"><span class="chip c-verify">Verify</span><div class="loc">Background Checks · Drug Screening · I-9 / E-Verify · Driver Qualification</div><p class="note">All four subsections were <mark>checkmarked (approved)</mark> on review — confirm no further changes.</p>
+          <div class="resp"><span class="lbl">Decision / Response</span><div class="line"></div></div></div></div>
+      </div>
+
+      <!-- SECTION 05 -->
+      <div class="secgroup">
+        <div class="sechead"><span class="n">05</span><h3>Compensation Policies</h3><span class="loc">Section Five</span></div>
+        <div class="item"><div class="id">9</div><div class="body"><span class="chip c-input">Needs Input</span><div class="loc">Pay Periods &amp; Paydays</div><p class="note">Please verify the <mark>days of the week</mark> for the workweek (start day and end day).</p>
+          <div class="resp"><span class="lbl">Decision / Response</span><div class="line"></div></div></div></div>
+        <div class="item"><div class="id">10</div><div class="body"><span class="chip c-q">Question</span><div class="loc">Direct Deposit</div><p class="note">In Florida, <mark>can the Company require direct deposit?</mark> Confirm desired wording.</p>
+          <div class="resp"><span class="lbl">Decision / Response</span><div class="line"></div></div></div></div>
+      </div>
+
+      <!-- SECTION 06 -->
+      <div class="secgroup">
+        <div class="sechead"><span class="n">06</span><h3>Attendance &amp; Scheduling</h3><span class="loc">Section Six</span></div>
+        <div class="item"><div class="id">11</div><div class="body"><span class="chip c-verify">Verify</span><div class="loc">Work Hours · Reporting Absences · No-Call/No-Show · Inclement Weather</div><p class="note">Please verify ownership is <mark>OK with the verbiage on each</mark> of these subsections (including the call-in notice window and hurricane response channel).</p>
+          <div class="resp"><span class="lbl">Decision / Response</span><div class="line"></div></div></div></div>
+        <div class="item"><div class="id">12</div><div class="body"><span class="chip c-input">Needs Input</span><div class="loc">Hurricane &amp; Severe Weather Response</div><p class="note">What policy does ownership want for the <mark>[designated channel: text alert / call tree / app]</mark> placeholder?</p>
+          <div class="resp"><span class="lbl">Decision / Response</span><div class="line"></div></div></div></div>
+      </div>
+
+      <!-- SECTION 07 -->
+      <div class="secgroup">
+        <div class="sechead"><span class="n">07</span><h3>Benefits</h3><span class="loc">Section Seven</span></div>
+        <div class="item"><div class="id">13</div><div class="body"><span class="chip c-input">Needs Input</span><div class="loc">Benefits overview — eligibility, costs &amp; waiting periods</div><p class="note">What benefits policy does ownership want here — the <mark>eligibility, costs, and waiting periods</mark> for the plans summarized in this section?</p>
+          <div class="resp"><span class="lbl">Decision / Response</span><div class="line"></div></div></div></div>
+        <div class="item"><div class="id">14</div><div class="body"><span class="chip c-edit">Edit</span><div class="loc">Health Insurance</div><p class="note">Suggest deleting the <mark>“[Carrier / plan details.]”</mark> placeholder.</p>
+          <div class="resp"><span class="lbl">Decision / Response</span><div class="line"></div></div></div></div>
+        <div class="item"><div class="id">15</div><div class="body"><span class="chip c-edit">Edit</span><div class="loc">401(k) Retirement</div><p class="note">Suggest deleting the <mark>“[Company match, if any, and eligibility.]”</mark> placeholder.</p>
+          <div class="resp"><span class="lbl">Decision / Response</span><div class="line"></div></div></div></div>
+        <div class="item"><div class="id">16</div><div class="body"><span class="chip c-input">Needs Input</span><div class="loc">Paid Time Off (PTO)</div><p class="note">Need ownership's policy for the <mark>[Accrual schedule and carryover rules.]</mark></p>
+          <div class="resp"><span class="lbl">Decision / Response</span><div class="line"></div></div></div></div>
+        <div class="item"><div class="id">17</div><div class="body"><span class="chip c-input">Needs Input</span><div class="loc">Holidays</div><p class="note">Need ownership's <mark>desired paid holidays</mark> (the [list] of holidays observed).</p>
+          <div class="resp"><span class="lbl">Decision / Response</span><div class="line"></div></div></div></div>
+        <div class="item"><div class="id">18</div><div class="body"><span class="chip c-input">Needs Input</span><div class="loc">Bereavement</div><p class="note">Need ownership's policy for <mark>[Number of days and relationships covered.]</mark></p>
+          <div class="resp"><span class="lbl">Decision / Response</span><div class="line"></div></div></div></div>
+      </div>
+
+      <!-- SECTION 08 -->
+      <div class="secgroup">
+        <div class="sechead"><span class="n">08</span><h3>Leave Policies</h3><span class="loc">Section Eight</span></div>
+        <div class="item"><div class="id">19</div><div class="body"><span class="chip c-input">Needs Input</span><div class="loc">Family &amp; Medical Leave (FMLA)</div><p class="note">Please confirm ownership's desired policy and <mark>FMLA coverage status</mark> (whether the Company meets the 50-employee threshold).</p>
+          <div class="resp"><span class="lbl">Decision / Response</span><div class="line"></div></div></div></div>
+        <div class="item"><div class="id">20</div><div class="body"><span class="chip c-verify">Verify</span><div class="loc">Workers' Comp Leave &amp; ADA Accommodation</div><p class="note">Please confirm ownership is <mark>OK with the verbiage on these two items</mark>.</p>
+          <div class="resp"><span class="lbl">Decision / Response</span><div class="line"></div></div></div></div>
+      </div>
+
+      <!-- SECTION 09 -->
+      <div class="secgroup">
+        <div class="sechead"><span class="n">09</span><h3>Workplace Conduct</h3><span class="loc">Section Nine</span></div>
+        <div class="item"><div class="id">21</div><div class="body"><span class="chip c-verify">Verify</span><div class="loc">Social Media</div><p class="note">Please confirm ownership is <mark>OK with the verbiage on this item</mark>.</p>
+          <div class="resp"><span class="lbl">Decision / Response</span><div class="line"></div></div></div></div>
+      </div>
+
+      <!-- SECTION 10 -->
+      <div class="secgroup">
+        <div class="sechead"><span class="n">10</span><h3>Drug &amp; Alcohol Policy</h3><span class="loc">Section Ten</span></div>
+        <div class="item"><div class="id">22</div><div class="body"><span class="chip c-verify">Verify</span><div class="loc">Section overview &amp; Confidentiality / Company Property</div><p class="note">Please <mark>verify the verbiage is OK</mark> across this section (including the Confidentiality and Company Property language).</p>
+          <div class="resp"><span class="lbl">Decision / Response</span><div class="line"></div></div></div></div>
+        <div class="item"><div class="id">23</div><div class="body"><span class="chip c-q">Question</span><div class="loc">Types of Testing</div><p class="note">Does ownership want <mark>all employees drug tested</mark>, or only those who drive Company vehicles / operate equipment?</p>
+          <div class="resp"><span class="lbl">Decision / Response</span><div class="line"></div></div></div></div>
+        <div class="item"><div class="id">24</div><div class="body"><span class="chip c-edit">Edit</span><div class="loc">Pre-Employment testing</div><p class="note">The sentence <mark>“Those who do not drive a Company-owned vehicle are not required.”</mark> contradicts item #23 and will be fixed once #23 is decided.</p>
+          <div class="resp"><span class="lbl">Decision / Response</span><div class="line"></div></div></div></div>
+      </div>
+
+      <!-- SECTION 11 / 12 -->
+      <div class="secgroup">
+        <div class="sechead"><span class="n">11&nbsp;·&nbsp;12</span><h3>Safety &amp; PPE · Workers' Compensation</h3><span class="loc">Sections Eleven &amp; Twelve</span></div>
+        <div class="item"><div class="id">25</div><div class="body"><span class="chip c-verify">Verify</span><div class="loc">Both sections</div><p class="note">Ownership to <mark>review and verify the verbiage on Sections 11 and 12</mark>.</p>
+          <div class="resp"><span class="lbl">Decision / Response</span><div class="line"></div></div></div></div>
+      </div>
+
+      <!-- SECTION 13 -->
+      <div class="secgroup">
+        <div class="sechead"><span class="n">13</span><h3>Company Vehicles</h3><span class="loc">Section Thirteen</span></div>
+        <div class="item"><div class="id">26</div><div class="body"><span class="chip c-build">Action</span><div class="loc">Accident Reporting · “In Every Vehicle”</div><p class="note">Confirms the plan: <mark>a book will be placed in each Company-owned/leased vehicle</mark> containing a walk-around checklist and incident/accident forms (photos required). — To be created as a companion item.</p>
+          <div class="resp"><span class="lbl">Decision / Response</span><div class="line"></div></div></div></div>
+      </div>
+
+      <!-- SECTION 15 -->
+      <div class="secgroup">
+        <div class="sechead"><span class="n">15</span><h3>Discipline Policy</h3><span class="loc">Section Fifteen</span></div>
+        <div class="item"><div class="id">27</div><div class="body"><span class="chip c-verify">Verify</span><div class="loc">Progressive discipline</div><p class="note">Ownership <mark>needs to review the verbiage at Section 15</mark>.</p>
+          <div class="resp"><span class="lbl">Decision / Response</span><div class="line"></div></div></div></div>
+      </div>
+
+      <!-- SECTION 16 -->
+      <div class="secgroup">
+        <div class="sechead"><span class="n">16</span><h3>Separation of Employment</h3><span class="loc">Section Sixteen</span></div>
+        <div class="item"><div class="id">28</div><div class="body"><span class="chip c-verify">Verify</span><div class="loc">Resignation · Job Abandonment · Termination · Final Pay</div><p class="note">Ownership to <mark>review Section 16 to ensure the verbiage is OK</mark> (including treatment of accrued PTO at separation).</p>
+          <div class="resp"><span class="lbl">Decision / Response</span><div class="line"></div></div></div></div>
+      </div>
+
+      <!-- SECTION 17 -->
+      <div class="secgroup">
+        <div class="sechead"><span class="n">17</span><h3>Employee Acknowledgement</h3><span class="loc">Section Seventeen</span></div>
+        <div class="item"><div class="id">29</div><div class="body"><span class="chip c-format">Format</span><div class="loc">Acknowledgement &amp; signature page</div><p class="note"><mark>Proper formatting to be done after final edits</mark> are resolved.</p>
+          <div class="resp"><span class="lbl">Decision / Response</span><div class="line"></div></div></div></div>
+      </div>
+
+      <!-- GLOBAL -->
+      <div class="secgroup">
+        <div class="sechead"><span class="n">★</span><h3>Document-Wide</h3><span class="loc">All sections</span></div>
+        <div class="item"><div class="id">30</div><div class="body"><span class="chip c-verify">Verify</span><div class="loc">Verbiage approval</div><p class="note">A recurring request throughout: <mark>confirm ownership approves the wording on each policy</mark>. Use the per-section items above to sign off section by section.</p>
+          <div class="resp"><span class="lbl">Decision / Response</span><div class="line"></div></div></div></div>
+        <div class="item"><div class="id">31</div><div class="body"><span class="chip c-format">Format</span><div class="loc">Final pass</div><p class="note">After all decisions above are made, apply edits and complete the <mark>final formatting pass</mark> across the whole handbook.</p>
+          <div class="resp"><span class="lbl">Decision / Response</span><div class="line"></div></div></div></div>
+      </div>
+
+    </section>
+
+    <!-- SIGN-OFF -->
+    <section data-screen-label="Sign-off" style="break-inside:avoid; margin-top:34px;">
+      <div class="sechead"><span class="n"></span><h3>Reviewer Sign-Off</h3></div>
+      <p style="margin-top:14px;">When all items above have a decision recorded, sign below to release the handbook for final edits and formatting.</p>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:26px 40px; margin-top:22px;">
+        <div><div style="border-bottom:1.5px solid var(--ink); height:32px;"></div><div style="font-family:'Archivo',sans-serif; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-top:7px;">Reviewed By (Print)</div></div>
+        <div><div style="border-bottom:1.5px solid var(--ink); height:32px;"></div><div style="font-family:'Archivo',sans-serif; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-top:7px;">Title</div></div>
+        <div><div style="border-bottom:1.5px solid var(--ink); height:32px;"></div><div style="font-family:'Archivo',sans-serif; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-top:7px;">Signature</div></div>
+        <div><div style="border-bottom:1.5px solid var(--ink); height:32px;"></div><div style="font-family:'Archivo',sans-serif; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-top:7px;">Date</div></div>
+      </div>
+      <div style="margin-top:34px; padding-top:16px; border-top:1px solid #948e80;">
+        <p style="font-family:'Archivo',sans-serif; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--soft); margin:0;">DunRite Construction Group LLC · Employee Handbook Review Log · Draft 1 · Confidential</p>
+      </div>
+    </section>
+
+    </td></tr></tbody>
+    <tfoot><tr><td class="ftr-space"></td></tr></tfoot>
+  </table>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;8.5in&quot;}}"></script>
+</body>
+</html>

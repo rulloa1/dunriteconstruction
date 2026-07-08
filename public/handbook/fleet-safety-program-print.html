@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style data-omelette-print-defaults>
+@media print {
+  h1, h2, h3, h4, h5, h6 { break-after: avoid; }
+  figure, table, pre, blockquote, img, svg, tr, [class~="card" i] { break-inside: avoid; }
+  img, svg { max-width: 100%; }
+  p { orphans: 3; widows: 3; }
+}
+</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f6f4ef; --ink:#1d2127; --muted:#6c7077; --soft:#8b8f96;
+    --accent:#0e6ea8; --sky:#1ca0e0; --navy:#15273b; --hair:#dcd7cb;
+    --card:#fffdf8; --tint:#eef4f8;
+  }
+  body{ margin:0; background:var(--paper); color:var(--ink);
+        font-family:"Source Serif 4",Georgia,serif; -webkit-font-smoothing:antialiased; }
+  .doc{ box-sizing:border-box; max-width:8.5in; margin:0 auto; background:inherit;
+        padding:0 clamp(20px,5vw,0.75in) 96px; }
+  .doc-frame{ width:100%; border-collapse:collapse; }
+  .doc-frame td{ padding:0; }
+  .running-hdr,.running-ftr,.hdr-space,.ftr-space{ display:none; }
+
+  h1,h2,h3,h4{ font-family:"Archivo",sans-serif; color:var(--ink); text-wrap:balance; margin:0; }
+  h2{ font-weight:800; font-size:28px; letter-spacing:-0.01em; line-height:1.08; }
+  h3{ font-weight:700; font-size:17px; margin:26px 0 8px; }
+  h4{ font-weight:700; font-size:13px; letter-spacing:0.07em; text-transform:uppercase; color:var(--accent); margin:22px 0 8px; }
+  p{ font-size:15px; line-height:1.65; margin:0 0 13px; color:#272b31; text-wrap:pretty; }
+  ul,ol{ font-size:15px; line-height:1.6; margin:4px 0 14px; padding-left:22px; color:#272b31; }
+  li{ margin:0 0 6px; text-wrap:pretty; }
+  li::marker{ color:var(--accent); }
+  strong{ font-weight:700; color:var(--ink); }
+  a{ color:var(--accent); text-decoration:none; }
+  .doc-frame em{ color:var(--muted); }
+
+  .sec{ break-before:page; padding-top:14px; }
+  .sec-head{ display:flex; align-items:flex-start; gap:18px; margin:0 0 6px; }
+  .sec-num{ font-family:"Archivo",sans-serif; font-weight:900; font-size:42px; line-height:0.84; color:var(--accent); flex:none; }
+  .sec-kicker{ font-family:"Archivo",sans-serif; font-weight:600; font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:var(--soft); margin:3px 0 4px; }
+  .rule{ height:2px; background:var(--ink); margin:12px 0 18px; }
+
+  .note{ background:var(--card); border:1px solid var(--hair); border-left:3px solid var(--accent); padding:15px 20px; margin:18px 0; border-radius:2px; }
+  .note p{ margin:0; font-size:14px; }
+  .note .lbl{ font-family:"Archivo",sans-serif; font-weight:700; font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent); display:block; margin-bottom:6px; }
+  .note.fla{ border-left-color:var(--sky); } .note.fla .lbl{ color:#0f86c4; }
+  .note.danger{ border-left-color:#b3471f; background:#fbf2ee; } .note.danger .lbl{ color:#b3471f; }
+  .note.legal{ border-left-color:#9a7b1e; } .note.legal .lbl{ color:#9a7b1e; }
+
+  table.t{ width:100%; border-collapse:collapse; margin:16px 0 20px; font-size:14px; }
+  table.t th{ font-family:"Archivo",sans-serif; font-weight:700; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; text-align:left; color:var(--ink); border-bottom:2px solid var(--ink); padding:8px 12px; }
+  table.t td{ border-bottom:1px solid #948e80; padding:10px 12px; vertical-align:top; line-height:1.5; }
+  table.t td:first-child{ font-weight:600; color:var(--ink); }
+
+  .steps{ counter-reset:st; list-style:none; padding:0; margin:12px 0 16px; }
+  .steps li{ position:relative; padding:3px 0 14px 44px; counter-increment:st; }
+  .steps li::before{ content:counter(st); position:absolute; left:0; top:0; width:28px; height:28px; border-radius:50%; background:var(--accent); color:#fff; font-family:"Archivo",sans-serif; font-weight:700; font-size:13px; display:flex; align-items:center; justify-content:center; }
+  .steps li strong{ display:block; }
+
+  h3,h4{ break-after:avoid; } h4+ul,h4+ol,h3+ul,h3+ol,h4+table,h4+p{ break-before:avoid; }
+  .blankback{ display:none; }
+  @page{ size:letter; margin:0; }
+  @media print{
+    .blankback{ display:flex !important; align-items:center; justify-content:center; min-height:6in; break-before:page; break-after:page; }
+    .blankback span{ font-family:"IBM Plex Mono",monospace; font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:#b8b3a6; }
+    html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    html,body{ margin:0; padding:0; }
+    .doc{ max-width:none !important; margin:0 !important; padding:0 0.75in !important; box-shadow:none !important; border:none !important; }
+    #dc-root,.sc-host{ height:auto !important; }
+    .hdr-space,.ftr-space{ display:table-cell; height:0.7in !important; }
+    .running-hdr,.running-ftr{ display:flex !important; justify-content:space-between; align-items:baseline; position:fixed !important; left:0; right:0; margin:0 !important; font-family:"Archivo",sans-serif; font-size:9px; letter-spacing:0.12em; text-transform:uppercase; color:var(--soft); }
+    .running-hdr{ top:0; padding:0.32in 0.75in 0 !important; }
+    .running-ftr{ bottom:0; padding:0 0.75in 0.32in !important; }
+    h1,h2,h3,h4{ break-after:avoid; }
+    figure,pre,blockquote,table,tr,.note,.steps li{ break-inside:avoid; }
+    p,li{ orphans:3; widows:3; }
+    .cover,.frontmatter{ break-after:page; }
+    .screen-only{ display:none !important; }
+  }
+
+/* ---- polish pass ---- */
+p{ line-height:1.7; color:#2b3036; }
+h2{ letter-spacing:-0.02em; }
+.rule{ height:0 !important; background:transparent !important; border:0; border-top:1px solid var(--ink); position:relative; }
+.rule::before{ content:""; position:absolute; top:-2px; left:0; width:52px; height:3px; background:var(--accent); }
+.rule + p{ font-size:16.5px; line-height:1.66; color:#1b1f25; }
+.sec-num{ letter-spacing:-.03em; }
+h4{ display:flex; align-items:center; gap:9px; }
+h4::before{ content:""; width:15px; height:2px; background:currentColor; opacity:.8; flex:none; }
+.note{ border-radius:3px; box-shadow:0 1px 2px rgba(21,39,59,.04); }
+table.t td{ padding-top:11px; padding-bottom:11px; }
+table.t th{ letter-spacing:.1em; }
+
+  .wm{ position:fixed; inset:0; background:url("assets/dunrite-mark.png") no-repeat center; background-size:360px auto; opacity:0.07; transform:rotate(-20deg); pointer-events:none; z-index:0; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .doc{ position:relative; z-index:1; }
+</style>
+</helmet>
+<main class="doc">
+  <div class="wm" aria-hidden="true"></div>
+  <div class="running-hdr"><span>DunRite Construction Group LLC</span><span>Fleet Safety Program · 2026</span></div>
+  <div class="running-ftr"><span>Confidential — Internal Use Only</span><span>Effective January 2026 · Rev. 1.0</span></div>
+  <table class="doc-frame" role="presentation">
+    <thead><tr><td class="hdr-space"></td></tr></thead>
+    <tbody><tr><td>
+
+    <!-- COVER -->
+        <!-- ===================== COVER — Centered Monolith ===================== -->
+    <section class="cover" data-screen-label="Cover" style="background:#ffffff; color:#1d2127; border:1px solid #dcd7cb; border-radius:4px; margin:0 0 40px; padding:96px clamp(40px,7vw,84px); min-height:9.4in; box-sizing:border-box; position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+      <img src="assets/dunrite-logo-dark.png" alt="DunRite Construction Group LLC" style="display:block; width:248px; max-width:62%; height:auto; margin:0 auto;">
+      <div style="width:64px; height:3px; background:#1ca0e0; margin:46px auto 30px; border-radius:2px;"></div>
+      <div style="font-family:'Archivo',sans-serif; font-weight:600; font-size:13px; letter-spacing:0.34em; text-transform:uppercase; color:#1ca0e0;">Fleet Safety Program</div>
+      <h1 style="font-family:'Archivo',sans-serif; font-weight:800; font-size:54px; line-height:1.0; letter-spacing:-0.028em; margin:20px 0 0; color:#1d2127; text-align:left;">Every Mile,<br>Every Driver</h1>
+    </section>
+
+    <!-- BLANK BACK OF TITLE PAGE -->
+    <section class="blankback" aria-hidden="true"><span>This page intentionally left blank</span></section>
+
+    <!-- FRONT MATTER -->
+    <section class="frontmatter" data-screen-label="Overview">
+      <div class="sec-kicker" style="margin-top:8px;">DunRite Construction Group LLC</div>
+      <h2 style="font-size:32px; margin-bottom:8px;">Program Overview</h2>
+      <div class="rule"></div>
+      <p>Company vehicles are essential to our work and represent significant risk if not operated safely. This Fleet Safety Program sets the standards for who may drive, how vehicles are maintained, the rules for safe driving, and what to do after an accident. It applies to anyone who operates a Company vehicle or who drives a personal vehicle for Company business.</p>
+      <p>This Program expands on the Company Vehicles policy in the Employee Handbook (Section 13) and the Fleet Management procedure in the SOP Manual (SOP 105). Where they overlap, the most protective requirement applies.</p>
+
+      <div class="note legal">
+        <span class="lbl">Important — Please Read</span>
+        <p>This is a <strong>draft template</strong> for general information only and is not legal advice. Requirements differ for non-commercial vehicles versus vehicles subject to U.S. DOT / FMCSA regulation (which can include CDL, medical certification, hours-of-service, and a DOT drug-and-alcohol program). Before adopting, confirm which Company vehicles are DOT-regulated and have this Program and your insurance requirements reviewed by qualified advisors. Bracketed items must be completed.</p>
+      </div>
+
+      <h3 style="margin-top:30px;">Contents</h3>
+      <div class="rule" style="margin-top:10px;"></div>
+      <div style="font-family:'Archivo',sans-serif;">
+        <a href="#sec-1" style="display:flex; gap:14px; padding:7px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">01</span><span style="font-weight:500; font-size:14px;">Driver Qualification &amp; Authorization</span></a>
+        <a href="#sec-2" style="display:flex; gap:14px; padding:7px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">02</span><span style="font-weight:500; font-size:14px;">Vehicle Inspection &amp; Maintenance</span></a>
+        <a href="#sec-3" style="display:flex; gap:14px; padding:7px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">03</span><span style="font-weight:500; font-size:14px;">Safe Driving Rules</span></a>
+        <a href="#sec-4" style="display:flex; gap:14px; padding:7px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">04</span><span style="font-weight:500; font-size:14px;">Distracted &amp; Impaired Driving</span></a>
+        <a href="#sec-5" style="display:flex; gap:14px; padding:7px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">05</span><span style="font-weight:500; font-size:14px;">DOT &amp; CDL Requirements</span></a>
+        <a href="#sec-6" style="display:flex; gap:14px; padding:7px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">06</span><span style="font-weight:500; font-size:14px;">Accident Response</span></a>
+        <a href="#sec-7" style="display:flex; gap:14px; padding:7px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">07</span><span style="font-weight:500; font-size:14px;">Driver Acknowledgement</span></a>
+      </div>
+    </section>
+
+    <!-- 1 -->
+    <section class="sec" id="sec-1" data-screen-label="01 Driver Qualification">
+      <div class="sec-head"><div class="sec-num">01</div><div><div class="sec-kicker">Section One</div><h2>Driver Qualification &amp; Authorization</h2></div></div>
+      <div class="rule"></div>
+      <p>Only employees authorized by the Company may operate Company vehicles. To be and remain authorized, a driver must:</p>
+      <ul>
+        <li>Hold a valid driver's license appropriate to the vehicle (and a valid CDL where required).</li>
+        <li>Maintain an acceptable driving record as determined by the Company and its insurer.</li>
+        <li>Complete any required driver orientation or training.</li>
+        <li>Authorize the Company to review their Motor Vehicle Record (MVR) at hire and periodically.</li>
+      </ul>
+      <div class="note danger"><span class="lbl">You Must Report</span><p>Immediately notify your supervisor if your license is suspended, revoked, restricted, or expired, or if you are charged with or convicted of a serious traffic offense or DUI. Driving on an invalid license is prohibited.</p></div>
+      <h4>MVR Review</h4>
+      <p>The Company reviews driving records before assigning a driver and on a periodic basis. A record that does not meet Company or insurer standards may result in loss of driving privileges and reassignment or other action.</p>
+    </section>
+
+    <!-- 2 -->
+    <section class="sec" id="sec-2" data-screen-label="02 Inspection & Maintenance">
+      <div class="sec-head"><div class="sec-num">02</div><div><div class="sec-kicker">Section Two</div><h2>Vehicle Inspection &amp; Maintenance</h2></div></div>
+      <div class="rule"></div>
+      <h4>Daily Walk-Around Inspection</h4>
+      <p>Before operating a Company vehicle, perform a quick walk-around and check:</p>
+      <table class="t">
+        <thead><tr><th style="width:34%;">Check</th><th>Looking For</th></tr></thead>
+        <tbody>
+          <tr><td>Tires</td><td>Adequate tread, proper inflation, no visible damage</td></tr>
+          <tr><td>Lights &amp; signals</td><td>Headlights, brake lights, turn signals, hazards all working</td></tr>
+          <tr><td>Fluids</td><td>No leaks; oil and coolant at proper levels</td></tr>
+          <tr><td>Brakes &amp; horn</td><td>Firm brake pedal; working horn</td></tr>
+          <tr><td>Glass &amp; mirrors</td><td>Clean, intact, properly adjusted</td></tr>
+          <tr><td>Load &amp; securement</td><td>Cargo and equipment properly secured; within capacity</td></tr>
+          <tr><td>Safety items</td><td>Seatbelts functional; fire extinguisher / first-aid kit present where required</td></tr>
+        </tbody>
+      </table>
+      <h4>Maintenance &amp; Defects</h4>
+      <ul>
+        <li>Report any defect or warning light promptly; do not operate an unsafe vehicle.</li>
+        <li>Preventive maintenance is scheduled by mileage/hours and tracked by the Fleet Coordinator.</li>
+        <li>Keep vehicles clean inside and out; report damage immediately.</li>
+      </ul>
+    </section>
+
+    <!-- 3 -->
+    <section class="sec" id="sec-3" data-screen-label="03 Safe Driving">
+      <div class="sec-head"><div class="sec-num">03</div><div><div class="sec-kicker">Section Three</div><h2>Safe Driving Rules</h2></div></div>
+      <div class="rule"></div>
+      <ul>
+        <li><strong>Seatbelts always.</strong> Every occupant wears a seatbelt whenever the vehicle is in motion — no exceptions.</li>
+        <li><strong>Obey traffic laws.</strong> Follow posted speed limits and all traffic laws; adjust speed for weather, traffic, and load.</li>
+        <li><strong>Keep your distance.</strong> Maintain a safe following distance (at least 3–4 seconds; more for heavy loads, towing, and wet conditions).</li>
+        <li><strong>Drive for Florida conditions.</strong> Slow down for rain, standing water, and reduced visibility; watch for sudden storms.</li>
+        <li><strong>Back up safely.</strong> Use a spotter where possible; walk around the vehicle before backing.</li>
+        <li><strong>Park safely.</strong> Set the parking brake, chock when needed, and secure the load before leaving the vehicle.</li>
+        <li><strong>Secure loads.</strong> Properly secure tools, materials, and equipment; never exceed rated capacity.</li>
+        <li><strong>No unauthorized passengers.</strong> Carry only authorized passengers; no riding in truck beds or on equipment.</li>
+        <li><strong>Rest.</strong> Do not drive fatigued; take breaks on long drives.</li>
+      </ul>
+    </section>
+
+    <!-- 4 -->
+    <section class="sec" id="sec-4" data-screen-label="04 Distracted & Impaired">
+      <div class="sec-head"><div class="sec-num">04</div><div><div class="sec-kicker">Section Four</div><h2>Distracted &amp; Impaired Driving</h2></div></div>
+      <div class="rule"></div>
+      <div class="note danger"><span class="lbl">Zero Tolerance</span><p>Texting while driving is <strong>prohibited</strong>. Driving under the influence of alcohol, drugs, or impairing medication is <strong>prohibited</strong> and is grounds for immediate termination.</p></div>
+      <h4>Phones &amp; Distraction</h4>
+      <ul>
+        <li>Do not text, email, or use apps while driving.</li>
+        <li>Handheld phone use while driving is prohibited; if a call is necessary, use a hands-free device or pull over safely to a legal stop.</li>
+        <li>Program navigation before you start driving — not while moving.</li>
+        <li>Avoid eating, grooming, or other distractions that take attention off the road.</li>
+      </ul>
+      <div class="note fla"><span class="lbl">Florida Law</span><p>Florida prohibits texting while driving, and handheld device use is banned in active school and work zones. The Company's hands-free expectation applies everywhere, all the time.</p></div>
+    </section>
+
+    <!-- 5 -->
+    <section class="sec" id="sec-5" data-screen-label="05 DOT & CDL">
+      <div class="sec-head"><div class="sec-num">05</div><div><div class="sec-kicker">Section Five</div><h2>DOT &amp; CDL Requirements</h2></div></div>
+      <div class="rule"></div>
+      <p>Employees who operate vehicles subject to U.S. Department of Transportation / Federal Motor Carrier Safety Administration (FMCSA) regulations must meet additional requirements, which may include:</p>
+      <ul>
+        <li>A valid <strong>Commercial Driver's License (CDL)</strong> of the proper class and endorsements for the vehicle and cargo.</li>
+        <li>A current <strong>DOT medical certificate</strong> (DOT physical) where required.</li>
+        <li>Compliance with <strong>hours-of-service</strong> rules and accurate logs/records as applicable.</li>
+        <li>Participation in the <strong>DOT drug-and-alcohol testing program</strong> (pre-employment, random, post-accident, reasonable suspicion, return-to-duty, follow-up).</li>
+        <li>Pre-trip and post-trip inspections and defect reporting for regulated vehicles.</li>
+      </ul>
+      <div class="note legal"><span class="lbl">Confirm Applicability</span><p>Whether a vehicle is DOT-regulated depends on factors such as weight rating, use, and whether it crosses state lines. The Company must identify which vehicles and drivers are covered and apply these requirements accordingly. Confirm with qualified transportation/compliance advisors.</p></div>
+    </section>
+
+    <!-- 6 -->
+    <section class="sec" id="sec-6" data-screen-label="06 Accident Response">
+      <div class="sec-head"><div class="sec-num">06</div><div><div class="sec-kicker">Section Six</div><h2>Accident Response</h2></div></div>
+      <div class="rule"></div>
+      <p>Report <strong>every</strong> accident involving a Company vehicle — or a personal vehicle used for Company business — immediately, no matter how minor.</p>
+      <h4>At the Scene</h4>
+      <ol class="steps">
+        <li><strong>Stop &amp; secure.</strong><span>Stop safely, turn on hazards, and check for injuries. Call 911 if anyone is hurt or if required by law.</span></li>
+        <li><strong>Do not admit fault.</strong><span>Be courteous but do not admit fault or discuss who was responsible.</span></li>
+        <li><strong>Exchange information.</strong><span>Exchange license, insurance, and contact information with other drivers; get witness names and numbers.</span></li>
+        <li><strong>Document the scene.</strong><span>Photograph vehicles, damage, positions, road/weather conditions, and the surrounding area if safe to do so.</span></li>
+        <li><strong>Notify the Company.</strong><span>Call your supervisor immediately; do not arrange repairs or accept settlement without Company authorization.</span></li>
+        <li><strong>Complete the report.</strong><span>Complete the Company Accident Report and cooperate with the insurer and any investigation. Post-accident drug/alcohol testing may apply.</span></li>
+      </ol>
+      <div class="note"><span class="lbl">Keep in the Vehicle</span><p>Keep an accident information packet (insurance card, accident report form, emergency contacts, and a disposable or phone camera) in each Company vehicle.</p></div>
+    </section>
+
+    <!-- 7 -->
+    <section class="sec" id="sec-7" data-screen-label="07 Acknowledgement">
+      <div class="sec-head"><div class="sec-num">07</div><div><div class="sec-kicker">Section Seven</div><h2>Driver Acknowledgement</h2></div></div>
+      <div class="rule"></div>
+      <p>This page must be signed and returned to the office before operating a Company vehicle.</p>
+      <div style="border:1.5px solid var(--ink); border-radius:3px; padding:26px 28px; margin:20px 0; background:var(--card);">
+        <p style="font-size:14px;">I acknowledge that I have received and reviewed the DunRite Construction Group LLC Fleet Safety Program. I understand that operating a Company vehicle is a privilege that requires a valid license, an acceptable driving record, and compliance with this Program.</p>
+        <p style="font-size:14px;">I agree to wear my seatbelt at all times, obey all traffic laws, refrain from texting and handheld phone use while driving, and never operate a vehicle while impaired. I authorize the Company to review my Motor Vehicle Record.</p>
+        <p style="font-size:14px; margin-bottom:0;">I agree to immediately report any change to my license status, any serious traffic violation or DUI, and any accident involving a Company vehicle or a personal vehicle used for Company business.</p>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:30px 40px; margin-top:40px;">
+        <div><div style="border-bottom:1.5px solid var(--ink); height:34px;"></div><div style="font-family:'Archivo',sans-serif; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-top:7px;">Driver Name (Print)</div></div>
+        <div><div style="border-bottom:1.5px solid var(--ink); height:34px;"></div><div style="font-family:'Archivo',sans-serif; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-top:7px;">Driver's License No. / State</div></div>
+        <div><div style="border-bottom:1.5px solid var(--ink); height:34px;"></div><div style="font-family:'Archivo',sans-serif; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-top:7px;">Driver Signature</div></div>
+        <div><div style="border-bottom:1.5px solid var(--ink); height:34px;"></div><div style="font-family:'Archivo',sans-serif; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-top:7px;">Date</div></div>
+      </div>
+      <div style="margin-top:48px; padding-top:18px; border-top:1px solid #948e80;">
+        <p style="font-family:'Archivo',sans-serif; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--soft); margin:0;">DunRite Construction Group LLC · Fleet Safety Program · 2026 · Rev. 1.0 · Confidential</p>
+      </div>
+    </section>
+
+    </td></tr></tbody>
+    <tfoot><tr><td class="ftr-space"></td></tr></tfoot>
+  </table>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;8.5in&quot;},&quot;paper&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Warm cream&quot;,&quot;Bright white&quot;,&quot;Cool paper&quot;],&quot;default&quot;:&quot;Warm cream&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;accent&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;DunRite blue&quot;,&quot;Deep navy&quot;,&quot;Slate&quot;],&quot;default&quot;:&quot;DunRite blue&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  componentDidMount(){ this.applyTheme(); }
+  componentDidUpdate(){ this.applyTheme(); }
+  applyTheme(){
+    const root = document.documentElement;
+    const paper = { "Warm cream":"#f6f4ef", "Bright white":"#ffffff", "Cool paper":"#f3f5f8" };
+    const accent = { "DunRite blue":"#0e6ea8", "Deep navy":"#16324f", "Slate":"#3a4654" };
+    const p = paper[this.props.paper] || null;
+    const a = accent[this.props.accent] || null;
+    if (p) root.style.setProperty("--paper", p);
+    if (a) root.style.setProperty("--accent", a);
+  }
+  renderVals(){ return {}; }
+}
+</script>
+<script>
+(async () => {
+  if (!document.title || !document.title.trim()) document.title = "Fleet Safety Program";
+  // Prepend so page-supplied @page / break rules (deck-stage's margin:0,
+  // author CSS) keep source-order precedence over the baseline.
+  const baseCss = document.createElement('style');
+  baseCss.textContent = "@media print {\n  figure, table { break-inside: avoid; }\n  *, *::before, *::after {\n    print-color-adjust: exact; -webkit-print-color-adjust: exact;\n    backdrop-filter: none !important; -webkit-backdrop-filter: none !important;\n    animation-delay: -99s !important; animation-duration: .001s !important;\n    animation-iteration-count: 1 !important; animation-fill-mode: both !important;\n    animation-play-state: running !important; transition-duration: 0s !important;\n  }\n}";
+  document.head.prepend(baseCss);
+  if (document.readyState === 'loading') {
+    await new Promise((r) => document.addEventListener('DOMContentLoaded', r, { once: true }));
+  }
+  let ds = document.querySelector('deck-stage');
+  // whenDefined never resolves when nothing registers the element, so only
+  // await it when a <deck-stage> tag exists (and race a timeout regardless).
+  if (ds && !customElements.get('deck-stage')) {
+    try {
+      await Promise.race([
+        customElements.whenDefined('deck-stage'),
+        new Promise((r) => setTimeout(r, 3000)),
+      ]);
+    } catch (e) {}
+    ds = document.querySelector('deck-stage');
+  }
+  // dc-runtime assigns window.DCLogic at init and mounts into #dc-root on
+  // DOMContentLoaded; settle on that subtree so React has rendered before
+  // print(). Non-DC pages fall through to weighing body.
+  const isDc = !ds && 'DCLogic' in window;
+  const settleRoot = ds || (isDc ? document.getElementById('dc-root') : null) || document.body;
+  if (settleRoot) {
+    // Weigh only content children — skip script/style/template so inline
+    // Babel/CSS doesn't register as stable "content" before the framework
+    // has mounted anything.
+    const MEDIA = 'img,svg,canvas,video,picture,iframe,embed,object';
+    const weigh = () => {
+      let text = 0, media = 0;
+      for (const c of settleRoot.children) {
+        const t = c.tagName;
+        if (t === 'SCRIPT' || t === 'STYLE' || t === 'TEMPLATE') continue;
+        text += (c.textContent || '').trim().length;
+        media += c.querySelectorAll(MEDIA).length + (c.matches(MEDIA) ? 1 : 0);
+      }
+      return text + media * 100;
+    };
+    // "Non-zero and stable" alone is not sufficient to mean rendered: generic
+    // body can carry a static shell while async main content is pending, and
+    // #dc-root can carry the root DC's static text while child refs are still
+    // .sc-placeholder boxes. Gate generic on readyState 'complete', and never
+    // accept stability while a dc-runtime placeholder is present.
+    const isGeneric = settleRoot === document.body;
+    const deadline = Date.now() + 15000;
+    let last = -1, stable = 0;
+    while (Date.now() < deadline) {
+      const n = weigh();
+      const ready =
+        (!isGeneric || document.readyState === 'complete') &&
+        !settleRoot.querySelector('.sc-placeholder');
+      if (n > 0 && n === last && ready) { if (++stable >= 2) break; } else { stable = 0; }
+      last = n;
+      await new Promise((r) => setTimeout(r, 250));
+    }
+  }
+  // Project support.js may predate runtime default-seeding; push via bridge.
+  if (isDc && window.__dcSetProps && window.__dcRootName) {
+    try {
+      const dpEl = document.querySelector('script[data-dc-script]');
+      const meta = JSON.parse((dpEl && dpEl.getAttribute('data-props')) || '{}');
+      const bag = {};
+      for (const k in meta)
+        if (k[0] !== '$' && meta[k] && meta[k].default !== undefined)
+          bag[k] = meta[k].default;
+      if (Object.keys(bag).length) {
+        window.__dcSetProps(window.__dcRootName(), bag);
+        await new Promise((r) => setTimeout(r, 50));
+      }
+    } catch (e) {}
+  }
+  // Reveal content gated on scroll or visibility before printing. Lazy <img>,
+  // IntersectionObserver fade-ins, and collapsed <details> don't render while
+  // off-screen, so a long page would print with them blank or closed. Open
+  // every <details>, force native-lazy images eager, and scroll the document
+  // through its full height to trip lazy-load + IO; then wait (bounded) for the
+  // newly-triggered images. Inert for deck-stage (slides aren't scroll-gated).
+  try {
+    for (const d of document.querySelectorAll('details')) d.open = true;
+    for (const img of document.querySelectorAll('img[loading="lazy"]'))
+      img.loading = 'eager';
+    const scroller = document.scrollingElement || document.documentElement;
+    const full = Math.max(scroller.scrollHeight, document.body.scrollHeight);
+    const step = window.innerHeight || 800;
+    for (let y = 0; y <= full; y += step) {
+      window.scrollTo(0, y);
+      await new Promise((r) => requestAnimationFrame(r));
+    }
+    window.scrollTo(0, 0);
+    await Promise.race([
+      Promise.all(
+        [...document.images].map((img) =>
+          img.complete
+            ? null
+            : new Promise((res) => {
+                img.addEventListener('load', res, { once: true });
+                img.addEventListener('error', res, { once: true });
+              })
+        )
+      ),
+      new Promise((r) => setTimeout(r, 4000)),
+    ]);
+  } catch (e) {}
+  try { await document.fonts.ready; } catch (e) {}
+  // Jump every animation to its end state so print() never captures a slide
+  // mid-entrance. Ordering matters: the 0s-transition style must be live
+  // BEFORE data-deck-active is set so attribute-keyed transitions don't
+  // start a (now-0s) run from the pre-active base.
+  const st = document.createElement('style');
+  st.textContent = '*,*::before,*::after{animation-delay:-99s !important;animation-duration:.001s !important;animation-iteration-count:1 !important;animation-fill-mode:both !important;animation-play-state:running !important;transition-duration:0s !important}';
+  document.head.appendChild(st);
+  for (const d of document.querySelectorAll('deck-stage')) {
+    for (const c of d.children) {
+      const t = c.tagName;
+      if (t === 'SCRIPT' || t === 'STYLE' || t === 'TEMPLATE') continue;
+      c.setAttribute('data-deck-active', '');
+    }
+  }
+  // Re-append deck-stage's @page last so no author @page can add a margin and
+  // spill each full-bleed slide onto two sheets. Backstop for old copies.
+  if (ds) {
+    let pg = document.getElementById('deck-stage-print-page');
+    if (!pg) {
+      pg = document.createElement('style');
+      pg.textContent = '@page{size:' + (+ds.getAttribute('width') || 1920) +
+        'px ' + (+ds.getAttribute('height') || 1080) + 'px;margin:0}';
+    }
+    document.body.appendChild(pg);
+  }
+  try {
+    const sweep = () => {
+      for (const a of document.getAnimations()) {
+        try { a.finish(); } catch (e) {
+          try { a.currentTime = (a.effect && a.effect.getComputedTiming().duration) || 0; a.pause(); } catch (e2) {}
+        }
+      }
+    };
+    sweep();
+    await new Promise((r) => requestAnimationFrame(r));
+    sweep();
+    await new Promise((r) => requestAnimationFrame(r));
+  } catch (e) {}
+  // Size the PDF page to the rendered design unless the file opted into
+  // standard paper via @page{size:letter|A4|…}. Decks own their own @page.
+  // Wrappers (body, …) lose padding+margin so the frame sits at (0,0); the
+  // frame itself loses only margin — its padding is INSIDE the measured
+  // rect and must stay, or content shifts and leaves a gap at bottom/right.
+  var __m = null;
+  try { __m = (() => {
+  var docEl = document.documentElement;
+  var doc = { width: docEl.scrollWidth, height: docEl.scrollHeight };
+
+  var ds = document.querySelector('deck-stage');
+  if (ds) {
+    var dw = Number(ds.getAttribute('width')) || 1920;
+    var dh = Number(ds.getAttribute('height')) || 1080;
+    var n = typeof ds.length === 'number' ? ds.length : ds.children.length;
+    var idx = typeof ds.index === 'number' ? ds.index : 0;
+    var frames = [];
+    for (var i = 0; i < n; i++) frames.push({ left: 0, top: 0, width: dw, height: dh });
+    return { kind: 'deck', doc: doc, frames: frames,
+      authored: frames.map(function(){return{width:true,height:true}}),
+      deck: { width: dw, height: dh, slideCount: n, index: idx },
+      signals: { paperPage: false, pxPage: false } };
+  }
+
+  var paperPage = false, pxPage = false;
+  var eachRule = function (fn) {
+    for (var s = 0; s < document.styleSheets.length; s++) {
+      var rs; try { rs = document.styleSheets[s].cssRules; } catch (e) { continue; }
+      for (var r = 0; r < rs.length; r++) {
+        fn(rs[r]);
+        if (rs[r].cssRules) for (var n = 0; n < rs[r].cssRules.length; n++) fn(rs[r].cssRules[n]);
+      }
+    }
+  };
+  eachRule(function (r) {
+    if (r.type !== 6) return;
+    var m = /\bsize\s*:\s*([^;}]+)/i.exec(r.cssText || '');
+    if (!m) return;
+    if (/\b(letter|a[3-5]|legal|ledger)\b/i.test(m[1])) paperPage = true;
+    if (/\d+(?:\.\d+)?px\b/i.test(m[1])) pxPage = true;
+  });
+  var signals = { paperPage: paperPage, pxPage: pxPage };
+
+  var pxVal = function (v) {
+    var m = /^(\d+(?:\.\d+)?)px$/.exec(v || ''); return m ? +m[1] : 0;
+  };
+  var authoredPx = function (el, prop) {
+    if (pxVal(el.style[prop])) return true;
+    var attr = el.getAttribute(prop);
+    if (attr && /^\d+$/.test(attr)) return true;
+    var hit = false;
+    eachRule(function (r) {
+      if (hit || r.type !== 1 || !r.style) return;
+      try { if (el.matches(r.selectorText) && pxVal(r.style[prop])) hit = true; } catch (e) {}
+    });
+    return hit;
+  };
+
+  var el = document.body, rootPxW = false;
+  for (;;) {
+    var kids = [];
+    for (var c = 0; c < el.children.length; c++) {
+      var t = el.children[c].tagName;
+      if (t !== 'SCRIPT' && t !== 'STYLE' && t !== 'TEMPLATE') kids.push(el.children[c]);
+    }
+    if (kids.length !== 1 || !(kids[0] instanceof HTMLElement)) break;
+    el.setAttribute('data-om-frame-wrap', '');
+    el = kids[0];
+    rootPxW = authoredPx(el, 'width');
+    if (rootPxW) break;
+  }
+  if (!rootPxW) rootPxW = authoredPx(el, 'width');
+
+  // @page{size:letter} alone is a flowing doc; with a px-width root it's a
+  // fixed sheet pretending to be paper — fall through and size to render.
+  if (paperPage && !rootPxW) {
+    return { kind: 'paper-doc', doc: doc, signals: signals,
+      frames: [{ left: 0, top: 0, width: doc.width, height: doc.height }],
+      authored: [{ width: false, height: false }] };
+  }
+
+  var sx = window.scrollX || 0, sy = window.scrollY || 0;
+  var rectOf = function (e) {
+    var r = e.getBoundingClientRect();
+    var oy; try { oy = getComputedStyle(e).overflowY; } catch (err) {}
+    var h = oy === 'visible' ? Math.max(r.height, e.scrollHeight || 0) : r.height;
+    return { left: r.left + sx, top: r.top + sy, width: r.width, height: h };
+  };
+
+  // Multi-frame: ≥2 visible non-fixed children, each with authored px width
+  // AND height, all within ±2px of each other. Off unless the page opts in
+  // via data-om-multi-frame on the stop element — guards against card grids
+  // and pricing tables that match the geometry but aren't separate canvases.
+  if (el.hasAttribute('data-om-multi-frame')) {
+    var cands = [];
+    for (var k = 0; k < el.children.length; k++) {
+      var ch = el.children[k];
+      var cs; try { cs = getComputedStyle(ch); } catch (e) { continue; }
+      if (cs.display === 'none' || cs.visibility === 'hidden' || cs.position === 'fixed') continue;
+      var rc = rectOf(ch);
+      if (rc.width < 2 || rc.height < 2) continue;
+      if (!authoredPx(ch, 'width') || !authoredPx(ch, 'height')) continue;
+      cands.push(rc);
+    }
+    if (cands.length >= 2) {
+      var w0 = cands[0].width, h0 = cands[0].height, ok = true;
+      for (var q = 1; q < cands.length; q++)
+        if (Math.abs(cands[q].width - w0) > 2 || Math.abs(cands[q].height - h0) > 2) ok = false;
+      if (ok) return { kind: 'multi-frame', doc: doc, signals: signals,
+        frames: cands, authored: cands.map(function(){return{width:true,height:true}}) };
+    }
+  }
+
+  el.setAttribute('data-om-frame', '');
+  return { kind: 'single-canvas', doc: doc, signals: signals,
+    frames: [rectOf(el)],
+    authored: [{ width: rootPxW, height: authoredPx(el, 'height') }] };
+})(); } catch (e) {}
+  var frame = null;
+  if (__m && __m.kind === 'single-canvas') {
+    var f = __m.frames && __m.frames[0];
+    if (f && f.width >= 200 && f.height >= 200) {
+      frame = f;
+      var fst = document.createElement('style');
+      fst.textContent = '@media print{@page{size:' + Math.ceil(f.width) + 'px ' +
+        Math.ceil(f.height) + 'px;margin:0}' +
+        'html,body,[data-om-frame-wrap]{padding:0!important;margin:0!important;background:none!important}' +
+        '[data-om-frame]{margin:0!important}}';
+      document.body.appendChild(fst);
+    }
+  }
+  // Relax break-inside on oversized elements. An element taller than a
+  // printable page can't honor break-inside: avoid — browsers either overflow
+  // it or push it whole to the next page, leaving a blank gap, then break it
+  // anyway at an arbitrary point. After the final layout (content revealed,
+  // animations jumped), find elements taller than a page that still compute
+  // break-inside: avoid and reset them to auto, so the browser breaks them at
+  // their children's boundaries instead (children keep their own avoid). PAGE_PX
+  // is a conservative portrait estimate at 96 CSS px/in — Letter/A4 usable
+  // height minus our 0.5in margins — so only clearly-oversized elements are
+  // touched and under-page elements still stay whole. Skipped for decks (slides
+  // are sized to the page) and for fixed-size canvases (frame set, or an author
+  // px-based @page) — runs as before for flowing docs on letter/A4.
+  try {
+    if (!ds && !frame && !(__m && __m.signals && __m.signals.pxPage)) {
+      const PAGE_PX = 1024;
+      // Our print defaults add a real @page margin only when the source has
+      // no @page of its own; computed style can't tell us (it reports screen
+      // media), so read the injected rule directly.
+      const defaults = document.querySelector('style[data-omelette-print-defaults]');
+      const pageInset = /@page\s*\{[^}]*margin/.test(defaults ? defaults.textContent || '' : '');
+      const SEL = 'section,article,figure,table,pre,blockquote,[class~="card" i],[class~="page" i],[class~="sheet" i]';
+      for (const el of document.body.querySelectorAll(SEL)) {
+        if (el instanceof HTMLElement && el.offsetHeight > PAGE_PX) {
+          el.setAttribute('data-om-oversized', '');
+          // Fake-paged docs simulate sheets with over-tall break-after:page
+          // boxes; honoring the break spills half-blank pages and ends a
+          // colored box mid-sheet. Flow them, and (only when we own the page
+          // inset) drop the redundant padding/background via the rule below.
+          const cs = getComputedStyle(el);
+          if (cs.breakAfter === 'page' || cs.pageBreakAfter === 'always') {
+            el.setAttribute('data-om-fakepage', '');
+          }
+        }
+      }
+      const ost = document.createElement('style');
+      ost.textContent = '@media print{' +
+        '[data-om-oversized]{break-inside:auto !important;page-break-inside:auto !important}' +
+        '[data-om-fakepage]{break-after:auto !important;page-break-after:auto !important}' +
+        (pageInset ? '[data-om-fakepage]{padding:0 !important;background:none !important}' : '') +
+        '}';
+      document.head.appendChild(ost);
+    }
+  } catch (e) {}
+  // macOS Preview renders Skia-PDF Luminosity soft-masks as opaque grey boxes;
+  // swap the CSS that triggers them for Preview-safe forms.
+  try {
+    for (const el of document.body.querySelectorAll('*')) {
+      const cs = getComputedStyle(el);
+
+      if (cs.boxShadow !== 'none' && cs.filter === 'none') {
+        const outs = [], kept = [];
+        for (const s of cs.boxShadow.split(/,(?![^(]*[)])/)) {
+          const t = s.trim();
+          const m = t.match(/^(rgba?[(][^)]+[)]) (-?[0-9.]+px) (-?[0-9.]+px) ([0-9.]+px) -?[0-9.]+px$/);
+          if (m && parseFloat(m[4]) > 0) outs.push('drop-shadow(' + m[2] + ' ' + m[3] + ' ' + m[4] + ' ' + m[1] + ')');
+          else kept.push(t);
+        }
+        if (outs.length) {
+          el.style.setProperty('filter', outs.join(' '), 'important');
+          el.style.setProperty('box-shadow', kept.join(', ') || 'none', 'important');
+        }
+      }
+
+      const mask = cs.maskImage && cs.maskImage !== 'none' ? cs.maskImage : cs.webkitMaskImage;
+      if (mask && mask !== 'none' && cs.filter === 'none') el.style.setProperty('filter', 'opacity(1)', 'important');
+    }
+  } catch (e) {}
+  setTimeout(() => { try { window.print(); } catch (e) {} }, 200);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f6f4ef; --ink:#1d2127; --muted:#6c7077; --soft:#8b8f96;
+    --accent:#0e6ea8; --sky:#1ca0e0; --navy:#15273b; --hair:#dcd7cb;
+    --card:#fffdf8; --tint:#eef4f8;
+  }
+  body{ margin:0; background:var(--paper); color:var(--ink);
+        font-family:"Source Serif 4",Georgia,serif; -webkit-font-smoothing:antialiased; }
+  .doc{ box-sizing:border-box; max-width:8.5in; margin:0 auto; background:inherit;
+        padding:0 clamp(20px,5vw,0.75in) 96px; }
+  .doc-frame{ width:100%; border-collapse:collapse; }
+  .doc-frame td{ padding:0; }
+  .running-hdr,.running-ftr,.hdr-space,.ftr-space{ display:none; }
+
+  h1,h2,h3,h4{ font-family:"Archivo",sans-serif; color:var(--ink); text-wrap:balance; margin:0; }
+  h2{ font-weight:800; font-size:28px; letter-spacing:-0.01em; line-height:1.08; }
+  h3{ font-weight:700; font-size:17px; margin:26px 0 8px; }
+  h4{ font-weight:700; font-size:13px; letter-spacing:0.07em; text-transform:uppercase; color:var(--accent); margin:22px 0 8px; }
+  p{ font-size:15px; line-height:1.65; margin:0 0 13px; color:#272b31; text-wrap:pretty; }
+  ul,ol{ font-size:15px; line-height:1.6; margin:4px 0 14px; padding-left:22px; color:#272b31; }
+  li{ margin:0 0 6px; text-wrap:pretty; }
+  li::marker{ color:var(--accent); }
+  strong{ font-weight:700; color:var(--ink); }
+  a{ color:var(--accent); text-decoration:none; }
+  .doc-frame em{ color:var(--muted); }
+
+  .sec{ break-before:page; padding-top:14px; }
+  .sec-head{ display:flex; align-items:flex-start; gap:18px; margin:0 0 6px; }
+  .sec-num{ font-family:"Archivo",sans-serif; font-weight:900; font-size:42px; line-height:0.84; color:var(--accent); flex:none; }
+  .sec-kicker{ font-family:"Archivo",sans-serif; font-weight:600; font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:var(--soft); margin:3px 0 4px; }
+  .rule{ height:2px; background:var(--ink); margin:12px 0 18px; }
+
+  .note{ background:var(--card); border:1px solid var(--hair); border-left:3px solid var(--accent); padding:15px 20px; margin:18px 0; border-radius:2px; }
+  .note p{ margin:0; font-size:14px; }
+  .note .lbl{ font-family:"Archivo",sans-serif; font-weight:700; font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent); display:block; margin-bottom:6px; }
+  .note.fla{ border-left-color:var(--sky); } .note.fla .lbl{ color:#0f86c4; }
+  .note.legal{ border-left-color:#9a7b1e; } .note.legal .lbl{ color:#9a7b1e; }
+
+  table.t{ width:100%; border-collapse:collapse; margin:16px 0 20px; font-size:14px; }
+  table.t th{ font-family:"Archivo",sans-serif; font-weight:700; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; text-align:left; color:var(--ink); border-bottom:2px solid var(--ink); padding:8px 12px; }
+  table.t td{ border-bottom:1px solid #948e80; padding:10px 12px; vertical-align:top; line-height:1.5; }
+  table.t td:first-child{ font-weight:600; color:var(--ink); }
+
+  .steps{ counter-reset:st; list-style:none; padding:0; margin:12px 0 16px; }
+  .steps li{ position:relative; padding:3px 0 14px 44px; counter-increment:st; }
+  .steps li::before{ content:counter(st); position:absolute; left:0; top:0; width:28px; height:28px; border-radius:50%; background:var(--accent); color:#fff; font-family:"Archivo",sans-serif; font-weight:700; font-size:13px; display:flex; align-items:center; justify-content:center; }
+  .steps li strong{ display:block; }
+
+  h3,h4{ break-after:avoid; } h4+ul,h4+ol,h3+ul,h3+ol,h4+table,h4+p{ break-before:avoid; }
+  .blankback{ display:none; }
+  @page{ size:letter; margin:0; }
+  @media print{
+    .blankback{ display:flex !important; align-items:center; justify-content:center; min-height:6in; break-before:page; break-after:page; }
+    .blankback span{ font-family:"IBM Plex Mono",monospace; font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:#b8b3a6; }
+    html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    html,body{ margin:0; padding:0; }
+    .doc{ max-width:none !important; margin:0 !important; padding:0 0.75in !important; box-shadow:none !important; border:none !important; }
+    #dc-root,.sc-host{ height:auto !important; }
+    .hdr-space,.ftr-space{ display:table-cell; height:0.7in !important; }
+    .running-hdr,.running-ftr{ display:flex !important; justify-content:space-between; align-items:baseline; position:fixed !important; left:0; right:0; margin:0 !important; font-family:"Archivo",sans-serif; font-size:9px; letter-spacing:0.12em; text-transform:uppercase; color:var(--soft); }
+    .running-hdr{ top:0; padding:0.32in 0.75in 0 !important; }
+    .running-ftr{ bottom:0; padding:0 0.75in 0.32in !important; }
+    h1,h2,h3,h4{ break-after:avoid; }
+    figure,pre,blockquote,table,tr,.note,.steps li{ break-inside:avoid; }
+    p,li{ orphans:3; widows:3; }
+    .cover,.frontmatter{ break-after:page; }
+    .screen-only{ display:none !important; }
+  }
+
+/* ---- polish pass ---- */
+p{ line-height:1.7; color:#2b3036; }
+h2{ letter-spacing:-0.02em; }
+.rule{ height:0 !important; background:transparent !important; border:0; border-top:1px solid var(--ink); position:relative; }
+.rule::before{ content:""; position:absolute; top:-2px; left:0; width:52px; height:3px; background:var(--accent); }
+.rule + p{ font-size:16.5px; line-height:1.66; color:#1b1f25; }
+.sec-num{ letter-spacing:-.03em; }
+h4{ display:flex; align-items:center; gap:9px; }
+h4::before{ content:""; width:15px; height:2px; background:currentColor; opacity:.8; flex:none; }
+.note{ border-radius:3px; box-shadow:0 1px 2px rgba(21,39,59,.04); }
+table.t td{ padding-top:11px; padding-bottom:11px; }
+table.t th{ letter-spacing:.1em; }
+
+  .wm{ position:fixed; inset:0; background:url("assets/dunrite-mark.png") no-repeat center; background-size:360px auto; opacity:0.07; transform:rotate(-20deg); pointer-events:none; z-index:0; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .doc{ position:relative; z-index:1; }
+</style>
+</helmet>
+<main class="doc">
+  <div class="wm" aria-hidden="true"></div>
+  <div class="running-hdr"><span>DunRite Construction Group LLC</span><span>Drug-Free Workplace Program · 2026</span></div>
+  <div class="running-ftr"><span>Confidential — Internal Use Only</span><span>Effective January 2026 · Rev. 1.0</span></div>
+  <table class="doc-frame" role="presentation">
+    <thead><tr><td class="hdr-space"></td></tr></thead>
+    <tbody><tr><td>
+
+    <!-- COVER -->
+        <!-- ===================== COVER — Centered Monolith ===================== -->
+    <section class="cover" data-screen-label="Cover" style="background:#ffffff; color:#1d2127; border:1px solid #dcd7cb; border-radius:4px; margin:0 0 40px; padding:96px clamp(40px,7vw,84px); min-height:9.4in; box-sizing:border-box; position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+      <img src="assets/dunrite-logo-dark.png" alt="DunRite Construction Group LLC" style="display:block; width:248px; max-width:62%; height:auto; margin:0 auto;">
+      <div style="width:64px; height:3px; background:#1ca0e0; margin:46px auto 30px; border-radius:2px;"></div>
+      <div style="font-family:'Archivo',sans-serif; font-weight:600; font-size:13px; letter-spacing:0.34em; text-transform:uppercase; color:#1ca0e0;">Drug-Free Workplace Program</div>
+      <h1 style="font-family:'Archivo',sans-serif; font-weight:800; font-size:54px; line-height:1.0; letter-spacing:-0.028em; margin:20px 0 0; color:#1d2127; text-align:left;">Clear, Sober,<br>and Safe</h1>
+    </section>
+
+    <!-- BLANK BACK OF TITLE PAGE -->
+    <section class="blankback" aria-hidden="true"><span>This page intentionally left blank</span></section>
+
+    <!-- FRONT MATTER -->
+    <section class="frontmatter" data-screen-label="Overview">
+      <div class="sec-kicker" style="margin-top:8px;">DunRite Construction Group LLC</div>
+      <h2 style="font-size:32px; margin-bottom:8px;">Program Overview</h2>
+      <div class="rule"></div>
+      <p>DunRite Construction Group LLC is committed to a safe, healthy, and productive workplace. Because construction is safety-sensitive work, drug and alcohol use endangers everyone on the jobsite. This Drug-Free Workplace Program describes the substances we test for, the circumstances under which testing occurs, and the rights and responsibilities of employees and applicants.</p>
+      <p>This Program supplements the Drug &amp; Alcohol Policy in the Employee Handbook (Section 10). It is designed to be consistent with Florida's Drug-Free Workplace Program statute so the Company may qualify for available workers' compensation premium credits and related benefits.</p>
+
+      <div class="note legal">
+        <span class="lbl">Important — Please Read</span>
+        <p>This is a <strong>draft template</strong> for general information only and is not legal advice. Florida's Drug-Free Workplace Program (Fla. Stat. § 440.102 and Fla. Admin. Code) imposes specific notice, testing, laboratory, confirmation, MRO, and confidentiality requirements. Before adopting, DunRite must have this Program reviewed by qualified counsel and its workers' compensation carrier, select a certified laboratory and Medical Review Officer (MRO), and provide the required 60-day advance notice before testing begins. Bracketed items must be completed.</p>
+      </div>
+
+      <h3 style="margin-top:30px;">Contents</h3>
+      <div class="rule" style="margin-top:10px;"></div>
+      <div style="font-family:'Archivo',sans-serif;">
+        <a href="#sec-1" style="display:flex; gap:14px; padding:7px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">01</span><span style="font-weight:500; font-size:14px;">Policy &amp; Prohibited Conduct</span></a>
+        <a href="#sec-2" style="display:flex; gap:14px; padding:7px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">02</span><span style="font-weight:500; font-size:14px;">Types of Testing</span></a>
+        <a href="#sec-3" style="display:flex; gap:14px; padding:7px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">03</span><span style="font-weight:500; font-size:14px;">Substances Tested &amp; Testing Procedures</span></a>
+        <a href="#sec-4" style="display:flex; gap:14px; padding:7px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">04</span><span style="font-weight:500; font-size:14px;">Employee Rights &amp; Confidentiality</span></a>
+        <a href="#sec-5" style="display:flex; gap:14px; padding:7px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">05</span><span style="font-weight:500; font-size:14px;">Consequences &amp; Assistance</span></a>
+        <a href="#sec-6" style="display:flex; gap:14px; padding:7px 0; border-bottom:1px solid #948e80; color:var(--ink);"><span style="color:var(--accent); font-weight:700; width:30px;">06</span><span style="font-weight:500; font-size:14px;">Employee Acknowledgement</span></a>
+      </div>
+    </section>
+
+    <!-- 1 -->
+    <section class="sec" id="sec-1" data-screen-label="01 Policy">
+      <div class="sec-head"><div class="sec-num">01</div><div><div class="sec-kicker">Section One</div><h2>Policy &amp; Prohibited Conduct</h2></div></div>
+      <div class="rule"></div>
+      <p>It is DunRite's policy that employees and applicants are free of the influence of drugs and alcohol while performing Company work. The following are strictly prohibited and may result in termination:</p>
+      <ul>
+        <li>The unlawful use, possession, sale, distribution, or manufacture of illegal drugs or controlled substances.</li>
+        <li>Being under the influence of alcohol or drugs while on duty, on Company property, or on a jobsite.</li>
+        <li>The use of alcohol during work hours, including meal and break periods, while on duty.</li>
+        <li>The misuse of legal drugs (including prescription and over-the-counter medication) in a way that impairs safe job performance.</li>
+        <li>Refusing to submit to a required test, or tampering with, adulterating, or substituting a sample.</li>
+      </ul>
+      <div class="note"><span class="lbl">Prescription &amp; OTC Medication</span><p>If you are taking a medication that may affect your ability to work safely, notify your supervisor before performing safety-sensitive duties. You are not required to disclose the underlying medical condition. The Company will not take action based solely on the lawful, as-directed use of a valid prescription, but you remain responsible for working safely.</p></div>
+      <div class="note fla"><span class="lbl">Florida Medical Use</span><p>Florida law on medical marijuana does not require employers to accommodate on-the-job use or impairment, and marijuana remains federally illegal. Confirm the Company's position on lawful off-duty use with counsel and reflect it here.</p></div>
+    </section>
+
+    <!-- 2 -->
+    <section class="sec" id="sec-2" data-screen-label="02 Types of Testing">
+      <div class="sec-head"><div class="sec-num">02</div><div><div class="sec-kicker">Section Two</div><h2>Types of Testing</h2></div></div>
+      <div class="rule"></div>
+      <table class="t">
+        <thead><tr><th style="width:30%;">Test Type</th><th>When It Applies</th></tr></thead>
+        <tbody>
+          <tr><td>Pre-Employment</td><td>Required of applicants after a conditional offer and before starting work.</td></tr>
+          <tr><td>Reasonable Suspicion</td><td>When a trained supervisor documents specific, observable signs of impairment (appearance, behavior, speech, odor, or a workplace incident).</td></tr>
+          <tr><td>Post-Accident</td><td>Following a workplace accident or injury that may involve drugs or alcohol, consistent with policy and law.</td></tr>
+          <tr><td>Random</td><td>Where implemented, conducted on a neutral, statistically random selection basis.</td></tr>
+          <tr><td>Follow-Up / Return-to-Duty</td><td>For employees returning to work after a positive test or completion of an assistance program, as a condition of continued employment.</td></tr>
+        </tbody>
+      </table>
+      <div class="note legal"><span class="lbl">Confirm</span><p>Whether DunRite implements random and follow-up testing — and the exact triggers for post-accident testing — must be set by ownership and counsel and applied consistently to all covered employees.</p></div>
+    </section>
+
+    <!-- 3 -->
+    <section class="sec" id="sec-3" data-screen-label="03 Procedures">
+      <div class="sec-head"><div class="sec-num">03</div><div><div class="sec-kicker">Section Three</div><h2>Substances Tested &amp; Testing Procedures</h2></div></div>
+      <div class="rule"></div>
+      <h4>Substances Tested</h4>
+      <p>Testing covers alcohol and the controlled substances specified under the applicable testing standard, which commonly include marijuana/THC metabolites, cocaine, amphetamines, opioids, and phencyclidine (PCP) and others as designated. The final panel is set by the Company's testing provider in accordance with Florida requirements.</p>
+      <h4>How Testing Is Conducted</h4>
+      <ol class="steps">
+        <li><strong>Collection.</strong><span>Samples are collected by a qualified collector following chain-of-custody procedures that protect sample integrity and privacy.</span></li>
+        <li><strong>Laboratory analysis.</strong><span>Samples are analyzed by a licensed/certified laboratory using an initial screen.</span></li>
+        <li><strong>Confirmation testing.</strong><span>Any positive screen is confirmed by a second, more specific method before being reported as positive.</span></li>
+        <li><strong>Medical Review Officer (MRO).</strong><span>A qualified MRO reviews confirmed positives, contacts the employee, and considers legitimate medical explanations before reporting a verified result.</span></li>
+        <li><strong>Result &amp; action.</strong><span>Verified results are reported confidentially to the Company's designated representative, who determines the appropriate action.</span></li>
+      </ol>
+      <div class="note"><span class="lbl">Refusals &amp; Tampering</span><p>Refusing to test, failing to appear, or tampering with a sample is treated as a positive result and may lead to withdrawal of an offer or termination.</p></div>
+    </section>
+
+    <!-- 4 -->
+    <section class="sec" id="sec-4" data-screen-label="04 Rights">
+      <div class="sec-head"><div class="sec-num">04</div><div><div class="sec-kicker">Section Four</div><h2>Employee Rights &amp; Confidentiality</h2></div></div>
+      <div class="rule"></div>
+      <p>Under Florida's Drug-Free Workplace Program, employees and applicants have certain rights, including:</p>
+      <ul>
+        <li><strong>Advance notice.</strong> The Company provides general notice of this Program before testing begins, as required by law.</li>
+        <li><strong>Notice of a positive result.</strong> An employee who tests positive is notified and may request a copy of the test results.</li>
+        <li><strong>Right to explain.</strong> The employee may, within the time allowed, explain or contest a positive result, including identifying prescriptions or over-the-counter medications taken.</li>
+        <li><strong>Confidential medication list.</strong> The employee may confidentially provide a list of medications to the MRO.</li>
+        <li><strong>Challenge / retest.</strong> The employee may have the sample retested at a licensed laboratory, consistent with program rules and applicable law.</li>
+      </ul>
+      <div class="note"><span class="lbl">Confidentiality</span><p>All test results and related medical information are kept confidential, maintained separately from personnel files, and released only as permitted or required by law. Supervisors receive only the information needed to act on a result.</p></div>
+    </section>
+
+    <!-- 5 -->
+    <section class="sec" id="sec-5" data-screen-label="05 Consequences">
+      <div class="sec-head"><div class="sec-num">05</div><div><div class="sec-kicker">Section Five</div><h2>Consequences &amp; Assistance</h2></div></div>
+      <div class="rule"></div>
+      <h4>Consequences of a Violation</h4>
+      <p>A verified positive test, a refusal to test, or other violation of this Program may result in withdrawal of a conditional job offer (applicants) or discipline up to and including termination (employees), consistent with the Employee Handbook and applicable law.</p>
+      <div class="note fla"><span class="lbl">Florida — Workers' Compensation</span><p>Under Florida law, an employee who tests positive for drugs or alcohol following a workplace injury may forfeit eligibility for workers' compensation indemnity benefits, subject to the statute's rebuttable presumptions and procedures. This is one reason prompt, lawful post-accident testing matters.</p></div>
+      <h4>Employee Assistance</h4>
+      <p>The Company can refer employees to an Employee Assistance Program (EAP) or community resources for substance-abuse concerns. Employees are encouraged to seek help voluntarily <strong>before</strong> a positive test or incident. Seeking help on your own initiative will not, by itself, be used as the basis for discipline, though it does not excuse policy violations or poor performance.</p>
+      <p>If you have a substance-abuse concern, talk to the office manager confidentially about available resources.</p>
+    </section>
+
+    <!-- 6 -->
+    <section class="sec" id="sec-6" data-screen-label="06 Acknowledgement">
+      <div class="sec-head"><div class="sec-num">06</div><div><div class="sec-kicker">Section Six</div><h2>Employee Acknowledgement</h2></div></div>
+      <div class="rule"></div>
+      <p>This page must be signed and returned to the office.</p>
+      <div style="border:1.5px solid var(--ink); border-radius:3px; padding:26px 28px; margin:20px 0; background:var(--card);">
+        <p style="font-size:14px;">I acknowledge that I have received and reviewed the DunRite Construction Group LLC Drug-Free Workplace Program. I understand that DunRite maintains a drug- and alcohol-free workplace and that I may be required to submit to testing as described in this Program.</p>
+        <p style="font-size:14px;">I understand that a verified positive test, a refusal to test, or tampering with a sample may result in withdrawal of a job offer or discipline up to and including termination, and that under Florida law a positive post-accident test may affect my workers' compensation benefits.</p>
+        <p style="font-size:14px; margin-bottom:0;">I understand that I should report any prescription or over-the-counter medication that may affect my ability to work safely before performing safety-sensitive duties, and that my test results will be kept confidential.</p>
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:30px 40px; margin-top:40px;">
+        <div><div style="border-bottom:1.5px solid var(--ink); height:34px;"></div><div style="font-family:'Archivo',sans-serif; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-top:7px;">Employee Name (Print)</div></div>
+        <div><div style="border-bottom:1.5px solid var(--ink); height:34px;"></div><div style="font-family:'Archivo',sans-serif; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-top:7px;">Employee ID</div></div>
+        <div><div style="border-bottom:1.5px solid var(--ink); height:34px;"></div><div style="font-family:'Archivo',sans-serif; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-top:7px;">Employee Signature</div></div>
+        <div><div style="border-bottom:1.5px solid var(--ink); height:34px;"></div><div style="font-family:'Archivo',sans-serif; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-top:7px;">Date</div></div>
+      </div>
+      <div style="margin-top:48px; padding-top:18px; border-top:1px solid #948e80;">
+        <p style="font-family:'Archivo',sans-serif; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--soft); margin:0;">DunRite Construction Group LLC · Drug-Free Workplace Program · 2026 · Rev. 1.0 · Confidential</p>
+      </div>
+    </section>
+
+    </td></tr></tbody>
+    <tfoot><tr><td class="ftr-space"></td></tr></tfoot>
+  </table>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;8.5in&quot;},&quot;paper&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Warm cream&quot;,&quot;Bright white&quot;,&quot;Cool paper&quot;],&quot;default&quot;:&quot;Warm cream&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;accent&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;DunRite blue&quot;,&quot;Deep navy&quot;,&quot;Slate&quot;],&quot;default&quot;:&quot;DunRite blue&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  componentDidMount(){ this.applyTheme(); }
+  componentDidUpdate(){ this.applyTheme(); }
+  applyTheme(){
+    const root = document.documentElement;
+    const paper = { "Warm cream":"#f6f4ef", "Bright white":"#ffffff", "Cool paper":"#f3f5f8" };
+    const accent = { "DunRite blue":"#0e6ea8", "Deep navy":"#16324f", "Slate":"#3a4654" };
+    const p = paper[this.props.paper] || null;
+    const a = accent[this.props.accent] || null;
+    if (p) root.style.setProperty("--paper", p);
+    if (a) root.style.setProperty("--accent", a);
+  }
+  renderVals(){ return {}; }
+}
+</script>
+</body>
+</html>

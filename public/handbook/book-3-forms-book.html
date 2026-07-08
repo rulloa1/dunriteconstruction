@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<style>
+
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; background:#cfc9bc; }
+  body{ font-family:"Source Serif 4",Georgia,serif; color:#1d2127; -webkit-font-smoothing:antialiased; }
+  /* neutralize per-document fixed running headers / footers / watermarks so stacked docs don't collide */
+  .doc .running-hdr, .doc .running-ftr{ display:none !important; }
+  .doc .wm{ display:none !important; }
+  .doc .hdr-space, .doc .ftr-space{ height:0 !important; }
+  .doc .blankback{ display:none !important; }
+  .bundle-doc{ break-before:page; }
+  .bundle-blank{ display:none; }
+  @media print{
+    .bundle-blank{ display:block; break-before:page; break-after:page; min-height:10in; }
+    html,body{ background:#fff; }
+    .noprint{ display:none !important; }
+    .bundle-cover{ break-after:page; }
+    @page{ size:letter; margin:0; }
+    html{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  }
+
+
+/* ---- HR Forms Pack ---- */
+.bkdoc1{ --paper:#f6f4ef; --ink:#1d2127; --muted:#6c7077; --soft:#8b8f96; --accent:#0e6ea8; --sky:#1ca0e0; --char:#272b31; --hair:#d7d2c6; --card:#fffdf8; }
+.bkdoc1{ margin:0; background:var(--paper); color:var(--ink); font-family:"Source Serif 4",Georgia,serif; -webkit-font-smoothing:antialiased; }
+.bkdoc1 .doc{ box-sizing:border-box; max-width:8.5in; margin:0 auto; padding:0 clamp(20px,5vw,0.75in) 96px; }
+.bkdoc1 .doc-frame{ width:100%; border-collapse:collapse; }
+.bkdoc1 .doc-frame td{ padding:0; }
+.bkdoc1 .running-hdr,
+.bkdoc1 .running-ftr,
+.bkdoc1 .hdr-space,
+.bkdoc1 .ftr-space{ display:none; }
+.bkdoc1 .wm{ position:fixed; inset:0; background:url("assets/dunrite-mark.png") no-repeat center; background-size:360px auto; opacity:0.07; transform:rotate(-20deg); pointer-events:none; z-index:0; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+.bkdoc1 .doc{ position:relative; z-index:1; }
+.bkdoc1 h1,
+.bkdoc1 h2,
+.bkdoc1 h3,
+.bkdoc1 h4{ font-family:"Archivo",sans-serif; color:var(--ink); margin:0; }
+.bkdoc1 p{ font-size:14px; line-height:1.6; margin:0 0 11px; color:#2b3036; }
+.bkdoc1 strong{ font-weight:700; }
+.bkdoc1 .form{ break-before:page; padding-top:16px; }
+.bkdoc1 .form-head{ display:flex; align-items:baseline; gap:12px; }
+.bkdoc1 .form-head .n{ font-family:"IBM Plex Mono",monospace; font-weight:600; font-size:12px; letter-spacing:0.1em; color:var(--accent); }
+.bkdoc1 .form-head h2{ font-weight:800; font-size:22px; letter-spacing:-0.015em; }
+.bkdoc1 .kicker{ font-family:"IBM Plex Mono",monospace; font-weight:600; font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:var(--soft); margin-bottom:6px; }
+.bkdoc1 .rule{ height:0; border-top:1px solid var(--ink); position:relative; margin:11px 0 14px; }
+.bkdoc1 .rule::before{ content:""; position:absolute; top:-2px; left:0; width:52px; height:3px; background:var(--accent); }
+.bkdoc1 h4{ font-family:"Archivo",sans-serif; font-weight:700; font-size:12px; letter-spacing:0.05em; text-transform:uppercase; color:var(--accent); margin:18px 0 8px; }
+.bkdoc1 .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:10px 22px; margin:8px 0; }
+.bkdoc1 .grid3{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px 22px; margin:8px 0; }
+.bkdoc1 .grid4{ display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:10px 22px; margin:8px 0; }
+.bkdoc1 .fld{ display:flex; flex-direction:column; gap:4px; }
+.bkdoc1 .fld .lab{ font-family:"IBM Plex Mono",monospace; font-size:9px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); }
+.bkdoc1 .fld .ln{ border-bottom:1px solid var(--soft); height:22px; }
+.bkdoc1 .fld.tall .ln{ height:52px; }
+.bkdoc1 table.t{ width:100%; border-collapse:collapse; margin:10px 0; font-size:12.5px; table-layout:fixed; }
+.bkdoc1 table.t th{ background:var(--char); color:#fff; font-family:"Archivo",sans-serif; font-weight:600; font-size:10px; letter-spacing:0.04em; text-transform:uppercase; text-align:left; padding:8px 10px; border:1px solid var(--char); line-height:1.2; }
+.bkdoc1 table.t td{ border:1px solid var(--hair); padding:0 10px; height:30px; }
+.bkdoc1 table.t td.tall{ height:50px; }
+.bkdoc1 table.t tbody tr:nth-child(even) td{ background:rgba(39,43,49,0.035); }
+.bkdoc1 .check{ list-style:none; padding:0; margin:8px 0; display:grid; grid-template-columns:1fr 1fr; gap:7px 22px; }
+.bkdoc1 .check li{ position:relative; padding:3px 0 3px 26px; font-size:13px; }
+.bkdoc1 .check li::before{ content:""; position:absolute; left:0; top:3px; width:15px; height:15px; border:1.5px solid var(--accent); border-radius:3px; }
+.bkdoc1 .scale{ display:flex; gap:7px; align-items:center; }
+.bkdoc1 .scale span{ width:26px; height:26px; border:1.5px solid var(--soft); border-radius:4px; display:inline-flex; align-items:center; justify-content:center; font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--muted); }
+.bkdoc1 .sig{ display:grid; grid-template-columns:1fr 1fr; gap:22px 40px; margin-top:24px; }
+.bkdoc1 .sig .ln{ border-bottom:1.5px solid var(--ink); height:30px; }
+.bkdoc1 .sig .cap{ font-family:"IBM Plex Mono",monospace; font-size:9px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin-top:6px; }
+.bkdoc1 .note{ background:var(--card); border:1px solid var(--hair); border-left:3px solid var(--accent); border-radius:3px; padding:12px 16px; margin:12px 0; }
+.bkdoc1 .note .lbl{ font-family:"Archivo",sans-serif; font-weight:700; font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); display:block; margin-bottom:5px; }
+.bkdoc1 .note p{ margin:0; font-size:12.5px; }
+.bkdoc1 .form h4{ margin:12px 0 6px; }
+.bkdoc1 .form table.t td{ height:24px; }
+.bkdoc1 .form table.t td.tall{ height:40px; }
+.bkdoc1 .form .sig{ margin-top:14px; }
+.bkdoc1 .form .check li{ padding:2px 0 2px 26px; }
+.bkdoc1 .blankback{ display:none; }
+@media print{.bkdoc1 .blankback{ display:flex !important; align-items:center; justify-content:center; min-height:6in; break-before:page; break-after:page; }
+.bkdoc1 .blankback span{ font-family:"IBM Plex Mono",monospace; font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:#b8b3a6; }
+.bkdoc1{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+.bkdoc1,
+.bkdoc1{ margin:0; padding:0; }
+.bkdoc1 .doc{ max-width:none !important; margin:0 !important; padding:0 0.65in !important; }
+.bkdoc1 #dc-root,
+.bkdoc1 .sc-host{ height:auto !important; }
+.bkdoc1 .hdr-space,
+.bkdoc1 .ftr-space{ display:table-cell; height:0.62in !important; }
+.bkdoc1 .running-hdr,
+.bkdoc1 .running-ftr{ display:flex !important; justify-content:space-between; align-items:baseline; position:fixed !important; left:0; right:0; margin:0 !important; font-family:"IBM Plex Mono",monospace; font-size:8px; letter-spacing:0.12em; text-transform:uppercase; color:var(--soft); }
+.bkdoc1 .running-hdr{ top:0; padding:0.3in 0.65in 0 !important; }
+.bkdoc1 .running-ftr{ bottom:0; padding:0 0.65in 0.3in !important; }
+.bkdoc1 h2,
+.bkdoc1 h3,
+.bkdoc1 h4{ break-after:avoid; }
+.bkdoc1 table,
+.bkdoc1 tr,
+.bkdoc1 .note,
+.bkdoc1 .sig{ break-inside:avoid; }
+.bkdoc1 .cover{ break-after:page; }
+}
+
+
+/* ---- Field Forms Pack ---- */
+.bkdoc2{ --paper:#f6f4ef; --ink:#1d2127; --muted:#6c7077; --soft:#8b8f96; --accent:#0e6ea8; --sky:#1ca0e0; --char:#272b31; --hair:#d7d2c6; --card:#fffdf8; --danger:#b3471f; }
+.bkdoc2{ margin:0; background:var(--paper); color:var(--ink); font-family:"Source Serif 4",Georgia,serif; -webkit-font-smoothing:antialiased; }
+.bkdoc2 .doc{ box-sizing:border-box; max-width:8.5in; margin:0 auto; padding:0 clamp(20px,5vw,0.75in) 96px; }
+.bkdoc2 .doc-frame{ width:100%; border-collapse:collapse; }
+.bkdoc2 .doc-frame td{ padding:0; }
+.bkdoc2 .running-hdr,
+.bkdoc2 .running-ftr,
+.bkdoc2 .hdr-space,
+.bkdoc2 .ftr-space{ display:none; }
+.bkdoc2 .wm{ position:fixed; inset:0; background:url("assets/dunrite-mark.png") no-repeat center; background-size:360px auto; opacity:0.07; transform:rotate(-20deg); pointer-events:none; z-index:0; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+.bkdoc2 .doc{ position:relative; z-index:1; }
+.bkdoc2 h1,
+.bkdoc2 h2,
+.bkdoc2 h3,
+.bkdoc2 h4{ font-family:"Archivo",sans-serif; color:var(--ink); margin:0; }
+.bkdoc2 p{ font-size:14px; line-height:1.6; margin:0 0 11px; color:#2b3036; }
+.bkdoc2 strong{ font-weight:700; }
+.bkdoc2 .form{ break-before:page; padding-top:16px; }
+.bkdoc2 .form-head{ display:flex; align-items:baseline; gap:12px; }
+.bkdoc2 .form-head .n{ font-family:"IBM Plex Mono",monospace; font-weight:600; font-size:12px; letter-spacing:0.1em; color:var(--accent); }
+.bkdoc2 .form-head h2{ font-weight:800; font-size:22px; letter-spacing:-0.015em; }
+.bkdoc2 .kicker{ font-family:"IBM Plex Mono",monospace; font-weight:600; font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:var(--soft); margin-bottom:6px; }
+.bkdoc2 .rule{ height:0; border-top:1px solid var(--ink); position:relative; margin:11px 0 14px; }
+.bkdoc2 .rule::before{ content:""; position:absolute; top:-2px; left:0; width:52px; height:3px; background:var(--accent); }
+.bkdoc2 h4{ font-family:"Archivo",sans-serif; font-weight:700; font-size:12px; letter-spacing:0.05em; text-transform:uppercase; color:var(--accent); margin:18px 0 8px; }
+.bkdoc2 .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:10px 22px; margin:8px 0; }
+.bkdoc2 .grid3{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px 22px; margin:8px 0; }
+.bkdoc2 .grid4{ display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:10px 22px; margin:8px 0; }
+.bkdoc2 .fld{ display:flex; flex-direction:column; gap:4px; }
+.bkdoc2 .fld .lab{ font-family:"IBM Plex Mono",monospace; font-size:9px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); }
+.bkdoc2 .fld .ln{ border-bottom:1px solid var(--soft); height:22px; }
+.bkdoc2 .fld.tall .ln{ height:52px; }
+.bkdoc2 table.t{ width:100%; border-collapse:collapse; margin:10px 0; font-size:12.5px; table-layout:fixed; }
+.bkdoc2 table.t th{ background:var(--char); color:#fff; font-family:"Archivo",sans-serif; font-weight:600; font-size:10px; letter-spacing:0.04em; text-transform:uppercase; text-align:left; padding:8px 10px; border:1px solid var(--char); line-height:1.2; }
+.bkdoc2 table.t td{ border:1px solid var(--hair); padding:0 10px; height:30px; }
+.bkdoc2 table.t td.tall{ height:52px; }
+.bkdoc2 table.t tbody tr:nth-child(even) td{ background:rgba(39,43,49,0.035); }
+.bkdoc2 .check{ list-style:none; padding:0; margin:8px 0; display:grid; grid-template-columns:1fr 1fr; gap:7px 22px; }
+.bkdoc2 .check li{ position:relative; padding:3px 0 3px 26px; font-size:13px; }
+.bkdoc2 .check li::before{ content:""; position:absolute; left:0; top:3px; width:15px; height:15px; border:1.5px solid var(--accent); border-radius:3px; }
+.bkdoc2 .sig{ display:grid; grid-template-columns:1fr 1fr; gap:22px 40px; margin-top:24px; }
+.bkdoc2 .sig .ln{ border-bottom:1.5px solid var(--ink); height:30px; }
+.bkdoc2 .sig .cap{ font-family:"IBM Plex Mono",monospace; font-size:9px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin-top:6px; }
+.bkdoc2 .note{ background:var(--card); border:1px solid var(--hair); border-left:3px solid var(--accent); border-radius:3px; padding:12px 16px; margin:12px 0; }
+.bkdoc2 .note .lbl{ font-family:"Archivo",sans-serif; font-weight:700; font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); display:block; margin-bottom:5px; }
+.bkdoc2 .note p{ margin:0; font-size:13px; }
+.bkdoc2 .form h4{ margin:12px 0 6px; }
+.bkdoc2 .form table.t td{ height:22px; }
+.bkdoc2 .form table.t td.tall{ height:40px; }
+.bkdoc2 .form .sig{ margin-top:14px; }
+.bkdoc2 .form .check li{ padding:2px 0 2px 26px; }
+.bkdoc2 .blankback{ display:none; }
+@media print{.bkdoc2 .blankback{ display:flex !important; align-items:center; justify-content:center; min-height:6in; break-before:page; break-after:page; }
+.bkdoc2 .blankback span{ font-family:"IBM Plex Mono",monospace; font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:#b8b3a6; }
+.bkdoc2{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+.bkdoc2,
+.bkdoc2{ margin:0; padding:0; }
+.bkdoc2 .doc{ max-width:none !important; margin:0 !important; padding:0 0.65in !important; }
+.bkdoc2 #dc-root,
+.bkdoc2 .sc-host{ height:auto !important; }
+.bkdoc2 .hdr-space,
+.bkdoc2 .ftr-space{ display:table-cell; height:0.62in !important; }
+.bkdoc2 .running-hdr,
+.bkdoc2 .running-ftr{ display:flex !important; justify-content:space-between; align-items:baseline; position:fixed !important; left:0; right:0; margin:0 !important; font-family:"IBM Plex Mono",monospace; font-size:8px; letter-spacing:0.12em; text-transform:uppercase; color:var(--soft); }
+.bkdoc2 .running-hdr{ top:0; padding:0.3in 0.65in 0 !important; }
+.bkdoc2 .running-ftr{ bottom:0; padding:0 0.65in 0.3in !important; }
+.bkdoc2 h2,
+.bkdoc2 h3,
+.bkdoc2 h4{ break-after:avoid; }
+.bkdoc2 table,
+.bkdoc2 tr,
+.bkdoc2 .note,
+.bkdoc2 .sig{ break-inside:avoid; }
+.bkdoc2 .cover{ break-after:page; }
+}
+
+
+/* ---- Financial Forms Pack ---- */
+.bkdoc3{ --paper:#f6f4ef; --ink:#1d2127; --muted:#6c7077; --soft:#8b8f96; --accent:#0e6ea8; --sky:#1ca0e0; --char:#272b31; --hair:#d7d2c6; --card:#fffdf8; }
+.bkdoc3{ margin:0; background:var(--paper); color:var(--ink); font-family:"Source Serif 4",Georgia,serif; -webkit-font-smoothing:antialiased; }
+.bkdoc3 .doc{ box-sizing:border-box; max-width:8.5in; margin:0 auto; padding:0 clamp(20px,5vw,0.75in) 96px; }
+.bkdoc3 .doc-frame{ width:100%; border-collapse:collapse; }
+.bkdoc3 .doc-frame td{ padding:0; }
+.bkdoc3 .running-hdr,
+.bkdoc3 .running-ftr,
+.bkdoc3 .hdr-space,
+.bkdoc3 .ftr-space{ display:none; }
+.bkdoc3 .wm{ position:fixed; inset:0; background:url("assets/dunrite-mark.png") no-repeat center; background-size:360px auto; opacity:0.07; transform:rotate(-20deg); pointer-events:none; z-index:0; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+.bkdoc3 .doc{ position:relative; z-index:1; }
+.bkdoc3 h1,
+.bkdoc3 h2,
+.bkdoc3 h3,
+.bkdoc3 h4{ font-family:"Archivo",sans-serif; color:var(--ink); margin:0; }
+.bkdoc3 p{ font-size:14px; line-height:1.6; margin:0 0 11px; color:#2b3036; }
+.bkdoc3 strong{ font-weight:700; }
+.bkdoc3 .form{ break-before:page; padding-top:16px; }
+.bkdoc3 .form-head{ display:flex; align-items:baseline; gap:12px; }
+.bkdoc3 .form-head .n{ font-family:"IBM Plex Mono",monospace; font-weight:600; font-size:12px; letter-spacing:0.1em; color:var(--accent); }
+.bkdoc3 .form-head h2{ font-weight:800; font-size:22px; letter-spacing:-0.015em; }
+.bkdoc3 .kicker{ font-family:"IBM Plex Mono",monospace; font-weight:600; font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:var(--soft); margin-bottom:6px; }
+.bkdoc3 .rule{ height:0; border-top:1px solid var(--ink); position:relative; margin:11px 0 14px; }
+.bkdoc3 .rule::before{ content:""; position:absolute; top:-2px; left:0; width:52px; height:3px; background:var(--accent); }
+.bkdoc3 h4{ font-family:"Archivo",sans-serif; font-weight:700; font-size:12px; letter-spacing:0.05em; text-transform:uppercase; color:var(--accent); margin:18px 0 8px; }
+.bkdoc3 .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:10px 22px; margin:8px 0; }
+.bkdoc3 .grid3{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px 22px; margin:8px 0; }
+.bkdoc3 .grid4{ display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:10px 22px; margin:8px 0; }
+.bkdoc3 .fld{ display:flex; flex-direction:column; gap:4px; }
+.bkdoc3 .fld .lab{ font-family:"IBM Plex Mono",monospace; font-size:9px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); }
+.bkdoc3 .fld .ln{ border-bottom:1px solid var(--soft); height:22px; }
+.bkdoc3 .fld.tall .ln{ height:52px; }
+.bkdoc3 table.t{ width:100%; border-collapse:collapse; margin:10px 0; font-size:12.5px; table-layout:fixed; }
+.bkdoc3 table.t th{ background:var(--char); color:#fff; font-family:"Archivo",sans-serif; font-weight:600; font-size:10px; letter-spacing:0.04em; text-transform:uppercase; text-align:left; padding:8px 10px; border:1px solid var(--char); line-height:1.2; }
+.bkdoc3 table.t td{ border:1px solid var(--hair); padding:0 10px; height:30px; }
+.bkdoc3 table.t td.tall{ height:48px; }
+.bkdoc3 table.t td.r,
+.bkdoc3 table.t th.r{ text-align:right; }
+.bkdoc3 table.t tbody tr:nth-child(even) td{ background:rgba(39,43,49,0.035); }
+.bkdoc3 table.t tfoot td{ font-family:"Archivo",sans-serif; font-weight:700; background:rgba(14,110,168,0.06); }
+.bkdoc3 .sig{ display:grid; grid-template-columns:1fr 1fr; gap:22px 40px; margin-top:24px; }
+.bkdoc3 .sig .ln{ border-bottom:1.5px solid var(--ink); height:30px; }
+.bkdoc3 .sig .cap{ font-family:"IBM Plex Mono",monospace; font-size:9px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin-top:6px; }
+.bkdoc3 .note{ background:var(--card); border:1px solid var(--hair); border-left:3px solid var(--accent); border-radius:3px; padding:12px 16px; margin:12px 0; }
+.bkdoc3 .note .lbl{ font-family:"Archivo",sans-serif; font-weight:700; font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); display:block; margin-bottom:5px; }
+.bkdoc3 .note p{ margin:0; font-size:13px; }
+.bkdoc3 h3,
+.bkdoc3 h4{ break-after:avoid; }
+.bkdoc3 h4+ul,
+.bkdoc3 h4+ol,
+.bkdoc3 h3+ul,
+.bkdoc3 h3+ol,
+.bkdoc3 h4+table,
+.bkdoc3 h4+p{ break-before:avoid; }
+.bkdoc3 .blankback{ display:none; }
+@media print{.bkdoc3 .blankback{ display:flex !important; align-items:center; justify-content:center; min-height:6in; break-before:page; break-after:page; }
+.bkdoc3 .blankback span{ font-family:"IBM Plex Mono",monospace; font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:#b8b3a6; }
+.bkdoc3{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+.bkdoc3,
+.bkdoc3{ margin:0; padding:0; }
+.bkdoc3 .doc{ max-width:none !important; margin:0 !important; padding:0 0.65in !important; }
+.bkdoc3 #dc-root,
+.bkdoc3 .sc-host{ height:auto !important; }
+.bkdoc3 .hdr-space,
+.bkdoc3 .ftr-space{ display:table-cell; height:0.62in !important; }
+.bkdoc3 .running-hdr,
+.bkdoc3 .running-ftr{ display:flex !important; justify-content:space-between; align-items:baseline; position:fixed !important; left:0; right:0; margin:0 !important; font-family:"IBM Plex Mono",monospace; font-size:8px; letter-spacing:0.12em; text-transform:uppercase; color:var(--soft); }
+.bkdoc3 .running-hdr{ top:0; padding:0.3in 0.65in 0 !important; }
+.bkdoc3 .running-ftr{ bottom:0; padding:0 0.65in 0.3in !important; }
+.bkdoc3 h2,
+.bkdoc3 h3,
+.bkdoc3 h4{ break-after:avoid; }
+.bkdoc3 table,
+.bkdoc3 tr,
+.bkdoc3 .note,
+.bkdoc3 .sig{ break-inside:avoid; }
+.bkdoc3 .cover{ break-after:page; }
+}
+
+
+/* ---- Project & Closeout Forms ---- */
+.bkdoc4{ --paper:#f6f4ef; --ink:#1d2127; --muted:#6c7077; --soft:#8b8f96; --accent:#0e6ea8; --sky:#1ca0e0; --char:#272b31; --hair:#d7d2c6; --card:#fffdf8; --legal:#9a7b1e; }
+.bkdoc4{ margin:0; background:var(--paper); color:var(--ink); font-family:"Source Serif 4",Georgia,serif; -webkit-font-smoothing:antialiased; }
+.bkdoc4 .doc{ box-sizing:border-box; max-width:8.5in; margin:0 auto; padding:0 clamp(20px,5vw,0.75in) 96px; }
+.bkdoc4 .doc-frame{ width:100%; border-collapse:collapse; }
+.bkdoc4 .doc-frame td{ padding:0; }
+.bkdoc4 .running-hdr,
+.bkdoc4 .running-ftr,
+.bkdoc4 .hdr-space,
+.bkdoc4 .ftr-space{ display:none; }
+.bkdoc4 .wm{ position:fixed; inset:0; background:url("assets/dunrite-mark.png") no-repeat center; background-size:360px auto; opacity:0.07; transform:rotate(-20deg); pointer-events:none; z-index:0; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+.bkdoc4 .doc{ position:relative; z-index:1; }
+.bkdoc4 h1,
+.bkdoc4 h2,
+.bkdoc4 h3,
+.bkdoc4 h4{ font-family:"Archivo",sans-serif; color:var(--ink); margin:0; }
+.bkdoc4 p{ font-size:14px; line-height:1.6; margin:0 0 11px; color:#2b3036; }
+.bkdoc4 strong{ font-weight:700; }
+.bkdoc4 .form{ break-before:page; padding-top:16px; }
+.bkdoc4 .form-head{ display:flex; align-items:baseline; gap:12px; }
+.bkdoc4 .form-head .n{ font-family:"IBM Plex Mono",monospace; font-weight:600; font-size:12px; letter-spacing:0.1em; color:var(--accent); }
+.bkdoc4 .form-head h2{ font-weight:800; font-size:21px; letter-spacing:-0.015em; }
+.bkdoc4 .kicker{ font-family:"IBM Plex Mono",monospace; font-weight:600; font-size:10px; letter-spacing:0.22em; text-transform:uppercase; color:var(--soft); margin-bottom:6px; }
+.bkdoc4 .rule{ height:0; border-top:1px solid var(--ink); position:relative; margin:11px 0 14px; }
+.bkdoc4 .rule::before{ content:""; position:absolute; top:-2px; left:0; width:52px; height:3px; background:var(--accent); }
+.bkdoc4 h4{ font-family:"Archivo",sans-serif; font-weight:700; font-size:12px; letter-spacing:0.05em; text-transform:uppercase; color:var(--accent); margin:18px 0 8px; }
+.bkdoc4 .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:10px 22px; margin:8px 0; }
+.bkdoc4 .grid3{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px 22px; margin:8px 0; }
+.bkdoc4 .grid4{ display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:10px 22px; margin:8px 0; }
+.bkdoc4 .fld{ display:flex; flex-direction:column; gap:4px; }
+.bkdoc4 .fld .lab{ font-family:"IBM Plex Mono",monospace; font-size:9px; letter-spacing:0.08em; text-transform:uppercase; color:#000; }
+.bkdoc4 .fld .ln{ border-bottom:1px solid var(--soft); height:22px; }
+.bkdoc4 .fld.tall .ln{ height:52px; }
+.bkdoc4 table.t{ width:100%; border-collapse:collapse; margin:10px 0; font-size:12.5px; table-layout:fixed; }
+.bkdoc4 table.t th{ background:var(--char); color:#fff; font-family:"Archivo",sans-serif; font-weight:600; font-size:10px; letter-spacing:0.04em; text-transform:uppercase; text-align:left; padding:8px 10px; border:1px solid var(--char); line-height:1.2; }
+.bkdoc4 table.t td{ border:1px solid var(--hair); padding:0 10px; height:30px; }
+.bkdoc4 table.t td.tall{ height:50px; }
+.bkdoc4 table.t tbody tr:nth-child(even) td{ background:rgba(39,43,49,0.035); }
+.bkdoc4 .check{ list-style:none; padding:0; margin:8px 0; display:grid; grid-template-columns:1fr 1fr; gap:7px 22px; }
+.bkdoc4 .check li{ position:relative; padding:3px 0 3px 26px; font-size:13px; }
+.bkdoc4 .check li::before{ content:""; position:absolute; left:0; top:3px; width:15px; height:15px; border:1.5px solid var(--accent); border-radius:3px; }
+.bkdoc4 .sig{ display:grid; grid-template-columns:1fr 1fr; gap:22px 40px; margin-top:24px; }
+.bkdoc4 .sig .ln{ border-bottom:1.5px solid var(--ink); height:30px; }
+.bkdoc4 .sig .cap{ font-family:"IBM Plex Mono",monospace; font-size:9px; letter-spacing:0.1em; text-transform:uppercase; color:#000; margin-top:6px; }
+.bkdoc4 .note{ background:var(--card); border:1px solid var(--hair); border-left:3px solid var(--accent); border-radius:3px; padding:12px 16px; margin:12px 0; }
+.bkdoc4 .note .lbl{ font-family:"Archivo",sans-serif; font-weight:700; font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); display:block; margin-bottom:5px; }
+.bkdoc4 .note p{ margin:0; font-size:12.5px; }
+.bkdoc4 .note.legal{ border-left-color:var(--legal); }
+.bkdoc4 .note.legal .lbl{ color:var(--legal); }
+.bkdoc4 .waiver{ background:var(--card); border:1px solid var(--hair); border-radius:4px; padding:16px 18px; margin:10px 0; font-size:12.5px; line-height:1.55; }
+.bkdoc4 .waiver .blank{ display:inline-block; min-width:120px; border-bottom:1px solid var(--soft); }
+.bkdoc4 .form h4{ margin:12px 0 6px; }
+.bkdoc4 .form table.t td{ height:24px; }
+.bkdoc4 .form table.t td.tall{ height:40px; }
+.bkdoc4 .form .sig{ margin-top:14px; }
+.bkdoc4 .form .check li{ padding:2px 0 2px 26px; }
+.bkdoc4 .form .waiver{ padding:13px 16px; }
+.bkdoc4 .insp-skip{}
+.bkdoc4 .form[data-screen-label="C Lien Waivers"] .waiver{ padding:9px 15px; margin:7px 0; font-size:12px; line-height:1.45; }
+.bkdoc4 .form[data-screen-label="C Lien Waivers"] h4{ margin:9px 0 4px; }
+.bkdoc4 .form[data-screen-label="C Lien Waivers"] .note.legal{ margin:8px 0; padding:10px 14px; }
+.bkdoc4 .blankback{ display:none; }
+@media print{.bkdoc4 .blankback{ display:flex !important; align-items:center; justify-content:center; min-height:6in; break-before:page; break-after:page; }
+.bkdoc4 .blankback span{ font-family:"IBM Plex Mono",monospace; font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:#b8b3a6; }
+.bkdoc4{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+.bkdoc4,
+.bkdoc4{ margin:0; padding:0; }
+.bkdoc4 .doc{ max-width:none !important; margin:0 !important; padding:0 0.65in !important; }
+.bkdoc4 #dc-root,
+.bkdoc4 .sc-host{ height:auto !important; }
+.bkdoc4 .hdr-space,
+.bkdoc4 .ftr-space{ display:table-cell; height:0.62in !important; }
+.bkdoc4 .running-hdr,
+.bkdoc4 .running-ftr{ display:flex !important; justify-content:space-between; align-items:baseline; position:fixed !important; left:0; right:0; margin:0 !important; font-family:"IBM Plex Mono",monospace; font-size:8px; letter-spacing:0.12em; text-transform:uppercase; color:var(--soft); }
+.bkdoc4 .running-hdr{ top:0; padding:0.3in 0.65in 0 !important; }
+.bkdoc4 .running-ftr{ bottom:0; padding:0 0.65in 0.3in !important; }
+.bkdoc4 h2,
+.bkdoc4 h3,
+.bkdoc4 h4{ break-after:avoid; }
+.bkdoc4 table,
+.bkdoc4 tr,
+.bkdoc4 .note,
+.bkdoc4 .sig,
+.bkdoc4 .waiver{ break-inside:avoid; }
+.bkdoc4 .cover{ break-after:page; }
+}
+
+
+
+/* ---- Application for Employment ---- */
+.appdoc{ --navy:#14305c; --deep:#1b2c4f; --blue:#1878c8; --sky:#2aa0e0; --bord:#bcd9f0; --line:#8fa3b8; --ink:#1d2431; --mut:#5b6572; }
+.appdoc{ margin:0; background:#e9ecef; color:var(--ink); font-family:"Archivo",sans-serif; -webkit-font-smoothing:antialiased; }
+.appdoc .page{ box-sizing:border-box; width:8.5in; max-width:100%; margin:0 auto; background:#fff; padding:0.42in 0.5in 0; display:flex; flex-direction:column; min-height:11in; }
+.appdoc .page + .page{ margin-top:24px; }
+.appdoc .lab{ font-size:12.5px; font-weight:500; color:var(--ink); white-space:nowrap; }
+.appdoc .ln{ flex:1; border-bottom:1.2px solid var(--line); height:19px; min-width:40px; }
+.appdoc .row{ display:flex; align-items:flex-end; gap:10px; margin:0 0 15px; }
+.appdoc .bx{ width:15px; height:15px; border:1.3px solid var(--navy); border-radius:2px; flex:none; }
+.appdoc .yn{ display:flex; align-items:center; gap:7px; font-size:12.5px; font-weight:500; }
+.appdoc .sect{ border:1.5px solid var(--bord); border-radius:10px; margin:0 0 16px; padding:16px 18px 4px; position:relative; }
+.appdoc .ban{ display:flex; align-items:center; margin:-16px -18px 16px; }
+.appdoc .ban .ic{ width:40px; height:40px; border-radius:50%; background:linear-gradient(160deg,var(--blue),var(--sky)); border:3px solid #fff; box-shadow:0 1px 4px rgba(20,48,92,0.3); color:#fff; font-weight:800; font-size:16px; display:flex; align-items:center; justify-content:center; flex:none; margin:-6px 0 0 8px; z-index:1; }
+.appdoc .ban .bar{ background:linear-gradient(90deg,var(--blue),var(--sky)); color:#fff; font-weight:800; font-size:15.5px; letter-spacing:0.03em; text-transform:uppercase; padding:8px 34px 8px 18px; margin-left:-14px; clip-path:polygon(0 0,100% 0,calc(100% - 22px) 100%,0 100%); display:flex; align-items:baseline; gap:12px; }
+.appdoc .ban .note{ font-size:10.5px; font-weight:600; font-style:italic; letter-spacing:0.05em; color:var(--blue); text-transform:uppercase; margin-left:10px; }
+.appdoc table.wt{ width:100%; border-collapse:collapse; table-layout:fixed; margin:0 0 14px; }
+.appdoc table.wt th{ background:var(--deep); color:#fff; font-size:10px; font-weight:700; letter-spacing:0.05em; text-transform:uppercase; padding:8px 8px; border:1px solid var(--deep); text-align:center; line-height:1.25; }
+.appdoc table.wt th .sub{ display:block; font-weight:500; font-style:italic; font-size:8.5px; letter-spacing:0.04em; color:#c6d4e8; }
+.appdoc table.wt td{ border:1px solid #c7d2de; height:40px; }
+@media print{.appdoc{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+.appdoc{ background:#fff; }
+.appdoc .page{ width:auto; min-height:10.9in; padding:0.42in 0.5in 0; break-after:page; }
+.appdoc .page:last-child{ break-after:auto; }
+.appdoc .page + .page{ margin-top:0; }
+.appdoc table,
+.appdoc tr,
+.appdoc .sect{ break-inside:avoid; }
+}
+
+
+
+/* ---- single book watermark (replaces the stacked per-section ones) ---- */
+.book-wm{ position:fixed; inset:0; background:url("assets/dunrite-mark.png") no-repeat center; background-size:340px auto; opacity:0.05; transform:rotate(-20deg); pointer-events:none; z-index:1; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+
+/* ---- BOOK PRINT OVERRIDES (must stay last): one margin system, no per-doc fixed chrome ---- */
+@media print{
+  @page{ size:letter; margin:0.55in 0; }
+  #dc-root, .sc-host, html, body{ height:auto !important; }
+  /* no sliced lines at page bottom, no straggler lines wasting pages */
+  .bundle-blank{ display:none !important; }
+  p, li{ orphans:3; widows:3; }
+  h1, h2, h3, h4{ break-after:avoid; }
+  tr, .note, .sig, .fld, .check li, .formcode, .form-head{ break-inside:avoid; }
+  .bundle-doc .running-hdr, .bundle-doc .running-ftr{ display:none !important; }
+  .bundle-doc .hdr-space, .bundle-doc .ftr-space{ display:none !important; height:0 !important; }
+  .bundle-doc .blankback{ display:none !important; }
+  .bundle-doc .wm{ display:none !important; }
+  .bundle-cover{ min-height:0 !important; }
+  .appdoc .page{ min-height:auto !important; }
+}
+
+</style>
+</helmet>
+<main>
+  <div class="book-wm" aria-hidden="true"></div>
+
+  <div class="noprint" style="max-width:816px; margin:24px auto 16px; display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap; font-family:'IBM Plex Mono',monospace;">
+    <div style="font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:#5b5f66;">Book 3 of 3 · 4 sections · one merged PDF</div>
+    <button onclick="{{ onPrint }}" style="font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:#fff; background:#15273b; border:none; border-radius:4px; padding:9px 18px; cursor:pointer;">Print / Save as PDF</button>
+  </div>
+
+  <!-- BOOK COVER -->
+  <section class="bundle-cover" style="width:816px; max-width:100%; min-height:1056px; margin:0 auto; background:#ffffff; color:#1d2127; display:flex; flex-direction:column; box-sizing:border-box; box-shadow:0 10px 34px rgba(29,33,39,0.18);">
+    <div style="background:#15273b; display:flex; justify-content:space-between; align-items:center; padding:13px 44px;">
+      <span style="font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:0.22em; text-transform:uppercase; color:#8fa5bb;">DunRite Construction Group LLC</span>
+      <span style="font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:0.22em; text-transform:uppercase; color:#1ca0e0;">2026 Edition · Rev 1.0</span>
+    </div>
+    <div style="height:4px; background:linear-gradient(90deg,#0e6ea8 0%,#1ca0e0 60%,#dce9f4 100%);"></div>
+    <div style="flex:1; display:flex; flex-direction:column; align-items:center; text-align:center; padding:60px 84px 0;">
+      <img src="assets/dunrite-logo-dark.png" alt="DunRite Construction Group LLC" style="display:block; width:236px; max-width:60%; height:auto; margin:0 auto;">
+      <div style="margin:48px 0 0; display:inline-flex; align-items:center; border:1.5px solid #0e6ea8; border-radius:999px; padding:7px 20px;">
+        <span style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.26em; text-transform:uppercase; color:#0e6ea8;">Book 03 / 03</span>
+      </div>
+      <div style="margin:26px 0 0; font-family:'Archivo',sans-serif; font-weight:600; font-size:13px; letter-spacing:0.34em; text-transform:uppercase; color:#1ca0e0;">Office Operations</div>
+      <h1 style="font-family:'Archivo',sans-serif; font-weight:800; font-size:54px; line-height:1.0; letter-spacing:-0.028em; margin:16px 0 0; color:#1d2127;">Forms<br>Book</h1>
+      <div style="width:64px; height:3px; background:#1ca0e0; margin:26px auto 0; border-radius:2px;"></div>
+      <p style="font-size:15px; line-height:1.65; color:#5b5f66; max-width:520px; margin:20px auto 0; font-family:'Source Serif 4',Georgia,serif;">Every working form in one place — hiring & payroll, field reports, purchasing & accounting, and project closeout.</p>
+    </div>
+    <div style="padding:32px 60px 0;">
+      <div style="background:#f2f6fa; border:1px solid #dbe5ee; border-radius:10px; padding:22px 30px 24px;">
+        <div style="font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:#0e6ea8; margin-bottom:13px;">Contents · 4 sections</div>
+        <ol style="margin:0; padding:0; list-style:none; display:grid; grid-template-columns:1fr 1fr; gap:9px 32px; text-align:left;">
+          <li style="display:flex; align-items:baseline; gap:11px; font-family:'Archivo',sans-serif; font-weight:600; font-size:15px; color:#1d2127;"><span style="font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:11px; color:#1ca0e0;">01</span><span>HR Forms Pack</span></li>
+          <li style="display:flex; align-items:baseline; gap:11px; font-family:'Archivo',sans-serif; font-weight:600; font-size:15px; color:#1d2127;"><span style="font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:11px; color:#1ca0e0;">02</span><span>Field Forms Pack</span></li>
+          <li style="display:flex; align-items:baseline; gap:11px; font-family:'Archivo',sans-serif; font-weight:600; font-size:15px; color:#1d2127;"><span style="font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:11px; color:#1ca0e0;">03</span><span>Financial Forms Pack</span></li>
+          <li style="display:flex; align-items:baseline; gap:11px; font-family:'Archivo',sans-serif; font-weight:600; font-size:15px; color:#1d2127;"><span style="font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:11px; color:#1ca0e0;">04</span><span>Project &amp; Closeout Forms</span></li>
+        </ol>
+      </div>
+    </div>
+    <div style="margin-top:32px; background:#15273b; text-align:center; padding:12px 20px;">
+      <span style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:#8fa5bb;">DunRite Construction Group LLC · Forms Book · 2026 Edition · Confidential — Internal Use Only</span>
+    </div>
+  </section>
+
+  <div class="bundle-blank" aria-hidden="true"></div>
+
+  <!-- DOCUMENTS -->
+
+<div class="bundle-doc bkdoc1"><div class="doc">
+  <div class="wm" aria-hidden="true"></div>
+  <div class="running-hdr"><span>DunRite Construction Group LLC</span><span>HR Forms Pack</span></div>
+  <div class="running-ftr"><span>Confidential — Personnel Record</span><span>2026 Edition</span></div>
+  <table class="doc-frame" role="presentation">
+    <thead><tr><td class="hdr-space"></td></tr></thead>
+    <tbody><tr><td>
+
+    <!-- COVER -->
+        <!-- ===================== COVER — Centered Monolith ===================== -->
+    <section class="cover" data-screen-label="Cover" style="background:#ffffff; color:#1d2127; border:1px solid #dcd7cb; border-radius:4px; margin:0 0 40px; padding:96px clamp(40px,7vw,84px); min-height:9.4in; box-sizing:border-box; position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+      <img src="assets/dunrite-logo-dark.png" alt="DunRite Construction Group LLC" style="display:block; width:248px; max-width:62%; height:auto; margin:0 auto;">
+      <div style="width:64px; height:3px; background:#1ca0e0; margin:46px auto 30px; border-radius:2px;"></div>
+      <div style="font-family:'Archivo',sans-serif; font-weight:600; font-size:13px; letter-spacing:0.34em; text-transform:uppercase; color:#1ca0e0;">Hiring to Separation</div>
+      <h1 style="font-family:'Archivo',sans-serif; font-weight:800; font-size:54px; line-height:1.0; letter-spacing:-0.028em; margin:20px 0 0; color:#1d2127; text-align:left;">HR Forms<br>Pack</h1>
+    </section>
+
+    <!-- BLANK BACK OF TITLE PAGE -->
+    <section class="blankback" aria-hidden="true"><span>This page intentionally left blank</span></section>
+
+    <!-- FORM A — EMPLOYMENT APPLICATION (official DunRite form) -->
+    <div class="form appdoc" data-screen-label="A Application" style="padding:0; background:transparent;">
+<!-- ============ PAGE 1 — EMPLOYMENT APPLICATION ============ -->
+  <section class="page" data-screen-label="Employment Application">
+    <div style="display:flex; align-items:center; gap:22px;">
+      <img src="assets/dunrite-logo-dark.png" alt="DunRite Construction Group LLC" style="width:250px; height:auto; display:block; flex:none;">
+      <div style="width:2px; align-self:stretch; background:var(--navy); opacity:0.85;"></div>
+      <div>
+        <div style="font-weight:800; font-size:31px; letter-spacing:0.01em; color:var(--deep); line-height:1.05;">EMPLOYMENT APPLICATION</div>
+        <div style="font-style:italic; font-weight:600; font-size:13px; color:var(--mut); margin-top:5px; letter-spacing:0.02em;">PLEASE PRINT CLEARLY AND COMPLETE ALL SECTIONS</div>
+      </div>
+    </div>
+    <div style="height:9px; margin:16px 0 14px; background:linear-gradient(90deg,var(--navy) 0%,var(--blue) 55%,var(--sky) 75%,#dce9f4 100%);"></div>
+    <div style="text-align:center; font-style:italic; font-weight:700; font-size:13.5px; color:var(--blue); letter-spacing:0.02em; margin:2px 0 16px;">APPLICATION MUST INCLUDE COPY OF DRIVER'S LICENSE AND SOCIAL SECURITY CARD</div>
+
+    <!-- 1. PERSONAL INFORMATION -->
+    <div class="sect">
+      <div class="ban"><span class="ic">1</span><span class="bar">Personal Information</span></div>
+      <div class="row"><span class="lab">First Name</span><div class="ln" style="flex:2.6;"></div><span class="lab">Middle Initial</span><div class="ln" style="flex:0.5;"></div><span class="lab">Last Name</span><div class="ln" style="flex:2.6;"></div></div>
+      <div class="row"><span class="lab">Address</span><div class="ln" style="flex:5;"></div><span class="lab">Apt/Unit</span><div class="ln" style="flex:0.7;"></div></div>
+      <div class="row"><span class="lab">City</span><div class="ln" style="flex:2.4;"></div><span class="lab">State</span><div class="ln" style="flex:1.4;"></div><span class="lab">ZIP</span><div class="ln" style="flex:1.6;"></div></div>
+      <div class="row"><span class="lab">Home Phone</span><div class="ln" style="flex:1.5;"></div><span class="lab">Cell Phone</span><div class="ln" style="flex:1.5;"></div><span class="lab">Email</span><div class="ln" style="flex:2.2;"></div></div>
+      <div class="row"><span class="lab">Date of Birth</span><div class="ln" style="flex:1.8;"></div><span class="lab">Social Security Number</span><div class="ln" style="flex:0.55;"></div><span class="lab" style="font-weight:700;">-</span><div class="ln" style="flex:0.55;"></div><span class="lab" style="font-weight:700;">-</span><div class="ln" style="flex:0.85;"></div></div>
+      <div class="row"><span class="lab">Driver's License Number</span><div class="ln" style="flex:2.6;"></div><span class="lab">State</span><div class="ln" style="flex:0.5;"></div><span class="lab">Expiration Date</span><div class="ln" style="flex:1.3;"></div></div>
+      <div class="row" style="align-items:center;"><span class="lab" style="flex:2.4; white-space:normal;">Do you have a valid Florida Driver's License?</span><span class="yn"><span class="bx"></span>Yes</span><span style="width:26px;"></span><span class="yn"><span class="bx"></span>No</span><span style="flex:1.6;"></span></div>
+      <div class="row" style="align-items:center;"><span class="lab" style="flex:2.4; white-space:normal;">Do you have transportation to and from job sites?</span><span class="yn"><span class="bx"></span>Yes</span><span style="width:26px;"></span><span class="yn"><span class="bx"></span>No</span><span style="flex:1.6;"></span></div>
+      <div class="row" style="align-items:center;"><span class="lab" style="flex:3.4; white-space:normal;">Are you legally able to be employed in this country? <em style="font-weight:500;">(If hired, verification will be required by law)</em></span><span class="yn"><span class="bx"></span>Yes</span><span style="width:26px;"></span><span class="yn"><span class="bx"></span>No</span></div>
+      <div class="row"><span class="lab">If hired, when can you start?</span><div class="ln" style="flex:3;"></div></div>
+    </div>
+
+    <!-- 2. WORK HISTORY -->
+    <div class="sect" style="padding-bottom:14px;">
+      <div class="ban"><span class="ic">2</span><span class="bar">Work History</span><span class="note">Please list your most recent employment first.</span></div>
+      <table class="wt">
+        <colgroup><col style="width:17%"><col style="width:15%"><col style="width:15%"><col style="width:18%"><col style="width:10%"><col style="width:10%"><col style="width:15%"></colgroup>
+        <thead><tr><th>Previous Employer</th><th>Address<span class="sub">City, State, ZIP</span></th><th>Supervisor<span class="sub">Name &amp; Phone</span></th><th>Job Description</th><th>Start Date</th><th>End Date</th><th>Reason for Leaving</th></tr></thead>
+        <tbody><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody>
+      </table>
+    </div>
+
+    <!-- 3 + 4 side by side -->
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+      <div class="sect" style="margin:0; padding-bottom:14px;">
+        <div class="ban"><span class="ic">3</span><span class="bar" style="font-size:14px;">References</span></div>
+        <table class="wt">
+          <colgroup><col style="width:31%"><col style="width:25%"><col style="width:24%"><col style="width:20%"></colgroup>
+          <thead><tr><th>Name</th><th>Phone</th><th>Relationship</th><th>Years Known</th></tr></thead>
+          <tbody><tr><td style="height:34px;"></td><td></td><td></td><td></td></tr><tr><td style="height:34px;"></td><td></td><td></td><td></td></tr><tr><td style="height:34px;"></td><td></td><td></td><td></td></tr></tbody>
+        </table>
+      </div>
+      <div class="sect" style="margin:0; padding-bottom:14px;">
+        <div class="ban"><span class="ic">4</span><span class="bar" style="font-size:14px;">Emergency Contact Information</span></div>
+        <table class="wt">
+          <colgroup><col style="width:38%"><col style="width:32%"><col style="width:30%"></colgroup>
+          <thead><tr><th>Name</th><th>Phone</th><th>Relationship</th></tr></thead>
+          <tbody><tr><td style="height:34px;"></td><td></td><td></td></tr><tr><td style="height:34px;"></td><td></td><td></td></tr><tr><td style="height:34px;"></td><td></td><td></td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div style="border-top:1.2px solid var(--line); margin-top:20px; padding-top:14px; font-size:12.5px; line-height:1.55;">I certify that the information provided on this application is true and complete to the best of my knowledge. I understand that any false information or omission may disqualify me from consideration for employment or result in my dismissal if employed.</div>
+    <div style="display:grid; grid-template-columns:1.4fr 1fr; gap:60px; margin-top:34px;">
+      <div><div style="border-bottom:1.2px solid var(--ink); height:2px;"></div><div style="font-style:italic; font-size:12px; margin-top:6px;">Applicant Signature</div></div>
+      <div><div style="border-bottom:1.2px solid var(--ink); height:2px;"></div><div style="font-style:italic; font-size:12px; margin-top:6px;">Date</div></div>
+    </div>
+
+    <!-- footer -->
+    <div style="margin-top:auto;">
+      <div style="display:flex; align-items:center; gap:0; padding:14px 0 12px;">
+        <img src="assets/dunrite-mark.png" alt="DC" style="height:52px; width:auto; flex:none;">
+        <div style="flex:1; display:flex; justify-content:space-evenly; align-items:center; font-size:12px; font-weight:600; color:var(--deep);">
+          <span>12412 Curley St.<br>San Antonio, FL 33576</span>
+          <span style="width:1px; height:26px; background:#c7d2de;"></span>
+          <span>(352) 588-4050</span>
+          <span style="width:1px; height:26px; background:#c7d2de;"></span>
+          <span>www.dunriteconstruction.com</span>
+          <span style="width:1px; height:26px; background:#c7d2de;"></span>
+          <span>bids@dunriteconstruction.com</span>
+        </div>
+      </div>
+      <div style="background:var(--deep); color:#fff; text-align:center; font-weight:700; font-size:12px; letter-spacing:0.42em; padding:9px 0; margin:0 -0.5in;">EQUAL&nbsp;OPPORTUNITY&nbsp;EMPLOYER</div>
+    </div>
+  </section>
+    </div>
+
+    <!-- FORM F — NEW-HIRE PAYROLL FORMS (ESI) -->
+    <section class="form" data-screen-label="F New-Hire Payroll (ESI)">
+      <div class="kicker">Form F</div>
+      <div class="form-head"><span class="n">F</span><h2>New-Hire Payroll Forms (ESI)</h2></div>
+      <div class="rule"></div>
+      <p>Payroll onboarding is completed on <strong>ESI Payroll Services'</strong> fillable forms, which are part of this pack. Fill them digitally from the Document Hub, or complete the printed copies on the following pages (F1–F4). ESI Payroll Services · 3011 Manatee Ave. W, Bradenton, FL 34205 · (941) 744-9777.</p>
+      <h4>Forms in This Set</h4>
+      <table class="t">
+        <colgroup><col style="width:30%"><col style="width:42%"><col style="width:28%"></colgroup>
+        <thead><tr><th>Form</th><th>Purpose</th><th>File</th></tr></thead>
+        <tbody>
+          <tr><td><strong>ESI Payroll Information</strong></td><td>Employee info, pay type &amp; rate (employer section), deductions</td><td>DunRite_ESI_New_Hire_Form _FILLABLE.pdf</td></tr>
+          <tr><td><strong>Direct Deposit Authorization</strong></td><td>ACH authorization for payroll deposit</td><td>DunRite_ESI_Direct_Deposit _Authorization_FILLABLE.pdf</td></tr>
+          <tr><td><strong>Form I-9</strong></td><td>Employment eligibility verification (Lists A / B / C)</td><td>DunRite_I9_FILLABLE.pdf</td></tr>
+          <tr><td><strong>Complete New-Hire Packet</strong></td><td>Application, IRS Form W-4 (2026), Form I-9 &amp; supplements, ESI payroll &amp; direct deposit — one duplex-ready file</td><td>DunRite_New_Hire_Packet _FILLABLE.pdf</td></tr>
+        </tbody>
+      </table>
+      <div class="note"><span class="lbl">Required attachments</span><p>Direct deposit requires a <strong>voided check or mobile-banking screenshot</strong> of the named account. If child support or garnishments apply, attach the complete court order(s) to the ESI Payroll Information form. I-9 identity documents must be unexpired.</p></div>
+    </section>
+
+    <!-- FORM F1 — ESI PAYROLL INFORMATION -->
+    <section class="form" data-screen-label="F1 ESI Payroll Information">
+      <div class="kicker">Form F1</div>
+      <div class="form-head"><span class="n">F1</span><h2>ESI Payroll Information</h2></div>
+      <div class="rule"></div>
+      <div style="display:flex; align-items:center; gap:14px; margin:2px 0 12px;"><img src="assets/esi-logo.png" alt="ESI Payroll Services" style="height:38px; width:auto; display:block;"><p style="font-size:12.5px; color:var(--muted); margin:0;">ESI Payroll Services · 3011 Manatee Ave. W, Bradenton, FL 34205 · (941) 744-9777</p></div>
+      <div class="fld"><span class="lab">Company Name</span><div class="ln"></div></div>
+
+      <h4>Employee Information <span style="font-weight:400; text-transform:none; letter-spacing:0; color:var(--muted);">(completed by employee)</span></h4>
+      <div class="grid2">
+        <div class="fld"><span class="lab">Employee Name</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Social Security Number</span><div class="ln"></div></div>
+      </div>
+      <div style="display:flex; gap:28px; flex-wrap:wrap; align-items:flex-end; margin:10px 0;">
+        <div style="display:flex; align-items:center; gap:10px; font-size:13px;"><span style="white-space:nowrap;">Marital Status:</span><span style="display:flex; gap:8px;"><span style="border:1.5px solid var(--soft); border-radius:4px; padding:2px 14px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); white-space:nowrap;">Married</span><span style="border:1.5px solid var(--soft); border-radius:4px; padding:2px 14px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); white-space:nowrap;">Single</span></span></div>
+        <div style="display:flex; align-items:center; gap:10px; font-size:13px;"><span style="white-space:nowrap;">Gender:</span><span style="display:flex; gap:8px;"><span style="border:1.5px solid var(--soft); border-radius:4px; padding:2px 14px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); white-space:nowrap;">Male</span><span style="border:1.5px solid var(--soft); border-radius:4px; padding:2px 14px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); white-space:nowrap;">Female</span></span></div>
+        <div class="fld" style="flex:1; min-width:150px;"><span class="lab">Date of Birth</span><div class="ln"></div></div>
+      </div>
+      <div class="fld"><span class="lab">Email (required for payroll portal access)</span><div class="ln"></div></div>
+      <div class="grid4">
+        <div class="fld" style="grid-column:span 2;"><span class="lab">Address</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">City</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">State / ZIP</span><div class="ln"></div></div>
+      </div>
+      <div class="fld"><span class="lab">Phone Number</span><div class="ln"></div></div>
+
+      <h4>To Be Completed by Employer</h4>
+      <div style="display:flex; flex-direction:column; gap:9px; margin:10px 0;">
+        <div style="display:flex; align-items:center; gap:10px; font-size:13px;"><span style="white-space:nowrap;">Pay Type:</span><span style="display:flex; gap:8px;"><span style="border:1.5px solid var(--soft); border-radius:4px; padding:2px 14px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); white-space:nowrap;">Hourly</span><span style="border:1.5px solid var(--soft); border-radius:4px; padding:2px 14px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); white-space:nowrap;">Salary</span><span style="border:1.5px solid var(--soft); border-radius:4px; padding:2px 14px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); white-space:nowrap;">Other</span></span></div>
+        <div style="display:flex; align-items:center; gap:10px; font-size:13px;"><span style="white-space:nowrap;">Work Status:</span><span style="display:flex; gap:8px;"><span style="border:1.5px solid var(--soft); border-radius:4px; padding:2px 14px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); white-space:nowrap;">Full-Time</span><span style="border:1.5px solid var(--soft); border-radius:4px; padding:2px 14px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); white-space:nowrap;">Part-Time</span></span></div>
+        <div style="display:flex; align-items:center; gap:10px; font-size:13px;"><span style="white-space:nowrap;">Pay Period:</span><span style="display:flex; gap:8px;"><span style="border:1.5px solid var(--soft); border-radius:4px; padding:2px 14px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); white-space:nowrap;">Weekly</span><span style="border:1.5px solid var(--soft); border-radius:4px; padding:2px 14px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); white-space:nowrap;">Bi-Weekly</span><span style="border:1.5px solid var(--soft); border-radius:4px; padding:2px 14px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); white-space:nowrap;">Semi-Monthly</span><span style="border:1.5px solid var(--soft); border-radius:4px; padding:2px 14px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); white-space:nowrap;">Monthly</span></span></div>
+      </div>
+      <div class="grid2">
+        <div class="fld"><span class="lab">Rate of Pay</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Department / WC Code</span><div class="ln"></div></div>
+      </div>
+      <div class="sig">
+        <div><div class="ln"></div><div class="cap">Manager Signature</div></div>
+        <div><div class="ln"></div><div class="cap">Date</div></div>
+      </div>
+
+      <h4>Deductions</h4>
+      <div style="display:flex; flex-direction:column; gap:9px; margin:10px 0;">
+        <div style="display:flex; align-items:center; gap:10px; font-size:13px;"><span style="white-space:nowrap;">Child Support:</span><span style="display:flex; gap:8px;"><span style="border:1.5px solid var(--soft); border-radius:4px; padding:2px 14px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); white-space:nowrap;">Yes</span><span style="border:1.5px solid var(--soft); border-radius:4px; padding:2px 14px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); white-space:nowrap;">No</span></span></div>
+        <div style="display:flex; align-items:center; gap:10px; font-size:13px;"><span style="white-space:nowrap;">Garnishments:</span><span style="display:flex; gap:8px;"><span style="border:1.5px solid var(--soft); border-radius:4px; padding:2px 14px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); white-space:nowrap;">Yes</span><span style="border:1.5px solid var(--soft); border-radius:4px; padding:2px 14px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); white-space:nowrap;">No</span></span></div>
+      </div>
+      <div class="note"><span class="lbl">If yes</span><p>Attach the complete Child Support Order and/or Court Order(s) to this form.</p></div>
+    </section>
+
+    <!-- FORM F2 — DIRECT DEPOSIT AUTHORIZATION -->
+    <section class="form" data-screen-label="F2 Direct Deposit Authorization">
+      <div class="kicker">Form F2</div>
+      <div class="form-head"><span class="n">F2</span><h2>Direct Deposit Authorization</h2></div>
+      <div class="rule"></div>
+      <div style="display:flex; align-items:center; gap:14px; margin:2px 0 12px;"><img src="assets/esi-logo.png" alt="ESI Payroll Services" style="height:38px; width:auto; display:block;"><p style="font-size:12.5px; color:var(--muted); margin:0;">ESI Payroll Services · 3011 Manatee Ave. W, Bradenton, FL 34205 · (941) 744-9777</p></div>
+      <p>ESI Payroll is hereby authorized to initiate credit and, if necessary, debit entries and adjustments for ESI or bank credit entries in error to my account indicated below.</p>
+      <div class="grid2">
+        <div class="fld"><span class="lab">Employee Name (Printed)</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Bank Name</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Routing Number</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Account Number</span><div class="ln"></div></div>
+      </div>
+      <div style="margin:12px 0;"><div style="display:flex; align-items:center; gap:10px; font-size:13px;"><span style="white-space:nowrap;">Account Type:</span><span style="display:flex; gap:8px;"><span style="border:1.5px solid var(--soft); border-radius:4px; padding:2px 14px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); white-space:nowrap;">Checking</span><span style="border:1.5px solid var(--soft); border-radius:4px; padding:2px 14px; font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); white-space:nowrap;">Savings</span></span></div></div>
+      <p>I acknowledge that this authority will remain in full force and effect until ESI has received written notification from me of its termination, and that I will afford ESI and the financial institution a reasonable opportunity to act on such requests, which is also stated by the provisions of US law over all ACH Transactions.</p>
+      <div class="sig">
+        <div><div class="ln"></div><div class="cap">Signature ✕</div></div>
+        <div><div class="ln"></div><div class="cap">Date</div></div>
+      </div>
+      <div class="note"><span class="lbl">Required attachment</span><p>Attach a <strong>voided check</strong> or a <strong>mobile-banking screenshot</strong> showing the requested account and routing numbers.</p></div>
+    </section>
+
+    <!-- FORM F3 — IRS FORM W-4 (OFFICIAL, UNALTERED) -->
+    <section class="form" data-screen-label="F3 IRS Form W-4" style="padding:0;">
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; background:#15273b; color:#fff; padding:8px 16px;">
+        <span style="font-family:'Archivo',sans-serif; font-weight:800; font-size:11px; letter-spacing:0.18em;">FORM&nbsp;F3&nbsp;·&nbsp;NEW-HIRE&nbsp;PAYROLL</span>
+        <span style="font-family:'Archivo',sans-serif; font-weight:600; font-size:10px; letter-spacing:0.12em; color:#b9c9de;">OFFICIAL&nbsp;FEDERAL&nbsp;FORM&nbsp;—&nbsp;COMPLETE&nbsp;AS&nbsp;PROVIDED</span>
+      </div>
+      <img src="assets/form-w4-2026.png" alt="IRS Form W-4 (2026) — Employee's Withholding Certificate (official form, unaltered)" style="width:100%; height:auto; display:block; border:1px solid #dcd7cb; border-top:none;">
+    </section>
+
+    <!-- FORM F4 — USCIS FORM I-9 (OFFICIAL, UNALTERED) -->
+    <section class="form" data-screen-label="F4 USCIS Form I-9" style="padding:0;">
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; background:#15273b; color:#fff; padding:8px 16px;">
+        <span style="font-family:'Archivo',sans-serif; font-weight:800; font-size:11px; letter-spacing:0.18em;">FORM&nbsp;F4&nbsp;·&nbsp;NEW-HIRE&nbsp;PAYROLL</span>
+        <span style="font-family:'Archivo',sans-serif; font-weight:600; font-size:10px; letter-spacing:0.12em; color:#b9c9de;">OFFICIAL&nbsp;FEDERAL&nbsp;FORM&nbsp;—&nbsp;COMPLETE&nbsp;AS&nbsp;PROVIDED</span>
+      </div>
+      <img src="assets/form-i9.png" alt="USCIS Form I-9 — Employment Eligibility Verification (official form, unaltered)" style="width:100%; height:auto; display:block; border:1px solid #dcd7cb; border-top:none;">
+    </section>
+
+    <!-- FORM B — CORRECTIVE ACTION -->
+    <section class="form" data-screen-label="B Corrective Action">
+      <div class="kicker">Form B</div>
+      <div class="form-head"><span class="n">B</span><h2>Disciplinary / Corrective Action</h2></div>
+      <div class="rule"></div>
+      <div class="grid4">
+        <div class="fld"><span class="lab">Employee</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Position</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Supervisor</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Date</span><div class="ln"></div></div>
+      </div>
+      <h4>Level of Action</h4>
+      <ul class="check">
+        <li>Verbal Warning (documented)</li><li>Written Warning</li>
+        <li>Final Warning</li><li>Suspension</li>
+        <li>Termination</li><li>Other</li>
+      </ul>
+      <h4>Type of Concern</h4>
+      <ul class="check">
+        <li>Attendance / punctuality</li><li>Job performance</li>
+        <li>Safety violation</li><li>Conduct / policy violation</li>
+        <li>Insubordination</li><li>Other</li>
+      </ul>
+      <h4>Description of Incident / Concern</h4>
+      <table class="t"><tbody><tr><td class="tall"></td></tr><tr><td class="tall"></td></tr></tbody></table>
+      <h4>Expected Improvement &amp; Consequences</h4>
+      <table class="t"><tbody><tr><td class="tall"></td></tr><tr><td class="tall"></td></tr></tbody></table>
+      <div class="note"><span class="lbl">Acknowledgement</span><p>My signature confirms I have received and discussed this notice. It indicates receipt, not necessarily agreement. Employment remains at-will.</p></div>
+      <div class="sig">
+        <div><div class="ln"></div><div class="cap">Employee Signature</div></div>
+        <div><div class="ln"></div><div class="cap">Date</div></div>
+        <div><div class="ln"></div><div class="cap">Supervisor Signature</div></div>
+        <div><div class="ln"></div><div class="cap">Date</div></div>
+      </div>
+    </section>
+
+    <!-- FORM C — TIME-OFF REQUEST -->
+    <section class="form" data-screen-label="C Time-Off Request">
+      <div class="kicker">Form C</div>
+      <div class="form-head"><span class="n">C</span><h2>Time-Off Request</h2></div>
+      <div class="rule"></div>
+      <div class="grid4">
+        <div class="fld"><span class="lab">Employee</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Position</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Supervisor</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Date of Request</span><div class="ln"></div></div>
+      </div>
+      <h4>Dates Requested</h4>
+      <div class="grid3">
+        <div class="fld"><span class="lab">From</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">To</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Total Days / Hours</span><div class="ln"></div></div>
+      </div>
+      <h4>Type of Leave</h4>
+      <ul class="check">
+        <li>PTO / Vacation</li><li>Unpaid</li>
+        <li>Bereavement</li><li>Jury Duty</li>
+        <li>Military</li><li>Other</li>
+      </ul>
+      <div class="fld tall"><span class="lab">Notes</span><div class="ln"></div></div>
+      <h4>For Office Use</h4>
+      <table class="t">
+        <colgroup><col style="width:25%"><col style="width:25%"><col style="width:25%"><col style="width:25%"></colgroup>
+        <thead><tr><th>Approved</th><th>Denied</th><th>PTO Balance</th><th>Approver</th></tr></thead>
+        <tbody><tr><td></td><td></td><td></td><td></td></tr></tbody>
+      </table>
+      <div class="sig">
+        <div><div class="ln"></div><div class="cap">Employee Signature</div></div>
+        <div><div class="ln"></div><div class="cap">Supervisor / Approver</div></div>
+      </div>
+    </section>
+
+    <!-- FORM D — PERFORMANCE REVIEW -->
+    <section class="form" data-screen-label="D Performance Review">
+      <div class="kicker">Form D</div>
+      <div class="form-head"><span class="n">D</span><h2>Performance Review</h2></div>
+      <div class="rule"></div>
+      <div class="grid4">
+        <div class="fld"><span class="lab">Employee</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Position</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Review Period</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Reviewer</span><div class="ln"></div></div>
+      </div>
+      <div class="note"><span class="lbl">Rating Scale</span><p>5 = Exceptional · 4 = Exceeds · 3 = Meets · 2 = Needs Improvement · 1 = Unsatisfactory</p></div>
+      <table class="t">
+        <colgroup><col style="width:60%"><col style="width:18%"><col style="width:22%"></colgroup>
+        <thead><tr><th>Category</th><th>Rating (1–5)</th><th>Comments</th></tr></thead>
+        <tbody>
+          <tr><td>Quality of work / craftsmanship</td><td></td><td></td></tr>
+          <tr><td>Productivity &amp; reliability</td><td></td><td></td></tr>
+          <tr><td>Safety &amp; PPE compliance</td><td></td><td></td></tr>
+          <tr><td>Attendance &amp; punctuality</td><td></td><td></td></tr>
+          <tr><td>Teamwork &amp; communication</td><td></td><td></td></tr>
+          <tr><td>Initiative &amp; problem-solving</td><td></td><td></td></tr>
+          <tr><td>Following procedures / direction</td><td></td><td></td></tr>
+        </tbody>
+      </table>
+      <h4>Strengths</h4>
+      <table class="t"><tbody><tr><td class="tall"></td></tr></tbody></table>
+      <h4>Goals &amp; Areas for Development</h4>
+      <table class="t"><tbody><tr><td class="tall"></td></tr></tbody></table>
+      <div class="sig">
+        <div><div class="ln"></div><div class="cap">Employee Signature</div></div>
+        <div><div class="ln"></div><div class="cap">Date</div></div>
+        <div><div class="ln"></div><div class="cap">Reviewer Signature</div></div>
+        <div><div class="ln"></div><div class="cap">Date</div></div>
+      </div>
+    </section>
+
+    <!-- FORM E — TERMINATION / EXIT -->
+    <section class="form" data-screen-label="E Termination / Exit">
+      <div class="kicker">Form E</div>
+      <div class="form-head"><span class="n">E</span><h2>Termination / Exit Checklist</h2></div>
+      <div class="rule"></div>
+      <div class="grid4">
+        <div class="fld"><span class="lab">Employee</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Position</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Last Day Worked</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Processed By</span><div class="ln"></div></div>
+      </div>
+      <h4>Separation Type</h4>
+      <ul class="check">
+        <li>Voluntary resignation</li><li>Involuntary termination</li>
+        <li>Layoff / end of project</li><li>Job abandonment</li>
+        <li>Retirement</li><li>Other</li>
+      </ul>
+      <h4>Return of Company Property</h4>
+      <table class="t">
+        <colgroup><col style="width:60%"><col style="width:20%"><col style="width:20%"></colgroup>
+        <thead><tr><th>Item</th><th>Returned</th><th>N/A</th></tr></thead>
+        <tbody>
+          <tr><td>Keys / access cards / fobs</td><td></td><td></td></tr>
+          <tr><td>Phone / tablet / laptop</td><td></td><td></td></tr>
+          <tr><td>Tools &amp; equipment issued</td><td></td><td></td></tr>
+          <tr><td>Company vehicle &amp; fuel card</td><td></td><td></td></tr>
+          <tr><td>PPE / uniforms</td><td></td><td></td></tr>
+          <tr><td>Documents / confidential materials</td><td></td><td></td></tr>
+        </tbody>
+      </table>
+      <h4>Final Processing</h4>
+      <ul class="check">
+        <li>Final timesheet submitted</li><li>Final pay processed</li>
+        <li>Benefits / COBRA info provided</li><li>System / app access revoked</li>
+        <li>Accrued PTO addressed</li><li>Exit interview offered</li>
+      </ul>
+      <div class="sig">
+        <div><div class="ln"></div><div class="cap">Employee Signature (if available)</div></div>
+        <div><div class="ln"></div><div class="cap">Date</div></div>
+        <div><div class="ln"></div><div class="cap">Manager / HR Signature</div></div>
+        <div><div class="ln"></div><div class="cap">Date</div></div>
+      </div>
+      <div style="margin-top:26px; padding-top:14px; border-top:1px solid #948e80;">
+        <p style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.12em; text-transform:uppercase; color:var(--soft); margin:0;">DunRite Construction Group LLC · HR Forms Pack · 2026 Edition</p>
+      </div>
+    </section>
+
+
+
+
+    </td></tr></tbody>
+    <tfoot><tr><td class="ftr-space"></td></tr></tfoot>
+  </table>
+</div></div>
+  
+<div class="bundle-doc bkdoc2"><div class="doc">
+  <div class="wm" aria-hidden="true"></div>
+  <div class="running-hdr"><span>DunRite Construction Group LLC</span><span>Field Forms Pack</span></div>
+  <div class="running-ftr"><span>Confidential — Project Record</span><span>2026 Edition</span></div>
+  <table class="doc-frame" role="presentation">
+    <thead><tr><td class="hdr-space"></td></tr></thead>
+    <tbody><tr><td>
+
+    <!-- COVER -->
+        <!-- ===================== COVER — Centered Monolith ===================== -->
+    <section class="cover" data-screen-label="Cover" style="background:#ffffff; color:#1d2127; border:1px solid #dcd7cb; border-radius:4px; margin:0 0 40px; padding:96px clamp(40px,7vw,84px); min-height:9.4in; box-sizing:border-box; position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+      <img src="assets/dunrite-logo-dark.png" alt="DunRite Construction Group LLC" style="display:block; width:248px; max-width:62%; height:auto; margin:0 auto;">
+      <div style="width:64px; height:3px; background:#1ca0e0; margin:46px auto 30px; border-radius:2px;"></div>
+      <div style="font-family:'Archivo',sans-serif; font-weight:600; font-size:13px; letter-spacing:0.34em; text-transform:uppercase; color:#1ca0e0;">Daily Jobsite Forms</div>
+      <h1 style="font-family:'Archivo',sans-serif; font-weight:800; font-size:54px; line-height:1.0; letter-spacing:-0.028em; margin:20px 0 0; color:#1d2127; text-align:left;">Field Forms<br>Pack</h1>
+    </section>
+
+    <!-- BLANK BACK OF TITLE PAGE -->
+    <section class="blankback" aria-hidden="true"><span>This page intentionally left blank</span></section>
+
+    <!-- FORM A — DAILY FIELD REPORT -->
+    <section class="form" data-screen-label="A Daily Field Report" style="break-before:auto;">
+      <div class="kicker">Form A</div>
+      <div class="form-head"><span class="n">A</span><h2>Daily Field Report</h2></div>
+      <div class="rule"></div>
+      <div class="grid4">
+        <div class="fld"><span class="lab">Project</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Date</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Day</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Report By</span><div class="ln"></div></div>
+      </div>
+      <h4>Weather</h4>
+      <div class="grid4">
+        <div class="fld"><span class="lab">AM Conditions</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">PM Conditions</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Temp (High / Low)</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Hours Lost to Weather</span><div class="ln"></div></div>
+      </div>
+      <h4>Manpower on Site</h4>
+      <table class="t">
+        <colgroup><col style="width:34%"><col style="width:14%"><col style="width:14%"><col style="width:38%"></colgroup>
+        <thead><tr><th>Company / Trade</th><th># Workers</th><th>Hours</th><th>Work Performed</th></tr></thead>
+        <tbody><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr></tbody>
+      </table>
+      <h4>Equipment on Site</h4>
+      <table class="t">
+        <colgroup><col style="width:50%"><col style="width:16%"><col style="width:34%"></colgroup>
+        <thead><tr><th>Equipment</th><th>Hours Used</th><th>Idle / Notes</th></tr></thead>
+        <tbody><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></tbody>
+      </table>
+      <h4>Deliveries &amp; Visitors</h4>
+      <table class="t">
+        <colgroup><col style="width:22%"><col style="width:48%"><col style="width:30%"></colgroup>
+        <thead><tr><th>Time</th><th>Delivery / Visitor</th><th>From / Company</th></tr></thead>
+        <tbody><tr><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td></tr></tbody>
+      </table>
+      <h4>Delays, Issues &amp; Notes</h4>
+      <table class="t"><tbody><tr><td class="tall"></td></tr><tr><td class="tall"></td></tr></tbody></table>
+      <div class="sig">
+        <div><div class="ln"></div><div class="cap">Superintendent / Foreman Signature</div></div>
+        <div><div class="ln"></div><div class="cap">Date</div></div>
+      </div>
+    </section>
+
+    <!-- FORM B — JHA -->
+    <section class="form" data-screen-label="B Job Hazard Analysis">
+      <div class="kicker">Form B</div>
+      <div class="form-head"><span class="n">B</span><h2>Job Hazard Analysis (JHA)</h2></div>
+      <div class="rule"></div>
+      <p>Complete before starting a task. Break the job into steps, identify the hazards in each, and list the controls that remove or reduce them. Review with the whole crew before work begins.</p>
+      <div class="grid3">
+        <div class="fld"><span class="lab">Project</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Task / Activity</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Date</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Competent Person</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Crew / Trade</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Required Permits</span><div class="ln"></div></div>
+      </div>
+      <h4>Required PPE for This Task</h4>
+      <ul class="check">
+        <li>Hard hat</li><li>Safety glasses</li><li>Hi-vis</li><li>Gloves</li><li>Hearing protection</li><li>Fall protection</li><li>Respirator</li><li>Face shield</li>
+      </ul>
+      <h4>Steps · Hazards · Controls</h4>
+      <table class="t">
+        <colgroup><col style="width:8%"><col style="width:30%"><col style="width:31%"><col style="width:31%"></colgroup>
+        <thead><tr><th>#</th><th>Job Step</th><th>Potential Hazards</th><th>Controls / Safe Practice</th></tr></thead>
+        <tbody><tr><td></td><td class="tall"></td><td class="tall"></td><td class="tall"></td></tr><tr><td></td><td class="tall"></td><td class="tall"></td><td class="tall"></td></tr><tr><td></td><td class="tall"></td><td class="tall"></td><td class="tall"></td></tr><tr><td></td><td class="tall"></td><td class="tall"></td><td class="tall"></td></tr><tr><td></td><td class="tall"></td><td class="tall"></td><td class="tall"></td></tr></tbody>
+      </table>
+      <div class="note"><span class="lbl">Stop Work Authority</span><p>Anyone may stop work to address a hazard. If conditions change or a new hazard appears, update this JHA and re-brief the crew.</p></div>
+      <h4>Crew Review — Sign On</h4>
+      <table class="t">
+        <colgroup><col style="width:50%"><col style="width:50%"></colgroup>
+        <thead><tr><th>Print Name</th><th>Signature</th></tr></thead>
+        <tbody><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr><tr><td></td><td></td></tr></tbody>
+      </table>
+    </section>
+
+    <!-- FORM C — DAILY SAFETY INSPECTION -->
+    <section class="form" data-screen-label="C Safety Inspection">
+      <div class="kicker">Form C</div>
+      <div class="form-head"><span class="n">C</span><h2>Daily Jobsite Safety Inspection</h2></div>
+      <div class="rule"></div>
+      <div class="grid4">
+        <div class="fld"><span class="lab">Project</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Date</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Inspected By</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Time</span><div class="ln"></div></div>
+      </div>
+      <p style="font-size:12.5px; color:var(--muted); margin-top:10px;">Mark each item OK, Needs Action (NA), or Not Applicable (N/A). Note any corrective action and who is responsible below.</p>
+      <table class="t">
+        <colgroup><col style="width:60%"><col style="width:13%"><col style="width:13%"><col style="width:14%"></colgroup>
+        <thead><tr><th>Inspection Item</th><th>OK</th><th>Needs Action</th><th>N/A</th></tr></thead>
+        <tbody>
+          <tr><td>Housekeeping &amp; clear walkways</td><td></td><td></td><td></td></tr>
+          <tr><td>PPE worn by all on site</td><td></td><td></td><td></td></tr>
+          <tr><td>Fall protection in place (6 ft+)</td><td></td><td></td><td></td></tr>
+          <tr><td>Ladders &amp; scaffolds safe / inspected</td><td></td><td></td><td></td></tr>
+          <tr><td>Excavations protected (5 ft+)</td><td></td><td></td><td></td></tr>
+          <tr><td>Electrical / GFCI / cords</td><td></td><td></td><td></td></tr>
+          <tr><td>Fire extinguishers accessible</td><td></td><td></td><td></td></tr>
+          <tr><td>First-aid kit stocked &amp; located</td><td></td><td></td><td></td></tr>
+          <tr><td>Hazard communication / SDS on site</td><td></td><td></td><td></td></tr>
+          <tr><td>Tools &amp; equipment guarded / good repair</td><td></td><td></td><td></td></tr>
+          <tr><td>Heat illness — water, rest, shade</td><td></td><td></td><td></td></tr>
+          <tr><td>Silica / dust controls in use</td><td></td><td></td><td></td></tr>
+          <tr><td>Barricades &amp; signage posted</td><td></td><td></td><td></td></tr>
+          <tr><td>Equipment swing radius / spotters</td><td></td><td></td><td></td></tr>
+          <tr><td>Emergency contacts posted</td><td></td><td></td><td></td></tr>
+        </tbody>
+      </table>
+      <h4>Corrective Actions</h4>
+      <table class="t">
+        <colgroup><col style="width:8%"><col style="width:54%"><col style="width:22%"><col style="width:16%"></colgroup>
+        <thead><tr><th>#</th><th>Action Needed</th><th>Assigned To</th><th>Done</th></tr></thead>
+        <tbody><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr></tbody>
+      </table>
+      <div class="sig">
+        <div><div class="ln"></div><div class="cap">Inspector Signature</div></div>
+        <div><div class="ln"></div><div class="cap">Date</div></div>
+      </div>
+    </section>
+
+    <!-- FORM D — SITE CONDITIONS ACKNOWLEDGEMENT -->
+    <section class="form" data-screen-label="D Site Conditions Acknowledgement">
+      <div class="kicker">Form D</div>
+      <div class="form-head"><span class="n">D</span><h2>Site Conditions Acknowledgement</h2></div>
+      <div class="rule"></div>
+      <div class="grid3">
+        <div class="fld"><span class="lab">Date</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Builder</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Superintendent</span><div class="ln"></div></div>
+      </div>
+      <div class="grid4">
+        <div class="fld" style="grid-column:span 2;"><span class="lab">Project</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Lot / Block</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Address</span><div class="ln"></div></div>
+      </div>
+      <h4>Condition(s) Acknowledged</h4>
+      <ul class="check">
+        <li>Weather / washout</li>
+        <li>Issues concerning plumber</li>
+        <li>Hard dig</li>
+        <li>Issues concerning grading</li>
+        <li>Cold joints due to slow deliveries</li>
+        <li>Rain pour per builder's superintendent <em>(builder assumes all issues that may arise with slab)</em></li>
+        <li>Other</li>
+      </ul>
+      <div class="fld tall" style="margin-top:8px;"><span class="lab">Description / Details</span><div class="ln"></div></div>
+      <div class="fld tall"><span class="lab"></span><div class="ln"></div></div>
+      <div class="note"><span class="lbl">Acknowledgement</span><p>The builder's representative acknowledges the site condition(s) noted above and directs DunRite Construction Group LLC to proceed. Responsibility for issues arising from the acknowledged condition(s) rests with the builder as indicated.</p></div>
+      <div class="sig">
+        <div><div class="ln"></div><div class="cap">Builder / Superintendent Signature</div></div>
+        <div><div class="ln"></div><div class="cap">Date</div></div>
+        <div><div class="ln"></div><div class="cap">DunRite Representative Signature</div></div>
+        <div><div class="ln"></div><div class="cap">Date</div></div>
+      </div>
+      <div style="margin-top:30px; padding-top:14px; border-top:1px solid #948e80;">
+        <p style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.12em; text-transform:uppercase; color:var(--soft); margin:0;">DunRite Construction Group LLC · Field Forms Pack · 2026 Edition</p>
+      </div>
+    </section>
+
+    </td></tr></tbody>
+    <tfoot><tr><td class="ftr-space"></td></tr></tfoot>
+  </table>
+</div></div>
+  
+<div class="bundle-doc bkdoc3"><div class="doc">
+  <div class="wm" aria-hidden="true"></div>
+  <div class="running-hdr"><span>DunRite Construction Group LLC</span><span>Financial Forms Pack</span></div>
+  <div class="running-ftr"><span>Confidential — Financial Controls</span><span>2026 Edition</span></div>
+  <table class="doc-frame" role="presentation">
+    <thead><tr><td class="hdr-space"></td></tr></thead>
+    <tbody><tr><td>
+
+    <!-- COVER -->
+        <!-- ===================== COVER — Centered Monolith ===================== -->
+    <section class="cover" data-screen-label="Cover" style="background:#ffffff; color:#1d2127; border:1px solid #dcd7cb; border-radius:4px; margin:0 0 40px; padding:96px clamp(40px,7vw,84px); min-height:9.4in; box-sizing:border-box; position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+      <img src="assets/dunrite-logo-dark.png" alt="DunRite Construction Group LLC" style="display:block; width:248px; max-width:62%; height:auto; margin:0 auto;">
+      <div style="width:64px; height:3px; background:#1ca0e0; margin:46px auto 30px; border-radius:2px;"></div>
+      <div style="font-family:'Archivo',sans-serif; font-weight:600; font-size:13px; letter-spacing:0.34em; text-transform:uppercase; color:#1ca0e0;">Purchasing &amp; Accounting</div>
+      <h1 style="font-family:'Archivo',sans-serif; font-weight:800; font-size:54px; line-height:1.0; letter-spacing:-0.028em; margin:20px 0 0; color:#1d2127; text-align:left;">Financial<br>Forms Pack</h1>
+    </section>
+
+    <!-- BLANK BACK OF TITLE PAGE -->
+    <section class="blankback" aria-hidden="true"><span>This page intentionally left blank</span></section>
+
+    <!-- FORM A — PURCHASE ORDER -->
+    <section class="form" data-screen-label="A Purchase Order" style="break-before:auto;">
+      <div class="kicker">Form A</div>
+      <div class="form-head"><span class="n">A</span><h2>Purchase Order</h2></div>
+      <div class="rule"></div>
+      <div class="grid4">
+        <div class="fld"><span class="lab">PO Number</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Date</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Project</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Cost Code</span><div class="ln"></div></div>
+      </div>
+      <div class="grid2">
+        <div class="fld"><span class="lab">Vendor / Supplier</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Vendor Contact / Phone</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Ship To / Jobsite</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Needed By / Delivery Date</span><div class="ln"></div></div>
+      </div>
+      <h4>Items Ordered</h4>
+      <table class="t">
+        <colgroup><col style="width:10%"><col style="width:42%"><col style="width:12%"><col style="width:18%"><col style="width:18%"></colgroup>
+        <thead><tr><th>Qty</th><th>Description</th><th>Unit</th><th class="r">Unit Price</th><th class="r">Total</th></tr></thead>
+        <tbody><tr><td></td><td></td><td></td><td class="r"></td><td class="r"></td></tr><tr><td></td><td></td><td></td><td class="r"></td><td class="r"></td></tr><tr><td></td><td></td><td></td><td class="r"></td><td class="r"></td></tr><tr><td></td><td></td><td></td><td class="r"></td><td class="r"></td></tr><tr><td></td><td></td><td></td><td class="r"></td><td class="r"></td></tr><tr><td></td><td></td><td></td><td class="r"></td><td class="r"></td></tr></tbody>
+        <tfoot><tr><td colspan="4" class="r">Subtotal</td><td class="r"></td></tr><tr><td colspan="4" class="r">Tax / Freight</td><td class="r"></td></tr><tr><td colspan="4" class="r">Total</td><td class="r"></td></tr></tfoot>
+      </table>
+      <div class="note"><span class="lbl">Approval Required</span><p>No purchase is valid without an authorized PO number and the approval signatures below, per the purchasing authority limits in the SOP Manual.</p></div>
+      <div class="sig">
+        <div><div class="ln"></div><div class="cap">Requested By</div></div>
+        <div><div class="ln"></div><div class="cap">Date</div></div>
+        <div><div class="ln"></div><div class="cap">Approved By</div></div>
+        <div><div class="ln"></div><div class="cap">Date</div></div>
+      </div>
+    </section>
+
+    <!-- FORM B — EXPENSE REPORT -->
+    <section class="form" data-screen-label="B Expense Report">
+      <div class="kicker">Form B</div>
+      <div class="form-head"><span class="n">B</span><h2>Expense Report</h2></div>
+      <div class="rule"></div>
+      <div class="grid4">
+        <div class="fld"><span class="lab">Employee</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Period</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Project / Dept</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Date Submitted</span><div class="ln"></div></div>
+      </div>
+      <table class="t">
+        <colgroup><col style="width:14%"><col style="width:30%"><col style="width:20%"><col style="width:18%"><col style="width:18%"></colgroup>
+        <thead><tr><th>Date</th><th>Description</th><th>Category</th><th>Cost Code</th><th class="r">Amount</th></tr></thead>
+        <tbody><tr><td></td><td></td><td></td><td></td><td class="r"></td></tr><tr><td></td><td></td><td></td><td></td><td class="r"></td></tr><tr><td></td><td></td><td></td><td></td><td class="r"></td></tr><tr><td></td><td></td><td></td><td></td><td class="r"></td></tr><tr><td></td><td></td><td></td><td></td><td class="r"></td></tr><tr><td></td><td></td><td></td><td></td><td class="r"></td></tr><tr><td></td><td></td><td></td><td></td><td class="r"></td></tr></tbody>
+        <tfoot><tr><td colspan="4" class="r">Total Reimbursement</td><td class="r"></td></tr></tfoot>
+      </table>
+      <div class="note"><span class="lbl">Attach Receipts</span><p>Itemized receipts are required for every line. Reports without receipts will be returned. Submit by the close of each pay period.</p></div>
+      <div class="sig">
+        <div><div class="ln"></div><div class="cap">Employee Signature</div></div>
+        <div><div class="ln"></div><div class="cap">Date</div></div>
+        <div><div class="ln"></div><div class="cap">Approved By</div></div>
+        <div><div class="ln"></div><div class="cap">Date</div></div>
+      </div>
+    </section>
+
+    <!-- FORM C — CREDIT CARD LOG -->
+    <section class="form" data-screen-label="C Credit Card Log">
+      <div class="kicker">Form C</div>
+      <div class="form-head"><span class="n">C</span><h2>Company Credit Card Log</h2></div>
+      <div class="rule"></div>
+      <div class="grid4">
+        <div class="fld"><span class="lab">Cardholder</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Card (last 4)</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Statement Period</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Date Submitted</span><div class="ln"></div></div>
+      </div>
+      <table class="t">
+        <colgroup><col style="width:12%"><col style="width:28%"><col style="width:22%"><col style="width:14%"><col style="width:12%"><col style="width:12%"></colgroup>
+        <thead><tr><th>Date</th><th>Vendor</th><th>Description</th><th>Project</th><th>Cost Code</th><th class="r">Amount</th></tr></thead>
+        <tbody><tr><td></td><td></td><td></td><td></td><td></td><td class="r"></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td class="r"></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td class="r"></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td class="r"></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td class="r"></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td class="r"></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td class="r"></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td class="r"></td></tr></tbody>
+        <tfoot><tr><td colspan="5" class="r">Total Charges</td><td class="r"></td></tr></tfoot>
+      </table>
+      <div class="note"><span class="lbl">Reconcile Monthly</span><p>Attach all receipts and reconcile against the statement each month. Personal charges are prohibited; any inadvertent charge must be repaid immediately.</p></div>
+      <div class="sig">
+        <div><div class="ln"></div><div class="cap">Cardholder Signature</div></div>
+        <div><div class="ln"></div><div class="cap">Reviewed By</div></div>
+      </div>
+    </section>
+
+    <!-- FORM D — VENDOR SETUP / W-9 -->
+    <section class="form" data-screen-label="D Vendor Setup">
+      <div class="kicker">Form D</div>
+      <div class="form-head"><span class="n">D</span><h2>Vendor / Subcontractor Setup</h2></div>
+      <div class="rule"></div>
+      <p>Complete for every new vendor or subcontractor before issuing a PO or contract. Attach a signed <strong>IRS Form W-9</strong> and current <strong>certificates of insurance</strong>.</p>
+      <div class="grid2">
+        <div class="fld"><span class="lab">Legal Business Name</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">DBA (if any)</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Contact Name</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Phone</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Email</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Trade / Service</span><div class="ln"></div></div>
+      </div>
+      <div class="grid2">
+        <div class="fld"><span class="lab">Remit-To Address</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">City / State / ZIP</span><div class="ln"></div></div>
+      </div>
+      <div class="grid3">
+        <div class="fld"><span class="lab">Tax ID / EIN</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Entity Type</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Payment Terms</span><div class="ln"></div></div>
+      </div>
+      <h4>Compliance Documents Received</h4>
+      <table class="t">
+        <colgroup><col style="width:60%"><col style="width:18%"><col style="width:22%"></colgroup>
+        <thead><tr><th>Document</th><th>Received</th><th>Expiration</th></tr></thead>
+        <tbody>
+          <tr><td>IRS Form W-9</td><td></td><td></td></tr>
+          <tr><td>General Liability Insurance (COI)</td><td></td><td></td></tr>
+          <tr><td>Workers' Compensation (or exemption)</td><td></td><td></td></tr>
+          <tr><td>Auto Liability (if applicable)</td><td></td><td></td></tr>
+          <tr><td>License(s) / Certifications</td><td></td><td></td></tr>
+          <tr><td>Signed Subcontract / MSA</td><td></td><td></td></tr>
+        </tbody>
+      </table>
+      <div class="sig">
+        <div><div class="ln"></div><div class="cap">Set Up By</div></div>
+        <div><div class="ln"></div><div class="cap">Approved By</div></div>
+      </div>
+    </section>
+
+    <!-- FORM E — CHANGE ORDER -->
+    <section class="form" data-screen-label="E Change Order">
+      <div class="kicker">Form E</div>
+      <div class="form-head"><span class="n">E</span><h2>Change Order</h2></div>
+      <div class="rule"></div>
+      <div class="grid4">
+        <div class="fld"><span class="lab">CO Number</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Date</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Project</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Contract / PO Ref</span><div class="ln"></div></div>
+      </div>
+      <div class="grid2">
+        <div class="fld"><span class="lab">To (Owner / Sub)</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Reason / Origin (RFI, field, owner)</span><div class="ln"></div></div>
+      </div>
+      <h4>Description of Change</h4>
+      <table class="t"><tbody><tr><td class="tall"></td></tr><tr><td class="tall"></td></tr></tbody></table>
+      <h4>Cost &amp; Schedule Impact</h4>
+      <table class="t">
+        <colgroup><col style="width:70%"><col style="width:30%"></colgroup>
+        <tbody>
+          <tr><td>Original Contract Value</td><td class="r"></td></tr>
+          <tr><td>Net Change by Previous Change Orders</td><td class="r"></td></tr>
+          <tr><td>This Change Order (Add / Deduct)</td><td class="r"></td></tr>
+          <tr><td>Revised Contract Value</td><td class="r"></td></tr>
+          <tr><td>Schedule Impact (calendar days)</td><td class="r"></td></tr>
+        </tbody>
+      </table>
+      <div class="sig">
+        <div><div class="ln"></div><div class="cap">Prepared By (DunRite)</div></div>
+        <div><div class="ln"></div><div class="cap">Date</div></div>
+        <div><div class="ln"></div><div class="cap">Accepted By (Owner / Sub)</div></div>
+        <div><div class="ln"></div><div class="cap">Date</div></div>
+      </div>
+      <div style="margin-top:26px; padding-top:14px; border-top:1px solid #948e80;">
+        <p style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.12em; text-transform:uppercase; color:var(--soft); margin:0;">DunRite Construction Group LLC · Financial Forms Pack · 2026 Edition</p>
+      </div>
+    </section>
+
+    </td></tr></tbody>
+    <tfoot><tr><td class="ftr-space"></td></tr></tfoot>
+  </table>
+</div></div>
+  
+<div class="bundle-doc bkdoc4"><div class="doc">
+  <div class="wm" aria-hidden="true"></div>
+  <div class="running-hdr"><span>DunRite Construction Group LLC</span><span>Project &amp; Closeout Forms</span></div>
+  <div class="running-ftr"><span>Confidential — Project Record</span><span>2026 Edition</span></div>
+  <table class="doc-frame" role="presentation">
+    <thead><tr><td class="hdr-space"></td></tr></thead>
+    <tbody><tr><td>
+
+    <!-- ===================== COVER — Centered Monolith ===================== -->
+    <section class="cover" data-screen-label="Cover" style="background:#ffffff; color:#1d2127; border:1px solid #dcd7cb; border-radius:4px; margin:0 0 40px; padding:96px clamp(40px,7vw,84px); min-height:9.4in; box-sizing:border-box; position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+      <img src="assets/dunrite-logo-dark.png" alt="DunRite Construction Group LLC" style="display:block; width:248px; max-width:62%; height:auto; margin:0 auto;">
+      <div style="width:64px; height:3px; background:#1ca0e0; margin:46px auto 30px; border-radius:2px;"></div>
+      <div style="font-family:'Archivo',sans-serif; font-weight:600; font-size:13px; letter-spacing:0.34em; text-transform:uppercase; color:#1ca0e0;">Administration to Closeout</div>
+      <h1 style="font-family:'Archivo',sans-serif; font-weight:800; font-size:54px; line-height:1.0; letter-spacing:-0.028em; margin:20px 0 0; color:#1d2127; text-align:left;">Project &amp;<br>Closeout Forms</h1>
+    </section>
+
+    <!-- BLANK BACK OF TITLE PAGE -->
+    <section class="blankback" aria-hidden="true"><span>This page intentionally left blank</span></section>
+
+    <!-- FORM A — RFI -->
+    <section class="form" data-screen-label="A RFI" style="break-before:auto;">
+      <div class="kicker">Form A</div>
+      <div class="form-head"><span class="n">A</span><h2>Request for Information (RFI)</h2></div>
+      <div class="rule"></div>
+      <div class="grid4">
+        <div class="fld"><span class="lab">RFI Number</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Date</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Project</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Response Needed By</span><div class="ln"></div></div>
+      </div>
+      <div class="grid2">
+        <div class="fld"><span class="lab">To (A/E / Owner)</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">From (DunRite)</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Spec Section / Drawing Ref</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Priority</span><div class="ln"></div></div>
+      </div>
+      <h4>Question / Clarification Requested</h4>
+      <table class="t"><tbody><tr><td class="tall"></td></tr><tr><td class="tall"></td></tr></tbody></table>
+      <h4>Suggested Solution (if any)</h4>
+      <table class="t"><tbody><tr><td class="tall"></td></tr></tbody></table>
+      <div class="grid2">
+        <div class="fld"><span class="lab">Cost Impact? (Y/N)</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Schedule Impact? (Y/N)</span><div class="ln"></div></div>
+      </div>
+      <h4>Response</h4>
+      <table class="t"><tbody><tr><td class="tall"></td></tr><tr><td class="tall"></td></tr></tbody></table>
+      <div class="sig">
+        <div><div class="ln"></div><div class="cap">Submitted By</div></div>
+        <div><div class="ln"></div><div class="cap">Date</div></div>
+        <div><div class="ln"></div><div class="cap">Answered By</div></div>
+        <div><div class="ln"></div><div class="cap">Date</div></div>
+      </div>
+    </section>
+
+    <!-- FORM B — SUBMITTAL TRANSMITTAL -->
+    <section class="form" data-screen-label="B Submittal Transmittal">
+      <div class="kicker">Form B</div>
+      <div class="form-head"><span class="n">B</span><h2>Submittal Transmittal</h2></div>
+      <div class="rule"></div>
+      <div class="grid4">
+        <div class="fld"><span class="lab">Submittal No.</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Date</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Project</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Spec Section</span><div class="ln"></div></div>
+      </div>
+      <div class="grid2">
+        <div class="fld"><span class="lab">To (A/E)</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">From (DunRite)</span><div class="ln"></div></div>
+      </div>
+      <h4>Type</h4>
+      <ul class="check">
+        <li>Shop drawings</li><li>Product data</li><li>Samples</li>
+        <li>Mock-up</li><li>Test reports</li><li>Other</li>
+      </ul>
+      <h4>Items Submitted</h4>
+      <table class="t">
+        <colgroup><col style="width:10%"><col style="width:46%"><col style="width:14%"><col style="width:30%"></colgroup>
+        <thead><tr><th>Item</th><th>Description</th><th>Copies</th><th>Action Requested</th></tr></thead>
+        <tbody><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td></tr></tbody>
+      </table>
+      <h4>Action Taken (A/E Use)</h4>
+      <ul class="check">
+        <li>No exceptions taken</li><li>Make corrections noted</li>
+        <li>Revise &amp; resubmit</li><li>Rejected</li>
+      </ul>
+      <div class="sig">
+        <div><div class="ln"></div><div class="cap">Submitted By</div></div>
+        <div><div class="ln"></div><div class="cap">Date</div></div>
+        <div><div class="ln"></div><div class="cap">Reviewed By</div></div>
+        <div><div class="ln"></div><div class="cap">Date</div></div>
+      </div>
+    </section>
+
+    <!-- FORM C — LIEN WAIVERS -->
+    <section class="form" data-screen-label="C Lien Waivers">
+      <div class="kicker">Form C</div>
+      <div class="form-head"><span class="n">C</span><h2>Florida Lien Waivers</h2></div>
+      <div class="rule"></div>
+      <div class="note legal"><span class="lbl">Use the Statutory Forms</span><p>Florida lien waivers must follow the exact statutory language in Fla. Stat. § 713.20. The four templates below mirror those forms for convenience, but confirm the current statutory wording and have counsel review before use. Use the <strong>Conditional</strong> versions when payment has not yet cleared; use <strong>Unconditional</strong> only after payment is received and cleared.</p></div>
+
+      <h4>C-1 · Conditional Waiver — Progress Payment</h4>
+      <div class="waiver">The undersigned lienor, in consideration of the sum of $<span class="blank"></span>, waives and releases its lien and right to claim a lien for labor, services, or materials furnished through <span class="blank"></span> (date) to <span class="blank"></span> on the property of <span class="blank"></span> described as <span class="blank" style="min-width:240px"></span>. This waiver is conditional upon actual receipt and clearance of payment.</div>
+      <div class="grid2"><div class="fld"><span class="lab">Lienor / By</span><div class="ln"></div></div><div class="fld"><span class="lab">Date</span><div class="ln"></div></div></div>
+
+      <h4>C-2 · Unconditional Waiver — Progress Payment</h4>
+      <div class="waiver">The undersigned lienor has received payment of $<span class="blank"></span> and waives and releases its lien and right to claim a lien for labor, services, or materials furnished through <span class="blank"></span> (date) to <span class="blank"></span> on the property of <span class="blank"></span> described as <span class="blank" style="min-width:240px"></span>. This waiver is unconditional.</div>
+      <div class="grid2"><div class="fld"><span class="lab">Lienor / By</span><div class="ln"></div></div><div class="fld"><span class="lab">Date</span><div class="ln"></div></div></div>
+
+      <h4>C-3 · Conditional Waiver — Final Payment</h4>
+      <div class="waiver">The undersigned lienor, in consideration of the final payment of $<span class="blank"></span>, waives and releases its lien and right to claim a lien for all labor, services, or materials furnished to <span class="blank"></span> on the property of <span class="blank"></span> described as <span class="blank" style="min-width:200px"></span>. This waiver is conditional upon actual receipt and clearance of the final payment.</div>
+      <div class="grid2"><div class="fld"><span class="lab">Lienor / By</span><div class="ln"></div></div><div class="fld"><span class="lab">Date</span><div class="ln"></div></div></div>
+
+      <h4>C-4 · Unconditional Waiver — Final Payment</h4>
+      <div class="waiver">The undersigned lienor has received final payment of $<span class="blank"></span> and waives and releases its lien and right to claim a lien for all labor, services, or materials furnished to <span class="blank"></span> on the property of <span class="blank"></span> described as <span class="blank" style="min-width:200px"></span>. This waiver is unconditional and the lienor certifies all bills are paid.</div>
+      <div class="grid2"><div class="fld"><span class="lab">Lienor / By</span><div class="ln"></div></div><div class="fld"><span class="lab">Date</span><div class="ln"></div></div></div>
+    </section>
+
+    <!-- FORM D — PUNCH LIST -->
+    <section class="form" data-screen-label="D Punch List">
+      <div class="kicker">Form D</div>
+      <div class="form-head"><span class="n">D</span><h2>Punch List</h2></div>
+      <div class="rule"></div>
+      <div class="grid4">
+        <div class="fld"><span class="lab">Project</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Date</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Prepared By</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Area / Unit</span><div class="ln"></div></div>
+      </div>
+      <table class="t">
+        <colgroup><col style="width:6%"><col style="width:20%"><col style="width:34%"><col style="width:22%"><col style="width:10%"><col style="width:8%"></colgroup>
+        <thead><tr><th>#</th><th>Location</th><th>Item / Deficiency</th><th>Responsible</th><th>Due</th><th>Done</th></tr></thead>
+        <tbody>
+          <tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody>
+      </table>
+      <div class="sig">
+        <div><div class="ln"></div><div class="cap">DunRite Representative</div></div>
+        <div><div class="ln"></div><div class="cap">Owner / A/E Representative</div></div>
+      </div>
+    </section>
+
+    <!-- FORM E — CLOSEOUT CHECKLIST -->
+    <section class="form" data-screen-label="E Closeout Checklist">
+      <div class="kicker">Form E</div>
+      <div class="form-head"><span class="n">E</span><h2>Project Closeout Checklist</h2></div>
+      <div class="rule"></div>
+      <div class="grid3">
+        <div class="fld"><span class="lab">Project</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Contract No.</span><div class="ln"></div></div>
+        <div class="fld"><span class="lab">Completion Date</span><div class="ln"></div></div>
+      </div>
+      <h4>Completion &amp; Inspections</h4>
+      <ul class="check">
+        <li>Punch list complete &amp; signed off</li><li>Final building inspection passed</li>
+        <li>Certificate of Occupancy received</li><li>Substantial completion documented</li>
+      </ul>
+      <h4>Documents &amp; Deliverables</h4>
+      <ul class="check">
+        <li>As-built drawings submitted</li><li>O&amp;M manuals delivered</li>
+        <li>Warranties collected &amp; submitted</li><li>Attic stock / spare parts delivered</li>
+        <li>Training completed</li><li>Final approved submittals filed</li>
+      </ul>
+      <h4>Financial &amp; Legal</h4>
+      <ul class="check">
+        <li>Final change orders executed</li><li>Final pay application submitted</li>
+        <li>Final lien waivers (DunRite &amp; subs)</li><li>Subcontractor final payments released</li>
+        <li>Retainage released</li><li>Consent of surety (if bonded)</li>
+      </ul>
+      <h4>Closeout &amp; Records</h4>
+      <ul class="check">
+        <li>Warranty start date confirmed</li><li>Project files archived (Dropbox)</li>
+        <li>Final photos filed</li><li>Equipment / tools demobilized</li>
+        <li>Temporary utilities transferred / off</li><li>Lessons-learned noted</li>
+      </ul>
+      <div class="sig">
+        <div><div class="ln"></div><div class="cap">Project Manager</div></div>
+        <div><div class="ln"></div><div class="cap">Date</div></div>
+        <div><div class="ln"></div><div class="cap">Approved By</div></div>
+        <div><div class="ln"></div><div class="cap">Date</div></div>
+      </div>
+      <div style="margin-top:26px; padding-top:14px; border-top:1px solid var(--hair);">
+        <p style="font-family:'IBM Plex Mono',monospace; font-size:9px; letter-spacing:0.12em; text-transform:uppercase; color:var(--soft); margin:0;">DunRite Construction Group LLC · Project &amp; Closeout Forms · 2026 Edition</p>
+      </div>
+    </section>
+
+    </td></tr></tbody>
+    <tfoot><tr><td class="ftr-space"></td></tr></tfoot>
+  </table>
+</div></div>
+  
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:816,&quot;height&quot;:1040}}">
+class Component extends DCLogic {
+  renderVals(){
+    return { onPrint:()=>window.print() };
+  }
+}
+</script>
+</body>
+</html>
