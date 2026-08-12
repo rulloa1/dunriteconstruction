@@ -9,42 +9,36 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as ResetPasswordRouteImport } from './routes/reset-password'
-import { Route as DashboardRouteImport } from './routes/dashboard'
-import { Route as AuthRouteImport } from './routes/auth'
-import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AlbumsSlugRouteImport } from './routes/albums.$slug'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/app'
-import { Route as AuthenticatedHandbookIndexRouteImport } from './routes/_authenticated/handbook.index'
+import { Route as AlbumsSlugRouteImport } from './routes/albums.$slug'
 import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
-import { Route as AuthenticatedHandbookSlugRouteImport } from './routes/_authenticated/handbook.$slug'
-import { Route as AuthenticatedAppPunchListRouteImport } from './routes/_authenticated/app.punch-list'
-import { Route as AuthenticatedAppInspectionsRouteImport } from './routes/_authenticated/app.inspections'
-import { Route as AuthenticatedAppFinancialsRouteImport } from './routes/_authenticated/app.financials'
-import { Route as AuthenticatedAppDirectoryRouteImport } from './routes/_authenticated/app.directory'
-import { Route as AuthenticatedAppDailyLogsRouteImport } from './routes/_authenticated/app.daily-logs'
 import { Route as AuthenticatedAppControlsRouteImport } from './routes/_authenticated/app.controls'
-import { Route as AuthenticatedAppJobsIndexRouteImport } from './routes/_authenticated/app.jobs.index'
+import { Route as AuthenticatedAppDailyLogsRouteImport } from './routes/_authenticated/app.daily-logs'
+import { Route as AuthenticatedAppDirectoryRouteImport } from './routes/_authenticated/app.directory'
+import { Route as AuthenticatedAppFinancialsRouteImport } from './routes/_authenticated/app.financials'
+import { Route as AuthenticatedAppInspectionsRouteImport } from './routes/_authenticated/app.inspections'
+import { Route as AuthenticatedAppPunchListRouteImport } from './routes/_authenticated/app.punch-list'
+import { Route as AuthenticatedHandbookIndexRouteImport } from './routes/_authenticated/handbook.index'
+import { Route as AuthenticatedHandbookSlugRouteImport } from './routes/_authenticated/handbook.$slug'
 import { Route as AuthenticatedAppDocumentsIndexRouteImport } from './routes/_authenticated/app.documents.index'
-import { Route as LovableEmailQueueProcessRouteImport } from './routes/lovable/email/queue/process'
-import { Route as AuthenticatedAppJobsJobIdRouteImport } from './routes/_authenticated/app.jobs.$jobId'
 import { Route as AuthenticatedAppDocumentsDocIdRouteImport } from './routes/_authenticated/app.documents.$docId'
+import { Route as AuthenticatedAppJobsIndexRouteImport } from './routes/_authenticated/app.jobs.index'
+import { Route as AuthenticatedAppJobsJobIdRouteImport } from './routes/_authenticated/app.jobs.$jobId'
+import { Route as LovableEmailQueueProcessRouteImport } from './routes/lovable/email/queue/process'
 
-const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
-  id: '/sitemap.xml',
-  path: '/sitemap.xml',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ResetPasswordRoute = ResetPasswordRouteImport.update({
-  id: '/reset-password',
-  path: '/reset-password',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DashboardRoute = DashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -52,18 +46,19 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
-  id: '/_authenticated',
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AlbumsSlugRoute = AlbumsSlugRouteImport.update({
-  id: '/albums/$slug',
-  path: '/albums/$slug',
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedAppRoute = AuthenticatedAppRouteImport.update({
@@ -71,45 +66,20 @@ const AuthenticatedAppRoute = AuthenticatedAppRouteImport.update({
   path: '/app',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedHandbookIndexRoute =
-  AuthenticatedHandbookIndexRouteImport.update({
-    id: '/handbook/',
-    path: '/handbook/',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
+const AlbumsSlugRoute = AlbumsSlugRouteImport.update({
+  id: '/albums/$slug',
+  path: '/albums/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedAppIndexRoute = AuthenticatedAppIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AuthenticatedAppRoute,
 } as any)
-const AuthenticatedHandbookSlugRoute =
-  AuthenticatedHandbookSlugRouteImport.update({
-    id: '/handbook/$slug',
-    path: '/handbook/$slug',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedAppPunchListRoute =
-  AuthenticatedAppPunchListRouteImport.update({
-    id: '/punch-list',
-    path: '/punch-list',
-    getParentRoute: () => AuthenticatedAppRoute,
-  } as any)
-const AuthenticatedAppInspectionsRoute =
-  AuthenticatedAppInspectionsRouteImport.update({
-    id: '/inspections',
-    path: '/inspections',
-    getParentRoute: () => AuthenticatedAppRoute,
-  } as any)
-const AuthenticatedAppFinancialsRoute =
-  AuthenticatedAppFinancialsRouteImport.update({
-    id: '/financials',
-    path: '/financials',
-    getParentRoute: () => AuthenticatedAppRoute,
-  } as any)
-const AuthenticatedAppDirectoryRoute =
-  AuthenticatedAppDirectoryRouteImport.update({
-    id: '/directory',
-    path: '/directory',
+const AuthenticatedAppControlsRoute =
+  AuthenticatedAppControlsRouteImport.update({
+    id: '/controls',
+    path: '/controls',
     getParentRoute: () => AuthenticatedAppRoute,
   } as any)
 const AuthenticatedAppDailyLogsRoute =
@@ -118,10 +88,52 @@ const AuthenticatedAppDailyLogsRoute =
     path: '/daily-logs',
     getParentRoute: () => AuthenticatedAppRoute,
   } as any)
-const AuthenticatedAppControlsRoute =
-  AuthenticatedAppControlsRouteImport.update({
-    id: '/controls',
-    path: '/controls',
+const AuthenticatedAppDirectoryRoute =
+  AuthenticatedAppDirectoryRouteImport.update({
+    id: '/directory',
+    path: '/directory',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
+const AuthenticatedAppFinancialsRoute =
+  AuthenticatedAppFinancialsRouteImport.update({
+    id: '/financials',
+    path: '/financials',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
+const AuthenticatedAppInspectionsRoute =
+  AuthenticatedAppInspectionsRouteImport.update({
+    id: '/inspections',
+    path: '/inspections',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
+const AuthenticatedAppPunchListRoute =
+  AuthenticatedAppPunchListRouteImport.update({
+    id: '/punch-list',
+    path: '/punch-list',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
+const AuthenticatedHandbookIndexRoute =
+  AuthenticatedHandbookIndexRouteImport.update({
+    id: '/handbook/',
+    path: '/handbook/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedHandbookSlugRoute =
+  AuthenticatedHandbookSlugRouteImport.update({
+    id: '/handbook/$slug',
+    path: '/handbook/$slug',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAppDocumentsIndexRoute =
+  AuthenticatedAppDocumentsIndexRouteImport.update({
+    id: '/documents/',
+    path: '/documents/',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
+const AuthenticatedAppDocumentsDocIdRoute =
+  AuthenticatedAppDocumentsDocIdRouteImport.update({
+    id: '/documents/$docId',
+    path: '/documents/$docId',
     getParentRoute: () => AuthenticatedAppRoute,
   } as any)
 const AuthenticatedAppJobsIndexRoute =
@@ -130,10 +142,10 @@ const AuthenticatedAppJobsIndexRoute =
     path: '/jobs/',
     getParentRoute: () => AuthenticatedAppRoute,
   } as any)
-const AuthenticatedAppDocumentsIndexRoute =
-  AuthenticatedAppDocumentsIndexRouteImport.update({
-    id: '/documents/',
-    path: '/documents/',
+const AuthenticatedAppJobsJobIdRoute =
+  AuthenticatedAppJobsJobIdRouteImport.update({
+    id: '/jobs/$jobId',
+    path: '/jobs/$jobId',
     getParentRoute: () => AuthenticatedAppRoute,
   } as any)
 const LovableEmailQueueProcessRoute =
@@ -141,18 +153,6 @@ const LovableEmailQueueProcessRoute =
     id: '/lovable/email/queue/process',
     path: '/lovable/email/queue/process',
     getParentRoute: () => rootRouteImport,
-  } as any)
-const AuthenticatedAppJobsJobIdRoute =
-  AuthenticatedAppJobsJobIdRouteImport.update({
-    id: '/jobs/$jobId',
-    path: '/jobs/$jobId',
-    getParentRoute: () => AuthenticatedAppRoute,
-  } as any)
-const AuthenticatedAppDocumentsDocIdRoute =
-  AuthenticatedAppDocumentsDocIdRouteImport.update({
-    id: '/documents/$docId',
-    path: '/documents/$docId',
-    getParentRoute: () => AuthenticatedAppRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
@@ -310,32 +310,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/sitemap.xml': {
-      id: '/sitemap.xml'
-      path: '/sitemap.xml'
-      fullPath: '/sitemap.xml'
-      preLoaderRoute: typeof SitemapDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/reset-password': {
-      id: '/reset-password'
-      path: '/reset-password'
-      fullPath: '/reset-password'
-      preLoaderRoute: typeof ResetPasswordRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth': {
-      id: '/auth'
-      path: '/auth'
-      fullPath: '/auth'
-      preLoaderRoute: typeof AuthRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated': {
@@ -345,18 +324,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/albums/$slug': {
-      id: '/albums/$slug'
-      path: '/albums/$slug'
-      fullPath: '/albums/$slug'
-      preLoaderRoute: typeof AlbumsSlugRouteImport
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/app': {
@@ -366,60 +359,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/handbook/': {
-      id: '/_authenticated/handbook/'
-      path: '/handbook'
-      fullPath: '/handbook/'
-      preLoaderRoute: typeof AuthenticatedHandbookIndexRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
+    '/albums/$slug': {
+      id: '/albums/$slug'
+      path: '/albums/$slug'
+      fullPath: '/albums/$slug'
+      preLoaderRoute: typeof AlbumsSlugRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_authenticated/app/': {
       id: '/_authenticated/app/'
       path: '/'
       fullPath: '/app/'
       preLoaderRoute: typeof AuthenticatedAppIndexRouteImport
-      parentRoute: typeof AuthenticatedAppRoute
-    }
-    '/_authenticated/handbook/$slug': {
-      id: '/_authenticated/handbook/$slug'
-      path: '/handbook/$slug'
-      fullPath: '/handbook/$slug'
-      preLoaderRoute: typeof AuthenticatedHandbookSlugRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/app/punch-list': {
-      id: '/_authenticated/app/punch-list'
-      path: '/punch-list'
-      fullPath: '/app/punch-list'
-      preLoaderRoute: typeof AuthenticatedAppPunchListRouteImport
-      parentRoute: typeof AuthenticatedAppRoute
-    }
-    '/_authenticated/app/inspections': {
-      id: '/_authenticated/app/inspections'
-      path: '/inspections'
-      fullPath: '/app/inspections'
-      preLoaderRoute: typeof AuthenticatedAppInspectionsRouteImport
-      parentRoute: typeof AuthenticatedAppRoute
-    }
-    '/_authenticated/app/financials': {
-      id: '/_authenticated/app/financials'
-      path: '/financials'
-      fullPath: '/app/financials'
-      preLoaderRoute: typeof AuthenticatedAppFinancialsRouteImport
-      parentRoute: typeof AuthenticatedAppRoute
-    }
-    '/_authenticated/app/directory': {
-      id: '/_authenticated/app/directory'
-      path: '/directory'
-      fullPath: '/app/directory'
-      preLoaderRoute: typeof AuthenticatedAppDirectoryRouteImport
-      parentRoute: typeof AuthenticatedAppRoute
-    }
-    '/_authenticated/app/daily-logs': {
-      id: '/_authenticated/app/daily-logs'
-      path: '/daily-logs'
-      fullPath: '/app/daily-logs'
-      preLoaderRoute: typeof AuthenticatedAppDailyLogsRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
     '/_authenticated/app/controls': {
@@ -429,12 +380,54 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppControlsRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
-    '/_authenticated/app/jobs/': {
-      id: '/_authenticated/app/jobs/'
-      path: '/jobs'
-      fullPath: '/app/jobs/'
-      preLoaderRoute: typeof AuthenticatedAppJobsIndexRouteImport
+    '/_authenticated/app/daily-logs': {
+      id: '/_authenticated/app/daily-logs'
+      path: '/daily-logs'
+      fullPath: '/app/daily-logs'
+      preLoaderRoute: typeof AuthenticatedAppDailyLogsRouteImport
       parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/directory': {
+      id: '/_authenticated/app/directory'
+      path: '/directory'
+      fullPath: '/app/directory'
+      preLoaderRoute: typeof AuthenticatedAppDirectoryRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/financials': {
+      id: '/_authenticated/app/financials'
+      path: '/financials'
+      fullPath: '/app/financials'
+      preLoaderRoute: typeof AuthenticatedAppFinancialsRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/inspections': {
+      id: '/_authenticated/app/inspections'
+      path: '/inspections'
+      fullPath: '/app/inspections'
+      preLoaderRoute: typeof AuthenticatedAppInspectionsRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/punch-list': {
+      id: '/_authenticated/app/punch-list'
+      path: '/punch-list'
+      fullPath: '/app/punch-list'
+      preLoaderRoute: typeof AuthenticatedAppPunchListRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/handbook/': {
+      id: '/_authenticated/handbook/'
+      path: '/handbook'
+      fullPath: '/handbook/'
+      preLoaderRoute: typeof AuthenticatedHandbookIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/handbook/$slug': {
+      id: '/_authenticated/handbook/$slug'
+      path: '/handbook/$slug'
+      fullPath: '/handbook/$slug'
+      preLoaderRoute: typeof AuthenticatedHandbookSlugRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/app/documents/': {
       id: '/_authenticated/app/documents/'
@@ -443,12 +436,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppDocumentsIndexRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
-    '/lovable/email/queue/process': {
-      id: '/lovable/email/queue/process'
-      path: '/lovable/email/queue/process'
-      fullPath: '/lovable/email/queue/process'
-      preLoaderRoute: typeof LovableEmailQueueProcessRouteImport
-      parentRoute: typeof rootRouteImport
+    '/_authenticated/app/documents/$docId': {
+      id: '/_authenticated/app/documents/$docId'
+      path: '/documents/$docId'
+      fullPath: '/app/documents/$docId'
+      preLoaderRoute: typeof AuthenticatedAppDocumentsDocIdRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/jobs/': {
+      id: '/_authenticated/app/jobs/'
+      path: '/jobs'
+      fullPath: '/app/jobs/'
+      preLoaderRoute: typeof AuthenticatedAppJobsIndexRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
     }
     '/_authenticated/app/jobs/$jobId': {
       id: '/_authenticated/app/jobs/$jobId'
@@ -457,12 +457,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppJobsJobIdRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
-    '/_authenticated/app/documents/$docId': {
-      id: '/_authenticated/app/documents/$docId'
-      path: '/documents/$docId'
-      fullPath: '/app/documents/$docId'
-      preLoaderRoute: typeof AuthenticatedAppDocumentsDocIdRouteImport
-      parentRoute: typeof AuthenticatedAppRoute
+    '/lovable/email/queue/process': {
+      id: '/lovable/email/queue/process'
+      path: '/lovable/email/queue/process'
+      fullPath: '/lovable/email/queue/process'
+      preLoaderRoute: typeof LovableEmailQueueProcessRouteImport
+      parentRoute: typeof rootRouteImport
     }
   }
 }
@@ -526,3 +526,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
