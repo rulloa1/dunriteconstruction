@@ -17,6 +17,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AlbumsSlugRouteImport } from './routes/albums.$slug'
 import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/app'
+import { Route as AuthenticatedHandbookIndexRouteImport } from './routes/_authenticated/handbook.index'
 import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
 import { Route as AuthenticatedHandbookSlugRouteImport } from './routes/_authenticated/handbook.$slug'
 import { Route as AuthenticatedAppPunchListRouteImport } from './routes/_authenticated/app.punch-list'
@@ -70,6 +71,12 @@ const AuthenticatedAppRoute = AuthenticatedAppRouteImport.update({
   path: '/app',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedHandbookIndexRoute =
+  AuthenticatedHandbookIndexRouteImport.update({
+    id: '/handbook/',
+    path: '/handbook/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAppIndexRoute = AuthenticatedAppIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -164,6 +171,7 @@ export interface FileRoutesByFullPath {
   '/app/punch-list': typeof AuthenticatedAppPunchListRoute
   '/handbook/$slug': typeof AuthenticatedHandbookSlugRoute
   '/app/': typeof AuthenticatedAppIndexRoute
+  '/handbook/': typeof AuthenticatedHandbookIndexRoute
   '/app/documents/$docId': typeof AuthenticatedAppDocumentsDocIdRoute
   '/app/jobs/$jobId': typeof AuthenticatedAppJobsJobIdRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
@@ -185,6 +193,7 @@ export interface FileRoutesByTo {
   '/app/punch-list': typeof AuthenticatedAppPunchListRoute
   '/handbook/$slug': typeof AuthenticatedHandbookSlugRoute
   '/app': typeof AuthenticatedAppIndexRoute
+  '/handbook': typeof AuthenticatedHandbookIndexRoute
   '/app/documents/$docId': typeof AuthenticatedAppDocumentsDocIdRoute
   '/app/jobs/$jobId': typeof AuthenticatedAppJobsJobIdRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
@@ -209,6 +218,7 @@ export interface FileRoutesById {
   '/_authenticated/app/punch-list': typeof AuthenticatedAppPunchListRoute
   '/_authenticated/handbook/$slug': typeof AuthenticatedHandbookSlugRoute
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
+  '/_authenticated/handbook/': typeof AuthenticatedHandbookIndexRoute
   '/_authenticated/app/documents/$docId': typeof AuthenticatedAppDocumentsDocIdRoute
   '/_authenticated/app/jobs/$jobId': typeof AuthenticatedAppJobsJobIdRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
@@ -233,6 +243,7 @@ export interface FileRouteTypes {
     | '/app/punch-list'
     | '/handbook/$slug'
     | '/app/'
+    | '/handbook/'
     | '/app/documents/$docId'
     | '/app/jobs/$jobId'
     | '/lovable/email/queue/process'
@@ -254,6 +265,7 @@ export interface FileRouteTypes {
     | '/app/punch-list'
     | '/handbook/$slug'
     | '/app'
+    | '/handbook'
     | '/app/documents/$docId'
     | '/app/jobs/$jobId'
     | '/lovable/email/queue/process'
@@ -277,6 +289,7 @@ export interface FileRouteTypes {
     | '/_authenticated/app/punch-list'
     | '/_authenticated/handbook/$slug'
     | '/_authenticated/app/'
+    | '/_authenticated/handbook/'
     | '/_authenticated/app/documents/$docId'
     | '/_authenticated/app/jobs/$jobId'
     | '/lovable/email/queue/process'
@@ -351,6 +364,13 @@ declare module '@tanstack/react-router' {
       path: '/app'
       fullPath: '/app'
       preLoaderRoute: typeof AuthenticatedAppRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/handbook/': {
+      id: '/_authenticated/handbook/'
+      path: '/handbook'
+      fullPath: '/handbook/'
+      preLoaderRoute: typeof AuthenticatedHandbookIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/app/': {
@@ -481,11 +501,13 @@ const AuthenticatedAppRouteWithChildren =
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAppRoute: typeof AuthenticatedAppRouteWithChildren
   AuthenticatedHandbookSlugRoute: typeof AuthenticatedHandbookSlugRoute
+  AuthenticatedHandbookIndexRoute: typeof AuthenticatedHandbookIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAppRoute: AuthenticatedAppRouteWithChildren,
   AuthenticatedHandbookSlugRoute: AuthenticatedHandbookSlugRoute,
+  AuthenticatedHandbookIndexRoute: AuthenticatedHandbookIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
@@ -504,3 +526,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
