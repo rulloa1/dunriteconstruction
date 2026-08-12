@@ -16,9 +16,10 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AlbumsSlugRouteImport } from './routes/albums.$slug'
-import { Route as AuthenticatedHandbookRouteImport } from './routes/_authenticated/handbook'
 import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/app'
+import { Route as AuthenticatedHandbookIndexRouteImport } from './routes/_authenticated/handbook.index'
 import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
+import { Route as AuthenticatedHandbookSlugRouteImport } from './routes/_authenticated/handbook.$slug'
 import { Route as AuthenticatedAppPunchListRouteImport } from './routes/_authenticated/app.punch-list'
 import { Route as AuthenticatedAppInspectionsRouteImport } from './routes/_authenticated/app.inspections'
 import { Route as AuthenticatedAppFinancialsRouteImport } from './routes/_authenticated/app.financials'
@@ -65,21 +66,28 @@ const AlbumsSlugRoute = AlbumsSlugRouteImport.update({
   path: '/albums/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedHandbookRoute = AuthenticatedHandbookRouteImport.update({
-  id: '/handbook',
-  path: '/handbook',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
 const AuthenticatedAppRoute = AuthenticatedAppRouteImport.update({
   id: '/app',
   path: '/app',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedHandbookIndexRoute =
+  AuthenticatedHandbookIndexRouteImport.update({
+    id: '/handbook/',
+    path: '/handbook/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAppIndexRoute = AuthenticatedAppIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AuthenticatedAppRoute,
 } as any)
+const AuthenticatedHandbookSlugRoute =
+  AuthenticatedHandbookSlugRouteImport.update({
+    id: '/handbook/$slug',
+    path: '/handbook/$slug',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAppPunchListRoute =
   AuthenticatedAppPunchListRouteImport.update({
     id: '/punch-list',
@@ -154,7 +162,6 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/app': typeof AuthenticatedAppRouteWithChildren
-  '/handbook': typeof AuthenticatedHandbookRoute
   '/albums/$slug': typeof AlbumsSlugRoute
   '/app/controls': typeof AuthenticatedAppControlsRoute
   '/app/daily-logs': typeof AuthenticatedAppDailyLogsRoute
@@ -162,7 +169,9 @@ export interface FileRoutesByFullPath {
   '/app/financials': typeof AuthenticatedAppFinancialsRoute
   '/app/inspections': typeof AuthenticatedAppInspectionsRoute
   '/app/punch-list': typeof AuthenticatedAppPunchListRoute
+  '/handbook/$slug': typeof AuthenticatedHandbookSlugRoute
   '/app/': typeof AuthenticatedAppIndexRoute
+  '/handbook/': typeof AuthenticatedHandbookIndexRoute
   '/app/documents/$docId': typeof AuthenticatedAppDocumentsDocIdRoute
   '/app/jobs/$jobId': typeof AuthenticatedAppJobsJobIdRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
@@ -175,7 +184,6 @@ export interface FileRoutesByTo {
   '/dashboard': typeof DashboardRoute
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/handbook': typeof AuthenticatedHandbookRoute
   '/albums/$slug': typeof AlbumsSlugRoute
   '/app/controls': typeof AuthenticatedAppControlsRoute
   '/app/daily-logs': typeof AuthenticatedAppDailyLogsRoute
@@ -183,7 +191,9 @@ export interface FileRoutesByTo {
   '/app/financials': typeof AuthenticatedAppFinancialsRoute
   '/app/inspections': typeof AuthenticatedAppInspectionsRoute
   '/app/punch-list': typeof AuthenticatedAppPunchListRoute
+  '/handbook/$slug': typeof AuthenticatedHandbookSlugRoute
   '/app': typeof AuthenticatedAppIndexRoute
+  '/handbook': typeof AuthenticatedHandbookIndexRoute
   '/app/documents/$docId': typeof AuthenticatedAppDocumentsDocIdRoute
   '/app/jobs/$jobId': typeof AuthenticatedAppJobsJobIdRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
@@ -199,7 +209,6 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/_authenticated/app': typeof AuthenticatedAppRouteWithChildren
-  '/_authenticated/handbook': typeof AuthenticatedHandbookRoute
   '/albums/$slug': typeof AlbumsSlugRoute
   '/_authenticated/app/controls': typeof AuthenticatedAppControlsRoute
   '/_authenticated/app/daily-logs': typeof AuthenticatedAppDailyLogsRoute
@@ -207,7 +216,9 @@ export interface FileRoutesById {
   '/_authenticated/app/financials': typeof AuthenticatedAppFinancialsRoute
   '/_authenticated/app/inspections': typeof AuthenticatedAppInspectionsRoute
   '/_authenticated/app/punch-list': typeof AuthenticatedAppPunchListRoute
+  '/_authenticated/handbook/$slug': typeof AuthenticatedHandbookSlugRoute
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
+  '/_authenticated/handbook/': typeof AuthenticatedHandbookIndexRoute
   '/_authenticated/app/documents/$docId': typeof AuthenticatedAppDocumentsDocIdRoute
   '/_authenticated/app/jobs/$jobId': typeof AuthenticatedAppJobsJobIdRoute
   '/lovable/email/queue/process': typeof LovableEmailQueueProcessRoute
@@ -223,7 +234,6 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sitemap.xml'
     | '/app'
-    | '/handbook'
     | '/albums/$slug'
     | '/app/controls'
     | '/app/daily-logs'
@@ -231,7 +241,9 @@ export interface FileRouteTypes {
     | '/app/financials'
     | '/app/inspections'
     | '/app/punch-list'
+    | '/handbook/$slug'
     | '/app/'
+    | '/handbook/'
     | '/app/documents/$docId'
     | '/app/jobs/$jobId'
     | '/lovable/email/queue/process'
@@ -244,7 +256,6 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/reset-password'
     | '/sitemap.xml'
-    | '/handbook'
     | '/albums/$slug'
     | '/app/controls'
     | '/app/daily-logs'
@@ -252,7 +263,9 @@ export interface FileRouteTypes {
     | '/app/financials'
     | '/app/inspections'
     | '/app/punch-list'
+    | '/handbook/$slug'
     | '/app'
+    | '/handbook'
     | '/app/documents/$docId'
     | '/app/jobs/$jobId'
     | '/lovable/email/queue/process'
@@ -267,7 +280,6 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/sitemap.xml'
     | '/_authenticated/app'
-    | '/_authenticated/handbook'
     | '/albums/$slug'
     | '/_authenticated/app/controls'
     | '/_authenticated/app/daily-logs'
@@ -275,7 +287,9 @@ export interface FileRouteTypes {
     | '/_authenticated/app/financials'
     | '/_authenticated/app/inspections'
     | '/_authenticated/app/punch-list'
+    | '/_authenticated/handbook/$slug'
     | '/_authenticated/app/'
+    | '/_authenticated/handbook/'
     | '/_authenticated/app/documents/$docId'
     | '/_authenticated/app/jobs/$jobId'
     | '/lovable/email/queue/process'
@@ -345,18 +359,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AlbumsSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/handbook': {
-      id: '/_authenticated/handbook'
-      path: '/handbook'
-      fullPath: '/handbook'
-      preLoaderRoute: typeof AuthenticatedHandbookRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/_authenticated/app': {
       id: '/_authenticated/app'
       path: '/app'
       fullPath: '/app'
       preLoaderRoute: typeof AuthenticatedAppRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/handbook/': {
+      id: '/_authenticated/handbook/'
+      path: '/handbook'
+      fullPath: '/handbook/'
+      preLoaderRoute: typeof AuthenticatedHandbookIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/app/': {
@@ -365,6 +379,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/app/'
       preLoaderRoute: typeof AuthenticatedAppIndexRouteImport
       parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/handbook/$slug': {
+      id: '/_authenticated/handbook/$slug'
+      path: '/handbook/$slug'
+      fullPath: '/handbook/$slug'
+      preLoaderRoute: typeof AuthenticatedHandbookSlugRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/app/punch-list': {
       id: '/_authenticated/app/punch-list'
@@ -479,12 +500,14 @@ const AuthenticatedAppRouteWithChildren =
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAppRoute: typeof AuthenticatedAppRouteWithChildren
-  AuthenticatedHandbookRoute: typeof AuthenticatedHandbookRoute
+  AuthenticatedHandbookSlugRoute: typeof AuthenticatedHandbookSlugRoute
+  AuthenticatedHandbookIndexRoute: typeof AuthenticatedHandbookIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAppRoute: AuthenticatedAppRouteWithChildren,
-  AuthenticatedHandbookRoute: AuthenticatedHandbookRoute,
+  AuthenticatedHandbookSlugRoute: AuthenticatedHandbookSlugRoute,
+  AuthenticatedHandbookIndexRoute: AuthenticatedHandbookIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
