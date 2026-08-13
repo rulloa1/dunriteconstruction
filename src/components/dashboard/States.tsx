@@ -8,7 +8,10 @@ export function LoadingBlock() {
         {Array.from({ length: 5 }).map((_, i) => (
           <div key={i} className="card p-5" style={{ minHeight: 92 }}>
             <div className="kbd-label">Loading…</div>
-            <div className="mt-2 h-6 rounded" style={{ background: "var(--bg-elev)", width: "70%" }} />
+            <div
+              className="mt-2 h-6 rounded"
+              style={{ background: "var(--bg-elev)", width: "70%" }}
+            />
           </div>
         ))}
       </div>
@@ -32,7 +35,13 @@ export function ErrorBlock({ error, reset }: { error: Error; reset: () => void }
       <div className="card p-8">
         <div className="kbd-label mb-2">Data load error</div>
         <p className="text-muted font-ui text-sm mb-4">{error.message}</p>
-        <button className="btn btn-primary focus-ring" onClick={() => { router.invalidate(); reset(); }}>
+        <button
+          className="btn btn-primary focus-ring"
+          onClick={() => {
+            router.invalidate();
+            reset();
+          }}
+        >
           Try again
         </button>
       </div>

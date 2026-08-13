@@ -38,10 +38,7 @@ import {
 
 export const Route = createFileRoute("/_authenticated/app/controls")({
   head: () => ({
-    meta: [
-      { title: "Project Controls — Dun Rite OS" },
-      { name: "robots", content: "noindex" },
-    ],
+    meta: [{ title: "Project Controls — Dun Rite OS" }, { name: "robots", content: "noindex" }],
   }),
   component: ControlsPage,
 });
@@ -91,7 +88,10 @@ function ControlsPage() {
         breadcrumb={[{ label: "App", to: "/app" }, { label: "Project Controls" }]}
       />
 
-      <div className="flex flex-wrap gap-1 mb-6 border-b" style={{ borderColor: "var(--border-soft)" }}>
+      <div
+        className="flex flex-wrap gap-1 mb-6 border-b"
+        style={{ borderColor: "var(--border-soft)" }}
+      >
         {TABS.map((t) => {
           const active = tab === t.id;
           return (
@@ -127,7 +127,11 @@ function OverviewTab() {
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
-        <KpiCard label="Current Budget" value={currency(getCurrentBudget())} sub="Original + approved NOCIs" />
+        <KpiCard
+          label="Current Budget"
+          value={currency(getCurrentBudget())}
+          sub="Original + approved NOCIs"
+        />
         <KpiCard
           label="Committed to Date"
           value={currency(getCommittedToDate())}
@@ -149,14 +153,23 @@ function OverviewTab() {
       </div>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
         <KpiCard label="Open RFIs" value={getOpenRfiCount()} sub={`${RFIS.length} total`} />
-        <KpiCard label="Open Submittals" value={getOpenSubmittalCount()} sub={`${SUBMITTALS.length} total`} />
+        <KpiCard
+          label="Open Submittals"
+          value={getOpenSubmittalCount()}
+          sub={`${SUBMITTALS.length} total`}
+        />
         <KpiCard
           label="Milestone Progress"
           value={`${getMilestoneProgress()}%`}
           sub={`${getCompletedMilestones()} of ${MILESTONES.length} complete`}
           tone="positive"
         />
-        <KpiCard label="Total Delay Days" value={getTotalDelayDays()} sub={`${DELAYS.length} events`} tone="gold" />
+        <KpiCard
+          label="Total Delay Days"
+          value={getTotalDelayDays()}
+          sub={`${DELAYS.length} events`}
+          tone="gold"
+        />
       </div>
 
       <DataCard title="Milestone Snapshot">
@@ -175,7 +188,9 @@ function OverviewTab() {
                 <td className="font-display">{m.name}</td>
                 <td className="num">{formatDate(m.scheduled)}</td>
                 <td className="num">{formatDate(m.actual)}</td>
-                <td><StatusBadge status={m.status} /></td>
+                <td>
+                  <StatusBadge status={m.status} />
+                </td>
               </tr>
             ))}
           </tbody>
@@ -192,12 +207,20 @@ function ScheduleTab() {
       <DataCard title={`Milestones · ${getCompletedMilestones()} of ${MILESTONES.length} complete`}>
         <table>
           <thead>
-            <tr><th>Milestone</th><th>Scheduled</th><th>Actual</th><th>Variance</th><th>Status</th></tr>
+            <tr>
+              <th>Milestone</th>
+              <th>Scheduled</th>
+              <th>Actual</th>
+              <th>Variance</th>
+              <th>Status</th>
+            </tr>
           </thead>
           <tbody>
             {MILESTONES.map((m) => {
               const diff = m.actual
-                ? Math.round((new Date(m.actual).getTime() - new Date(m.scheduled).getTime()) / 86_400_000)
+                ? Math.round(
+                    (new Date(m.actual).getTime() - new Date(m.scheduled).getTime()) / 86_400_000,
+                  )
                 : null;
               return (
                 <tr key={m.name}>
@@ -205,12 +228,19 @@ function ScheduleTab() {
                   <td className="num">{formatDate(m.scheduled)}</td>
                   <td className="num">{formatDate(m.actual)}</td>
                   <td className="num">
-                    {diff === null ? <span className="text-dim">—</span>
-                      : diff === 0 ? <span className="text-positive">On time</span>
-                      : diff > 0 ? <span className="text-negative">+{diff}d</span>
-                      : <span className="text-positive">{diff}d</span>}
+                    {diff === null ? (
+                      <span className="text-dim">—</span>
+                    ) : diff === 0 ? (
+                      <span className="text-positive">On time</span>
+                    ) : diff > 0 ? (
+                      <span className="text-negative">+{diff}d</span>
+                    ) : (
+                      <span className="text-positive">{diff}d</span>
+                    )}
                   </td>
-                  <td><StatusBadge status={m.status} /></td>
+                  <td>
+                    <StatusBadge status={m.status} />
+                  </td>
                 </tr>
               );
             })}
@@ -221,7 +251,12 @@ function ScheduleTab() {
       <DataCard title={`Delays · ${getTotalDelayDays()} total days`}>
         <table>
           <thead>
-            <tr><th>#</th><th>Description</th><th>Period</th><th className="text-right">Days</th></tr>
+            <tr>
+              <th>#</th>
+              <th>Description</th>
+              <th>Period</th>
+              <th className="text-right">Days</th>
+            </tr>
           </thead>
           <tbody>
             {DELAYS.map((d) => (
@@ -234,7 +269,10 @@ function ScheduleTab() {
             ))}
           </tbody>
         </table>
-        <div className="px-5 py-3 text-sm text-muted border-t" style={{ borderColor: "var(--border-soft)" }}>
+        <div
+          className="px-5 py-3 text-sm text-muted border-t"
+          style={{ borderColor: "var(--border-soft)" }}
+        >
           {DELAY_NOTE}
         </div>
       </DataCard>
@@ -249,7 +287,11 @@ function BudgetTab() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
         <KpiCard label="Total Budget" value={currency(getTotalBudget())} />
         <KpiCard label="Total Contracted" value={currency(getTotalContracted())} tone="blue" />
-        <KpiCard label="Net Variance" value={<Variance value={getNetVariance()} />} tone={getNetVariance() >= 0 ? "positive" : "negative"} />
+        <KpiCard
+          label="Net Variance"
+          value={<Variance value={getNetVariance()} />}
+          tone={getNetVariance() >= 0 ? "positive" : "negative"}
+        />
         <KpiCard label="Committed %" value={`${getCommittedPct()}%`} tone="gold" />
       </div>
       <DataCard title="Contracts by Cost Code">
@@ -271,17 +313,23 @@ function BudgetTab() {
                 <td className="font-display">{c.description}</td>
                 <td className="num text-right">{currency(c.originalBudget)}</td>
                 <td className="num text-right">{currency(c.contractAmount)}</td>
-                <td className="text-right"><Variance value={c.originalBudget - c.contractAmount} /></td>
+                <td className="text-right">
+                  <Variance value={c.originalBudget - c.contractAmount} />
+                </td>
                 <td className="text-muted">{c.subcontractor}</td>
               </tr>
             ))}
           </tbody>
           <tfoot>
             <tr style={{ background: "color-mix(in oklch, var(--brand-blue) 8%, transparent)" }}>
-              <td colSpan={2} className="font-display p-4">Totals</td>
+              <td colSpan={2} className="font-display p-4">
+                Totals
+              </td>
               <td className="num text-right font-display p-4">{currency(getTotalBudget())}</td>
               <td className="num text-right font-display p-4">{currency(getTotalContracted())}</td>
-              <td className="text-right p-4"><Variance value={getNetVariance()} /></td>
+              <td className="text-right p-4">
+                <Variance value={getNetVariance()} />
+              </td>
               <td className="p-4" />
             </tr>
           </tfoot>
@@ -308,29 +356,51 @@ function BidsTab() {
             }
             action={
               <div className="flex items-center gap-4 text-sm">
-                <span className="text-muted">Budget <span className="num font-display">{currency(b.budget)}</span></span>
-                <span><Variance value={variance} /></span>
+                <span className="text-muted">
+                  Budget <span className="num font-display">{currency(b.budget)}</span>
+                </span>
+                <span>
+                  <Variance value={variance} />
+                </span>
               </div>
             }
           >
             <table>
               <thead>
-                <tr><th>Bidder</th><th className="text-right">Amount</th><th>Status</th><th>Note</th></tr>
+                <tr>
+                  <th>Bidder</th>
+                  <th className="text-right">Amount</th>
+                  <th>Status</th>
+                  <th>Note</th>
+                </tr>
               </thead>
               <tbody>
                 {b.bids.map((e, i) => (
                   <tr key={i}>
-                    <td className={e.status === "awarded" ? "font-display text-blue" : ""}>{e.bidder}</td>
+                    <td className={e.status === "awarded" ? "font-display text-blue" : ""}>
+                      {e.bidder}
+                    </td>
                     <td className="num text-right">{currency(e.amount)}</td>
                     <td>
                       <span
                         className="pill"
                         style={
                           e.status === "awarded"
-                            ? { color: "var(--positive)", borderColor: "color-mix(in oklch, var(--positive) 50%, transparent)", background: "color-mix(in oklch, var(--positive) 14%, transparent)" }
+                            ? {
+                                color: "var(--positive)",
+                                borderColor:
+                                  "color-mix(in oklch, var(--positive) 50%, transparent)",
+                                background: "color-mix(in oklch, var(--positive) 14%, transparent)",
+                              }
                             : e.status === "rejected"
-                            ? { color: "var(--negative)", borderColor: "color-mix(in oklch, var(--negative) 50%, transparent)", background: "color-mix(in oklch, var(--negative) 12%, transparent)" }
-                            : undefined
+                              ? {
+                                  color: "var(--negative)",
+                                  borderColor:
+                                    "color-mix(in oklch, var(--negative) 50%, transparent)",
+                                  background:
+                                    "color-mix(in oklch, var(--negative) 12%, transparent)",
+                                }
+                              : undefined
                         }
                       >
                         {e.status}
@@ -342,7 +412,12 @@ function BidsTab() {
               </tbody>
             </table>
             {b.footnote && (
-              <div className="px-5 py-3 text-xs text-muted border-t" style={{ borderColor: "var(--border-soft)" }}>{b.footnote}</div>
+              <div
+                className="px-5 py-3 text-xs text-muted border-t"
+                style={{ borderColor: "var(--border-soft)" }}
+              >
+                {b.footnote}
+              </div>
             )}
           </DataCard>
         );
@@ -364,7 +439,16 @@ function LogsTab() {
       <DataCard title="RFIs">
         <table>
           <thead>
-            <tr><th>#</th><th>Description</th><th>Issued</th><th>Required</th><th>Received</th><th className="text-right">Cost Impact</th><th>Days Open</th><th>Status</th></tr>
+            <tr>
+              <th>#</th>
+              <th>Description</th>
+              <th>Issued</th>
+              <th>Required</th>
+              <th>Received</th>
+              <th className="text-right">Cost Impact</th>
+              <th>Days Open</th>
+              <th>Status</th>
+            </tr>
           </thead>
           <tbody>
             {RFIS.map((r) => (
@@ -374,7 +458,9 @@ function LogsTab() {
                 <td className="num">{formatDate(r.issueDate)}</td>
                 <td className="num">{formatDate(r.required)}</td>
                 <td className="num">{formatDate(r.received)}</td>
-                <td className="num text-right">{r.costImpact ? currency(r.costImpact) : <span className="text-dim">—</span>}</td>
+                <td className="num text-right">
+                  {r.costImpact ? currency(r.costImpact) : <span className="text-dim">—</span>}
+                </td>
                 <td className="num">{daysOpen(r)}</td>
                 <td className="flex items-center gap-2">
                   <StatusBadge status={r.status} />
@@ -389,7 +475,16 @@ function LogsTab() {
       <DataCard title="Submittals">
         <table>
           <thead>
-            <tr><th>#</th><th>Description</th><th>Vendor</th><th>Issued</th><th>Required</th><th>Received</th><th>Days Open</th><th>Status</th></tr>
+            <tr>
+              <th>#</th>
+              <th>Description</th>
+              <th>Vendor</th>
+              <th>Issued</th>
+              <th>Required</th>
+              <th>Received</th>
+              <th>Days Open</th>
+              <th>Status</th>
+            </tr>
           </thead>
           <tbody>
             {SUBMITTALS.map((s) => (
@@ -414,7 +509,12 @@ function LogsTab() {
       <DataCard title="Delays">
         <table>
           <thead>
-            <tr><th>#</th><th>Description</th><th>Period</th><th className="text-right">Days</th></tr>
+            <tr>
+              <th>#</th>
+              <th>Description</th>
+              <th>Period</th>
+              <th className="text-right">Days</th>
+            </tr>
           </thead>
           <tbody>
             {DELAYS.map((d) => (
@@ -456,10 +556,24 @@ function ProcurementTab(): ReactNode {
                 <td className="font-display">{p.item}</td>
                 <td className="num text-dim">{pos.length ? pos.join(", ") : "—"}</td>
                 <td className="text-muted">{p.vendor}</td>
-                <td>{p.committed ? <span className="text-positive">✓</span> : <span className="text-dim">—</span>}</td>
-                <td>{p.purchased ? <span className="text-positive">✓</span> : <span className="text-dim">—</span>}</td>
+                <td>
+                  {p.committed ? (
+                    <span className="text-positive">✓</span>
+                  ) : (
+                    <span className="text-dim">—</span>
+                  )}
+                </td>
+                <td>
+                  {p.purchased ? (
+                    <span className="text-positive">✓</span>
+                  ) : (
+                    <span className="text-dim">—</span>
+                  )}
+                </td>
                 <td className="num">{p.expectedDelivery}</td>
-                <td><StatusBadge status={p.status} /></td>
+                <td>
+                  <StatusBadge status={p.status} />
+                </td>
               </tr>
             );
           })}

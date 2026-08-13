@@ -30,11 +30,16 @@ export function CostSection({
           <ChevronDown
             size={16}
             className="shrink-0 transition-transform"
-            style={{ transform: open ? "rotate(0deg)" : "rotate(-90deg)", color: "var(--fg-muted)" }}
+            style={{
+              transform: open ? "rotate(0deg)" : "rotate(-90deg)",
+              color: "var(--fg-muted)",
+            }}
           />
           <div className="min-w-0">
             <div className="font-display font-semibold truncate">{title}</div>
-            <div className="text-dim text-xs">{count} {count === 1 ? "line" : "lines"}</div>
+            <div className="text-dim text-xs">
+              {count} {count === 1 ? "line" : "lines"}
+            </div>
           </div>
         </button>
         <div className="flex items-center gap-3 shrink-0">
@@ -52,7 +57,11 @@ export function CostSection({
           )}
         </div>
       </div>
-      {open && <div className="border-t" style={{ borderColor: "var(--border-soft)" }}>{children}</div>}
+      {open && (
+        <div className="border-t" style={{ borderColor: "var(--border-soft)" }}>
+          {children}
+        </div>
+      )}
     </div>
   );
 }
@@ -87,14 +96,22 @@ export function LineRow({
       {hasActions && (
         <div className="col-span-2 sm:col-span-1 flex items-center justify-end gap-1">
           {onEdit && (
-            <button onClick={onEdit} aria-label="Edit" title="Edit"
-              className="p-1.5 rounded text-muted hover:text-blue focus-ring">
+            <button
+              onClick={onEdit}
+              aria-label="Edit"
+              title="Edit"
+              className="p-1.5 rounded text-muted hover:text-blue focus-ring"
+            >
               <Pencil size={14} />
             </button>
           )}
           {onDelete && (
-            <button onClick={onDelete} aria-label="Delete" title="Delete"
-              className="p-1.5 rounded text-muted hover:text-[color:var(--negative,#b04848)] focus-ring">
+            <button
+              onClick={onDelete}
+              aria-label="Delete"
+              title="Delete"
+              className="p-1.5 rounded text-muted hover:text-[color:var(--negative,#b04848)] focus-ring"
+            >
               <Trash2 size={14} />
             </button>
           )}
@@ -103,4 +120,3 @@ export function LineRow({
     </div>
   );
 }
-

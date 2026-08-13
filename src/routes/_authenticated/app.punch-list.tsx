@@ -15,10 +15,7 @@ import {
 
 export const Route = createFileRoute("/_authenticated/app/punch-list")({
   head: () => ({
-    meta: [
-      { title: "Punch List — Dun Rite OS" },
-      { name: "robots", content: "noindex" },
-    ],
+    meta: [{ title: "Punch List — Dun Rite OS" }, { name: "robots", content: "noindex" }],
   }),
   component: PunchListPage,
 });
@@ -39,8 +36,9 @@ function PunchListPage() {
     return PUNCH_ITEMS.filter((p) => {
       if (filter !== "all" && p.status !== filter) return false;
       if (!needle) return true;
-      return [p.number, p.title, p.location, p.trade, p.assignee, p.responsibleCompany]
-        .some((v) => v.toLowerCase().includes(needle));
+      return [p.number, p.title, p.location, p.trade, p.assignee, p.responsibleCompany].some((v) =>
+        v.toLowerCase().includes(needle),
+      );
     });
   }, [filter, q]);
 
@@ -70,9 +68,15 @@ function PunchListPage() {
                 className="pill focus-ring"
                 style={{
                   cursor: "pointer",
-                  background: filter === f.id ? "color-mix(in oklch, var(--brand-blue) 14%, transparent)" : "transparent",
+                  background:
+                    filter === f.id
+                      ? "color-mix(in oklch, var(--brand-blue) 14%, transparent)"
+                      : "transparent",
                   color: filter === f.id ? "var(--brand-blue)" : "var(--fg-muted)",
-                  borderColor: filter === f.id ? "color-mix(in oklch, var(--brand-blue) 50%, transparent)" : "var(--border-strong)",
+                  borderColor:
+                    filter === f.id
+                      ? "color-mix(in oklch, var(--brand-blue) 50%, transparent)"
+                      : "var(--border-strong)",
                 }}
               >
                 {f.label}
@@ -93,8 +97,14 @@ function PunchListPage() {
         <table>
           <thead>
             <tr>
-              <th>#</th><th>Title</th><th>Location</th><th>Trade</th><th>Assignee</th>
-              <th>Priority</th><th>Due</th><th>Status</th>
+              <th>#</th>
+              <th>Title</th>
+              <th>Location</th>
+              <th>Trade</th>
+              <th>Assignee</th>
+              <th>Priority</th>
+              <th>Due</th>
+              <th>Status</th>
             </tr>
           </thead>
           <tbody>
@@ -108,18 +118,26 @@ function PunchListPage() {
                 <td className="text-muted">{p.location}</td>
                 <td className="text-muted">{p.trade}</td>
                 <td>{p.assignee}</td>
-                <td><StatusBadge status={p.priority} /></td>
+                <td>
+                  <StatusBadge status={p.priority} />
+                </td>
                 <td className="num">
                   <div className="flex items-center gap-2">
                     <span>{formatPunchDate(p.dueDate)}</span>
                     {isOverdue(p) && <OverdueBadge />}
                   </div>
                 </td>
-                <td><StatusBadge status={p.status} /></td>
+                <td>
+                  <StatusBadge status={p.status} />
+                </td>
               </tr>
             ))}
             {!rows.length && (
-              <tr><td colSpan={8} className="text-center text-muted py-8">No items match.</td></tr>
+              <tr>
+                <td colSpan={8} className="text-center text-muted py-8">
+                  No items match.
+                </td>
+              </tr>
             )}
           </tbody>
         </table>

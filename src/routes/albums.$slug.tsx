@@ -22,10 +22,22 @@ export const Route = createFileRoute("/albums/$slug")({
     };
   },
   notFoundComponent: () => (
-    <div style={{ minHeight: "70vh", display: "grid", placeItems: "center", color: "#eee", background: "#0b0b0c" }}>
+    <div
+      style={{
+        minHeight: "70vh",
+        display: "grid",
+        placeItems: "center",
+        color: "#eee",
+        background: "#0b0b0c",
+      }}
+    >
       <div style={{ textAlign: "center" }}>
-        <h1 style={{ fontFamily: "'Libre Franklin', sans-serif", letterSpacing: ".12em" }}>ALBUM NOT FOUND</h1>
-        <Link to="/" className="album-notfound-link">← Back to home</Link>
+        <h1 style={{ fontFamily: "'Libre Franklin', sans-serif", letterSpacing: ".12em" }}>
+          ALBUM NOT FOUND
+        </h1>
+        <Link to="/" className="album-notfound-link">
+          ← Back to home
+        </Link>
       </div>
     </div>
   ),
@@ -33,7 +45,9 @@ export const Route = createFileRoute("/albums/$slug")({
     <div style={{ padding: 40, color: "#eee", background: "#0b0b0c", minHeight: "70vh" }}>
       <h1>Something went wrong</h1>
       <p>{error.message}</p>
-      <button onClick={reset} className="album-retry">Retry</button>
+      <button onClick={reset} className="album-retry">
+        Retry
+      </button>
     </div>
   ),
   component: AlbumPage,
@@ -218,13 +232,23 @@ function AlbumPage() {
           }}
         >
           {album.images.map((img: { src: string; alt: string }, i: number) => (
-            <figure key={i} className="album-thumb" style={{ margin: 0, overflow: "hidden", borderRadius: 4, background: "#151517" }}>
+            <figure
+              key={i}
+              className="album-thumb"
+              style={{ margin: 0, overflow: "hidden", borderRadius: 4, background: "#151517" }}
+            >
               <img
                 src={img.src}
                 alt={img.alt}
                 loading="lazy"
                 referrerPolicy="no-referrer"
-                style={{ width: "100%", height: "100%", display: "block", objectFit: "cover", aspectRatio: "4/3" }}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  display: "block",
+                  objectFit: "cover",
+                  aspectRatio: "4/3",
+                }}
               />
             </figure>
           ))}

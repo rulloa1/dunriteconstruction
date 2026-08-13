@@ -1,6 +1,19 @@
 import { Link, Outlet, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useState, type ReactNode } from "react";
-import { LayoutDashboard, Hammer, LineChart, ClipboardList, BookOpen, NotebookPen, ListChecks, ShieldCheck, Contact, LogOut, Menu, X } from "lucide-react";
+import {
+  LayoutDashboard,
+  Hammer,
+  LineChart,
+  ClipboardList,
+  BookOpen,
+  NotebookPen,
+  ListChecks,
+  ShieldCheck,
+  Contact,
+  LogOut,
+  Menu,
+  X,
+} from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -35,7 +48,12 @@ const NAV_GROUPS: { label: string; items: NavItem[] }[] = [
   },
 ];
 
-export function AppShell({ title, eyebrow, actions, children }: {
+export function AppShell({
+  title,
+  eyebrow,
+  actions,
+  children,
+}: {
   title: string;
   eyebrow?: string;
   actions?: ReactNode;
@@ -60,7 +78,9 @@ export function AppShell({ title, eyebrow, actions, children }: {
     <nav className="flex flex-col gap-5 px-3">
       {NAV_GROUPS.map((group) => (
         <div key={group.label} className="flex flex-col gap-1">
-          <div className="kbd-label px-3" style={{ fontSize: 10 }}>{group.label}</div>
+          <div className="kbd-label px-3" style={{ fontSize: 10 }}>
+            {group.label}
+          </div>
           {group.items.map((item) => {
             const Icon = item.icon;
             const active = isActive(item.to, item.exact);
@@ -94,7 +114,9 @@ export function AppShell({ title, eyebrow, actions, children }: {
             <img src={LOGO} alt="Dun Rite" className="h-8 w-auto" />
             <div className="leading-tight">
               <div className="font-display text-sm font-semibold tracking-wide">DUN RITE</div>
-              <div className="kbd-label" style={{ fontSize: 10 }}>Operations</div>
+              <div className="kbd-label" style={{ fontSize: 10 }}>
+                Operations
+              </div>
             </div>
           </Link>
           <div className="divider mx-3" />
@@ -103,7 +125,9 @@ export function AppShell({ title, eyebrow, actions, children }: {
             <button onClick={signOut} className="nav-link focus-ring w-full" type="button">
               <LogOut size={16} strokeWidth={1.75} /> <span>Sign out</span>
             </button>
-            <div className="px-2 pt-3 text-dim font-ui" style={{ fontSize: 11 }}>v0.1 · Internal build</div>
+            <div className="px-2 pt-3 text-dim font-ui" style={{ fontSize: 11 }}>
+              v0.1 · Internal build
+            </div>
           </div>
         </aside>
 
@@ -154,7 +178,9 @@ export function AppShell({ title, eyebrow, actions, children }: {
                 {eyebrow && <div className="kbd-label">{eyebrow}</div>}
                 <h1 className="font-display text-xl sm:text-2xl font-semibold truncate">{title}</h1>
               </div>
-              <span className="manifest-tag" aria-hidden>DRC_OS // LIVE</span>
+              <span className="manifest-tag" aria-hidden>
+                DRC_OS // LIVE
+              </span>
               {actions && <div className="flex items-center gap-2 shrink-0">{actions}</div>}
             </div>
           </header>

@@ -4,14 +4,28 @@ import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
 import { FormDialog, ConfirmDialog, newId, type Field } from "./FormDialog";
 import {
-  createJob, updateJob, deleteJob,
-  upsertChangeOrder, deleteChangeOrder,
-  upsertLabor, deleteLabor,
-  upsertMaterial, deleteMaterial,
-  upsertSub, deleteSub,
-  upsertEquipment, deleteEquipment,
+  createJob,
+  updateJob,
+  deleteJob,
+  upsertChangeOrder,
+  deleteChangeOrder,
+  upsertLabor,
+  deleteLabor,
+  upsertMaterial,
+  deleteMaterial,
+  upsertSub,
+  deleteSub,
+  upsertEquipment,
+  deleteEquipment,
 } from "@/lib/dashboard/mutations.functions";
-import type { Job, LaborLine, MaterialLine, SubLine, EquipmentLine, ChangeOrder } from "@/lib/dashboard/data";
+import type {
+  Job,
+  LaborLine,
+  MaterialLine,
+  SubLine,
+  EquipmentLine,
+  ChangeOrder,
+} from "@/lib/dashboard/data";
 
 function useInvalidate() {
   const qc = useQueryClient();
@@ -24,19 +38,47 @@ function useInvalidate() {
 
 // ---------- Job form ----------
 const JOB_FIELDS: Field[] = [
-  { name: "name", label: "Job name", kind: "text", required: true, full: true, placeholder: "e.g. Lakefront Shell — Lot 14" },
+  {
+    name: "name",
+    label: "Job name",
+    kind: "text",
+    required: true,
+    full: true,
+    placeholder: "e.g. Lakefront Shell — Lot 14",
+  },
   { name: "client", label: "Client", kind: "text", required: true },
   { name: "county", label: "County", kind: "text", required: true },
-  { name: "status", label: "Status", kind: "select", required: true, options: [
-    { value: "active", label: "Active" }, { value: "closed", label: "Closed" },
-  ]},
-  { name: "contractAmount", label: "Contract amount (USD)", kind: "number", required: true, min: 0 },
+  {
+    name: "status",
+    label: "Status",
+    kind: "select",
+    required: true,
+    options: [
+      { value: "active", label: "Active" },
+      { value: "closed", label: "Closed" },
+    ],
+  },
+  {
+    name: "contractAmount",
+    label: "Contract amount (USD)",
+    kind: "number",
+    required: true,
+    min: 0,
+  },
   { name: "startDate", label: "Start date", kind: "date", required: true },
-  { name: "closedDate", label: "Closed date", kind: "date", showWhen: (v) => v.status === "closed" },
+  {
+    name: "closedDate",
+    label: "Closed date",
+    kind: "date",
+    showWhen: (v) => v.status === "closed",
+  },
 ];
 
 export function JobFormDialog({
-  open, onOpenChange, job, onCreated,
+  open,
+  onOpenChange,
+  job,
+  onCreated,
 }: {
   open: boolean;
   onOpenChange: (v: boolean) => void;
@@ -86,20 +128,31 @@ export function JobFormDialog({
 
   return (
     <FormDialog
-      open={open} onOpenChange={onOpenChange}
+      open={open}
+      onOpenChange={onOpenChange}
       title={editing ? "Edit job" : "New job"}
       description={editing ? "Update job details." : "Create a new construction job."}
       fields={JOB_FIELDS}
       initial={initial}
       submitting={m.isPending}
       submitLabel={editing ? "Save changes" : "Create job"}
-      onSubmit={async (v) => { await m.mutateAsync(v); }}
+      onSubmit={async (v) => {
+        await m.mutateAsync(v);
+      }}
     />
   );
 }
 
-export function DeleteJobDialog({ open, onOpenChange, job, onDeleted }: {
-  open: boolean; onOpenChange: (v: boolean) => void; job: Job; onDeleted?: () => void;
+export function DeleteJobDialog({
+  open,
+  onOpenChange,
+  job,
+  onDeleted,
+}: {
+  open: boolean;
+  onOpenChange: (v: boolean) => void;
+  job: Job;
+  onDeleted?: () => void;
 }) {
   const invalidate = useInvalidate();
   const del = useServerFn(deleteJob);
@@ -115,12 +168,15 @@ export function DeleteJobDialog({ open, onOpenChange, job, onDeleted }: {
   });
   return (
     <ConfirmDialog
-      open={open} onOpenChange={onOpenChange}
+      open={open}
+      onOpenChange={onOpenChange}
       title={`Delete ${job.name}?`}
       description="This removes the job and all of its labor, materials, subcontractor, equipment, and change-order lines. This cannot be undone."
       confirmLabel="Delete job"
       busy={m.isPending}
-      onConfirm={async () => { await m.mutateAsync(); }}
+      onConfirm={async () => {
+        await m.mutateAsync();
+      }}
     />
   );
 }
@@ -142,18 +198,35 @@ const LINE_FIELDS: Record<LineKind, Field[]> = {
     { name: "item", label: "Item", kind: "text", required: true, full: true },
     { name: "qty", label: "Qty", kind: "number", required: true, min: 0 },
     { name: "unit", label: "Unit", kind: "text", required: true, placeholder: "ea / cy / lf" },
-    { name: "unitCost", label: "Unit cost ($)", kind: "number", required: true, min: 0, full: true },
+    {
+      name: "unitCost",
+      label: "Unit cost ($)",
+      kind: "number",
+      required: true,
+      min: 0,
+      full: true,
+    },
   ],
   subs: [
     { name: "vendor", label: "Vendor", kind: "text", required: true, full: true },
-    { name: "trade", label: "Trade", kind: "select", required: true,
-      options: TRADES.map((t) => ({ value: t, label: t })) },
+    {
+      name: "trade",
+      label: "Trade",
+      kind: "select",
+      required: true,
+      options: TRADES.map((t) => ({ value: t, label: t })),
+    },
     { name: "amount", label: "Amount ($)", kind: "number", required: true, min: 0 },
   ],
   equipment: [
     { name: "machine", label: "Machine", kind: "text", required: true, full: true },
-    { name: "category", label: "Category", kind: "select", required: true,
-      options: CATEGORIES.map((c) => ({ value: c, label: c })) },
+    {
+      name: "category",
+      label: "Category",
+      kind: "select",
+      required: true,
+      options: CATEGORIES.map((c) => ({ value: c, label: c })),
+    },
     { name: "days", label: "Days", kind: "number", required: true, min: 0 },
     { name: "dayRate", label: "Day rate ($)", kind: "number", required: true, min: 0, full: true },
   ],
@@ -169,11 +242,16 @@ type AnyLine = LaborLine | MaterialLine | SubLine | EquipmentLine | ChangeOrder;
 function initialFor(kind: LineKind, line?: AnyLine): Record<string, string> {
   if (!line) {
     switch (kind) {
-      case "labor": return { worker: "", role: "", hours: "0", rate: "0" };
-      case "materials": return { item: "", qty: "0", unit: "ea", unitCost: "0" };
-      case "subs": return { vendor: "", trade: "Other", amount: "0" };
-      case "equipment": return { machine: "", category: "Other", days: "0", dayRate: "0" };
-      case "co": return { description: "", amount: "0", date: new Date().toISOString().slice(0, 10) };
+      case "labor":
+        return { worker: "", role: "", hours: "0", rate: "0" };
+      case "materials":
+        return { item: "", qty: "0", unit: "ea", unitCost: "0" };
+      case "subs":
+        return { vendor: "", trade: "Other", amount: "0" };
+      case "equipment":
+        return { machine: "", category: "Other", days: "0", dayRate: "0" };
+      case "co":
+        return { description: "", amount: "0", date: new Date().toISOString().slice(0, 10) };
     }
   }
   const l = line as unknown as Record<string, unknown>;
@@ -183,7 +261,11 @@ function initialFor(kind: LineKind, line?: AnyLine): Record<string, string> {
 }
 
 export function LineFormDialog({
-  open, onOpenChange, kind, jobId, line,
+  open,
+  onOpenChange,
+  kind,
+  jobId,
+  line,
 }: {
   open: boolean;
   onOpenChange: (v: boolean) => void;
@@ -206,15 +288,48 @@ export function LineFormDialog({
       const base = { id, jobId };
       switch (kind) {
         case "labor":
-          return upsertLa({ data: { ...base, worker: v.worker, role: v.role, hours: Number(v.hours), rate: Number(v.rate) } });
+          return upsertLa({
+            data: {
+              ...base,
+              worker: v.worker,
+              role: v.role,
+              hours: Number(v.hours),
+              rate: Number(v.rate),
+            },
+          });
         case "materials":
-          return upsertMa({ data: { ...base, item: v.item, qty: Number(v.qty), unit: v.unit, unitCost: Number(v.unitCost) } });
+          return upsertMa({
+            data: {
+              ...base,
+              item: v.item,
+              qty: Number(v.qty),
+              unit: v.unit,
+              unitCost: Number(v.unitCost),
+            },
+          });
         case "subs":
-          return upsertSb({ data: { ...base, vendor: v.vendor, trade: v.trade as SubLine["trade"], amount: Number(v.amount) } });
+          return upsertSb({
+            data: {
+              ...base,
+              vendor: v.vendor,
+              trade: v.trade as SubLine["trade"],
+              amount: Number(v.amount),
+            },
+          });
         case "equipment":
-          return upsertEq({ data: { ...base, machine: v.machine, category: v.category as EquipmentLine["category"], days: Number(v.days), dayRate: Number(v.dayRate) } });
+          return upsertEq({
+            data: {
+              ...base,
+              machine: v.machine,
+              category: v.category as EquipmentLine["category"],
+              days: Number(v.days),
+              dayRate: Number(v.dayRate),
+            },
+          });
         case "co":
-          return upsertCo({ data: { ...base, description: v.description, amount: Number(v.amount), date: v.date } });
+          return upsertCo({
+            data: { ...base, description: v.description, amount: Number(v.amount), date: v.date },
+          });
       }
     },
     onSuccess: () => {
@@ -235,22 +350,34 @@ export function LineFormDialog({
 
   return (
     <FormDialog
-      open={open} onOpenChange={onOpenChange}
+      open={open}
+      onOpenChange={onOpenChange}
       title={titles[kind]}
       fields={LINE_FIELDS[kind]}
       initial={initialFor(kind, line)}
       submitting={m.isPending}
       submitLabel={editing ? "Save changes" : "Add line"}
-      onSubmit={async (v) => { await m.mutateAsync(v); }}
+      onSubmit={async (v) => {
+        await m.mutateAsync(v);
+      }}
     />
   );
 }
 
 export function DeleteLineDialog({
-  open, onOpenChange, kind, id, jobId, label,
+  open,
+  onOpenChange,
+  kind,
+  id,
+  jobId,
+  label,
 }: {
-  open: boolean; onOpenChange: (v: boolean) => void;
-  kind: LineKind; id: string; jobId: string; label: string;
+  open: boolean;
+  onOpenChange: (v: boolean) => void;
+  kind: LineKind;
+  id: string;
+  jobId: string;
+  label: string;
 }) {
   const invalidate = useInvalidate();
   const delCo = useServerFn(deleteChangeOrder);
@@ -258,19 +385,39 @@ export function DeleteLineDialog({
   const delMa = useServerFn(deleteMaterial);
   const delSb = useServerFn(deleteSub);
   const delEq = useServerFn(deleteEquipment);
-  const fn = kind === "labor" ? delLa : kind === "materials" ? delMa : kind === "subs" ? delSb : kind === "equipment" ? delEq : delCo;
+  const fn =
+    kind === "labor"
+      ? delLa
+      : kind === "materials"
+        ? delMa
+        : kind === "subs"
+          ? delSb
+          : kind === "equipment"
+            ? delEq
+            : delCo;
   const m = useMutation({
     mutationFn: () => fn({ data: { id } }),
-    onSuccess: () => { toast.success("Line deleted"); invalidate(jobId); onOpenChange(false); },
+    onSuccess: () => {
+      toast.success("Line deleted");
+      invalidate(jobId);
+      onOpenChange(false);
+    },
     onError: (e: Error) => toast.error(e.message || "Delete failed"),
   });
   return (
     <ConfirmDialog
-      open={open} onOpenChange={onOpenChange}
+      open={open}
+      onOpenChange={onOpenChange}
       title="Delete line?"
-      description={<>Remove <span className="text-fg">{label}</span>. Totals will recompute automatically.</>}
+      description={
+        <>
+          Remove <span className="text-fg">{label}</span>. Totals will recompute automatically.
+        </>
+      }
       busy={m.isPending}
-      onConfirm={async () => { await m.mutateAsync(); }}
+      onConfirm={async () => {
+        await m.mutateAsync();
+      }}
     />
   );
 }
@@ -287,7 +434,8 @@ export function useLineDialogs() {
     state,
     openCreate: (kind: LineKind) => setState({ mode: "create", kind }),
     openEdit: (kind: LineKind, line: AnyLine) => setState({ mode: "edit", kind, line }),
-    openDelete: (kind: LineKind, id: string, label: string) => setState({ mode: "delete", kind, id, label }),
+    openDelete: (kind: LineKind, id: string, label: string) =>
+      setState({ mode: "delete", kind, id, label }),
     close: () => setState({ mode: "closed" }),
   };
 }

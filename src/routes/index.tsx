@@ -22,7 +22,8 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "The Build — DunRite Construction Group" },
       {
         property: "og:description",
-        content: "From the ground to grand — a cinematic look at how DunRite pours, lays, and delivers Florida's strongest shells.",
+        content:
+          "From the ground to grand — a cinematic look at how DunRite pours, lays, and delivers Florida's strongest shells.",
       },
       { property: "og:url", content: "https://dun-rite.lovable.app/" },
     ],
@@ -134,19 +135,24 @@ function TheBuild() {
         <i id="scrollbar" />
       </div>
 
-{/* SSR preloader — covers first paint on first visit. Inline head script
+      {/* SSR preloader — covers first paint on first visit. Inline head script
     sets html[data-pre="off"] on repeat visits / reduced motion so this
     is hidden BEFORE paint (see CSS: html[data-pre="off"] .pre{display:none}).
     experience.js drives the count-up and dismissal. */}
-<div className="pre" id="pre">
-  <img src={LOGO} alt="DunRite" id="preLogo" />
-  <div className="pre-count"><span id="preNum">0</span><span className="pct">%</span></div>
-  <div className="pre-bar"><i id="preBar" /></div>
-  <div className="pre-label">Pouring the foundation…</div>
-  <button type="button" id="preSkip" className="pre-skip" aria-label="Skip intro">Skip →</button>
-</div>
-
-
+      <div className="pre" id="pre">
+        <img src={LOGO} alt="DunRite" id="preLogo" />
+        <div className="pre-count">
+          <span id="preNum">0</span>
+          <span className="pct">%</span>
+        </div>
+        <div className="pre-bar">
+          <i id="preBar" />
+        </div>
+        <div className="pre-label">Pouring the foundation…</div>
+        <button type="button" id="preSkip" className="pre-skip" aria-label="Skip intro">
+          Skip →
+        </button>
+      </div>
 
       <div className="bar">
         <img className="b-logo" src={LOGO} alt="DunRite" />
@@ -170,7 +176,6 @@ function TheBuild() {
             height={1080}
             poster={STONE}
           />
-
         </div>
         {/* Blueprint grid + technical overlays */}
         <div className="hero-blueprint" aria-hidden />
@@ -209,30 +214,37 @@ function TheBuild() {
           </h1>
           <div className="sub" data-hero-rv>
             <p>
-              Slabs, block, full shell packages, and large-scale concrete for builders, developers, and homeowners across
-              the I-75 corridor — from Lake Panasoffkee and The Villages out to the Gulf. Scroll to see the work.
+              Slabs, block, full shell packages, and large-scale concrete for builders, developers,
+              and homeowners across the I-75 corridor — from Lake Panasoffkee and The Villages out
+              to the Gulf. Scroll to see the work.
             </p>
           </div>
           <div className="hero-ctas" data-hero-rv>
             <a className="btn btn-gold hero-btn" href="tel:3525884050">
-              Call (352) 588-4050 <span className="arr" aria-hidden>→</span>
+              Call (352) 588-4050{" "}
+              <span className="arr" aria-hidden>
+                →
+              </span>
             </a>
             <a className="btn btn-ghost hero-btn" href="#quote" data-scroll-to="quote">
-              Request a Quote <span className="arr" aria-hidden>→</span>
+              Request a Quote{" "}
+              <span className="arr" aria-hidden>
+                →
+              </span>
             </a>
           </div>
         </div>
         <div className="scrollcue" data-hero-rv>
-          Scroll<span className="ln" />
+          Scroll
+          <span className="ln" />
         </div>
       </header>
-
-
 
       <section className="statement">
         <div className="wrap">
           <p id="statement">
-            To build with integrity, craftsmanship, and efficiency — <em>while honoring our family legacy in concrete.</em>
+            To build with integrity, craftsmanship, and efficiency —{" "}
+            <em>while honoring our family legacy in concrete.</em>
           </p>
         </div>
       </section>
@@ -241,52 +253,129 @@ function TheBuild() {
         <div className="build-pin" id="buildPin">
           <div className="frames" id="frames">
             <div className="frame">
-              <video data-fv src={BUILD_3} muted loop playsInline preload="metadata" poster="/assets/foundations-slab.jpg" width={1920} height={1080} />
+              <video
+                data-fv
+                src={BUILD_3}
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                poster="/assets/foundations-slab.jpg"
+                width={1920}
+                height={1080}
+              />
             </div>
             <div className="frame">
-              <video data-fv src={CONCRETE} muted loop playsInline preload="metadata" poster="/assets/concrete-at-scale.jpg" width={1920} height={1080} />
+              <video
+                data-fv
+                src={CONCRETE}
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                poster="/assets/concrete-at-scale.jpg"
+                width={1920}
+                height={1080}
+              />
             </div>
             <div className="frame">
-              <video data-fv src={BUILD_2} muted loop playsInline preload="metadata" poster="/assets/walls-that-stand.jpg" width={1920} height={1080} />
+              <video
+                data-fv
+                src={BUILD_2}
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                poster="/assets/walls-that-stand.jpg"
+                width={1920}
+                height={1080}
+              />
             </div>
             <div className="frame">
-              <video data-fv src={BUILD_1} muted loop playsInline preload="metadata" poster="/assets/full-shell.jpg" width={1920} height={1080} />
+              <video
+                data-fv
+                src={BUILD_1}
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                poster="/assets/full-shell.jpg"
+                width={1920}
+                height={1080}
+              />
             </div>
             <div className="frame">
-              <video data-fv src={BUILD_0} muted loop playsInline preload="metadata" poster="/assets/developments.jpg" width={1920} height={1080} />
+              <video
+                data-fv
+                src={BUILD_0}
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                poster="/assets/developments.jpg"
+                width={1920}
+                height={1080}
+              />
             </div>
           </div>
 
-
-          <div className="bnum" id="bnum">01</div>
+          <div className="bnum" id="bnum">
+            01
+          </div>
 
           <div className="build-ui">
             <div className="wrap">
-              <div className="bkick" id="bkick">Foundations / Slabs &amp; Flatwork</div>
-              <h2 className="btitle" id="btitle">Poured Dead-Level</h2>
+              <div className="bkick" id="bkick">
+                Foundations / Slabs &amp; Flatwork
+              </div>
+              <h2 className="btitle" id="btitle">
+                Poured Dead-Level
+              </h2>
               <p className="bcap" id="bcap">
-                Footers dug, forms set, and slabs finished by hand on raw Florida ground — the base everything else stands on.
+                Footers dug, forms set, and slabs finished by hand on raw Florida ground — the base
+                everything else stands on.
               </p>
             </div>
           </div>
 
           <div className="rail" id="rail">
-            <div className="tk on"><span className="dot" /><span className="lb">01 · Slabs &amp; Flatwork</span></div>
-            <div className="tk"><span className="dot" /><span className="lb">02 · Concrete at Scale</span></div>
-            <div className="tk"><span className="dot" /><span className="lb">03 · Block &amp; Walls</span></div>
-            <div className="tk"><span className="dot" /><span className="lb">04 · Full Shells</span></div>
-            <div className="tk"><span className="dot" /><span className="lb">05 · Developments</span></div>
+            <div className="tk on">
+              <span className="dot" />
+              <span className="lb">01 · Slabs &amp; Flatwork</span>
+            </div>
+            <div className="tk">
+              <span className="dot" />
+              <span className="lb">02 · Concrete at Scale</span>
+            </div>
+            <div className="tk">
+              <span className="dot" />
+              <span className="lb">03 · Block &amp; Walls</span>
+            </div>
+            <div className="tk">
+              <span className="dot" />
+              <span className="lb">04 · Full Shells</span>
+            </div>
+            <div className="tk">
+              <span className="dot" />
+              <span className="lb">05 · Developments</span>
+            </div>
           </div>
 
           <div className="readout">
-            <div className="day">Selected Work<b>Across Florida</b></div>
+            <div className="day">
+              Selected Work<b>Across Florida</b>
+            </div>
             <div className="pct">
-              <div className="pn"><span id="clipN">01</span> / 05</div>
+              <div className="pn">
+                <span id="clipN">01</span> / 05
+              </div>
               <div className="pl">The Reel</div>
             </div>
           </div>
 
-          <div className="meter"><i id="meter" /></div>
+          <div className="meter">
+            <i id="meter" />
+          </div>
         </div>
       </section>
 
@@ -294,12 +383,36 @@ function TheBuild() {
         <div className="wrap">
           <div className="sh">By the Numbers</div>
           <div className="stat-grid">
-            <div className="stat" role="group" aria-label="650+ Projects Completed"><div className="n"><span data-to="650">0</span><span className="u">+</span></div><div className="l">Projects Completed</div></div>
-            <div className="stat" role="group" aria-label="$15M+ In Annual Projects"><div className="n"><span className="u">$</span><span data-to="15">0</span><span className="u">M+</span></div><div className="l">In Annual Projects</div></div>
-            <div className="stat" role="group" aria-label="99% Referral-Based Work"><div className="n"><span data-to="99">0</span><span className="u">%</span></div><div className="l">Referral-Based Work</div></div>
-            <div className="stat" role="group" aria-label="25+ Years of Experience"><div className="n"><span data-to="25">0</span><span className="u">+</span></div><div className="l">Years of Experience</div></div>
+            <div className="stat" role="group" aria-label="650+ Projects Completed">
+              <div className="n">
+                <span data-to="650">0</span>
+                <span className="u">+</span>
+              </div>
+              <div className="l">Projects Completed</div>
+            </div>
+            <div className="stat" role="group" aria-label="$15M+ In Annual Projects">
+              <div className="n">
+                <span className="u">$</span>
+                <span data-to="15">0</span>
+                <span className="u">M+</span>
+              </div>
+              <div className="l">In Annual Projects</div>
+            </div>
+            <div className="stat" role="group" aria-label="99% Referral-Based Work">
+              <div className="n">
+                <span data-to="99">0</span>
+                <span className="u">%</span>
+              </div>
+              <div className="l">Referral-Based Work</div>
+            </div>
+            <div className="stat" role="group" aria-label="25+ Years of Experience">
+              <div className="n">
+                <span data-to="25">0</span>
+                <span className="u">+</span>
+              </div>
+              <div className="l">Years of Experience</div>
+            </div>
           </div>
-
         </div>
       </section>
 
@@ -321,21 +434,28 @@ function TheBuild() {
             </div>
             <div className="body rv">
               <p>
-                From foundations to framing, every phase of our work is handled with precision, efficiency, and pride. We've grown
-                from a small family concrete crew into one of Florida's most trusted shell contractors.
+                From foundations to framing, every phase of our work is handled with precision,
+                efficiency, and pride. We've grown from a small family concrete crew into one of
+                Florida's most trusted shell contractors.
               </p>
               <p>
-                Nearly all of our work comes from repeat clients and referrals — proof that when we say it's done rite, people
-                believe it.
+                Nearly all of our work comes from repeat clients and referrals — proof that when we
+                say it's done rite, people believe it.
               </p>
               <div className="mv-row">
                 <div className="mv">
                   <h4>Our Mission</h4>
-                  <p>To build with integrity, craftsmanship, and efficiency while honoring our family legacy in concrete.</p>
+                  <p>
+                    To build with integrity, craftsmanship, and efficiency while honoring our family
+                    legacy in concrete.
+                  </p>
                 </div>
                 <div className="mv">
                   <h4>Our Vision</h4>
-                  <p>To be Florida's most reliable shell and concrete partner, known for quality, relationships, and hard work.</p>
+                  <p>
+                    To be Florida's most reliable shell and concrete partner, known for quality,
+                    relationships, and hard work.
+                  </p>
                 </div>
               </div>
             </div>
@@ -349,11 +469,14 @@ function TheBuild() {
             <div className="cap-intro">
               <div className="sh">What We Pour</div>
               <h2>
-                One Crew,<br />Every Phase.
+                One Crew,
+                <br />
+                Every Phase.
               </h2>
               <p>
-                Turnkey shell packages and concrete services that help developers, builders, and homeowners save time, control
-                costs, and trust the job gets done rite. Scroll on to move through the work.
+                Turnkey shell packages and concrete services that help developers, builders, and
+                homeowners save time, control costs, and trust the job gets done rite. Scroll on to
+                move through the work.
               </p>
             </div>
             <div className="cap-card">
@@ -365,7 +488,11 @@ function TheBuild() {
                 <div className="cn">01 · Builders · Developers · GCs</div>
                 <h3>Full Shell Packages</h3>
                 <p>Slabs, block, trusses, and framing delivered as one turnkey package.</p>
-                <Link className="cap-link" to="/albums/$slug" params={{ slug: "full-shell-packages" }}>
+                <Link
+                  className="cap-link"
+                  to="/albums/$slug"
+                  params={{ slug: "full-shell-packages" }}
+                >
                   View Album <span className="arr">→</span>
                 </Link>
               </div>
@@ -376,7 +503,11 @@ function TheBuild() {
                 <div className="cn">02 · Homeowners · Architects</div>
                 <h3>Custom Home Shells</h3>
                 <p>One-off shells for homeowners and architects — beach houses to estates.</p>
-                <Link className="cap-link" to="/albums/$slug" params={{ slug: "custom-home-shells" }}>
+                <Link
+                  className="cap-link"
+                  to="/albums/$slug"
+                  params={{ slug: "custom-home-shells" }}
+                >
                   View Album <span className="arr">→</span>
                 </Link>
               </div>
@@ -390,28 +521,37 @@ function TheBuild() {
                 <div className="cn">03 · Developers · Production Builders</div>
                 <h3>Developer Projects</h3>
                 <p>Neighborhood-scale concrete for production builds, clubhouses, and amenities.</p>
-                <Link className="cap-link" to="/albums/$slug" params={{ slug: "developer-projects" }}>
+                <Link
+                  className="cap-link"
+                  to="/albums/$slug"
+                  params={{ slug: "developer-projects" }}
+                >
                   View Album <span className="arr">→</span>
                 </Link>
               </div>
             </div>
             <div className="cap-card">
-              <img src="https://www.drchomesfl.com/wp-content/uploads/2025/12/cd-5.webp" alt="Concrete & flatwork" />
+              <img
+                src="https://www.drchomesfl.com/wp-content/uploads/2025/12/cd-5.webp"
+                alt="Concrete & flatwork"
+              />
               <div className="cc">
                 <div className="cn">04 · Communities · Single Homes</div>
                 <h3>Concrete &amp; Flatwork</h3>
                 <p>Driveways, sidewalks, and patios — single home or whole community.</p>
-                <Link className="cap-link" to="/albums/$slug" params={{ slug: "concrete-flatwork" }}>
+                <Link
+                  className="cap-link"
+                  to="/albums/$slug"
+                  params={{ slug: "concrete-flatwork" }}
+                >
                   View Album <span className="arr">→</span>
                 </Link>
               </div>
             </div>
             <div className="cap-end" />
-
           </div>
         </div>
       </section>
-
 
       <section className="voices" id="voices">
         <div className="qmark">&rdquo;</div>
@@ -420,8 +560,8 @@ function TheBuild() {
           <div className="rv">
             <div className="stars">★★★★★</div>
             <blockquote>
-              "First time I've ever seen a crew so careful about cleaning up on site. Thank you for making our community look
-              nice!"
+              "First time I've ever seen a crew so careful about cleaning up on site. Thank you for
+              making our community look nice!"
             </blockquote>
             <div className="by">
               &mdash; <b>Wendy Johnson</b>
@@ -429,13 +569,18 @@ function TheBuild() {
           </div>
           <div className="more-q rv">
             <div className="q">
-              <p>"Just an awesome experience from start to finish. Management and staff are top notch."</p>
+              <p>
+                "Just an awesome experience from start to finish. Management and staff are top
+                notch."
+              </p>
               <div className="by">
                 &mdash; <b>Sissi Antonini</b>
               </div>
             </div>
             <div className="q">
-              <p>"Very professional and customer oriented. They show up with pride for their work."</p>
+              <p>
+                "Very professional and customer oriented. They show up with pride for their work."
+              </p>
               <div className="by">
                 &mdash; <b>Forest Lawrence</b>
               </div>
@@ -451,7 +596,10 @@ function TheBuild() {
             <h2 className="rv">
               Serving Central Florida &mdash; <em>10 counties strong.</em>
             </h2>
-            <div className="note rv">Home base is Sumter County. Crews dispatch daily from Lake Panasoffkee out through The Villages and across the I-75 corridor.</div>
+            <div className="note rv">
+              Home base is Sumter County. Crews dispatch daily from Lake Panasoffkee out through The
+              Villages and across the I-75 corridor.
+            </div>
           </div>
           <div className="counties rv">
             {[
@@ -477,23 +625,36 @@ function TheBuild() {
 
       <section className="quote" id="quote">
         <div className="quote-bg" aria-hidden>
-          <video src={CONCRETE} muted loop playsInline preload="none" poster={STONE} width={1920} height={1080} />
+          <video
+            src={CONCRETE}
+            muted
+            loop
+            playsInline
+            preload="none"
+            poster={STONE}
+            width={1920}
+            height={1080}
+          />
         </div>
         <div className="wrap">
           <div className="quote-grid">
             <div className="quote-intro">
               <div className="kick">Free quotes · 10 Central Florida counties</div>
               <h2>
-                Let's Build<br />It <em>Rite.</em>
+                Let's Build
+                <br />
+                It <em>Rite.</em>
               </h2>
               <p className="quote-lead">
-                Tell us a little about the job and we'll get back within one business day with next steps. Most quotes
-                take under a week once we've walked the site.
+                Tell us a little about the job and we'll get back within one business day with next
+                steps. Most quotes take under a week once we've walked the site.
               </p>
               <div className="quote-meta">
                 <div>
                   <div className="qm-lb">Phone</div>
-                  <a className="qm-val" href="tel:3525884050">(352) 588-4050</a>
+                  <a className="qm-val" href="tel:3525884050">
+                    (352) 588-4050
+                  </a>
                 </div>
                 <div>
                   <div className="qm-lb">Service Area</div>
@@ -508,7 +669,6 @@ function TheBuild() {
         </div>
       </section>
 
-
       <footer className="foot">
         <div className="wrap">
           <span>DunRite Construction Group, LLC © 2026</span>
@@ -520,7 +680,6 @@ function TheBuild() {
           </span>
         </div>
       </footer>
-
     </>
   );
 }

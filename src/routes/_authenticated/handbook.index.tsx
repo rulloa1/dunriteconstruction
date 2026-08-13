@@ -28,7 +28,8 @@ function CompanyDocuments() {
   return (
     <AppShell eyebrow="Library" title="Company Documents">
       <p className="text-muted mb-6 max-w-2xl text-sm">
-        The complete company document system — 2026 edition. Preview any document in-app, then print or download it.
+        The complete company document system — 2026 edition. Preview any document in-app, then print
+        or download it.
       </p>
 
       <SectionLabel>The Three Binders</SectionLabel>
@@ -43,8 +44,12 @@ function CompanyDocuments() {
                 {b.num}
               </div>
               <div className="min-w-0">
-                <h3 className="font-display text-sm font-semibold">Book {b.num} — {b.title}</h3>
-                <p className="text-[11px] uppercase tracking-wide text-sidebar-foreground/60">{b.sub}</p>
+                <h3 className="font-display text-sm font-semibold">
+                  Book {b.num} — {b.title}
+                </h3>
+                <p className="text-[11px] uppercase tracking-wide text-sidebar-foreground/60">
+                  {b.sub}
+                </p>
               </div>
             </div>
             <p className="flex-1 text-sm leading-relaxed text-sidebar-foreground/80">{b.desc}</p>
@@ -151,8 +156,9 @@ function CompanyDocuments() {
 
       <p className="mt-8 flex items-start gap-2 text-xs text-muted-foreground">
         <Download className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-        Every document opens print-ready — use the Print action in the viewer, or your browser&apos;s Print → Save as
-        PDF for a download. Retired versions live in the office archive, not here.
+        Every document opens print-ready — use the Print action in the viewer, or your
+        browser&apos;s Print → Save as PDF for a download. Retired versions live in the office
+        archive, not here.
       </p>
     </AppShell>
   );

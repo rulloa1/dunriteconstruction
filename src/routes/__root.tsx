@@ -79,14 +79,32 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "DunRite Construction Group — Concrete & Shell Contractors" },
-      { name: "description", content: "DunRite Construction Group pours slabs, lays block, and delivers full shell packages for builders, developers, and homeowners across 10 Central Florida counties." },
-      { property: "og:title", content: "DunRite Construction Group — Concrete & Shell Contractors" },
-      { property: "og:description", content: "Florida's trusted concrete and shell partner — slabs, block, trusses, and full shells delivered across 10 Central Florida counties." },
+      {
+        name: "description",
+        content:
+          "DunRite Construction Group pours slabs, lays block, and delivers full shell packages for builders, developers, and homeowners across 10 Central Florida counties.",
+      },
+      {
+        property: "og:title",
+        content: "DunRite Construction Group — Concrete & Shell Contractors",
+      },
+      {
+        property: "og:description",
+        content:
+          "Florida's trusted concrete and shell partner — slabs, block, trusses, and full shells delivered across 10 Central Florida counties.",
+      },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "DunRite Construction Group" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "DunRite Construction Group — Concrete & Shell Contractors" },
-      { name: "twitter:description", content: "Florida's trusted concrete and shell partner — slabs, block, trusses, and full shells delivered across 10 Central Florida counties." },
+      {
+        name: "twitter:title",
+        content: "DunRite Construction Group — Concrete & Shell Contractors",
+      },
+      {
+        name: "twitter:description",
+        content:
+          "Florida's trusted concrete and shell partner — slabs, block, trusses, and full shells delivered across 10 Central Florida counties.",
+      },
     ],
     links: [
       { rel: "stylesheet", href: appCss },

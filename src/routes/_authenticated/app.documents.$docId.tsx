@@ -6,14 +6,18 @@ import { findDoc } from "@/lib/docs/documents";
 import { ArrowLeft, ExternalLink, Printer } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/app/documents/$docId")({
-  head: () => ({ meta: [{ title: "Document — Dun Rite OS" }, { name: "robots", content: "noindex" }] }),
+  head: () => ({
+    meta: [{ title: "Document — Dun Rite OS" }, { name: "robots", content: "noindex" }],
+  }),
   component: DocumentReader,
   notFoundComponent: () => (
     <AppShell eyebrow="Documents" title="Not found">
       <div className="card p-8 text-center">
         <div className="font-display text-lg font-semibold">Document not found</div>
         <div className="text-muted text-sm mt-1">That document isn't in the library.</div>
-        <Link to="/app/documents" className="btn btn-primary mt-4 inline-flex">Back to Documents</Link>
+        <Link to="/app/documents" className="btn btn-primary mt-4 inline-flex">
+          Back to Documents
+        </Link>
       </div>
     </AppShell>
   ),
@@ -29,7 +33,9 @@ function DocumentReader() {
       <AppShell eyebrow="Documents" title="Not found">
         <div className="card p-8 text-center">
           <div className="font-display text-lg font-semibold">Document not found</div>
-          <Link to="/app/documents" className="btn btn-primary mt-4 inline-flex">Back to Documents</Link>
+          <Link to="/app/documents" className="btn btn-primary mt-4 inline-flex">
+            Back to Documents
+          </Link>
         </div>
       </AppShell>
     );
@@ -75,10 +81,7 @@ function DocumentReader() {
         If this is blank, upload the file to <span className="num">public{doc.file}</span>
       </div>
 
-      <div
-        className="card overflow-hidden"
-        style={{ background: "#fff", padding: 0 }}
-      >
+      <div className="card overflow-hidden" style={{ background: "#fff", padding: 0 }}>
         <iframe
           src={doc.file}
           title={doc.title}
@@ -88,7 +91,8 @@ function DocumentReader() {
         />
         {errored && (
           <div className="p-6 text-sm" style={{ color: "#444" }}>
-            Could not load <code>{doc.file}</code>. Drop the file into <code>public{doc.file}</code>.
+            Could not load <code>{doc.file}</code>. Drop the file into <code>public{doc.file}</code>
+            .
           </div>
         )}
       </div>

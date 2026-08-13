@@ -18,10 +18,7 @@ import { ChevronDown, ChevronRight, CloudSun } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/app/daily-logs")({
   head: () => ({
-    meta: [
-      { title: "Daily Logs — Dun Rite OS" },
-      { name: "robots", content: "noindex" },
-    ],
+    meta: [{ title: "Daily Logs — Dun Rite OS" }, { name: "robots", content: "noindex" }],
   }),
   component: DailyLogsPage,
 });
@@ -64,51 +61,92 @@ function DailyLogsPage() {
                   <div className="font-display font-semibold">{formatLogDate(log.date)}</div>
                   <div className="text-muted text-sm flex items-center gap-2 flex-wrap mt-0.5">
                     <CloudSun size={14} />
-                    <span>{log.weather.condition} · {log.weather.tempLow}°/{log.weather.tempHigh}°F · {log.weather.precipitation}"</span>
+                    <span>
+                      {log.weather.condition} · {log.weather.tempLow}°/{log.weather.tempHigh}°F ·{" "}
+                      {log.weather.precipitation}"
+                    </span>
                     <span className="text-dim">•</span>
                     <span>{log.author}</span>
                   </div>
                 </div>
                 <div className="hidden sm:flex items-center gap-5 text-right">
-                  <div><div className="kbd-label">Workers</div><div className="num font-display font-semibold">{workers}</div></div>
-                  <div><div className="kbd-label">Hours</div><div className="num font-display font-semibold">{hours}</div></div>
-                  <div><div className="kbd-label">Deliveries</div><div className="num font-display font-semibold">{log.deliveries.length}</div></div>
+                  <div>
+                    <div className="kbd-label">Workers</div>
+                    <div className="num font-display font-semibold">{workers}</div>
+                  </div>
+                  <div>
+                    <div className="kbd-label">Hours</div>
+                    <div className="num font-display font-semibold">{hours}</div>
+                  </div>
+                  <div>
+                    <div className="kbd-label">Deliveries</div>
+                    <div className="num font-display font-semibold">{log.deliveries.length}</div>
+                  </div>
                 </div>
               </button>
               {open && (
                 <div className="px-4 sm:px-5 pb-5 grid gap-4 lg:grid-cols-2">
                   <DataCard title="Manpower">
                     <table>
-                      <thead><tr><th>Company</th><th className="text-right pr-4">Workers</th><th className="text-right pr-4">Hours</th></tr></thead>
+                      <thead>
+                        <tr>
+                          <th>Company</th>
+                          <th className="text-right pr-4">Workers</th>
+                          <th className="text-right pr-4">Hours</th>
+                        </tr>
+                      </thead>
                       <tbody>
                         {log.manpower.map((m, i) => (
-                          <tr key={i}><td>{m.company}</td><td className="num text-right pr-4">{m.workers}</td><td className="num text-right pr-4">{m.hours}</td></tr>
+                          <tr key={i}>
+                            <td>{m.company}</td>
+                            <td className="num text-right pr-4">{m.workers}</td>
+                            <td className="num text-right pr-4">{m.hours}</td>
+                          </tr>
                         ))}
-                        <tr><td className="font-display font-semibold">Total</td><td className="num text-right pr-4 font-semibold">{workers}</td><td className="num text-right pr-4 font-semibold">{hours}</td></tr>
+                        <tr>
+                          <td className="font-display font-semibold">Total</td>
+                          <td className="num text-right pr-4 font-semibold">{workers}</td>
+                          <td className="num text-right pr-4 font-semibold">{hours}</td>
+                        </tr>
                       </tbody>
                     </table>
                   </DataCard>
                   <DataCard title="Work Completed">
                     <ul className="px-5 py-4 space-y-2 text-sm">
                       {log.workCompleted.map((w, i) => (
-                        <li key={i} className="flex gap-2"><span className="text-blue">•</span><span>{w}</span></li>
+                        <li key={i} className="flex gap-2">
+                          <span className="text-blue">•</span>
+                          <span>{w}</span>
+                        </li>
                       ))}
                     </ul>
                   </DataCard>
                   <DataCard title="Deliveries">
                     {log.deliveries.length ? (
                       <table>
-                        <thead><tr><th>Item</th><th>Vendor</th></tr></thead>
+                        <thead>
+                          <tr>
+                            <th>Item</th>
+                            <th>Vendor</th>
+                          </tr>
+                        </thead>
                         <tbody>
                           {log.deliveries.map((d, i) => (
-                            <tr key={i}><td>{d.item}</td><td className="text-muted">{d.vendor}</td></tr>
+                            <tr key={i}>
+                              <td>{d.item}</td>
+                              <td className="text-muted">{d.vendor}</td>
+                            </tr>
                           ))}
                         </tbody>
                       </table>
-                    ) : <div className="px-5 py-4 text-muted text-sm">No deliveries recorded.</div>}
+                    ) : (
+                      <div className="px-5 py-4 text-muted text-sm">No deliveries recorded.</div>
+                    )}
                   </DataCard>
                   <DataCard title="Notes">
-                    <div className="px-5 py-4 text-sm">{log.notes || <span className="text-muted">—</span>}</div>
+                    <div className="px-5 py-4 text-sm">
+                      {log.notes || <span className="text-muted">—</span>}
+                    </div>
                   </DataCard>
                 </div>
               )}

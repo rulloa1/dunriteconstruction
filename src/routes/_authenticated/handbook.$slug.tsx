@@ -7,7 +7,10 @@ export const Route = createFileRoute("/_authenticated/handbook/$slug")({
   head: () => ({
     meta: [
       { title: "Handbook Viewer | DunRite Construction Group" },
-      { name: "description", content: "Read, print, or download a DunRite handbook document in-app." },
+      {
+        name: "description",
+        content: "Read, print, or download a DunRite handbook document in-app.",
+      },
       { name: "robots", content: "noindex" },
     ],
   }),
@@ -19,8 +22,12 @@ function NotFound() {
     <AppShell eyebrow="Handbook" title="Not found">
       <div className="card p-8 text-center">
         <div className="font-display text-lg font-semibold">Document not found</div>
-        <div className="text-muted text-sm mt-1">That document isn&apos;t in the handbook library.</div>
-        <Link to="/handbook" className="btn btn-primary mt-4 inline-flex">Back to Handbook</Link>
+        <div className="text-muted text-sm mt-1">
+          That document isn&apos;t in the handbook library.
+        </div>
+        <Link to="/handbook" className="btn btn-primary mt-4 inline-flex">
+          Back to Handbook
+        </Link>
       </div>
     </AppShell>
   );

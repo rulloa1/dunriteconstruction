@@ -18,7 +18,6 @@ import {
   Tooltip as RTooltip,
 } from "recharts";
 
-
 const jobsQO = () => queryOptions({ queryKey: ["jobs"], queryFn: () => getAllJobs() });
 
 export const Route = createFileRoute("/_authenticated/app/")({
@@ -26,7 +25,11 @@ export const Route = createFileRoute("/_authenticated/app/")({
     context.queryClient.ensureQueryData(jobsQO());
   },
   component: OverviewPage,
-  pendingComponent: () => <AppShell title="Overview"><LoadingBlock /></AppShell>,
+  pendingComponent: () => (
+    <AppShell title="Overview">
+      <LoadingBlock />
+    </AppShell>
+  ),
   errorComponent: ErrorBlock,
 });
 
@@ -75,7 +78,9 @@ function OverviewPage() {
           }}
         />
         <div className="relative h-full flex flex-col justify-end p-5 sm:p-6">
-          <div className="kbd-label" style={{ color: "var(--brand-gold)" }}>Dun Rite Construction Group</div>
+          <div className="kbd-label" style={{ color: "var(--brand-gold)" }}>
+            Dun Rite Construction Group
+          </div>
           <h2 className="font-display text-2xl sm:text-3xl font-semibold tracking-tight">
             Operations at a glance
           </h2>
@@ -93,10 +98,13 @@ function OverviewPage() {
         />
         <KpiCard label="Revenue (all)" value={fmtUSD(k.revenue)} tone="blue" />
         <KpiCard label="Total cost" value={fmtUSD(k.totalCost)} />
-        <KpiCard label="Blended margin" value={fmtPct(k.margin)} sub={`${k.activeJobs} active · ${k.closedJobs} closed`} />
+        <KpiCard
+          label="Blended margin"
+          value={fmtPct(k.margin)}
+          sub={`${k.activeJobs} active · ${k.closedJobs} closed`}
+        />
         <KpiCard label="Active jobs" value={k.activeJobs} sub="open work-in-place" />
       </section>
-
 
       <section className="mt-8">
         <div className="flex items-end justify-between mb-3">
@@ -104,7 +112,9 @@ function OverviewPage() {
             <div className="kbd-label">Top performing</div>
             <h2 className="font-display text-lg font-semibold">Jobs by gross profit</h2>
           </div>
-          <Link to="/app/jobs" className="text-blue text-sm font-ui hover:underline">All jobs →</Link>
+          <Link to="/app/jobs" className="text-blue text-sm font-ui hover:underline">
+            All jobs →
+          </Link>
         </div>
         {topJobs.length === 0 ? (
           <EmptyJobs />
@@ -119,10 +129,16 @@ function OverviewPage() {
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
-                    <div className="kbd-label">{job.client} · {job.county} Co.</div>
-                    <div className="font-display text-base font-semibold mt-1 truncate">{job.name}</div>
+                    <div className="kbd-label">
+                      {job.client} · {job.county} Co.
+                    </div>
+                    <div className="font-display text-base font-semibold mt-1 truncate">
+                      {job.name}
+                    </div>
                   </div>
-                  <span className={`pill ${job.status === "active" ? "pill-active" : "pill-closed"}`}>
+                  <span
+                    className={`pill ${job.status === "active" ? "pill-active" : "pill-closed"}`}
+                  >
                     {job.status}
                   </span>
                 </div>
@@ -133,11 +149,15 @@ function OverviewPage() {
                   </div>
                   <div>
                     <div className="kbd-label">GP</div>
-                    <div className={`font-display font-semibold ${marginTone(t.margin)}`}>{fmtUSD(t.grossProfit)}</div>
+                    <div className={`font-display font-semibold ${marginTone(t.margin)}`}>
+                      {fmtUSD(t.grossProfit)}
+                    </div>
                   </div>
                   <div>
                     <div className="kbd-label">Margin</div>
-                    <div className={`font-display font-semibold ${marginTone(t.margin)}`}>{fmtPct(t.margin)}</div>
+                    <div className={`font-display font-semibold ${marginTone(t.margin)}`}>
+                      {fmtPct(t.margin)}
+                    </div>
                   </div>
                 </div>
               </Link>
@@ -156,11 +176,7 @@ function OverviewPage() {
                   margin={{ top: 4, right: 24, bottom: 4, left: 8 }}
                   barCategoryGap={10}
                 >
-                  <XAxis
-                    type="number"
-                    hide
-                    domain={[0, "dataMax"]}
-                  />
+                  <XAxis type="number" hide domain={[0, "dataMax"]} />
                   <YAxis
                     type="category"
                     dataKey="name"
@@ -194,8 +210,8 @@ function OverviewPage() {
                           i === 0
                             ? "var(--brand-blue-bright)"
                             : i === 1
-                            ? "var(--brand-blue)"
-                            : "var(--brand-blue-deep)"
+                              ? "var(--brand-blue)"
+                              : "var(--brand-blue-deep)"
                         }
                       />
                     ))}
@@ -207,6 +223,5 @@ function OverviewPage() {
         )}
       </section>
     </AppShell>
-
   );
 }

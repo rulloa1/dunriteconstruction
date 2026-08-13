@@ -98,7 +98,18 @@ export function jobTotals(job: Job): JobTotals {
   const totalCost = labor + materials + subs + equipment;
   const grossProfit = revenue - totalCost;
   const margin = revenue > 0 ? grossProfit / revenue : 0;
-  return { revenue, contract, changeOrders, labor, materials, subs, equipment, totalCost, grossProfit, margin };
+  return {
+    revenue,
+    contract,
+    changeOrders,
+    labor,
+    materials,
+    subs,
+    equipment,
+    totalCost,
+    grossProfit,
+    margin,
+  };
 }
 
 export interface PortfolioKPIs {
@@ -152,7 +163,8 @@ export function periodSummary(args: {
   const jobsRevenue = sum(totals.map((t) => t.revenue));
   const jobsCost = sum(totals.map((t) => t.totalCost));
   const jobsGrossProfit = jobsRevenue - jobsCost;
-  const inMonth = (period: string) => period >= args.from.slice(0, 7) && period <= args.to.slice(0, 7);
+  const inMonth = (period: string) =>
+    period >= args.from.slice(0, 7) && period <= args.to.slice(0, 7);
   const overhead = sum(args.overhead.filter((o) => inMonth(o.period)).map((o) => o.amount));
   const ownerDraws = sum(args.draws.filter((d) => inMonth(d.period)).map((d) => d.amount));
   return {

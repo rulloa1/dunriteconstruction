@@ -1,6 +1,22 @@
 import { useState, type ReactNode } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Loader2 } from "lucide-react";
 
 export type FieldKind = "text" | "number" | "date" | "month" | "select";
@@ -18,7 +34,15 @@ export interface Field {
 }
 
 export function FormDialog({
-  open, onOpenChange, title, description, fields, initial, submitting, onSubmit, submitLabel = "Save",
+  open,
+  onOpenChange,
+  title,
+  description,
+  fields,
+  initial,
+  submitting,
+  onSubmit,
+  submitLabel = "Save",
 }: {
   open: boolean;
   onOpenChange: (v: boolean) => void;
@@ -35,7 +59,10 @@ export function FormDialog({
 
   // Reset when reopened
   function handleOpenChange(v: boolean) {
-    if (v) { setValues(initial); setErrors({}); }
+    if (v) {
+      setValues(initial);
+      setErrors({});
+    }
     onOpenChange(v);
   }
 
@@ -44,11 +71,14 @@ export function FormDialog({
     for (const f of fields) {
       if (f.showWhen && !f.showWhen(values)) continue;
       const raw = (values[f.name] ?? "").trim();
-      if (f.required && !raw) { errs[f.name] = "Required"; continue; }
+      if (f.required && !raw) {
+        errs[f.name] = "Required";
+        continue;
+      }
       if (f.kind === "number" && raw !== "") {
         const n = Number(raw);
         if (!Number.isFinite(n)) errs[f.name] = "Must be a number";
-        else if ((f.min ?? 0) !== undefined && n < (f.min ?? 0)) errs[f.name] = `Must be ≥ ${f.min ?? 0}`;
+        else if (f.min !== undefined && n < f.min) errs[f.name] = `Must be ≥ ${f.min}`;
       }
       if (f.kind === "date" && raw !== "" && Number.isNaN(Date.parse(raw))) {
         errs[f.name] = "Invalid date";
@@ -73,19 +103,33 @@ export function FormDialog({
       <DialogContent className="app-shell !bg-[var(--bg-elev)] !border-[var(--border-soft)] !text-[var(--fg)] sm:max-w-lg max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="font-display">{title}</DialogTitle>
-          {description && <DialogDescription className="text-dim font-ui text-xs">{description}</DialogDescription>}
+          {description && (
+            <DialogDescription className="text-dim font-ui text-xs">
+              {description}
+            </DialogDescription>
+          )}
         </DialogHeader>
         <form onSubmit={submit} className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
           {fields.map((f) => {
             if (f.showWhen && !f.showWhen(values)) return null;
             const err = errors[f.name];
             return (
-              <FieldRow key={f.name} field={f} value={values[f.name] ?? ""} error={err}
-                onChange={(v) => setValues((s) => ({ ...s, [f.name]: v }))} />
+              <FieldRow
+                key={f.name}
+                field={f}
+                value={values[f.name] ?? ""}
+                error={err}
+                onChange={(v) => setValues((s) => ({ ...s, [f.name]: v }))}
+              />
             );
           })}
           <DialogFooter className="sm:col-span-2 mt-2 gap-2">
-            <button type="button" onClick={() => onOpenChange(false)} className="btn focus-ring" disabled={submitting}>
+            <button
+              type="button"
+              onClick={() => onOpenChange(false)}
+              className="btn focus-ring"
+              disabled={submitting}
+            >
               Cancel
             </button>
             <button type="submit" disabled={submitting} className="btn btn-primary focus-ring">
@@ -98,8 +142,16 @@ export function FormDialog({
   );
 }
 
-function FieldRow({ field, value, error, onChange }: {
-  field: Field; value: string; error?: string; onChange: (v: string) => void;
+function FieldRow({
+  field,
+  value,
+  error,
+  onChange,
+}: {
+  field: Field;
+  value: string;
+  error?: string;
+  onChange: (v: string) => void;
 }) {
   const base = "w-full px-3 py-2 rounded-lg focus-ring font-ui text-sm";
   const style = {
@@ -110,32 +162,61 @@ function FieldRow({ field, value, error, onChange }: {
   return (
     <label className={`flex flex-col gap-1.5 ${field.full ? "sm:col-span-2" : ""}`}>
       <span className="kbd-label">
-        {field.label}{field.required && <span className="text-gold"> *</span>}
+        {field.label}
+        {field.required && <span className="text-gold"> *</span>}
       </span>
       {field.kind === "select" ? (
-        <select className={base} style={style} value={value} onChange={(e) => onChange(e.target.value)}>
+        <select
+          className={base}
+          style={style}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+        >
           {!field.required && <option value="">—</option>}
-          {field.options?.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+          {field.options?.map((o) => (
+            <option key={o.value} value={o.value}>
+              {o.label}
+            </option>
+          ))}
         </select>
       ) : (
         <input
           className={base}
           style={style}
-          type={field.kind === "number" ? "number" : field.kind === "date" ? "date" : field.kind === "month" ? "month" : "text"}
+          type={
+            field.kind === "number"
+              ? "number"
+              : field.kind === "date"
+                ? "date"
+                : field.kind === "month"
+                  ? "month"
+                  : "text"
+          }
           step={field.kind === "number" ? (field.step ?? "0.01") : undefined}
-          min={field.kind === "number" ? field.min ?? 0 : undefined}
+          min={field.kind === "number" ? (field.min ?? 0) : undefined}
           placeholder={field.placeholder}
           value={value}
           onChange={(e) => onChange(e.target.value)}
         />
       )}
-      {error && <span className="text-xs" style={{ color: "var(--negative, #b04848)" }}>{error}</span>}
+      {error && (
+        <span className="text-xs" style={{ color: "var(--negative, #b04848)" }}>
+          {error}
+        </span>
+      )}
     </label>
   );
 }
 
 export function ConfirmDialog({
-  open, onOpenChange, title, description, confirmLabel = "Delete", destructive = true, onConfirm, busy,
+  open,
+  onOpenChange,
+  title,
+  description,
+  confirmLabel = "Delete",
+  destructive = true,
+  onConfirm,
+  busy,
 }: {
   open: boolean;
   onOpenChange: (v: boolean) => void;
@@ -151,15 +232,24 @@ export function ConfirmDialog({
       <AlertDialogContent className="app-shell !bg-[var(--bg-elev)] !border-[var(--border-soft)] !text-[var(--fg)]">
         <AlertDialogHeader>
           <AlertDialogTitle className="font-display">{title}</AlertDialogTitle>
-          <AlertDialogDescription className="text-dim font-ui text-sm">{description}</AlertDialogDescription>
+          <AlertDialogDescription className="text-dim font-ui text-sm">
+            {description}
+          </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel className="btn focus-ring">Cancel</AlertDialogCancel>
           <AlertDialogAction
             disabled={busy}
-            onClick={async (e) => { e.preventDefault(); await onConfirm(); }}
+            onClick={async (e) => {
+              e.preventDefault();
+              await onConfirm();
+            }}
             className="btn focus-ring"
-            style={destructive ? { background: "#7a2e2e", borderColor: "#a04040", color: "white" } : undefined}
+            style={
+              destructive
+                ? { background: "#7a2e2e", borderColor: "#a04040", color: "white" }
+                : undefined
+            }
           >
             {busy && <Loader2 size={14} className="animate-spin" />} {confirmLabel}
           </AlertDialogAction>
@@ -170,4 +260,6 @@ export function ConfirmDialog({
 }
 
 export const newId = () =>
-  (typeof crypto !== "undefined" && "randomUUID" in crypto) ? crypto.randomUUID() : `id-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+  typeof crypto !== "undefined" && "randomUUID" in crypto
+    ? crypto.randomUUID()
+    : `id-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;

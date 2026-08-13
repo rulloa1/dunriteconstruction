@@ -8,10 +8,7 @@ import authBg from "@/assets/auth-bg.png.asset.json";
 export const Route = createFileRoute("/auth")({
   ssr: false,
   head: () => ({
-    meta: [
-      { title: "Sign in — Dun Rite OS" },
-      { name: "robots", content: "noindex" },
-    ],
+    meta: [{ title: "Sign in — Dun Rite OS" }, { name: "robots", content: "noindex" }],
   }),
   component: AuthPage,
 });
@@ -64,10 +61,7 @@ function AuthPage() {
       <div className="auth-frame">
         {/* LEFT — brand / context panel */}
         <aside className="auth-brand-panel" aria-hidden="true">
-          <div
-            className="auth-brand-image"
-            style={{ backgroundImage: `url(${authBg.url})` }}
-          />
+          <div className="auth-brand-image" style={{ backgroundImage: `url(${authBg.url})` }} />
           <div className="auth-brand-scrim" />
           <div className="auth-brand-grid" />
 
@@ -85,9 +79,7 @@ function AuthPage() {
               DUN<span className="accent">·</span>RITE
             </div>
             <div className="auth-brand-rule" />
-            <div className="auth-brand-sub kbd-label">
-              Operations Management Portal
-            </div>
+            <div className="auth-brand-sub kbd-label">Operations Management Portal</div>
 
             <div className="auth-brand-stats">
               <Stat label="Active jobs" value="12" />
@@ -95,9 +87,7 @@ function AuthPage() {
               <Stat label="Uptime" value="99.9" />
             </div>
 
-            <div className="auth-brand-footline kbd-label">
-              Authorized personnel only · v4.2
-            </div>
+            <div className="auth-brand-footline kbd-label">Authorized personnel only · v4.2</div>
           </div>
         </aside>
 
@@ -107,9 +97,7 @@ function AuthPage() {
             <header className="auth-card-head">
               <div className="kbd-label auth-eyebrow">DUN RITE OS</div>
               <h1 className="font-display auth-title">Operator sign-in</h1>
-              <p className="auth-lede">
-                Secure access for construction personnel only.
-              </p>
+              <p className="auth-lede">Secure access for construction personnel only.</p>
             </header>
 
             <div className="auth-notice">
@@ -179,11 +167,7 @@ function AuthPage() {
                 </div>
               )}
 
-              <button
-                type="submit"
-                disabled={busy}
-                className="auth-submit focus-ring"
-              >
+              <button type="submit" disabled={busy} className="auth-submit focus-ring">
                 {busy ? (
                   <>
                     <Loader2 size={16} className="animate-spin" /> Initializing…
@@ -457,8 +441,16 @@ function AuthPage() {
 }
 
 function Field({
-  label, htmlFor, aside, children,
-}: { label: string; htmlFor: string; aside?: React.ReactNode; children: React.ReactNode }) {
+  label,
+  htmlFor,
+  aside,
+  children,
+}: {
+  label: string;
+  htmlFor: string;
+  aside?: React.ReactNode;
+  children: React.ReactNode;
+}) {
   return (
     <div style={{ display: "grid", gap: 6 }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
@@ -484,7 +476,10 @@ function Field({
 function Stat({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <div className="font-display" style={{ fontSize: 24, fontWeight: 700, color: "#5B9FCC", lineHeight: 1 }}>
+      <div
+        className="font-display"
+        style={{ fontSize: 24, fontWeight: 700, color: "#5B9FCC", lineHeight: 1 }}
+      >
         {value}
       </div>
       <div

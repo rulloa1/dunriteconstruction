@@ -21,8 +21,13 @@ export interface Inspection {
 
 export const INSPECTIONS: Inspection[] = [
   {
-    id: "i1", number: "INSP-001", title: "Footing Inspection — South Wing", type: "Footing",
-    date: "2025-05-12", inspector: "Flagler County — R. Ostrow", location: "South Wing Foundations",
+    id: "i1",
+    number: "INSP-001",
+    title: "Footing Inspection — South Wing",
+    type: "Footing",
+    date: "2025-05-12",
+    inspector: "Flagler County — R. Ostrow",
+    location: "South Wing Foundations",
     status: "passed",
     checklist: [
       { item: "Excavation depth meets plans", result: "pass" },
@@ -32,8 +37,13 @@ export const INSPECTIONS: Inspection[] = [
     ],
   },
   {
-    id: "i2", number: "INSP-002", title: "Slab on Grade — Main Floor", type: "Slab",
-    date: "2025-07-22", inspector: "Flagler County — R. Ostrow", location: "Main Pad",
+    id: "i2",
+    number: "INSP-002",
+    title: "Slab on Grade — Main Floor",
+    type: "Slab",
+    date: "2025-07-22",
+    inspector: "Flagler County — R. Ostrow",
+    location: "Main Pad",
     status: "passed",
     checklist: [
       { item: "Vapor barrier continuous & sealed", result: "pass" },
@@ -43,8 +53,13 @@ export const INSPECTIONS: Inspection[] = [
     ],
   },
   {
-    id: "i3", number: "INSP-003", title: "Framing Inspection — Level 1", type: "Framing",
-    date: "2025-09-30", inspector: "Flagler County — K. Sayers", location: "Level 1, South Wing",
+    id: "i3",
+    number: "INSP-003",
+    title: "Framing Inspection — Level 1",
+    type: "Framing",
+    date: "2025-09-30",
+    inspector: "Flagler County — K. Sayers",
+    location: "Level 1, South Wing",
     status: "passed",
     checklist: [
       { item: "Stud spacing per plan", result: "pass" },
@@ -54,20 +69,38 @@ export const INSPECTIONS: Inspection[] = [
     ],
   },
   {
-    id: "i4", number: "INSP-004", title: "Electrical Rough-In — Level 1", type: "Electrical Rough-In",
-    date: "2025-12-05", inspector: "Flagler County — D. Markham", location: "Level 1",
+    id: "i4",
+    number: "INSP-004",
+    title: "Electrical Rough-In — Level 1",
+    type: "Electrical Rough-In",
+    date: "2025-12-05",
+    inspector: "Flagler County — D. Markham",
+    location: "Level 1",
     status: "failed",
     checklist: [
       { item: "Box fill calculations", result: "pass" },
-      { item: "AFCI / GFCI per code", result: "fail", note: "Counter circuits in catering pantry missing AFCI." },
+      {
+        item: "AFCI / GFCI per code",
+        result: "fail",
+        note: "Counter circuits in catering pantry missing AFCI.",
+      },
       { item: "Grounding & bonding", result: "pass" },
-      { item: "Cable support spacing", result: "fail", note: "NM staples missing within 8\" of box at 4 locations." },
+      {
+        item: "Cable support spacing",
+        result: "fail",
+        note: 'NM staples missing within 8" of box at 4 locations.',
+      },
       { item: "Panel directory complete", result: "na" },
     ],
   },
   {
-    id: "i5", number: "INSP-005", title: "Electrical Rough-In — Re-Inspection", type: "Electrical Rough-In",
-    date: "2025-12-15", inspector: "Flagler County — D. Markham", location: "Level 1",
+    id: "i5",
+    number: "INSP-005",
+    title: "Electrical Rough-In — Re-Inspection",
+    type: "Electrical Rough-In",
+    date: "2025-12-15",
+    inspector: "Flagler County — D. Markham",
+    location: "Level 1",
     status: "passed",
     checklist: [
       { item: "AFCI installed on pantry counter circuits", result: "pass" },
@@ -76,8 +109,13 @@ export const INSPECTIONS: Inspection[] = [
     ],
   },
   {
-    id: "i6", number: "INSP-006", title: "Plumbing Rough-In — Level 1", type: "Plumbing Rough-In",
-    date: "2025-12-08", inspector: "Flagler County — R. Ostrow", location: "Level 1",
+    id: "i6",
+    number: "INSP-006",
+    title: "Plumbing Rough-In — Level 1",
+    type: "Plumbing Rough-In",
+    date: "2025-12-08",
+    inspector: "Flagler County — R. Ostrow",
+    location: "Level 1",
     status: "passed",
     checklist: [
       { item: "DWV slope & supports", result: "pass" },
@@ -87,8 +125,13 @@ export const INSPECTIONS: Inspection[] = [
     ],
   },
   {
-    id: "i7", number: "INSP-007", title: "Above-Ceiling Inspection — Corridor 1A", type: "Above-Ceiling",
-    date: "2026-03-18", inspector: "Flagler County — K. Sayers", location: "Corridor 1A",
+    id: "i7",
+    number: "INSP-007",
+    title: "Above-Ceiling Inspection — Corridor 1A",
+    type: "Above-Ceiling",
+    date: "2026-03-18",
+    inspector: "Flagler County — K. Sayers",
+    location: "Corridor 1A",
     status: "passed",
     checklist: [
       { item: "Fire-rated penetrations sealed", result: "pass" },
@@ -98,8 +141,13 @@ export const INSPECTIONS: Inspection[] = [
     ],
   },
   {
-    id: "i8", number: "INSP-008", title: "Final Building Inspection", type: "Final",
-    date: "2026-09-18", inspector: "Flagler County — TBD", location: "Whole Building",
+    id: "i8",
+    number: "INSP-008",
+    title: "Final Building Inspection",
+    type: "Final",
+    date: "2026-09-18",
+    inspector: "Flagler County — TBD",
+    location: "Whole Building",
     status: "scheduled",
     checklist: [
       { item: "Egress and exit signage", result: "na" },
@@ -122,4 +170,8 @@ export const passRate = () => {
 };
 
 export const formatInspDate = (iso: string) =>
-  new Date(iso + "T12:00:00").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+  new Date(iso + "T12:00:00").toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });

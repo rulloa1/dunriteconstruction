@@ -6,10 +6,7 @@ import { FileText } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/app/documents/")({
   head: () => ({
-    meta: [
-      { title: "Documents — Dun Rite OS" },
-      { name: "robots", content: "noindex" },
-    ],
+    meta: [{ title: "Documents — Dun Rite OS" }, { name: "robots", content: "noindex" }],
   }),
   component: DocumentsIndex,
 });
@@ -42,7 +39,8 @@ function DocumentsIndex() {
                       <div
                         className="shrink-0 grid place-items-center rounded-lg"
                         style={{
-                          width: 36, height: 36,
+                          width: 36,
+                          height: 36,
                           background: "color-mix(in oklch, var(--brand-blue) 14%, transparent)",
                           color: "var(--brand-blue)",
                         }}

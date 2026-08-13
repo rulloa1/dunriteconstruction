@@ -15,18 +15,29 @@ import { ChevronDown, ChevronRight, Check, X, Minus } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/app/inspections")({
   head: () => ({
-    meta: [
-      { title: "Inspections — Dun Rite OS" },
-      { name: "robots", content: "noindex" },
-    ],
+    meta: [{ title: "Inspections — Dun Rite OS" }, { name: "robots", content: "noindex" }],
   }),
   component: InspectionsPage,
 });
 
 function resultGlyph(r: ChecklistResult) {
-  if (r === "pass") return <span className="text-positive flex items-center gap-1"><Check size={14} /> Pass</span>;
-  if (r === "fail") return <span className="text-negative flex items-center gap-1"><X size={14} /> Fail</span>;
-  return <span className="text-muted flex items-center gap-1"><Minus size={14} /> N/A</span>;
+  if (r === "pass")
+    return (
+      <span className="text-positive flex items-center gap-1">
+        <Check size={14} /> Pass
+      </span>
+    );
+  if (r === "fail")
+    return (
+      <span className="text-negative flex items-center gap-1">
+        <X size={14} /> Fail
+      </span>
+    );
+  return (
+    <span className="text-muted flex items-center gap-1">
+      <Minus size={14} /> N/A
+    </span>
+  );
 }
 
 function InspectionsPage() {
@@ -51,7 +62,16 @@ function InspectionsPage() {
       <DataCard title="All Inspections">
         <table>
           <thead>
-            <tr><th>#</th><th>Title</th><th>Type</th><th>Date</th><th>Inspector</th><th>Location</th><th>Status</th><th></th></tr>
+            <tr>
+              <th>#</th>
+              <th>Title</th>
+              <th>Type</th>
+              <th>Date</th>
+              <th>Inspector</th>
+              <th>Location</th>
+              <th>Status</th>
+              <th></th>
+            </tr>
           </thead>
           <tbody>
             {sorted.map((insp) => {
@@ -60,13 +80,19 @@ function InspectionsPage() {
                 <Fragment key={insp.id}>
                   <tr onClick={() => setOpenId(open ? null : insp.id)}>
                     <td className="num text-muted">{insp.number}</td>
-                    <td><div className="font-display font-semibold">{insp.title}</div></td>
+                    <td>
+                      <div className="font-display font-semibold">{insp.title}</div>
+                    </td>
                     <td className="text-muted">{insp.type}</td>
                     <td className="num">{formatInspDate(insp.date)}</td>
                     <td className="text-muted">{insp.inspector}</td>
                     <td className="text-muted">{insp.location}</td>
-                    <td><StatusBadge status={insp.status} /></td>
-                    <td className="text-muted">{open ? <ChevronDown size={16} /> : <ChevronRight size={16} />}</td>
+                    <td>
+                      <StatusBadge status={insp.status} />
+                    </td>
+                    <td className="text-muted">
+                      {open ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
+                    </td>
                   </tr>
                   {open && (
                     <tr>
@@ -75,11 +101,20 @@ function InspectionsPage() {
                           <div className="kbd-label mb-2">Checklist</div>
                           <div className="grid gap-2">
                             {insp.checklist.map((row, i) => (
-                              <div key={i} className="flex items-start gap-3 rounded-lg p-3" style={{ background: "var(--bg-card)", border: "1px solid var(--border-soft)" }}>
+                              <div
+                                key={i}
+                                className="flex items-start gap-3 rounded-lg p-3"
+                                style={{
+                                  background: "var(--bg-card)",
+                                  border: "1px solid var(--border-soft)",
+                                }}
+                              >
                                 <div className="w-20 shrink-0">{resultGlyph(row.result)}</div>
                                 <div className="min-w-0 flex-1">
                                   <div className="text-sm">{row.item}</div>
-                                  {row.note && <div className="text-dim text-xs mt-1">{row.note}</div>}
+                                  {row.note && (
+                                    <div className="text-dim text-xs mt-1">{row.note}</div>
+                                  )}
                                 </div>
                               </div>
                             ))}

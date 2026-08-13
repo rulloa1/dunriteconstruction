@@ -5,8 +5,15 @@ export interface WeatherInfo {
   tempLow: number;
   precipitation: number; // inches
 }
-export interface ManpowerRow { company: string; workers: number; hours: number; }
-export interface DeliveryRow { item: string; vendor: string; }
+export interface ManpowerRow {
+  company: string;
+  workers: number;
+  hours: number;
+}
+export interface DeliveryRow {
+  item: string;
+  vendor: string;
+}
 export interface DailyLog {
   id: string;
   date: string; // ISO
@@ -164,17 +171,19 @@ export const DAILY_LOGS: DailyLog[] = [
 export const totalLogs = () => DAILY_LOGS.length;
 export const totalManHours = () =>
   DAILY_LOGS.reduce((s, l) => s + l.manpower.reduce((a, m) => a + m.hours, 0), 0);
-export const totalWorkers = (log: DailyLog) =>
-  log.manpower.reduce((a, m) => a + m.workers, 0);
-export const totalHours = (log: DailyLog) =>
-  log.manpower.reduce((a, m) => a + m.hours, 0);
+export const totalWorkers = (log: DailyLog) => log.manpower.reduce((a, m) => a + m.workers, 0);
+export const totalHours = (log: DailyLog) => log.manpower.reduce((a, m) => a + m.hours, 0);
 export const avgCrewSize = () => {
   if (!DAILY_LOGS.length) return 0;
   const tot = DAILY_LOGS.reduce((s, l) => s + totalWorkers(l), 0);
   return Math.round((tot / DAILY_LOGS.length) * 10) / 10;
 };
-export const totalDeliveries = () =>
-  DAILY_LOGS.reduce((s, l) => s + l.deliveries.length, 0);
+export const totalDeliveries = () => DAILY_LOGS.reduce((s, l) => s + l.deliveries.length, 0);
 
 export const formatLogDate = (iso: string) =>
-  new Date(iso + "T12:00:00").toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", year: "numeric" });
+  new Date(iso + "T12:00:00").toLocaleDateString("en-US", {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });

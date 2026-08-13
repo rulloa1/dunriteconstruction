@@ -85,11 +85,12 @@ export function QuoteForm() {
   if (status === "success") {
     return (
       <div className="qf-success" role="status" aria-live="polite">
-        <div className="qf-check" aria-hidden>✓</div>
+        <div className="qf-check" aria-hidden>
+          ✓
+        </div>
         <h3>Thanks — we'll be in touch within one business day.</h3>
         <p>
-          Prefer to talk now?{" "}
-          <a href="tel:3525884050">Call (352) 588-4050</a>.
+          Prefer to talk now? <a href="tel:3525884050">Call (352) 588-4050</a>.
         </p>
       </div>
     );

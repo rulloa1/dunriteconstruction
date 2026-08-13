@@ -15,7 +15,12 @@ import {
 const LOGO_URL = "/uploads/Dunrite-Logo_invert-e1758651959544.png";
 
 function slug(s: string) {
-  return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "job";
+  return (
+    s
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "") || "job"
+  );
 }
 function today() {
   return new Date().toISOString().slice(0, 10);
@@ -40,11 +45,14 @@ function downloadBlob(blob: Blob, filename: string) {
 }
 
 function groupBy<T, K extends string>(items: T[], key: (t: T) => K): Record<K, T[]> {
-  return items.reduce((acc, item) => {
-    const k = key(item);
-    (acc[k] ||= []).push(item);
-    return acc;
-  }, {} as Record<K, T[]>);
+  return items.reduce(
+    (acc, item) => {
+      const k = key(item);
+      (acc[k] ||= []).push(item);
+      return acc;
+    },
+    {} as Record<K, T[]>,
+  );
 }
 
 // ────────────────────────────────────────────────────────────── CSV
@@ -91,7 +99,15 @@ export function exportJobCSV(job: Job) {
   rows.push([]);
 
   for (const e of job.equipment) {
-    rows.push(["Equipment", e.machine, e.category, "", n2(e.days), n2(e.dayRate), n2(e.days * e.dayRate)]);
+    rows.push([
+      "Equipment",
+      e.machine,
+      e.category,
+      "",
+      n2(e.days),
+      n2(e.dayRate),
+      n2(e.days * e.dayRate),
+    ]);
   }
   rows.push(["Equipment", "Subtotal", "", "", "", "", n2(t.equipment)]);
   rows.push([]);
@@ -102,7 +118,10 @@ export function exportJobCSV(job: Job) {
   rows.push(["Reconciliation", "Margin", "", "", "", "", `${(t.margin * 100).toFixed(2)}%`]);
 
   const csv = rows.map((r) => r.map(csvCell).join(",")).join("\n");
-  downloadBlob(new Blob([csv], { type: "text/csv;charset=utf-8" }), `DunRite_PnL_${slug(job.name)}_${today()}.csv`);
+  downloadBlob(
+    new Blob([csv], { type: "text/csv;charset=utf-8" }),
+    `DunRite_PnL_${slug(job.name)}_${today()}.csv`,
+  );
 }
 
 // ────────────────────────────────────────────────────────────── PDF
@@ -124,10 +143,7 @@ async function loadLogoDataURL(): Promise<string | null> {
 }
 
 export async function exportJobPDF(job: Job) {
-  const [{ jsPDF }, autoTableMod] = await Promise.all([
-    import("jspdf"),
-    import("jspdf-autotable"),
-  ]);
+  const [{ jsPDF }, autoTableMod] = await Promise.all([import("jspdf"), import("jspdf-autotable")]);
   const autoTable = (autoTableMod as { default: (doc: unknown, opts: unknown) => void }).default;
 
   const t = jobTotals(job);
@@ -187,7 +203,9 @@ export async function exportJobPDF(job: Job) {
     `Status: ${job.status}`,
     `Started ${job.startDate}`,
     job.closedDate ? `Closed ${job.closedDate}` : null,
-  ].filter(Boolean).join("  ·  ");
+  ]
+    .filter(Boolean)
+    .join("  ·  ");
   doc.text(headerLine, margin, y);
   y += 18;
 
@@ -213,10 +231,19 @@ export async function exportJobPDF(job: Job) {
   }
 
   function drawTable(head: string[], body: Row[], subtotal: number, subtotalLabel = "Subtotal") {
-    const foot: Row[] = [[
-      { content: subtotalLabel, colSpan: head.length - 1, styles: { halign: "right", fontStyle: "bold" } } as unknown as string,
-      { content: usd(subtotal), styles: { halign: "right", fontStyle: "bold", textColor: INK } } as unknown as string,
-    ]];
+    const foot: Row[] = [
+      [
+        {
+          content: subtotalLabel,
+          colSpan: head.length - 1,
+          styles: { halign: "right", fontStyle: "bold" },
+        } as unknown as string,
+        {
+          content: usd(subtotal),
+          styles: { halign: "right", fontStyle: "bold", textColor: INK },
+        } as unknown as string,
+      ],
+    ];
     autoTable(doc, {
       ...tableStyles,
       startY: y,
@@ -241,14 +268,26 @@ export async function exportJobPDF(job: Job) {
   // ── Labor
   if (job.labor.length) {
     sectionTitle("Labor");
-    const body: Row[] = job.labor.map((l) => [l.worker, l.role, l.hours, usd(l.rate), usd(l.hours * l.rate)]);
+    const body: Row[] = job.labor.map((l) => [
+      l.worker,
+      l.role,
+      l.hours,
+      usd(l.rate),
+      usd(l.hours * l.rate),
+    ]);
     drawTable(["Worker", "Role", "Hours", "Rate", "Amount"], body, laborTotal(job.labor));
   }
 
   // ── Materials
   if (job.materials.length) {
     sectionTitle("Materials");
-    const body: Row[] = job.materials.map((m) => [m.item, m.unit, m.qty, usd(m.unitCost), usd(m.qty * m.unitCost)]);
+    const body: Row[] = job.materials.map((m) => [
+      m.item,
+      m.unit,
+      m.qty,
+      usd(m.unitCost),
+      usd(m.qty * m.unitCost),
+    ]);
     drawTable(["Item", "Unit", "Qty", "Unit cost", "Amount"], body, materialsTotal(job.materials));
   }
 
@@ -260,8 +299,15 @@ export async function exportJobPDF(job: Job) {
     for (const [trade, lines] of Object.entries(grouped)) {
       const tradeSubtotal = sum(lines.map((l) => l.amount));
       body.push([
-        { content: `${trade} — subtotal`, colSpan: 2, styles: { fontStyle: "bold", fillColor: [240, 244, 249] } } as unknown as string,
-        { content: usd(tradeSubtotal), styles: { halign: "right", fontStyle: "bold", fillColor: [240, 244, 249] } } as unknown as string,
+        {
+          content: `${trade} — subtotal`,
+          colSpan: 2,
+          styles: { fontStyle: "bold", fillColor: [240, 244, 249] },
+        } as unknown as string,
+        {
+          content: usd(tradeSubtotal),
+          styles: { halign: "right", fontStyle: "bold", fillColor: [240, 244, 249] },
+        } as unknown as string,
       ]);
       for (const s of lines) body.push([s.vendor, s.trade, usd(s.amount)]);
     }
@@ -276,12 +322,24 @@ export async function exportJobPDF(job: Job) {
     for (const [cat, lines] of Object.entries(grouped)) {
       const catSubtotal = sum(lines.map((l) => l.days * l.dayRate));
       body.push([
-        { content: `${cat} — subtotal`, colSpan: 4, styles: { fontStyle: "bold", fillColor: [240, 244, 249] } } as unknown as string,
-        { content: usd(catSubtotal), styles: { halign: "right", fontStyle: "bold", fillColor: [240, 244, 249] } } as unknown as string,
+        {
+          content: `${cat} — subtotal`,
+          colSpan: 4,
+          styles: { fontStyle: "bold", fillColor: [240, 244, 249] },
+        } as unknown as string,
+        {
+          content: usd(catSubtotal),
+          styles: { halign: "right", fontStyle: "bold", fillColor: [240, 244, 249] },
+        } as unknown as string,
       ]);
-      for (const e of lines) body.push([e.machine, e.category, e.days, usd(e.dayRate), usd(e.days * e.dayRate)]);
+      for (const e of lines)
+        body.push([e.machine, e.category, e.days, usd(e.dayRate), usd(e.days * e.dayRate)]);
     }
-    drawTable(["Machine", "Category", "Days", "Day rate", "Amount"], body, equipmentTotal(job.equipment));
+    drawTable(
+      ["Machine", "Category", "Days", "Day rate", "Amount"],
+      body,
+      equipmentTotal(job.equipment),
+    );
   }
 
   // ── Reconciliation box
@@ -306,7 +364,13 @@ export async function exportJobPDF(job: Job) {
 
   const colW = boxW / 4;
   const cellY = boxY + 44;
-  const drawCell = (i: number, label: string, value: string, color: [number, number, number], big = false) => {
+  const drawCell = (
+    i: number,
+    label: string,
+    value: string,
+    color: [number, number, number],
+    big = false,
+  ) => {
     const cx = boxX + colW * i + 12;
     doc.setFont("helvetica", "normal");
     doc.setFontSize(9);
@@ -327,12 +391,9 @@ export async function exportJobPDF(job: Job) {
   doc.setFont("helvetica", "normal");
   doc.setFontSize(8);
   doc.setTextColor(...MUTED);
-  doc.text(
-    `Dun Rite Construction Group  ·  Generated ${today()}`,
-    pageW / 2,
-    pageH - 20,
-    { align: "center" },
-  );
+  doc.text(`Dun Rite Construction Group  ·  Generated ${today()}`, pageW / 2, pageH - 20, {
+    align: "center",
+  });
 
   doc.save(`DunRite_PnL_${slug(job.name)}_${today()}.pdf`);
 }

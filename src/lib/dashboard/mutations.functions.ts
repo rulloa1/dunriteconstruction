@@ -3,9 +3,34 @@ import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
+type DashboardTable =
+  | "change_orders"
+  | "labor_lines"
+  | "material_lines"
+  | "sub_lines"
+  | "equipment_lines"
+  | "overhead"
+  | "owner_draws";
+
+type MutationResult = Promise<{ error: { message: string } | null }>;
+
+type DynamicDashboardSupabase = {
+  from: (table: DashboardTable) => {
+    upsert: (row: Record<string, unknown>) => MutationResult;
+    delete: () => { eq: (column: string, value: string) => MutationResult };
+  };
+};
+
 const Status = z.enum(["active", "closed"]);
 const Trade = z.enum(["Electrical", "Plumbing", "Concrete", "HVAC", "Roofing", "Framing", "Other"]);
-const Category = z.enum(["Excavator", "Skid Steer", "Dump Truck", "Concrete Pump", "Lift", "Other"]);
+const Category = z.enum([
+  "Excavator",
+  "Skid Steer",
+  "Dump Truck",
+  "Concrete Pump",
+  "Lift",
+  "Other",
+]);
 
 const DateStr = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Use YYYY-MM-DD");
 const NonNeg = z.number().nonnegative();
@@ -32,7 +57,7 @@ export const createJob = createServerFn({ method: "POST" })
       county: data.county,
       status: data.status,
       start_date: data.startDate,
-      closed_date: data.status === "closed" ? data.closedDate ?? null : null,
+      closed_date: data.status === "closed" ? (data.closedDate ?? null) : null,
       contract_amount: data.contractAmount,
     });
     if (error) throw new Error(error.message);
@@ -43,15 +68,18 @@ export const updateJob = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d) => z.object({ id: z.string().min(1), ...jobBase }).parse(d))
   .handler(async ({ data, context }) => {
-    const { error } = await context.supabase.from("jobs").update({
-      name: data.name,
-      client: data.client,
-      county: data.county,
-      status: data.status,
-      start_date: data.startDate,
-      closed_date: data.status === "closed" ? data.closedDate ?? null : null,
-      contract_amount: data.contractAmount,
-    }).eq("id", data.id);
+    const { error } = await context.supabase
+      .from("jobs")
+      .update({
+        name: data.name,
+        client: data.client,
+        county: data.county,
+        status: data.status,
+        start_date: data.startDate,
+        closed_date: data.status === "closed" ? (data.closedDate ?? null) : null,
+        contract_amount: data.contractAmount,
+      })
+      .eq("id", data.id);
     if (error) throw new Error(error.message);
     return { id: data.id };
   });
@@ -67,7 +95,7 @@ export const deleteJob = createServerFn({ method: "POST" })
 
 // ---------- Generic child-line upsert/delete factories ----------
 function makeUpsert<Schema extends z.ZodTypeAny>(
-  table: string,
+  table: DashboardTable,
   schema: Schema,
   toRow: (d: z.infer<Schema>) => Record<string, unknown>,
 ) {
@@ -76,18 +104,20 @@ function makeUpsert<Schema extends z.ZodTypeAny>(
     .inputValidator((d) => schema.parse(d))
     .handler(async ({ data, context }) => {
       const row = toRow(data);
-      const { error } = await (context.supabase as any).from(table).upsert(row);
+      const supabase = context.supabase as unknown as DynamicDashboardSupabase;
+      const { error } = await supabase.from(table).upsert(row);
       if (error) throw new Error(error.message);
       return { id: row.id as string };
     });
 }
 
-function makeDelete(table: string) {
+function makeDelete(table: DashboardTable) {
   return createServerFn({ method: "POST" })
     .middleware([requireSupabaseAuth])
     .inputValidator((d) => z.object({ id: z.string().min(1) }).parse(d))
     .handler(async ({ data, context }) => {
-      const { error } = await (context.supabase as any).from(table).delete().eq("id", data.id);
+      const supabase = context.supabase as unknown as DynamicDashboardSupabase;
+      const { error } = await supabase.from(table).delete().eq("id", data.id);
       if (error) throw new Error(error.message);
       return { ok: true };
     });
@@ -102,7 +132,11 @@ const coSchema = z.object({
   date: DateStr,
 });
 export const upsertChangeOrder = makeUpsert("change_orders", coSchema, (d) => ({
-  id: d.id, job_id: d.jobId, description: d.description, amount: d.amount, date: d.date,
+  id: d.id,
+  job_id: d.jobId,
+  description: d.description,
+  amount: d.amount,
+  date: d.date,
 }));
 export const deleteChangeOrder = makeDelete("change_orders");
 
@@ -116,7 +150,12 @@ const laborSchema = z.object({
   rate: NonNeg,
 });
 export const upsertLabor = makeUpsert("labor_lines", laborSchema, (d) => ({
-  id: d.id, job_id: d.jobId, worker: d.worker, role: d.role, hours: d.hours, rate: d.rate,
+  id: d.id,
+  job_id: d.jobId,
+  worker: d.worker,
+  role: d.role,
+  hours: d.hours,
+  rate: d.rate,
 }));
 export const deleteLabor = makeDelete("labor_lines");
 
@@ -130,7 +169,12 @@ const materialSchema = z.object({
   unitCost: NonNeg,
 });
 export const upsertMaterial = makeUpsert("material_lines", materialSchema, (d) => ({
-  id: d.id, job_id: d.jobId, item: d.item, qty: d.qty, unit: d.unit, unit_cost: d.unitCost,
+  id: d.id,
+  job_id: d.jobId,
+  item: d.item,
+  qty: d.qty,
+  unit: d.unit,
+  unit_cost: d.unitCost,
 }));
 export const deleteMaterial = makeDelete("material_lines");
 
@@ -143,7 +187,11 @@ const subSchema = z.object({
   amount: NonNeg,
 });
 export const upsertSub = makeUpsert("sub_lines", subSchema, (d) => ({
-  id: d.id, job_id: d.jobId, vendor: d.vendor, trade: d.trade, amount: d.amount,
+  id: d.id,
+  job_id: d.jobId,
+  vendor: d.vendor,
+  trade: d.trade,
+  amount: d.amount,
 }));
 export const deleteSub = makeDelete("sub_lines");
 
@@ -157,7 +205,12 @@ const equipSchema = z.object({
   dayRate: NonNeg,
 });
 export const upsertEquipment = makeUpsert("equipment_lines", equipSchema, (d) => ({
-  id: d.id, job_id: d.jobId, machine: d.machine, category: d.category, days: d.days, day_rate: d.dayRate,
+  id: d.id,
+  job_id: d.jobId,
+  machine: d.machine,
+  category: d.category,
+  days: d.days,
+  day_rate: d.dayRate,
 }));
 export const deleteEquipment = makeDelete("equipment_lines");
 
@@ -170,7 +223,10 @@ const overheadSchema = z.object({
   period: Period,
 });
 export const upsertOverhead = makeUpsert("overhead", overheadSchema, (d) => ({
-  id: d.id, category: d.category, amount: d.amount, period: d.period,
+  id: d.id,
+  category: d.category,
+  amount: d.amount,
+  period: d.period,
 }));
 export const deleteOverhead = makeDelete("overhead");
 
@@ -182,6 +238,9 @@ const drawSchema = z.object({
   period: Period,
 });
 export const upsertOwnerDraw = makeUpsert("owner_draws", drawSchema, (d) => ({
-  id: d.id, owner: d.owner, amount: d.amount, period: d.period,
+  id: d.id,
+  owner: d.owner,
+  amount: d.amount,
+  period: d.period,
 }));
 export const deleteOwnerDraw = makeDelete("owner_draws");
