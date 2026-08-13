@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppShell } from "@/components/dashboard/AppShell";
 import { findHandbookEntry } from "@/lib/docs/handbook";
-import { ArrowLeft, Download, ExternalLink, Printer } from "lucide-react";
+import { PdfFormFiller } from "@/components/handbook/PdfFormFiller";
+import { ArrowLeft, Download, ExternalLink, PenLine, Printer } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/handbook/$slug")({
   head: () => ({
@@ -36,6 +38,7 @@ function NotFound() {
 function HandbookViewer() {
   const { slug } = Route.useParams();
   const entry = findHandbookEntry(slug);
+  const [mode, setMode] = useState<"view" | "fill">("view");
 
   if (!entry) return <NotFound />;
 
@@ -73,18 +76,47 @@ function HandbookViewer() {
         </Link>
       </div>
 
-      <div className="card overflow-hidden" style={{ background: "#fff", padding: 0 }}>
-        <iframe
-          src={src}
-          title={entry.title}
-          className="block w-full"
-          style={{ height: "calc(100vh - 260px)", minHeight: 520, border: 0, background: "#fff" }}
-        />
-      </div>
+      {entry.kind === "pdf" && (
+        <div className="mb-4 inline-flex rounded-lg border p-1">
+          {(
+            [
+              ["view", "PDF viewer"],
+              ["fill", "Fill in app"],
+            ] as const
+          ).map(([m, label]) => (
+            <button
+              key={m}
+              type="button"
+              onClick={() => setMode(m)}
+              className={`inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
+                mode === m
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {m === "fill" && <PenLine className="h-3.5 w-3.5" />}
+              {label}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {entry.kind === "pdf" && mode === "fill" ? (
+        <PdfFormFiller src={entry.file} fileName={entry.file.split("/").pop()} />
+      ) : (
+        <div className="card overflow-hidden" style={{ background: "#fff", padding: 0 }}>
+          <iframe
+            src={src}
+            title={entry.title}
+            className="block w-full"
+            style={{ height: "calc(100vh - 260px)", minHeight: 520, border: 0, background: "#fff" }}
+          />
+        </div>
+      )}
 
       <p className="text-muted mt-3 text-xs">
         {entry.kind === "pdf"
-          ? "Fillable PDF — download it to fill and save on your computer, or fill it directly in the viewer above where supported."
+          ? "Fillable PDF — use “Fill in app” to complete the detected fields and download your filled copy."
           : "Print-ready document — use Print → Save as PDF for a downloadable copy."}
       </p>
     </AppShell>
