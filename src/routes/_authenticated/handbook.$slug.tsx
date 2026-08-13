@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppShell } from "@/components/dashboard/AppShell";
 import { findHandbookEntry } from "@/lib/docs/handbook";
-import { ArrowLeft, Download, ExternalLink, Printer } from "lucide-react";
+import { PdfFormFiller } from "@/components/handbook/PdfFormFiller";
+import { ArrowLeft, Download, ExternalLink, PenLine, Printer } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/handbook/$slug")({
   head: () => ({

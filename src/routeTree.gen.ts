@@ -19,6 +19,7 @@ import { Route as AlbumsSlugRouteImport } from './routes/albums.$slug'
 import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/app'
 import { Route as AuthenticatedHandbookIndexRouteImport } from './routes/_authenticated/handbook.index'
 import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
+import { Route as AuthenticatedHandbookFillRouteImport } from './routes/_authenticated/handbook.fill'
 import { Route as AuthenticatedHandbookSlugRouteImport } from './routes/_authenticated/handbook.$slug'
 import { Route as AuthenticatedAppPunchListRouteImport } from './routes/_authenticated/app.punch-list'
 import { Route as AuthenticatedAppInspectionsRouteImport } from './routes/_authenticated/app.inspections'
@@ -82,6 +83,12 @@ const AuthenticatedAppIndexRoute = AuthenticatedAppIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedAppRoute,
 } as any)
+const AuthenticatedHandbookFillRoute =
+  AuthenticatedHandbookFillRouteImport.update({
+    id: '/handbook/fill',
+    path: '/handbook/fill',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedHandbookSlugRoute =
   AuthenticatedHandbookSlugRouteImport.update({
     id: '/handbook/$slug',
@@ -170,6 +177,7 @@ export interface FileRoutesByFullPath {
   '/app/inspections': typeof AuthenticatedAppInspectionsRoute
   '/app/punch-list': typeof AuthenticatedAppPunchListRoute
   '/handbook/$slug': typeof AuthenticatedHandbookSlugRoute
+  '/handbook/fill': typeof AuthenticatedHandbookFillRoute
   '/app/': typeof AuthenticatedAppIndexRoute
   '/handbook/': typeof AuthenticatedHandbookIndexRoute
   '/app/documents/$docId': typeof AuthenticatedAppDocumentsDocIdRoute
@@ -192,6 +200,7 @@ export interface FileRoutesByTo {
   '/app/inspections': typeof AuthenticatedAppInspectionsRoute
   '/app/punch-list': typeof AuthenticatedAppPunchListRoute
   '/handbook/$slug': typeof AuthenticatedHandbookSlugRoute
+  '/handbook/fill': typeof AuthenticatedHandbookFillRoute
   '/app': typeof AuthenticatedAppIndexRoute
   '/handbook': typeof AuthenticatedHandbookIndexRoute
   '/app/documents/$docId': typeof AuthenticatedAppDocumentsDocIdRoute
@@ -217,6 +226,7 @@ export interface FileRoutesById {
   '/_authenticated/app/inspections': typeof AuthenticatedAppInspectionsRoute
   '/_authenticated/app/punch-list': typeof AuthenticatedAppPunchListRoute
   '/_authenticated/handbook/$slug': typeof AuthenticatedHandbookSlugRoute
+  '/_authenticated/handbook/fill': typeof AuthenticatedHandbookFillRoute
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
   '/_authenticated/handbook/': typeof AuthenticatedHandbookIndexRoute
   '/_authenticated/app/documents/$docId': typeof AuthenticatedAppDocumentsDocIdRoute
@@ -242,6 +252,7 @@ export interface FileRouteTypes {
     | '/app/inspections'
     | '/app/punch-list'
     | '/handbook/$slug'
+    | '/handbook/fill'
     | '/app/'
     | '/handbook/'
     | '/app/documents/$docId'
@@ -264,6 +275,7 @@ export interface FileRouteTypes {
     | '/app/inspections'
     | '/app/punch-list'
     | '/handbook/$slug'
+    | '/handbook/fill'
     | '/app'
     | '/handbook'
     | '/app/documents/$docId'
@@ -288,6 +300,7 @@ export interface FileRouteTypes {
     | '/_authenticated/app/inspections'
     | '/_authenticated/app/punch-list'
     | '/_authenticated/handbook/$slug'
+    | '/_authenticated/handbook/fill'
     | '/_authenticated/app/'
     | '/_authenticated/handbook/'
     | '/_authenticated/app/documents/$docId'
@@ -379,6 +392,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/app/'
       preLoaderRoute: typeof AuthenticatedAppIndexRouteImport
       parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/handbook/fill': {
+      id: '/_authenticated/handbook/fill'
+      path: '/handbook/fill'
+      fullPath: '/handbook/fill'
+      preLoaderRoute: typeof AuthenticatedHandbookFillRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/handbook/$slug': {
       id: '/_authenticated/handbook/$slug'
@@ -501,12 +521,14 @@ const AuthenticatedAppRouteWithChildren =
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAppRoute: typeof AuthenticatedAppRouteWithChildren
   AuthenticatedHandbookSlugRoute: typeof AuthenticatedHandbookSlugRoute
+  AuthenticatedHandbookFillRoute: typeof AuthenticatedHandbookFillRoute
   AuthenticatedHandbookIndexRoute: typeof AuthenticatedHandbookIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAppRoute: AuthenticatedAppRouteWithChildren,
   AuthenticatedHandbookSlugRoute: AuthenticatedHandbookSlugRoute,
+  AuthenticatedHandbookFillRoute: AuthenticatedHandbookFillRoute,
   AuthenticatedHandbookIndexRoute: AuthenticatedHandbookIndexRoute,
 }
 
