@@ -74,6 +74,21 @@ function CompanyDocuments() {
         ))}
       </div>
 
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-xl border bg-card p-4">
+        <div>
+          <h3 className="font-display text-sm font-semibold">Have another PDF to fill out?</h3>
+          <p className="text-sm text-muted-foreground">
+            Upload it and we&apos;ll detect its fields and render an editable form page.
+          </p>
+        </div>
+        <Link
+          to="/handbook/fill"
+          className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-3 py-2 text-sm font-medium text-primary-foreground"
+        >
+          <FileUp className="h-4 w-4" /> Upload a PDF
+        </Link>
+      </div>
+
       <SectionLabel>Fillable PDFs — fill on a computer, no printing required</SectionLabel>
       <div className="mb-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {FILLABLES.map((f) => (
