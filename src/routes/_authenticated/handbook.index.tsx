@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { BookOpen, Download, ExternalLink, Eye, FileDown } from "lucide-react";
+import { BookOpen, Download, ExternalLink, Eye, FileDown, FileUp } from "lucide-react";
 import { AppShell } from "@/components/dashboard/AppShell";
 import { BOOKS, DOCS, FILLABLES } from "@/lib/docs/handbook";
 
