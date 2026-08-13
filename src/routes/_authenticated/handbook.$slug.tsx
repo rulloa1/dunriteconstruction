@@ -38,6 +38,7 @@ function NotFound() {
 function HandbookViewer() {
   const { slug } = Route.useParams();
   const entry = findHandbookEntry(slug);
+  const [mode, setMode] = useState<"view" | "fill">("view");
 
   if (!entry) return <NotFound />;
 
