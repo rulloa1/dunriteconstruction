@@ -6,8 +6,8 @@ export const Route = createFileRoute("/reset-password")({
   component: ResetPassword,
   head: () => ({
     meta: [
-      { title: "Reset Password | Dunrite Construction" },
-      { name: "description", content: "Set a new password for your Dunrite Construction account." },
+      { title: "Reset Password | DunRite Construction Group" },
+      { name: "description", content: "Set a new password for your DunRite Construction Group account." },
       { name: "robots", content: "noindex" },
     ],
   }),

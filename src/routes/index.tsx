@@ -21,17 +21,17 @@ const LOGO = "/uploads/Dunrite-Logo_invert-e1758651959544.png";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "The Build — DunRite Construction Group" },
+      { title: "DunRite Construction Group | Concrete & Shell Contractor — Central Florida" },
       {
         name: "description",
         content:
-          "Watch a Florida build rise — slab to shell to delivered. DunRite is the trusted concrete and shell partner across 10 Central Florida counties.",
+          "DunRite Construction Group pours slabs, lays block, and delivers complete shell packages for builders and developers across 10 Central Florida counties.",
       },
-      { property: "og:title", content: "The Build — DunRite Construction Group" },
+      { property: "og:title", content: "DunRite Construction Group | Concrete & Shell Contractor — Central Florida" },
       {
         property: "og:description",
         content:
-          "From the ground to grand — a cinematic look at how DunRite pours, lays, and delivers Florida's strongest shells.",
+          "DunRite Construction Group pours slabs, lays block, and delivers complete shell packages for builders and developers across 10 Central Florida counties.",
       },
       { property: "og:url", content: "https://dun-rite.lovable.app/" },
     ],
