@@ -1,4 +1,4 @@
-import { Link, useRouter } from "@tanstack/react-router";
+import { Link, useRouter, useRouterState } from "@tanstack/react-router";
 import { useEffect } from "react";
 
 /** Shown while a route's loader / lazy chunk is resolving. */
@@ -81,7 +81,7 @@ export function RouteNotFound() {
 
 /** Thin top progress bar that reflects router navigation state. */
 export function RouteProgress() {
-  const isLoading = useRouter().state.status === "pending";
+  const isLoading = useRouterState({ select: (s) => s.status === "pending" });
 
   return (
     <div
