@@ -571,7 +571,7 @@ a.qm-val:hover{color:var(--gold);}
   content:""; position:absolute; inset:0; z-index:1; pointer-events:none;
   background:linear-gradient(to top, var(--bg, #0a0d10) 0%, rgba(8,11,14,.62) 42%, transparent 78%);
 }
-.hero .wrap,.hero .scrollcue,.hero-tag,.hero-corner{ position:relative; z-index:2; }
+.hero .wrap,.hero .scrollcue,.hero-tag,.hero-corner{ z-index:2; }
 
 /* eyebrow chip reads as a drafting label */
 .hero-live{ backdrop-filter:blur(6px); }
