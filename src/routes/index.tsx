@@ -15,7 +15,7 @@ const P_NEIGHBORHOOD = "/__l5e/assets-v1/fad52a1d-74ef-4df3-a38b-4fa6f24a841a/ne
 const P_FINISHED = "/__l5e/assets-v1/ea25e3dd-54b1-4f51-bf9e-d7f1fb31b220/finished.webp";
 const P_CUSTOM = "/__l5e/assets-v1/7b4b01f3-d5f4-4e0e-9bd1-6e178a33e30a/customhome.webp";
 const P_EPPERSON = "/__l5e/assets-v1/f6ac5871-02c6-4498-afcd-a1dff4a11363/scaffold.webp";
-const STONE = P_CUSTOM;
+const STONE = "/assets/stone-frame-shell.jpg";
 const LOGO = "/uploads/Dunrite-Logo_invert-e1758651959544.png";
 
 export const Route = createFileRoute("/")({
