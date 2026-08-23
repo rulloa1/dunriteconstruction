@@ -576,6 +576,8 @@ a.qm-val:hover{color:var(--gold);}
 /* eyebrow chip reads as a drafting label */
 .hero-live{ backdrop-filter:blur(6px); }
 .hero .kick{ color:rgba(235,238,242,.62); }
+/* left-side manifest tags collided with the chip and CTAs — the info lives in the tr/br tags */
+.hero-tag--tl,.hero-tag--bl{ display:none; }
 
 /* headline: tighter optical tracking */
 .hero h1{ letter-spacing:-.02em; }
