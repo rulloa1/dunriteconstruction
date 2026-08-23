@@ -15,6 +15,9 @@ export function HeroVideo({ src, srcSmall, poster }: Props) {
   const [source, setSource] = useState<string | null>(null);
 
   useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
     const smallScreen = window.matchMedia("(max-width: 900px)").matches;
     const conn = (navigator as any).connection;
     const saveData = Boolean(conn?.saveData);
@@ -22,8 +25,34 @@ export function HeroVideo({ src, srcSmall, poster }: Props) {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     if (reduced || saveData || slow) return; // poster only
-    setSource(smallScreen ? srcSmall : src);
+
+    const chosen = smallScreen ? srcSmall : src;
+
+    if (typeof IntersectionObserver === "undefined") {
+      setSource(chosen);
+      return;
+    }
+
+    // Only download + play once the hero is actually on screen; pause when it
+    // scrolls away so the decoder isn't burning battery behind other sections.
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setSource((current) => current ?? chosen);
+            void ref.current?.play().catch(() => {});
+          } else {
+            ref.current?.pause();
+          }
+        }
+      },
+      { rootMargin: "200px 0px", threshold: 0.01 },
+    );
+
+    io.observe(el);
+    return () => io.disconnect();
   }, [src, srcSmall]);
+
 
   // Seamless loop: rewind just before the very last frame so the decoder never
   // shows an empty frame between iterations.
