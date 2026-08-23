@@ -7,7 +7,15 @@ const BUILD_1 = "/__l5e/assets-v1/642956b0-a026-4583-a83a-9e6b225515d2/full-shel
 const BUILD_3 = "/__l5e/assets-v1/4ff91b38-2864-4378-997c-6dc3b7507cc4/foundations-slab.mp4";
 const BUILD_2 = "/__l5e/assets-v1/d26cd938-61cb-4692-80a0-2664b0fe5958/walls-that-stand.mp4";
 const CONCRETE = "/__l5e/assets-v1/f66f7b1e-b259-4942-ab8e-df7526fd8a81/concrete-at-scale.mp4";
-const STONE = "/assets/stone-frame-shell.jpg";
+const P_FOUNDATION = "/__l5e/assets-v1/e6f5ae5d-937c-4ea0-83c4-3b26e51a90ec/foundation.webp";
+const P_CONCRETE = "/__l5e/assets-v1/19574144-f700-439a-91ba-3815d54e4ad4/concrete.webp";
+const P_WALLS = "/__l5e/assets-v1/2798cc5f-6d45-4efa-a1be-cc0ebb75bccb/walls.webp";
+const P_SHELL = "/__l5e/assets-v1/e01f76f4-edb0-4ea3-aede-2adbcabcda13/shell.webp";
+const P_NEIGHBORHOOD = "/__l5e/assets-v1/fad52a1d-74ef-4df3-a38b-4fa6f24a841a/neighborhood.webp";
+const P_FINISHED = "/__l5e/assets-v1/ea25e3dd-54b1-4f51-bf9e-d7f1fb31b220/finished.webp";
+const P_CUSTOM = "/__l5e/assets-v1/7b4b01f3-d5f4-4e0e-9bd1-6e178a33e30a/customhome.webp";
+const P_EPPERSON = "/__l5e/assets-v1/f6ac5871-02c6-4498-afcd-a1dff4a11363/scaffold.webp";
+const STONE = P_CUSTOM;
 const LOGO = "/uploads/Dunrite-Logo_invert-e1758651959544.png";
 
 export const Route = createFileRoute("/")({
