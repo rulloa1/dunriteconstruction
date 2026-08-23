@@ -1,10 +1,9 @@
 import frameAsset from "@/assets/albums/frame.webp.asset.json";
-import concreteAsset from "@/assets/albums/concrete.webp.asset.json";
 import eppersonAsset from "@/assets/albums/epperson.webp.asset.json";
 import flatworkAsset from "@/assets/albums/flatwork.webp.asset.json";
 
 const FRAME = frameAsset.url;
-const STONE = concreteAsset.url;
+const STONE = "/assets/concrete-at-scale.jpg";
 const EPPERSON = eppersonAsset.url;
 const FLATWORK = flatworkAsset.url;
 
