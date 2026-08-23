@@ -16,6 +16,7 @@ const P_FINISHED = "/__l5e/assets-v1/ea25e3dd-54b1-4f51-bf9e-d7f1fb31b220/finish
 const P_CUSTOM = "/__l5e/assets-v1/7b4b01f3-d5f4-4e0e-9bd1-6e178a33e30a/customhome.webp";
 const P_EPPERSON = "/__l5e/assets-v1/f6ac5871-02c6-4498-afcd-a1dff4a11363/scaffold.webp";
 const STONE = "/assets/stone-frame-shell.jpg";
+const HERO_VID = "/__l5e/assets-v1/46394d5f-d068-46a7-9371-33432b970efd/hero-foundation.mp4";
 const HERO_IMG = "/__l5e/assets-v1/b860819b-1cf6-403f-b537-6d464d17face/hero-foundation.png";
 const LOGO = "/uploads/Dunrite-Logo_invert-e1758651959544.png";
 
