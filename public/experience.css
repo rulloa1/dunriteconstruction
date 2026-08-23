@@ -592,8 +592,6 @@ a.qm-val:hover{color:var(--gold);}
 .hero .hero-btn--call:focus-visible .hero-btn__num{ color:var(--gold); }
 
 @media(max-width:640px){
-  /* stack the content at the bottom like the blueprint layout */
-  .hero .wrap{ margin-top:auto; }
   .hero .sub p{ max-width:32ch; color:rgba(235,238,242,.9); }
   .hero .hero-ctas{ margin-top:26px; gap:10px; }
   .hero .hero-btn{ min-height:56px; font-size:12px; }
