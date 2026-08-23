@@ -220,19 +220,18 @@ function TheBuild() {
             </p>
           </div>
           <div className="hero-ctas" data-hero-rv>
-            <a className="btn btn-gold hero-btn" href="tel:3525884050">
-              Call (352) 588-4050{" "}
-              <span className="arr" aria-hidden>
-                →
-              </span>
-            </a>
-            <a className="btn btn-ghost hero-btn" href="#quote" data-scroll-to="quote">
+            <a className="btn btn-gold hero-btn" href="#quote" data-scroll-to="quote">
               Request a Quote{" "}
               <span className="arr" aria-hidden>
                 →
               </span>
             </a>
+            <a className="btn btn-ghost hero-btn hero-btn--call" href="tel:3525884050">
+              <span className="hero-btn__label">Call</span>
+              <span className="hero-btn__num">(352) 588-4050</span>
+            </a>
           </div>
+
         </div>
         <div className="scrollcue" data-hero-rv>
           Scroll
