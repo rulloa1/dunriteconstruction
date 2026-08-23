@@ -9,8 +9,8 @@ export const Route = createFileRoute("/albums/$slug")({
   },
   head: ({ loaderData }) => {
     const a = loaderData?.album;
-    const title = a ? `${a.title} — Dun Rite Construction Group` : "Album — Dun Rite";
-    const desc = a?.description ?? "Project album by Dun Rite Construction Group.";
+    const title = a ? `${a.title} — DunRite Construction Group` : "Album — DunRite Construction Group";
+    const desc = a?.description ?? "Project album by DunRite Construction Group.";
     return {
       meta: [
         { title },

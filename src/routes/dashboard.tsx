@@ -7,20 +7,20 @@ const DASHBOARD_URL = "https://sopdunrite.lovable.app";
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
     meta: [
-      { title: "Dashboard — DunRite Construction Group" },
+      { title: "Dashboard — DunRite Construction Group | Concrete & Shell Contractor — Central Florida" },
       {
         name: "description",
         content:
           "Internal SOP workbook and project management dashboard for DunRite Construction Group.",
       },
       { name: "robots", content: "noindex" },
-      { property: "og:title", content: "Dashboard — DunRite Construction Group" },
+      { property: "og:title", content: "Dashboard — DunRite Construction Group | Concrete & Shell Contractor — Central Florida" },
       {
         property: "og:description",
         content:
           "Internal SOP workbook and project management dashboard for DunRite Construction Group.",
       },
-      { name: "twitter:title", content: "Dashboard — DunRite Construction Group" },
+      { name: "twitter:title", content: "Dashboard — DunRite Construction Group | Concrete & Shell Contractor — Central Florida" },
       {
         name: "twitter:description",
         content:
