@@ -190,10 +190,6 @@ function TheBuild() {
         <span className="hero-corner hero-corner--br" aria-hidden />
 
         <div className="wrap">
-          <div className="hero-live" data-hero-rv>
-            <span className="hero-live__dot" aria-hidden />
-            <span>NOW BUILDING · 6 ACTIVE JOBS</span>
-          </div>
           <div className="kick" data-hero-rv>
             Central Florida concrete &amp; shell contractor
           </div>
