@@ -558,3 +558,47 @@ a.qm-val:hover{color:var(--gold);}
   .hero .scrollcue{ display:none; }
   .hero-corner{ opacity:.5; }
 }
+
+/* ---------------- blueprint stack hero ---------------- */
+/* denser drafting grid + stronger bottom vignette so type sits on solid ground */
+.hero-blueprint{
+  background-image:
+    linear-gradient(rgba(91,159,204,.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(91,159,204,.09) 1px, transparent 1px);
+  background-size:32px 32px;
+}
+.hero::after{
+  content:""; position:absolute; inset:0; z-index:1; pointer-events:none;
+  background:linear-gradient(to top, var(--bg, #0a0d10) 0%, rgba(8,11,14,.62) 42%, transparent 78%);
+}
+.hero .wrap,.hero .scrollcue,.hero-tag,.hero-corner{ z-index:2; }
+
+/* eyebrow chip reads as a drafting label */
+.hero-live{ backdrop-filter:blur(6px); }
+.hero .kick{ color:rgba(235,238,242,.62); }
+/* left-side manifest tags collided with the chip and CTAs — the info lives in the tr/br tags */
+.hero-tag--tl,.hero-tag--bl{ display:none; }
+
+/* headline: tighter optical tracking */
+.hero h1{ letter-spacing:-.02em; }
+
+/* hero CTA pair */
+.hero .hero-btn{ letter-spacing:.16em; }
+.hero .hero-btn--call{
+  display:inline-flex; align-items:center; justify-content:space-between; gap:18px;
+  background:rgba(10,14,18,.5); backdrop-filter:blur(8px);
+}
+.hero .hero-btn--call .hero-btn__label{ color:rgba(235,238,242,.6); font-size:.85em; }
+.hero .hero-btn--call .hero-btn__num{ color:#fff; font-variant-numeric:tabular-nums; }
+.hero .hero-btn--call:hover .hero-btn__num,
+.hero .hero-btn--call:focus-visible .hero-btn__num{ color:var(--gold); }
+
+@media(max-width:640px){
+  .hero .sub p{ max-width:32ch; color:rgba(235,238,242,.9); }
+  .hero .hero-ctas{ margin-top:26px; gap:10px; }
+  .hero .hero-btn{ min-height:56px; font-size:12px; }
+  .hero .hero-btn--call{ padding-left:18px; padding-right:18px; }
+  .hero-tag--br{ font-size:8.5px; opacity:.45; }
+  .hero-tag--bl{ font-size:8.5px; opacity:.45; }
+}
+
