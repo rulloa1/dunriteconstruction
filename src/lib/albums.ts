@@ -3,7 +3,17 @@ import eppersonAsset from "@/assets/albums/epperson.webp.asset.json";
 import flatworkAsset from "@/assets/albums/flatwork.webp.asset.json";
 
 const FRAME = frameAsset.url;
-const STONE = "/assets/concrete-at-scale.jpg";
+import customAsset from "@/assets/orig/customhome.webp.asset.json";
+import concreteAsset from "@/assets/orig/concrete.webp.asset.json";
+import foundationAsset from "@/assets/orig/foundation.webp.asset.json";
+import wallsAsset from "@/assets/orig/walls.webp.asset.json";
+import finishedAsset from "@/assets/orig/finished.webp.asset.json";
+
+const STONE = customAsset.url;
+const CONCRETE = concreteAsset.url;
+const FOUNDATION = foundationAsset.url;
+const WALLS = wallsAsset.url;
+const FINISHED = finishedAsset.url;
 const EPPERSON = eppersonAsset.url;
 const FLATWORK = flatworkAsset.url;
 
@@ -28,7 +38,7 @@ export const ALBUMS: Album[] = [
     externalUrl: "https://www.dunriteconstructiongroup.com/full-shell-packages/",
     images: [
       { src: FRAME, alt: "Framed shell on a Dun Rite jobsite" },
-      { src: STONE, alt: "Concrete pour in progress" },
+      { src: CONCRETE, alt: "Concrete pour in progress" },
       { src: EPPERSON, alt: "Large-scale shell package" },
     ],
   },
@@ -42,6 +52,8 @@ export const ALBUMS: Album[] = [
     externalUrl: "https://www.dunriteconstructiongroup.com/custom-home-shells/",
     images: [
       { src: STONE, alt: "Custom home shell" },
+      { src: FINISHED, alt: "Finished custom home" },
+      { src: WALLS, alt: "Stone wall home" },
       { src: FRAME, alt: "Framed custom home" },
     ],
   },
@@ -68,7 +80,8 @@ export const ALBUMS: Album[] = [
     externalUrl: "https://www.dunriteconstructiongroup.com/concrete-flatwork/",
     images: [
       { src: FLATWORK, alt: "Finished flatwork" },
-      { src: STONE, alt: "Slab pour" },
+      { src: FOUNDATION, alt: "Slab pour" },
+      { src: CONCRETE, alt: "Crew finishing a pavement path" },
     ],
   },
 ];
