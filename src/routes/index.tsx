@@ -263,7 +263,7 @@ function TheBuild() {
                 loop
                 playsInline
                 preload="metadata"
-                poster="/assets/foundations-slab.jpg"
+                poster={P_FOUNDATION}
                 width={1920}
                 height={1080}
               />
@@ -276,7 +276,7 @@ function TheBuild() {
                 loop
                 playsInline
                 preload="metadata"
-                poster="/assets/concrete-at-scale.jpg"
+                poster={P_CONCRETE}
                 width={1920}
                 height={1080}
               />
@@ -289,7 +289,7 @@ function TheBuild() {
                 loop
                 playsInline
                 preload="metadata"
-                poster="/assets/walls-that-stand.jpg"
+                poster={P_WALLS}
                 width={1920}
                 height={1080}
               />
@@ -302,7 +302,7 @@ function TheBuild() {
                 loop
                 playsInline
                 preload="metadata"
-                poster="/assets/full-shell.jpg"
+                poster={P_SHELL}
                 width={1920}
                 height={1080}
               />
@@ -315,7 +315,7 @@ function TheBuild() {
                 loop
                 playsInline
                 preload="metadata"
-                poster="/assets/developments.jpg"
+                poster={P_NEIGHBORHOOD}
                 width={1920}
                 height={1080}
               />
@@ -429,7 +429,7 @@ function TheBuild() {
               </h2>
               <figure className="creed-fig rv">
                 <img
-                  src="/assets/full-shell.jpg"
+                  src={P_FINISHED}
                   alt="DunRite full shell package — framed, roofed, and ready for finish"
                   loading="lazy"
                 />
@@ -484,7 +484,7 @@ function TheBuild() {
             </div>
             <div className="cap-card">
               <img
-                src="https://www.dunriteconstructiongroup.com/wp-content/uploads/elementor/thumbs/building-frame-by-dunrite-florida-re9vcqpw742qr71cxipdfot8pq6tbwoc2b1ghskia0.webp"
+                src={P_SHELL}
                 alt="Full shell packages"
               />
               <div className="cc">
@@ -517,7 +517,7 @@ function TheBuild() {
             </div>
             <div className="cap-card cap-card--wide">
               <img
-                src="https://www.dunriteconstructiongroup.com/wp-content/uploads/elementor/thumbs/EPPERSON_LAGOON-rcc4gj0v57y78urryzkabukyz5wlclupmdyj1u07t4.webp"
+                src={P_EPPERSON}
                 alt="Developer concrete"
               />
               <div className="cc">
@@ -535,7 +535,7 @@ function TheBuild() {
             </div>
             <div className="cap-card">
               <img
-                src="https://www.drchomesfl.com/wp-content/uploads/2025/12/cd-5.webp"
+                src={P_CONCRETE}
                 alt="Concrete & flatwork"
               />
               <div className="cc">
