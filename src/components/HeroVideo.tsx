@@ -54,20 +54,21 @@ export function HeroVideo({ src, srcSmall, poster }: Props) {
   }, [src, srcSmall]);
 
 
-  // Seamless loop: rewind just before the very last frame so the decoder never
-  // shows an empty frame between iterations.
+  // The source is encoded with a crossfaded loop point (last frame flows back
+  // into frame 0) and a 1s closed GOP, so native `loop` wraps cleanly. Only
+  // recover if a low-end decoder stalls at the end instead of wrapping.
   useEffect(() => {
     const el = ref.current;
     if (!el || !source) return;
-    const onTime = () => {
-      if (el.duration && el.currentTime >= el.duration - 0.08) {
-        el.currentTime = 0;
-        void el.play().catch(() => {});
-      }
+    const onEnded = () => {
+      el.currentTime = 0;
+      void el.play().catch(() => {});
     };
-    el.addEventListener("timeupdate", onTime);
-    return () => el.removeEventListener("timeupdate", onTime);
+    el.addEventListener("ended", onEnded);
+    return () => el.removeEventListener("ended", onEnded);
   }, [source]);
+
+
 
   return (
     <video
