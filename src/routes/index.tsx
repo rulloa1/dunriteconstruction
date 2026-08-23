@@ -174,15 +174,13 @@ function TheBuild() {
 
       <header className="hero" id="hero">
         <div className="hero-bg" id="heroBg">
-          <video
-            src={BUILD_0}
-            muted
-            loop
-            playsInline
-            preload="metadata"
+          <img
+            src={HERO_IMG}
+            alt="DunRite Construction Group slab foundation at sunset in a Central Florida community"
             width={1920}
             height={1080}
-            poster={STONE}
+            fetchPriority="high"
+            decoding="async"
           />
         </div>
         {/* Blueprint grid + technical overlays */}
