@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { QuoteForm } from "@/components/QuoteForm";
+import { HeroVideo } from "@/components/HeroVideo";
 
 const BUILD_0 = "/__l5e/assets-v1/80ca7c19-9218-438d-b058-288f8bc9eae0/developments.mp4";
 const BUILD_1 = "/__l5e/assets-v1/642956b0-a026-4583-a83a-9e6b225515d2/full-shell.mp4";
