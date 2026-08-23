@@ -534,3 +534,27 @@ a.qm-val:hover{color:var(--gold);}
   transition:background .2s,color .2s;
 }
 .pre .pre-skip:hover,.pre .pre-skip:focus-visible{ background:var(--gold); color:var(--on-gold); outline:none; }
+
+/* ---------------- mobile hero cleanup ---------------- */
+@media(max-width:640px){
+  /* top bar: keep logo, phone pill and link on one tidy row */
+  .bar{ padding:14px var(--gutter); gap:10px; }
+  .bar .b-logo{ height:22px; }
+  .bar .b-right{ gap:10px; font-size:10px; letter-spacing:.1em; }
+  .bar .b-right a{ min-height:38px; }
+  .bar .b-right .b-hide{ padding:6px 10px; }
+
+  /* the corner manifest tag collided with the bar — drop it on phones */
+  .hero-tag--tl{ display:none; }
+
+  .hero-live{ font-size:9.5px; letter-spacing:.16em; padding:5px 10px; margin-bottom:14px; }
+  .hero-live__dot{ width:6px; height:6px; }
+
+  .hero .wrap{ padding-bottom:clamp(64px,12vh,110px); }
+  .hero .kick{ font-size:10.5px; letter-spacing:.16em; gap:10px; margin-bottom:16px; line-height:1.5; }
+  .hero h1{ font-size:clamp(44px,13.5vw,64px); line-height:.94; }
+  .hero .sub{ margin-top:22px; padding-top:20px; gap:18px; }
+  .hero .sub p{ color:rgba(235,238,242,.82); font-size:14.5px; line-height:1.55; }
+  .hero .scrollcue{ display:none; }
+  .hero-corner{ opacity:.5; }
+}
