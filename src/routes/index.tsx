@@ -177,17 +177,7 @@ function TheBuild() {
 
       <header className="hero" id="hero">
         <div className="hero-bg" id="heroBg">
-          <video
-            src={HERO_VID}
-            poster={HERO_IMG}
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            width={1920}
-            height={1080}
-          />
+          <HeroVideo src={HERO_VID} srcSmall={HERO_VID_SM} poster={HERO_IMG} />
         </div>
         {/* Blueprint grid + technical overlays */}
         <div className="hero-blueprint" aria-hidden />
