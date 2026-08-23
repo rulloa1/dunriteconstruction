@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { QuoteForm } from "@/components/QuoteForm";
+import { HeroVideo } from "@/components/HeroVideo";
 
 const BUILD_0 = "/__l5e/assets-v1/80ca7c19-9218-438d-b058-288f8bc9eae0/developments.mp4";
 const BUILD_1 = "/__l5e/assets-v1/642956b0-a026-4583-a83a-9e6b225515d2/full-shell.mp4";
@@ -16,7 +17,8 @@ const P_FINISHED = "/__l5e/assets-v1/ea25e3dd-54b1-4f51-bf9e-d7f1fb31b220/finish
 const P_CUSTOM = "/__l5e/assets-v1/7b4b01f3-d5f4-4e0e-9bd1-6e178a33e30a/customhome.webp";
 const P_EPPERSON = "/__l5e/assets-v1/f6ac5871-02c6-4498-afcd-a1dff4a11363/scaffold.webp";
 const STONE = "/assets/stone-frame-shell.jpg";
-const HERO_VID = "/__l5e/assets-v1/46394d5f-d068-46a7-9371-33432b970efd/hero-foundation.mp4";
+const HERO_VID = "/__l5e/assets-v1/18f012b9-5908-4d09-89e1-e398066a609c/hero-foundation-loop.mp4";
+const HERO_VID_SM = "/__l5e/assets-v1/389f2d66-e733-4479-914b-0b4d168e53ee/hero-foundation-720.mp4";
 const HERO_IMG = "/__l5e/assets-v1/b860819b-1cf6-403f-b537-6d464d17face/hero-foundation.png";
 const LOGO = "/uploads/Dunrite-Logo_invert-e1758651959544.png";
 
@@ -176,17 +178,7 @@ function TheBuild() {
 
       <header className="hero" id="hero">
         <div className="hero-bg" id="heroBg">
-          <video
-            src={HERO_VID}
-            poster={HERO_IMG}
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            width={1920}
-            height={1080}
-          />
+          <HeroVideo src={HERO_VID} srcSmall={HERO_VID_SM} poster={HERO_IMG} />
         </div>
         {/* Blueprint grid + technical overlays */}
         <div className="hero-blueprint" aria-hidden />
