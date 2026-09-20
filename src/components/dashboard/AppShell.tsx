@@ -178,7 +178,7 @@ export function AppShell({
                 className="lg:hidden flex items-center gap-2 focus-ring"
                 aria-label="Dun Rite — home"
               >
-                <img src={LOGO} alt="" className="h-7 w-auto" />
+                <img src={LOGO} alt="" aria-hidden="true" className="h-7 w-auto" />
               </Link>
 
               <div className="min-w-0 flex-1">
