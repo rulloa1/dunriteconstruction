@@ -152,7 +152,7 @@ function TheBuild() {
     is hidden BEFORE paint (see CSS: html[data-pre="off"] .pre{display:none}).
     experience.js drives the count-up and dismissal. */}
       <div className="pre" id="pre">
-        <img src={LOGO} alt="DunRite" id="preLogo" />
+        <img src={LOGO} alt="" aria-hidden="true" id="preLogo" />
         <div className="pre-count">
           <span id="preNum">0</span>
           <span className="pct">%</span>
@@ -167,7 +167,7 @@ function TheBuild() {
       </div>
 
       <div className="bar">
-        <img className="b-logo" src={LOGO} alt="DunRite" />
+        <img className="b-logo" src={LOGO} alt="DunRite Construction Group" />
         <div className="b-right">
           <a className="b-hide" href="tel:3525884050">
             (352) 588-4050
