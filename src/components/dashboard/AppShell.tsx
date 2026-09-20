@@ -111,7 +111,8 @@ export function AppShell({
           style={{ borderColor: "var(--border-soft)", background: "var(--bg-elev)" }}
         >
           <Link to="/app" className="flex items-center gap-3 px-5 py-5 focus-ring">
-            <img src={LOGO} alt="Dun Rite" className="h-8 w-auto" />
+            <img src={LOGO} alt="" aria-hidden="true" className="h-8 w-auto" />
+
             <div className="leading-tight">
               <div className="font-display text-sm font-semibold tracking-wide">DUN RITE</div>
               <div className="kbd-label" style={{ fontSize: 10 }}>
@@ -141,7 +142,8 @@ export function AppShell({
             >
               <div className="flex items-center justify-between px-5 py-5">
                 <Link to="/app" className="flex items-center gap-3" onClick={() => setOpen(false)}>
-                  <img src={LOGO} alt="Dun Rite" className="h-8 w-auto" />
+                  <img src={LOGO} alt="" aria-hidden="true" className="h-8 w-auto" />
+
                   <span className="font-display text-sm font-semibold tracking-wide">DUN RITE</span>
                 </Link>
                 <button onClick={() => setOpen(false)} className="btn !p-2" aria-label="Close menu">
@@ -171,9 +173,14 @@ export function AppShell({
               >
                 <Menu size={16} />
               </button>
-              <Link to="/app" className="lg:hidden flex items-center gap-2">
-                <img src={LOGO} alt="Dun Rite" className="h-7 w-auto" />
+              <Link
+                to="/app"
+                className="lg:hidden flex items-center gap-2 focus-ring"
+                aria-label="Dun Rite — home"
+              >
+                <img src={LOGO} alt="" className="h-7 w-auto" />
               </Link>
+
               <div className="min-w-0 flex-1">
                 {eyebrow && <div className="kbd-label">{eyebrow}</div>}
                 <h1 className="font-display text-xl sm:text-2xl font-semibold truncate">{title}</h1>
